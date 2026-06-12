@@ -1,0 +1,351 @@
+---
+// This is Astro's frontmatter
+// here you can write regular JavaScript or TypeScript
+// It will only run on the server and never executes client-side
+
+import Layout from '../layouts/Layout.astro';
+import Header from './header.astro';
+import YearSelect from '../components/YearSelect.astro';
+import CancerTypeSelect from '../components/CancerTypeSelect.astro';
+import SexSelect from '../components/SexSelect.astro';
+import DeprivationTable from '../components/DeprivationTable.astro';
+import RegionSelectOpt from '../components/RegionSelectOpt.astro';
+---
+
+<Layout>
+  	<Header />
+
+    <div class="dashboard-container">
+        <!- top left: panel area -->
+        <div id="panel">
+
+			<h1 class="is-size-3">Search by Cancer Type, Stage and Year</h1>
+			<hr/>
+  			<h2 class="is-size-5 mb-2">Select your search criteria</h2>
+			<form id="stage-search-form">
+
+				<CancerTypeSelect />
+
+				<div class="select">
+					<select id="stage-input">
+						<option disabled selected>Select stage...</option>
+						<option = "Early Stage">Early Stage</option>
+						<option = "Advanced Stage">Advanced Stage</option>
+					</select>
+				</div>
+
+				<YearSelect />
+				
+				<hr />
+				<div class="mb-2">Add optional Sex</div>
+				<SexSelect />
+				<hr />
+				<div class="mb-2">Add optional Region</div>
+				<RegionSelectOpt />
+
+				<hr />
+
+				<div class="mb-2">
+					<input class="button" type="submit" value="Search" />
+				    <input class="button" type="reset" value="Reset" />
+				</div>	
+			</form>
+		</div>
+		
+        <!-- bottom left, below map -->
+        <div id="bottom-panel" class="grid-panel">
+           	<DeprivationTable />    
+        </div>
+
+        <!-- right side, stretches full height -->
+        <div id="right-panel" class="grid-panel">
+            <h2>Main Data Area</h2>
+
+			<!-- Output target container for chart -->
+			<div id="csv-chart" style="width: 100%; height: 400px;"></div>
+
+				<!-- Output target container for table -->
+			<div id="search-results" style="width: 100%; height: 400px;"></div>
+			
+        </div>
+    </div>
+
+</Layout>
+
+<script>
+  // Import PapaParse directly into your client bundle
+	import Papa from 'papaparse';
+	import * as echarts from 'echarts';
+	import type { CSVRow } from '../types';
+	import { filterArray, cancerType } from "../utils/filter";
+
+    const chartDom = document.getElementById('csv-chart');
+	const myChart = echarts.init(chartDom);
+
+	const stage_form = document.getElementById('stage-search-form') as HTMLFormElement;
+	const stage_input = document.getElementById('stage-input') as HTMLInputElement;
+	const year_input = document.getElementById('year-input') as HTMLInputElement;
+	const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
+	const sex_input = document.getElementById('sex-input') as HTMLInputElement;
+	const region_input = document.getElementById('region-input') as HTMLInputElement;
+	const resultsContainer = document.getElementById('search-results');	
+
+	const button = document.getElementById('download-btn');
+
+
+  	stage_form?.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Stop GitHub Pages from attempting a form redirect
+    
+    // search only works with case sensitive
+	const stage_query = stage_input.value.trim();
+    const year_query = year_input.value.trim();
+
+    if (!stage_query || !year_query || !resultsContainer) return;
+
+	// make a unique key to query with
+	let key_query = '';
+    if (stage_query !== 'Select stage...'  && sex_input.value === 'Select...' && region_input.value === 'Select...'){
+		key_query = stage_query + '~';
+	}
+	// only sex has been added
+	else if(stage_query !== 'Select stage...'  && sex_input.value !== 'Select...' && region_input.value === 'Select...' ){
+
+	    key_query = sex_input.value.trim() + '/' + stage_query + '*';
+	}
+	// only region has been added
+	else if(stage_query !== 'Select stage...'  && sex_input.value === 'Select...' && region_input.value !== 'Select...' ){
+
+	    key_query = region_input.value.trim() + '/' + stage_query + '*';
+	}  
+	// both sex and region has been added
+	else if(stage_query !== 'Select stage...'  && sex_input.value !== 'Select...' && region_input.value !== 'Select...' ){
+
+	    key_query = sex_input.value.trim() + '/' + region_input.value.trim() + '/' + stage_query + '+';
+	}    
+	else {
+		key_query = stage_query;
+	}
+
+
+	console.log(key_query);
+
+    resultsContainer.innerHTML = '<p>Searching records...</p>';
+
+	const CSV_file = cancerType(`${cancer_type.value}`);
+
+    try {
+        // get raw CSV data
+		const response = await fetch(CSV_file);
+		if (!response.ok) throw new Error('Failed to retrieve data file.');
+		
+		const csvText = await response.text();
+
+		
+      // parse CSV text directly into JSON format
+      Papa.parse<CSVRow>(csvText, {
+        header: true, // Uses row 1 keys mapping row values into key-value objects
+        skipEmptyLines: true,
+        complete: (results) => {
+			const matchedItems = results.data.filter(item => 
+				item.table?.includes(key_query) &&
+				item.diagnosisYear?.toLowerCase().includes(year_query) 
+			);
+
+			// 3. Render matches into view
+			if (matchedItems.length === 0) {
+				resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
+				return;
+			}
+
+				// filter to catch unwanted extra matches where 'male' also brings back 'female' records
+			filterArray(matchedItems, key_query);
+
+			console.log(matchedItems);
+
+
+		resultsContainer.innerHTML = matchedItems.map(item => `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="10" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${item.table.slice(0, -1)} Year of diagnosis: ${item.diagnosisYear}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Age</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">0-49</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">50-54</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">55-59</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">60-64</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">65-69</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">70-74</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">75-79</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">80-84</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">85-89</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">90+</th>
+					</tr>
+					<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge0_49}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge50_54}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge55_59}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge60_64}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge65_69}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge70_74}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge75_79}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge80_84}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge85_89}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge90}</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+           `).join(''); 
+	
+			// call function to render an echart
+			renderChart(matchedItems, myChart);
+		
+        },
+        error: (error: Error) => {
+          resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
+        }
+      });
+
+    } catch (err) {
+      resultsContainer.innerHTML = '<p style="color: red;">Could not fetch CSV file.</p>';
+      console.error(err);
+    }
+  });
+
+
+  // function to initialize the EChart
+  function renderChart(data: any[], chartInstance: echarts.ECharts) {
+    
+    const year = data.map((row: { diagnosisYear: any; }) => row.diagnosisYear).filter(Boolean);
+    const stage = data.map((row: { table: any; }) => row.table).filter(Boolean);
+	// convert object to string for the slice later
+    var stageString = stage.toString();
+
+	// create an array of arrays
+	const ages = [
+		data.map((row: { ageSpecificIncidenceAge0_49: any; }) => row.ageSpecificIncidenceAge0_49).filter(Boolean),
+    	data.map((row: { ageSpecificIncidenceAge50_54: any; }) => row.ageSpecificIncidenceAge50_54).filter(Boolean),
+		data.map((row: { ageSpecificIncidenceAge55_59: any; }) => row.ageSpecificIncidenceAge55_59).filter(Boolean),
+  		data.map((row: { ageSpecificIncidenceAge60_64: any; }) => row.ageSpecificIncidenceAge60_64).filter(Boolean),
+		data.map((row: { ageSpecificIncidenceAge65_69: any; }) => row.ageSpecificIncidenceAge65_69).filter(Boolean),
+		data.map((row: { ageSpecificIncidenceAge70_74: any; }) => row.ageSpecificIncidenceAge70_74).filter(Boolean),
+    	data.map((row: { ageSpecificIncidenceAge75_79: any; }) => row.ageSpecificIncidenceAge75_79).filter(Boolean),
+		data.map((row: { ageSpecificIncidenceAge80_84: any; }) => row.ageSpecificIncidenceAge80_84).filter(Boolean),
+  		data.map((row: { ageSpecificIncidenceAge85_89: any; }) => row.ageSpecificIncidenceAge85_89).filter(Boolean),
+		data.map((row: { ageSpecificIncidenceAge90: any; }) => row.ageSpecificIncidenceAge90).filter(Boolean)];
+
+	// flattern to a single array
+	const ageSeries = ages.flat(1);
+
+    const option = {
+      title: {
+        text: stageString.slice(0, -1) + ' Incidents by Age - Diagnosis Year : ' + year 
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        type: 'category',
+        data: ["0-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: ageSeries,
+          type: 'line',
+          smooth: true
+        }
+      ]
+    };
+
+    // Set options to render the chart
+    chartInstance.setOption(option);
+
+    // Optional: Make the chart responsive to window resizing
+    window.addEventListener('resize', () => {
+      chartInstance.resize();
+    });
+  }
+</script>
+
+<style>
+
+	#download-btn {
+		margin-top: 40px;
+	}
+
+	#csv-search-form {
+		display: flex; 
+		gap: 0.5rem; 
+		margin-top: 1.5rem;
+	}
+
+	/* A responsive 2x2 grid container */
+	.dashboard-container {
+		display: grid;
+		height: 100vh;
+		width: 100vw;
+		/* splits screen horizontally, favoring left side a little */
+		grid-template-columns: 25fr 75fr;
+		/* splits screen vertically, favoring the top a little */
+		grid-template-rows: 65fr 35fr;
+	}
+
+	/* individual grid panels */
+	.grid-panel {
+		background: #ffffff;
+		border: 1px solid #e2e8f0;
+		box-sizing: border-box;
+		overflow: auto;
+		padding: 20px;
+	}
+
+	#panel {
+		padding-left: 20px;
+		padding-top: 20px;
+	}
+
+
+	/* bottom left below the map */
+	#bottom-panel {
+		grid-column: 1;
+		grid-row: 2;
+		background: #fff;
+	}
+
+	/* right side goes from top to bottom, place for data? */
+	#right-panel {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+		background: #fdfdfd;
+		border-left: 2px solid #cbd5e0;
+	}
+
+	/* responsiveness... */
+	@media (max-width: 768px) {
+		.dashboard-container {
+			display: flex;
+			flex-direction: column;
+			height: auto;
+			overflow-y: auto;
+		}
+		html, body { overflow: auto; height: auto; }
+		#map { height: 400px; }
+		#bottom-panel, #right-panel { height: auto; width: 100%; border-left: none; border-top: 1px solid #cbd5e0; }
+	}
+
+	
+	#container {
+		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+		height: 100%;
+	}
+
+
+</style>

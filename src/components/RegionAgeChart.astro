@@ -1,0 +1,94 @@
+---
+// CsvChart.astro
+// Server-side Frontmatter (You can pass props here if needed)
+---
+
+<div id="csv-chart" style="width: 100%; height: 400px;"></div>
+
+<script>
+
+    // Import PapaParse directly into your client bundle
+  import Papa from 'papaparse';
+  import * as echarts from 'echarts';
+
+  // Wait for the DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', async () => {
+
+
+    const chartDom = document.getElementById('csv-chart');
+    if (!chartDom) return;
+    
+    // Initialize ECharts instance
+    const myChart = echarts.init(chartDom);
+
+    // Path to your CSV file (can be a local public file or a remote URL)
+    const csvUrl = 'HNC.csv'; 
+
+    try {
+      // Step 1: Fetch the CSV data directly
+      const response = await fetch(csvUrl);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const csvText = await response.text();
+
+      // Step 2: Parse the CSV using PapaParse
+      // 'header: true' converts rows into objects using the first row as keys
+      Papa.parse(csvText, {
+        header: true,
+        dynamicTyping: true, // Automatically converts numbers from strings
+        complete: function(results) {
+          renderChart(results.data, myChart);
+        },
+      });
+
+    } catch (error) {
+      console.error('Error fetching or processing CSV:', error);
+    }
+  });
+
+  // Step 3: Map data and initialize the EChart
+  function renderChart(data: any[], chartInstance: echarts.ECharts) {
+    
+    const year = data.map((row: { diagnosisYear: any; }) => row.diagnosisYear).filter(Boolean);
+
+    const ages = [2.9, 33, 49, 61, 67, 57, 55, 48, 37.5];
+    // const ages = [];
+    // ages.push(data.map((row: { ageSpecificIncidenceAge0_49: any; }) => row.ageSpecificIncidenceAge0_49).filter(Boolean));
+    // ages.push(data.map((row: { ageSpecificIncidenceAge50_54: any; }) => row.ageSpecificIncidenceAge50_54).filter(Boolean));
+    // ages.push(data.map((row: { ageSpecificIncidenceAge55_59: any; }) => row.ageSpecificIncidenceAge55_59).filter(Boolean));
+    // ages.push(data.map((row: { ageSpecificIncidenceAge60_64: any; }) => row.ageSpecificIncidenceAge60_64).filter(Boolean));
+    // ages.push(data.map((row: { ageSpecificIncidenceAge65_69: any; }) => row.ageSpecificIncidenceAge65_69).filter(Boolean));
+
+
+
+    const option = {
+      title: {
+        text: 'Incidents Over Time (From CSV)'
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        type: 'category',
+        data: year
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: ages,
+          type: 'line',
+          smooth: true
+        }
+      ]
+    };
+
+    // Set options to render the chart
+    chartInstance.setOption(option);
+
+    // Optional: Make the chart responsive to window resizing
+    window.addEventListener('resize', () => {
+      chartInstance.resize();
+    });
+  }
+</script>
