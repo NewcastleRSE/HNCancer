@@ -1,46 +1,44 @@
-# Astro Starter Kit: Basics
+# HNCancer - Atlas of Health Variation in Head and Neck Cancer in England
 
-```sh
-npm create astro@latest -- --template basics
-```
+## About
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+NHCancer is a data visualisation project that allows public access to the results of research into cancer incidence and survival rates between 2016 and 2023. The data is spreadsheet based and used in conjunction with Apache ECharts to show dynamically generated tables and charts. The site allows searching by region, sex, deprivation level, stage of diagnosis and route to clinical care.
 
-## 🚀 Project Structure
+### Project Team
 
-Inside of your Astro project, you'll see the following folders and files:
+| Name  | Role | Affiliation
+| ------------- | ------------- | ------------- |
+| Laura Woods  | PI | Newcastle University  |
+| Becky Osselton | RSE  | Newcastle Universtiy  |
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## Built With
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Astro.js and Apache ECharts with help from the [Papa Parse](https://www.papaparse.com/) library .
 
-## 🧞 Commands
+[Astro](https://docs.astro.build/en/getting-started/)  
+[Apache ECharts](https://echarts.apache.org/en/index.html)  
+  
+### Prerequisites
 
-All commands are run from the root of the project, from a terminal:
+Node.js must be installed
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Installation & Running Locally
 
-## 👀 Want to learn more?
+`npm install` to create the node modules directory and install the dependencies.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`npm run dev` to run the appliccation.
+
+
+### Running Tests
+
+How to run tests on your local system.
+
+## Deployment
+
+Automated to deploy to GitHub pages.
+
+### Branches
+
+Currenty dev and main.
+
+https://nvie.com/posts/a-successful-git-branching-model/
