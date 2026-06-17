@@ -26,7 +26,6 @@ export function filterArray(data: CSVRow[], query: string){
  // determines which spreadsheet should be used
  export function cancerType(value: string){
 
-	
 	var CSV_file = '';
 
 	switch (value) {
