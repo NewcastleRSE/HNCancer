@@ -1,48 +1,79 @@
-	<header>Atlas of Health Variation in Head and Neck Cancer in England</header>
+	<section class="section">
+		<header>Atlas of Health Variation in Head and Neck Cancer in England</header>
+	</section>
+
 	<nav class="navbar" role="navigation" aria-label="main navigation">
-	<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="myNavbar">
+
+	<a role="button" id="burger" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="nav-links">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
-		<div id="myNavbar" class="navbar-start">
-			<a class="navbar-item is-size-4 mx-1" href='/HNCancer/'>Home</a> 
-			<a class="navbar-item is-size-4 mx-1" href='/HNCancer/region'>Region</a> 
-			<a class="navbar-item is-size-4 mx-1" href='/HNCancer/sex'>Sex</a> 
-			<a class="navbar-item is-size-4 mx-1" href='/HNCancer/deprivation'>Deprivation</a>
-            <a class="navbar-item is-size-4 mx-1" href='/HNCancer/stage'>Stage</a> 
-            <a class="navbar-item is-size-4 mx-1" href='/HNCancer/route'>Route</a>  
+		<div id="nav-links" class="navbar-start">
+			<a class="navbar-item is-size-5 mx-1" href='/HNCancer/'>Home</a> 
+			<a class="navbar-item is-size-5 mx-1" href='/HNCancer/region'>Region</a> 
+			<a class="navbar-item is-size-5 mx-1" href='/HNCancer/sex'>Sex</a> 
+			<a class="navbar-item is-size-5 mx-1" href='/HNCancer/deprivation'>Deprivation</a>
+            <a class="navbar-item is-size-5 mx-1" href='/HNCancer/stage'>Stage</a> 
+            <a class="navbar-item is-size-5 mx-1" href='/HNCancer/route'>Route</a>  
 		
 		</div> 
 	</nav>
 
-    <style>
 
-	header {
-		background-color: #2c3e50;
-		color: #dee6ed;
-		padding: 1.2rem;
-		font-size: 2rem;
-		height: 90px;
-		width: 100%;
-	}
+<script>
 
-	nav {
-		background-color: #454b52;
-		color: #dee6ed;
-		padding: 0 0 0 0.8rem;
-		font-size: 1rem;
-		height: 30px;
-		width: 100%;
-	}
+document.addEventListener('DOMContentLoaded', (): void => {
+// Get the burger element and the target menu
 
-	nav a {
-		color: #dee6ed;
-	} 
+const burger = document.getElementById('burger') as HTMLFormElement;
+const menu = document.getElementById('nav-links') as HTMLFormElement;
 
-    #text {
-      margin-top: 15px;
-    }
-
+if(burger && menu) {
+	burger.addEventListener('click', (): void => {
+	// Toggle the "is-active" class on both elements
+	burger.classList.toggle('is-active');
+	menu.classList.toggle('is-active');
 	
+	// Check state and convert the boolean to a string
+	const isExpanded: boolean = burger.classList.contains('is-active');
+	burger.setAttribute('aria-expanded', String(isExpanded));
+});
+}
+
+});
+</script>
+
+<style>
+
+section {
+	background-color: #2c3e50;
+	color: #dee6ed;
+	padding: 1.2rem;
+	font-size: 2rem;
+}
+
+
+nav {
+	background-color: #454b52;
+	color: #dee6ed;
+	padding: 0 0 0 0.8rem;
+	font-size: 1rem;
+	height: 30px;
+	width: 100%;
+}
+
+nav a {
+	color: #dee6ed;
+} 
+
+nav :hover {
+	color: #2c3e50;
+}
+
+
+#text {
+	margin-top: 15px;
+}
+
