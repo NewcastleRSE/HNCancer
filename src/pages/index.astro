@@ -7,7 +7,33 @@ import Header from './header.astro';
   <Header />
 
     <div class="dashboard-container">
-        <h1>How to use the Atlas data</h1>
+        <div class="columns">
+            <div class="column is-half">
+                <div class="content p-4">
+                    <h1>How to use the Atlas of Health Variation</h1>
+
+                    <h2>Searches</h2>
+                    <p>The Atlas allows the exploration of datasets from 2016 to 2023. It allows searching on the following criteria:</p>
+
+                    <ul class="has-text-weight-bold">
+                        <li>Region</li>
+                        <li>Sex</li>
+                        <li>Deprivation Level</li>
+                        <li>Stage of diagnosis</li>
+                        <li>Route (Emergency or non-emergency)</li>
+                    </ul>
+
+                    <p>Some factors can be combined to give a finer-grained search. e.g. <span class="is-italic">region, deprivation and sex</span>.</p>
+                    <p>The nine English regions are shown opposite.</p>
+
+        </div>
+            </div>
+            <div class="column is-half">
+                <img src="../src/assets/English_regions.svg.png" width="100%"/>
+                <citation> Image source (modified) : Nilfanion and Dr Greg, CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0>, via Wikimedia Commons</citation>
+            </div>
+        </div>
+       
     </div>
 
 </Layout>
