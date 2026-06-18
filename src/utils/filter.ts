@@ -1,4 +1,5 @@
 import type { CSVRow } from '../types';
+const BASE_URL = import.meta.env.BASE_URL;
 
  /* in the case where 3 query items are joined by /, the male query also greedy matches the female record
   and the additional result needs to be filtered out */
@@ -29,16 +30,16 @@ export function filterArray(data: CSVRow[], query: string){
 
 	switch (value) {
 		case "Head and Neck":
-			CSV_file = './HNC.csv';
+			CSV_file = BASE_URL + '/HNC.csv';
 			break;
 		case "Laryngeal":
-			CSV_file = './Incidence-Larynx.csv';
+			CSV_file = BASE_URL + '/Incidence-Larynx.csv';
 			break;
 		case "Oral Cavity":
-			CSV_file = './Incidence-OralCavity.csv';
+			CSV_file = BASE_URL + '/Incidence-OralCavity.csv';
 			break;
 		case "Oropharyngeal":
-			CSV_file = './Incidence-Oropharynx.csv';
+			CSV_file = BASE_URL + '/Incidence-Oropharynx.csv';
 			break;
 		default:
 			console.log(`Cancer type not recognised`);
