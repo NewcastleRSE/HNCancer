@@ -74,7 +74,6 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	import * as echarts from 'echarts';
 	import { filterArray, cancerType, generateTable, dataMap  } from "../utils/filter";
 	import type { CSVRow } from '../types';
-import { createConsoleLogger } from 'astro/app';
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
@@ -106,10 +105,10 @@ import { createConsoleLogger } from 'astro/app';
 
     // check the checkboxes buttons
 	if(male_checkbox && male_checkbox.checked){
-		male_input = 'male';
+		male_input = 'Male';
 	} 
 	if(female_checkbox && female_checkbox.checked){
-		female_input = 'female';
+		female_input = 'Female';
 	}
 
 	// no sex selected so return no records
@@ -131,9 +130,6 @@ import { createConsoleLogger } from 'astro/app';
        key_query = male_input + '~';
 	   key_query_two = female_input + '~';
 	}
-
-	console.log(key_query);
-	console.log(key_query_two);
 
     resultsContainer.innerHTML = '<p>Searching records...</p>';
 
@@ -167,10 +163,6 @@ import { createConsoleLogger } from 'astro/app';
 				item.diagnosisYear?.toLowerCase().includes(year_query) 
 				);
 			}
-			
-			console.log(matchedItems);
-
-			console.log(matchedItemsSecond);
 
 			// returned if matching fails
 			if (matchedItems.length === 0 && matchedItemsSecond.length === 0) {
@@ -178,21 +170,14 @@ import { createConsoleLogger } from 'astro/app';
 				return;
 			}
 
-			// filter to catch unwanted extra matches where 'male' also brings back 'female' records
-			/*if(matchedItems.length !== 0){
-				filterArray(matchedItems, key_query);
-			} */
-
 			if(matchedItemsSecond.length !== 0){
 				filterArray(matchedItemsSecond, key_query_two);
 			}
 	
-		
 			if (matchedItems){
 				// call generateTable function in utils
 				resultsContainer.innerHTML = generateTable(matchedItems);
 			}
-
 
 		    if (matchedItemsSecond && resultsContainerTwo != null){
 				resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
