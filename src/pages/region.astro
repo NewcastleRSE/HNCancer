@@ -73,12 +73,10 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 </Layout>
 
 <script>
-  // Import PapaParse directly into your client bundle
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
 	import { filterArray, cancerType, generateTable, dataMap } from "../utils/filter";
 	import type { CSVRow } from '../types';
-	import { any } from 'astro:schema';
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
@@ -164,9 +162,6 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 		key_query = region_query + '~';
 	}
 
-	console.log('key query ' + key_query);
-	console.log('key query two ' + key_query_two);
-
     resultsContainer.innerHTML = '<p>Searching records...</p>';
 
 	// call cancerType function in utils
@@ -193,18 +188,14 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 			// declared in case a second query is needed (optional)
 			var matchedItemsSecond: CSVRow[] = [];
 
-			// if we have a second search for female results
+			// if we have a second search for the female records
 			if(key_query_two !== ''){
 				matchedItemsSecond = results.data.filter(item => 
 				item.table?.toLowerCase().includes(key_query_two) &&
 				item.diagnosisYear?.toLowerCase().includes(year_query) 
 				);
 			}
-			else {
-				matchedItemsSecond = [];
-			}
 			
-
 			// returned if matching fails
 			if (matchedItems.length === 0 && matchedItemsSecond.length === 0) {
 				resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
