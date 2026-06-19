@@ -138,6 +138,12 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 
        key_query = female_input + '/' + region_query + '*';
 	}
+	// both male and female sex has been added
+	else if(deprivation_input.value === 'Select...' && male_input !== '' && female_input !== '' ){
+
+       key_query = male_input + '/' + region_query + '*';
+	   key_query_sexes = female_input + '/' + region_query + '*';
+	}
 	// deprivation and female sex have been added
 	else if(deprivation_input.value !== 'Select...' && male_input === '' && female_input !== '' ){
 
