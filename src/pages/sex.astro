@@ -25,18 +25,9 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 
 				<CancerTypeSelect />
 				<hr />
-				
-				<!-- <div class="select">
-					<select id="sex-input">
-						<option disabled selected>Select sex...</option>
-						<option = "Male">Male</option>
-						<option = "Female">Female</option>
-					</select>
-				</div> -->
 				<div class="mb-2">Choose Sex..</div>
 				<SexSelect />
 				<hr />
-
 				<YearSelect />
 				<hr />
 
@@ -59,7 +50,7 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 			<!-- Output target container for chart -->
 			<div id="csv-chart" style="width: 100%; height: 400px;"></div>
 
-				<!-- Output target container for table -->
+			<!-- Output target container for table -->
 			<div id="search-results" style="width: 100%; height: 250px;"></div>
 			<div id="search-results-two" style="width: 100%; height: 250px;"></div>
 			
@@ -79,7 +70,6 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	const myChart = echarts.init(chartDom);
 
 	const sex_form = document.getElementById('region-search-form') as HTMLFormElement;
-	// const sex_input = document.getElementById('sex-input') as HTMLInputElement;
 	const year_input = document.getElementById('year-input') as HTMLInputElement;
 	const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
 	const male_checkbox = document.getElementById('maleckbox') as HTMLInputElement;
@@ -208,7 +198,7 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	  // convert object to string for the slice later
     var sexString = sex.toString();
 
-		// create arrays of arrays
+	// create arrays of arrays
 	const ages = dataMap(data);
 	const agesSecond = dataMap(dataSecond);
 	// flatten each to a single array

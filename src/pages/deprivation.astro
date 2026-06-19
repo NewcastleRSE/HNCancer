@@ -86,8 +86,9 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 			<!-- Output target container for chart -->
 			<div id="csv-chart" style="width: 100%; height: 400px;"></div>
 
-				<!-- Output target container for table -->
-			<div id="search-results" style="width: 100%; height: 400px;"></div>
+			<!-- Output target container for table -->
+			<div id="search-results" style="width: 100%; height: 250px;"></div>
+			<div id="search-results-two" style="width: 100%; height: 250px;"></div>
 			
         </div>
     </div>
@@ -98,8 +99,9 @@ import DeprivationTable from '../components/DeprivationTable.astro';
   // Import PapaParse directly into your client bundle
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
-	import { filterArray, cancerType  } from "../utils/filter";
+	import { filterArray, cancerType, generateTable, dataMap } from "../utils/filter";
 	import type { CSVRow } from '../types';
+import { createConsoleLogger } from 'astro/app';
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
@@ -108,9 +110,11 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	const deprivation_input = document.getElementById('deprivation-input') as HTMLInputElement;
 	const year_input = document.getElementById('year-input') as HTMLInputElement;
 	const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
-	const sex_input = document.getElementById('sex-input') as HTMLInputElement;
+	const male_checkbox = document.getElementById('maleckbox') as HTMLInputElement;
+	const female_checkbox = document.getElementById('femaleckbox') as HTMLInputElement;
 	const radio_inputs = document.querySelectorAll("input[type='radio']") as NodeListOf<HTMLInputElement>;
 	const resultsContainer = document.getElementById('search-results');	
+	const resultsContainerTwo = document.getElementById('search-results-two');	
 
 	const button = document.getElementById('download-btn');
 
@@ -131,31 +135,69 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 		} 
 	});
 
-	let key_query = '';
-	// make a unique key to query with if needed
-    if (deprivation_query !== 'Select deprivation level...'  && sex_input.value === 'Select...' && radio_input === ''){
+	/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
+	*/
+	var key_query = '';
+	var key_query_two = '';
+
+	let male_input = '';
+	let female_input = '';
+
+    // check the checkboxes buttons
+	if(male_checkbox && male_checkbox.checked){
+		male_input = 'male';
+	} 
+	if(female_checkbox && female_checkbox.checked){
+		female_input = 'female';
+	}
+
+	// only deprivation has been added
+    if (deprivation_query !== 'Select deprivation level...'  && male_input === ''  && female_input === '' && radio_input === ''){
 		key_query = deprivation_query + '~';
 	}
-	// sex has been added
-	else if(deprivation_query !== 'Select deprivation level...'  && sex_input.value !== 'Select...'  && radio_input === ''){
+	// male has been added
+	else if(deprivation_query !== 'Select deprivation level...'  && male_input !== '' && female_input === '' && radio_input === ''){
 
-	    key_query = sex_input.value.trim().toLowerCase() + '/' + deprivation_query + '*';
+	    key_query = male_input + '/' + deprivation_query + '*';
+	}  
+	// female has been added
+	else if(deprivation_query !== 'Select deprivation level...'  && male_input === '' && female_input !== '' && radio_input === ''){
+
+	    key_query = female_input + '/' + deprivation_query + '*';
+	}  
+	// male and female have been added
+	else if(deprivation_query !== 'Select deprivation level...'  && male_input !== '' && female_input !== '' && radio_input === ''){
+
+		key_query = male_input + '/' + deprivation_query + '*';
+	    key_query_two = female_input + '/' + deprivation_query + '*';
 	}  
 	// just route or stage has been added
-	else if(deprivation_query !== 'Select deprivation level...'  && sex_input.value === 'Select...'  && radio_input !== ''){
+	else if(deprivation_query !== 'Select deprivation level...' && male_input === ''  && female_input === ''  && radio_input !== ''){
 
 	    key_query =  deprivation_query + '/' + radio_input + '*';
 	}    
-	// sex has been added, plus route or stage
-	else if(deprivation_query !== 'Select deprivation level...'  && sex_input.value !== 'Select...'  && radio_input !== ''){
+	// male has been added, plus route or stage
+	else if(deprivation_query !== 'Select deprivation level...'  && male_input !== ''  && female_input === ''  && radio_input !== ''){
 
-	    key_query = sex_input.value.trim().toLowerCase() + '/' + deprivation_query + '/' + radio_input + '+';
-	}   
+	    key_query = male_input + '/' + deprivation_query + '/' + radio_input + '+';
+	}  
+	// female has been added, plus route or stage
+	else if(deprivation_query !== 'Select deprivation level...'  && male_input === ''  && female_input !== ''  && radio_input !== ''){
+
+	    key_query = female_input + '/' + deprivation_query + '/' + radio_input + '+';
+	}    
+	// male and female has been added, plus route or stage
+	else if(deprivation_query !== 'Select deprivation level...'  && male_input !== ''  && female_input !== ''  && radio_input !== ''){
+
+		key_query = male_input + '/' + deprivation_query + '/' + radio_input + '+';
+	    key_query_two = female_input + '/' + deprivation_query + '/' + radio_input + '+';
+	}    
 	else {
 		key_query = deprivation_query;
 	}
 
 	console.log(key_query);
+	console.log(key_query_two);
 
     resultsContainer.innerHTML = '<p>Searching records...</p>';
 
@@ -168,7 +210,6 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 		
 		const csvText = await response.text();
 
-		
       // parse CSV text directly into JSON format
       Papa.parse<CSVRow>(csvText, {
         header: true, // Uses row 1 keys mapping row values into key-value objects
@@ -177,59 +218,49 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 			const matchedItems = results.data.filter(item => 
 				item.table?.toLowerCase().includes(key_query) &&
 				item.diagnosisYear?.toLowerCase().includes(year_query) 
+					
 			);
 
-			//  render any matches into view
-			if (matchedItems.length === 0) {
+			// declared in case a second query is needed 
+			var matchedItemsSecond: CSVRow[] = [];
+
+			// if we have a second search needed
+			if(key_query_two !== ''){
+				matchedItemsSecond = results.data.filter(item => 
+				item.table?.toLowerCase().includes(key_query_two) &&
+				item.diagnosisYear?.toLowerCase().includes(year_query) 
+				);	
+			}
+	
+			// returned if matching fails
+			if (matchedItems.length === 0 && matchedItemsSecond.length === 0) {
 				resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
 				return;
 			}
 
 			// filter to catch unwanted extra matches where 'male' also brings back 'female' records
-			filterArray(matchedItems, key_query);
+			if(matchedItems.length !== 0){
+				filterArray(matchedItems, key_query);
+			}
 
-		resultsContainer.innerHTML = matchedItems.map(item => `
-		  <div class="table-container">
-			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
-				<thead>
-					<th colspan="10" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${item.table.slice(0, -1)} Year of diagnosis: ${item.diagnosisYear}</th>
-				</thead>
-				<tbody>
-					<tr>
-						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Age</th>	
-					</tr>	
-					<tr style="border: 1px solid #ccc;" >
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">0-49</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">50-54</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">55-59</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">60-64</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">65-69</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">70-74</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">75-79</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">80-84</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">85-89</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">90+</th>
-					</tr>
-					<tr style="border: 1px solid #ccc;" >
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge0_49}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge50_54}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge55_59}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge60_64}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge65_69}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge70_74}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge75_79}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge80_84}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge85_89}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.ageSpecificIncidenceAge90}</td>
-					</tr>
-				</tbody>
-			</table>
-			</div>
-           `).join(''); 
+			if(matchedItemsSecond.length !== 0){
+
+				filterArray(matchedItemsSecond, key_query_two);
+			}
 	
+			if (matchedItems){
+				// call generateTable function in utils
+				resultsContainer.innerHTML = generateTable(matchedItems);
+			}
+
+		    if (matchedItemsSecond && resultsContainerTwo != null){
+				resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
+		    }
+
 			// call function to render an echart
-			renderChart(matchedItems, myChart);
-		
+			renderChart(matchedItems, matchedItemsSecond, myChart);
+
+	
         },
         error: (error: Error) => {
           resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
@@ -244,28 +275,19 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 
 
   // function to initialize the EChart
-  function renderChart(data: any[], chartInstance: echarts.ECharts) {
+  function renderChart(data: any[], dataSecond: any[], chartInstance: echarts.ECharts) {
     
     const year = data.map((row: { diagnosisYear: any; }) => row.diagnosisYear).filter(Boolean);
     const deprivation = data.map((row: { table: any; }) => row.table).filter(Boolean);
 	  // convert object to string for the slice later
     var deprivationString = deprivation.toString();
 
-	// create an array of arrays
-	const ages = [
-		data.map((row: { ageSpecificIncidenceAge0_49: any; }) => row.ageSpecificIncidenceAge0_49).filter(Boolean),
-    	data.map((row: { ageSpecificIncidenceAge50_54: any; }) => row.ageSpecificIncidenceAge50_54).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge55_59: any; }) => row.ageSpecificIncidenceAge55_59).filter(Boolean),
-  		data.map((row: { ageSpecificIncidenceAge60_64: any; }) => row.ageSpecificIncidenceAge60_64).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge65_69: any; }) => row.ageSpecificIncidenceAge65_69).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge70_74: any; }) => row.ageSpecificIncidenceAge70_74).filter(Boolean),
-    	data.map((row: { ageSpecificIncidenceAge75_79: any; }) => row.ageSpecificIncidenceAge75_79).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge80_84: any; }) => row.ageSpecificIncidenceAge80_84).filter(Boolean),
-  		data.map((row: { ageSpecificIncidenceAge85_89: any; }) => row.ageSpecificIncidenceAge85_89).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge90: any; }) => row.ageSpecificIncidenceAge90).filter(Boolean)];
-
-	// flattern to a single array
+	// create arrays of arrays
+	const ages = dataMap(data);
+	const agesSecond = dataMap(dataSecond);
+	// flatten each to a single array
 	const ageSeries = ages.flat(1);
+	const ageSeriesTwo = agesSecond.flat(1);
 
     const option = {
       title: {
@@ -286,7 +308,12 @@ import DeprivationTable from '../components/DeprivationTable.astro';
           data: ageSeries,
           type: 'line',
           smooth: true
-        }
+        },
+		{
+          data: ageSeriesTwo,
+          type: 'line',
+          smooth: true
+        } 
       ]
     };
 
