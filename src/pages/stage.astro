@@ -64,7 +64,7 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 			<!-- Output target container for chart -->
 			<div id="csv-chart" style="width: 100%; height: 400px;"></div>
 
-				<!-- Output target container for  first table -->
+			<!-- Output target container for  first table -->
 			<div id="search-results" style="width: 100%; height: 250px;"></div>
 			<div id="search-results-two" style="width: 100%; height: 250px;"></div>
 			
@@ -105,7 +105,7 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 
     if (!stage_query || !year_query || !resultsContainer) return;
 
-		/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
+	/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
 	*/
 	var key_query = '';
 	var key_query_two = '';
@@ -125,6 +125,11 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
     if (stage_query !== 'Select stage...'  && male_input === '' && female_input === '' && region_input.value === 'Select...'){
 		key_query = stage_query + '~';
 	}
+	// if stage plus region has been added, no sex
+	else if(stage_query !== 'Select stage...' && male_input === '' && female_input === '' && region_input.value !== 'Select...'  ){
+
+	    key_query = region_input.value + '/' + stage_query + '*';
+	}   
 	// if stage plus male sex has been added
 	else if(stage_query !== 'Select stage...'  && male_input !== '' && female_input === '' && region_input.value === 'Select...' ){
 
@@ -183,7 +188,7 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 				item.diagnosisYear?.toLowerCase().includes(year_query) 
 			);
 
-				// declared in case a second query is needed (optional)
+			// declared in case a second query is needed (optional)
 			var matchedItemsSecond: CSVRow[] = [];
 
 			// if we have a second search for the female records
