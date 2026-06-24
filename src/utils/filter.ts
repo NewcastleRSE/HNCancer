@@ -1,4 +1,6 @@
-import type { CSVRow } from '../types';
+import type { CSVRow, CSVDataInput, CSVData } from '../types';
+import Papa from 'papaparse';
+
 const BASE_URL = import.meta.env.BASE_URL;
 
  /* in the case where 3 query items are joined by /, the male query also greedy matches the female record
@@ -109,4 +111,50 @@ export function dataMap(data: any[]) {
 
 		return fixedArray;
 }
+
+/*
+export function getCSVData({yearQuery, keyQuery, keyQueryTwo, csvText}: CSVDataInput): CSVData {
+
+	var matchedItems: CSVRow[] = [];
+	// declared in case a second query is needed (optional)
+	var matchedItemsSecond: CSVRow[] = [];
+	var result: CSVData[] = []; 
+
+	// parse CSV text directly into JSON format
+	Papa.parse<CSVRow>(csvText, {
+	header: true, // Uses row 1 keys mapping row values into key-value objects
+	skipEmptyLines: true,
+	complete: (results) => {
+		matchedItems = results.data.filter(item => 
+			item.table?.toLowerCase().includes(keyQuery) &&
+			item.diagnosisYear?.toLowerCase().includes(yearQuery) 
+		);
+
+		// if we have a second search for the female records
+		if(keyQueryTwo !== ''){
+			matchedItemsSecond = results.data.filter(item => 
+			item.table?.toLowerCase().includes(keyQueryTwo) &&
+			item.diagnosisYear?.toLowerCase().includes(yearQuery) 
+			);
+		}
+	
+		// filter to catch unwanted extra matches where 'male' also brings back 'female' records
+		if(matchedItems.length !== 0){
+			filterArray(matchedItems, keyQuery);
+		}
+
+		if(matchedItemsSecond.length !== 0){
+			filterArray(matchedItemsSecond, keyQueryTwo);
+		}
+
+		return result = {
+			matchedRows = matchedItems,
+			matchedRowsSecond = matchedItemsSecond
+		}
+		
+	}
+	
+	})
+} */
+		
 
