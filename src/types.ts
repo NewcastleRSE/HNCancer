@@ -2,6 +2,7 @@ export interface CSVRow {
     id: number;
     table: string;
     diagnosisYear: string;
+    diagnosisYear2023: string;
     ageSpecificIncidenceAge0_49: number;
     ageSpecificIncidenceAge50_54: number;
     ageSpecificIncidenceAge55_59: number;

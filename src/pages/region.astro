@@ -26,6 +26,7 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 
 				<CancerTypeSelect />
 				<RegionSelect />
+		
 				<YearSelect />
 				<hr />
 				 <div class="mb-2">Add optional sex..</div>
@@ -87,6 +88,14 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	const deprivation_input = document.getElementById('deprivation-input') as HTMLInputElement;
 	const male_checkbox = document.getElementById('maleckbox') as HTMLInputElement;
 	const female_checkbox = document.getElementById('femaleckbox') as HTMLInputElement;
+	const checkbox2016 = document.getElementById('2016kbox') as HTMLInputElement;
+	const checkbox2017 = document.getElementById('2017kbox') as HTMLInputElement;
+	const checkbox2018 = document.getElementById('2018kbox') as HTMLInputElement;
+	const checkbox2019 = document.getElementById('2019kbox') as HTMLInputElement;
+	const checkbox2020 = document.getElementById('2020kbox') as HTMLInputElement;
+	const checkbox2021 = document.getElementById('2021kbox') as HTMLInputElement;
+	const checkbox2022 = document.getElementById('2022kbox') as HTMLInputElement;
+	const checkbox2023 = document.getElementById('2023kbox') as HTMLInputElement;
 	const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
 	const resultsContainer = document.getElementById('search-results');
 	const resultsContainerTwo = document.getElementById('search-results-two');	
@@ -108,8 +117,16 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	var key_query = '';
 	var key_query_two = '';
 
-	let male_input = '';
-	let female_input = '';
+	var male_input = '';
+	var female_input = '';
+	var input2016 = '';
+	var input2017 = '';
+	var input2018 = '';
+	var input2019 = '';
+	var input2020 = '';
+	var input2021 = '';
+	var input2022 = '';
+	var input2023 = '';
 
     // check the checkboxes buttons
 	if(male_checkbox && male_checkbox.checked){
@@ -118,6 +135,31 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	if(female_checkbox && female_checkbox.checked){
 		female_input = 'female';
 	}
+	if(checkbox2016 && checkbox2016.checked){
+		input2016 = '2016'
+	}
+	if(checkbox2017 && checkbox2017.checked){
+		input2017 = '2017'
+	}
+	if(checkbox2018 && checkbox2018.checked){
+		input2018 = '2018'
+	}
+	if(checkbox2019 && checkbox2019.checked){
+		input2019 = '2019'
+	}
+	if(checkbox2020 && checkbox2020.checked){
+		input2020 = '2020'
+	}
+	if(checkbox2021 && checkbox2021.checked){
+		input2021 = '2021'
+	}
+	if(checkbox2022 && checkbox2022.checked){
+		input2022 = '2022'
+	}
+	if(checkbox2023 && checkbox2023.checked){
+		input2023 = '2023'
+	}
+
 	//console.log(male_input + ' is-checked');
 	//console.log(female_input + ' is-checked');
 
@@ -162,6 +204,8 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 		key_query = region_query + '~';
 	}
 
+	console.log(key_query);
+
     resultsContainer.innerHTML = '<p>Searching records...</p>';
 
 	// call cancerType function in utils
@@ -179,9 +223,9 @@ import DeprivationTable from '../components/DeprivationTable.astro';
         header: true, // Uses row 1 keys mapping row values into key-value objects
          skipEmptyLines: true,
         	complete: (results) => {
-	 		const matchedItems = results.data.filter(item => 
-				item.table?.toLowerCase().includes(key_query) &&
-	 			item.diagnosisYear?.toLowerCase().includes(year_query) 
+	 		 const matchedItems = results.data.filter(item => 
+			 	item.table?.toLowerCase().includes(key_query) &&
+	 		 	item.diagnosisYear?.toLowerCase().includes(year_query)
 	 		);
 
 	 		// declared in case a second query is needed (optional)
