@@ -32,7 +32,7 @@ export function cancerType(value: string){
 
 	switch (value) {
 		case "Head and Neck":
-			CSV_file = BASE_URL + '/HNC.csv';
+			CSV_file = BASE_URL + '/Incidence-HNC.csv';
 			break;
 		case "Laryngeal":
 			CSV_file = BASE_URL + '/Incidence-Larynx.csv';
