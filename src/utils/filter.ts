@@ -57,11 +57,11 @@ export function generateTable(tableData: CSVRow[]){
 		  <div class="table-container">
 			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
 				<thead>
-					<th colspan="10" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${item.table.slice(0, -1)} - Year of diagnosis: ${item.diagnosisYear}</th>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${item.table.slice(0, -1)} - Year of diagnosis: ${item.diagnosisYear}</th>
 				</thead>
 				<tbody>
 					<tr>
-						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Age</th>	
+						<th colspan="11" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Age</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">0-49</th>
@@ -74,6 +74,7 @@ export function generateTable(tableData: CSVRow[]){
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">80-84</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">85-89</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">90+</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">Age Standardised</th>
 					</tr>
 					<tr style="border: 1px solid #ccc;" >
 						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge0_49 * 100) / 100}</td>
@@ -86,6 +87,7 @@ export function generateTable(tableData: CSVRow[]){
 						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge80_84 * 100) / 100}</td>
 						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge85_89 * 100) / 100}</td>
 						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge90 * 100) / 100}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageStandardisedIncidence * 100) / 100}</td>
 					</tr>
 				</tbody>
 			</table>
