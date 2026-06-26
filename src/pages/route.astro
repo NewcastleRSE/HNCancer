@@ -10,6 +10,7 @@ import CancerTypeSelect from '../components/CancerTypeSelect.astro';
 import SexSelect from '../components/SexSelect.astro';
 import DeprivationTable from '../components/DeprivationTable.astro';
 import RegionSelectOpt from '../components/RegionSelectOpt.astro';
+import PagePanels from '../components/PagePanels.astro';
 ---
 
 <Layout>
@@ -49,25 +50,7 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 			</form>
 		</div>
 		
-        <!-- bottom left, below map -->
-        <div id="bottom-panel" class="grid-panel">
-         	<DeprivationTable />    
-        </div>
-
-        <!-- right side, stretches full height -->
-        <div id="right-panel" class="grid-panel">
-            <h2>Main Data Area</h2>
-
-			<!-- Output target container for chart -->
-			<div id="csv-chart" style="width: 100%; height: 400px;"></div>
-
-			<!-- Output target containers for tables -->
-			<div id="search-results" style="width: 100%; height: 250px;"></div>
-			<div id="download-link-table-one"></div>
-			<div id="search-results-two" style="width: 100%; height: 250px;"></div>
-			<div id="download-link-table-two"></div>	
-		
-        </div>
+       <PagePanels />
     </div>
 
 </Layout>
@@ -254,75 +237,27 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 
 <style>
 
-	#download-btn {
-		margin-top: 40px;
-	}
+#csv-search-form {
+	display: flex; 
+	gap: 0.5rem; 
+	margin-top: 1.5rem;
+}
 
-	#csv-search-form {
-		display: flex; 
-		gap: 0.5rem; 
-		margin-top: 1.5rem;
-	}
+/* A responsive 2x2 grid container */
+.dashboard-container {
+	display: grid;
+	height: 100vh;
+	width: 100vw;
+	/* splits screen horizontally, favoring left side a little */
+	grid-template-columns: 25fr 75fr;
+	/* splits screen vertically, favoring the top a little */
+	grid-template-rows: 65fr 35fr;
+}
 
-	/* A responsive 2x2 grid container */
-	.dashboard-container {
-		display: grid;
-		height: 100vh;
-		width: 100vw;
-		/* splits screen horizontally, favoring left side a little */
-		grid-template-columns: 25fr 75fr;
-		/* splits screen vertically, favoring the top a little */
-		grid-template-rows: 65fr 35fr;
-	}
-
-	/* individual grid panels */
-	.grid-panel {
-		background: #ffffff;
-		border: 1px solid #e2e8f0;
-		box-sizing: border-box;
-		overflow: auto;
-		padding: 20px;
-	}
-
-	#panel {
-		padding-left: 20px;
-		padding-top: 20px;
-	}
-
-
-	/* bottom left below the map */
-	#bottom-panel {
-		grid-column: 1;
-		grid-row: 2;
-		background: #fff;
-	}
-
-	/* right side goes from top to bottom, place for data? */
-	#right-panel {
-		grid-column: 2;
-		grid-row: 1 / span 2;
-		background: #fdfdfd;
-		border-left: 2px solid #cbd5e0;
-	}
-
-	/* responsiveness... */
-	@media (max-width: 768px) {
-		.dashboard-container {
-			display: flex;
-			flex-direction: column;
-			height: auto;
-			overflow-y: auto;
-		}
-		html, body { overflow: auto; height: auto; }
-		#map { height: 400px; }
-		#bottom-panel, #right-panel { height: auto; width: 100%; border-left: none; border-top: 1px solid #cbd5e0; }
-	}
-
-	
-	#container {
-		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-		height: 100%;
-	}
+#panel {
+	padding-left: 20px;
+	padding-top: 20px;
+}
 
 
 </style>
