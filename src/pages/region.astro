@@ -66,7 +66,7 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
 <script>
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
-	import { filterArray, cancerType, generateTable, dataMap, createDownloadFile, setChartOptions } from "../utils/filter";
+	import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions } from "../utils/filter";
 	import { year_input, deprivation_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { CSVRow } from '../types';
 
@@ -144,8 +144,8 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
 	console.log(key_query);
 
     resultsContainer.innerHTML = '<p>Searching records...</p>';
-	linkContainerOne.innerHTML = '<p></p>';
-	linkContainerTwo.innerHTML = '<p></p>';
+	// linkContainerOne.innerHTML = '<p></p>';
+	// linkContainerTwo.innerHTML = '<p></p>';
 
 
 	// call cancerType function in utils

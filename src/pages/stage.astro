@@ -64,9 +64,11 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 			<!-- Output target container for chart -->
 			<div id="csv-chart" style="width: 100%; height: 400px;"></div>
 
-			<!-- Output target container for  first table -->
+			<!-- Output target containers for tables -->
 			<div id="search-results" style="width: 100%; height: 250px;"></div>
+			<div id="download-link-table-one"></div>
 			<div id="search-results-two" style="width: 100%; height: 250px;"></div>
+			<div id="download-link-table-two"></div>	
 			
         </div>
     </div>
@@ -77,24 +79,13 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
   // Import PapaParse directly into your client bundle
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
+	import { filterArray, cancerType, generateTable,  createDownloadFile, setChartOptions } from "../utils/filter";
+	import { year_input, stage_input, region_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { CSVRow } from '../types';
-	import { filterArray, cancerType, generateTable, dataMap } from "../utils/filter";
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
-
 	const stage_form = document.getElementById('stage-search-form') as HTMLFormElement;
-	const stage_input = document.getElementById('stage-input') as HTMLInputElement;
-	const year_input = document.getElementById('year-input') as HTMLInputElement;
-	const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
-	const male_checkbox = document.getElementById('maleckbox') as HTMLInputElement;
-	const female_checkbox = document.getElementById('femaleckbox') as HTMLInputElement;
-	const region_input = document.getElementById('region-input') as HTMLInputElement;
-	const resultsContainer = document.getElementById('search-results');	
-	const resultsContainerTwo = document.getElementById('search-results-two');	
-
-	const button = document.getElementById('download-btn');
-
 
   	stage_form?.addEventListener('submit', async (event) => {
     event.preventDefault(); // Stop GitHub Pages from attempting a form redirect
@@ -104,11 +95,6 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
     const year_query = year_input.value.trim();
 
     if (!stage_query || !year_query || !resultsContainer) return;
-
-	/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
-	*/
-	var key_query = '';
-	var key_query_two = '';
 
 	let male_input = '';
 	let female_input = '';
@@ -120,6 +106,10 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 	if(female_checkbox && female_checkbox.checked){
 		female_input = 'Female';
 	}
+	/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
+	*/
+	var key_query = '';
+	var key_query_two = '';
 
 	// if only stage has been added
     if (stage_query !== 'Select stage...'  && male_input === '' && female_input === '' && region_input.value === 'Select...'){
@@ -176,7 +166,7 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 		if (!response.ok) throw new Error('Failed to retrieve data file.');
 		
 		const csvText = await response.text();
-
+		var encodedUri = '';
 		
       // parse CSV text directly into JSON format
       Papa.parse<CSVRow>(csvText, {
@@ -217,10 +207,14 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 			if (matchedItems){
 				// call generateTable function in utils
 				resultsContainer.innerHTML = generateTable(matchedItems);
+				encodedUri = createDownloadFile(matchedItems);
+				linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
 			}
 
 		    if (matchedItemsSecond && resultsContainerTwo != null){
 				resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
+				encodedUri = createDownloadFile(matchedItemsSecond);
+				linkContainerTwo.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
 		    }
 
 			// call function to render an echart
@@ -233,7 +227,7 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
         error: (error: Error) => {
           resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
         }
-      });
+      	});
 
     } catch (err) {
       resultsContainer.innerHTML = '<p style="color: red;">Could not fetch CSV file.</p>';
@@ -250,40 +244,7 @@ import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 	// convert object to string for the slice later
     var stageString = stage.toString();
 
-	// create arrays of arrays
-	const ages = dataMap(data);
-	const agesSecond = dataMap(dataSecond);
-	// flatten each to a single array
-	const ageSeries = ages.flat(1);
-	const ageSeriesTwo = agesSecond.flat(1);
-
-    const option = {
-      title: {
-        text: stageString.slice(0, -1) + ' Incidents by Age - Diagnosis Year : ' + year 
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      xAxis: {
-        type: 'category',
-        data: ["0-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"]
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: ageSeries,
-          type: 'line',
-          smooth: true
-        },
-		{
-          data: ageSeriesTwo,
-          type: 'line',
-          smooth: true
-        } 
-      ]
-    };
+	const option = setChartOptions(data, dataSecond, year, stageString);
 
     // Set options to render the chart
     chartInstance.setOption(option);
