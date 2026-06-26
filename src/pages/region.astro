@@ -10,6 +10,7 @@ import CancerTypeSelect from '../components/CancerTypeSelect.astro';
 import RegionSelect from '../components/RegionSelect.astro';
 import SexSelect from '../components/SexSelect.astro';
 import DeprivationTable from '../components/DeprivationTable.astro';
+import DeprivationSelect from '../components/DeprivationSelect.astro';
 ---
 
 <Layout>
@@ -26,24 +27,12 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 
 				<CancerTypeSelect />
 				<RegionSelect />
-		
 				<YearSelect />
 				<hr />
 				 <div class="mb-2">Add optional sex..</div>
 				<SexSelect />
-		
 				 <hr />
-				 <div class="mb-2">Add optional deprivation level...</div>
-				 	<div class="select">
-					<select id="deprivation-input">
-						<option disabled selected>Select...</option>
-						<option = "IMD1">IMD1</option>
-						<option = "IMD2">IMD2</option>
-						<option = "IMD3">IMD3</option>
-						<option = "IMD4">IMD4</option>
-						<option = "IMD5">IMD5</option>
-					</select>
-				</div>
+				<DeprivationSelect />
 				<hr />
 				<div class="mb-2">
 					<input class="button" type="submit" value="Search" />
@@ -64,10 +53,11 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 			<!-- Output target container for chart -->
 			<div id="csv-chart" style="width: 100%; height: 400px;"></div>
 
-				<!-- Output target container for  first table -->
+			<!-- Output target containers for tables -->
 			<div id="search-results" style="width: 100%; height: 250px;"></div>
+			<div id="download-link-table-one"></div>
 			<div id="search-results-two" style="width: 100%; height: 250px;"></div>
-			
+			<div id="download-link-table-two"></div>	
         </div>
     </div>
 
@@ -76,24 +66,15 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 <script>
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
-	import { filterArray, cancerType, generateTable, dataMap } from "../utils/filter";
+	import { filterArray, cancerType, generateTable, dataMap, createDownloadFile, setChartOptions } from "../utils/filter";
+	import { year_input, deprivation_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { CSVRow } from '../types';
 
-    const chartDom = document.getElementById('csv-chart');
+	export const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
 
 	const region_form = document.getElementById('region-search-form') as HTMLFormElement;
 	const region_input = document.getElementById('region-input') as HTMLInputElement;
-	const year_input = document.getElementById('year-input') as HTMLInputElement;
-	const deprivation_input = document.getElementById('deprivation-input') as HTMLInputElement;
-	const male_checkbox = document.getElementById('maleckbox') as HTMLInputElement;
-	const female_checkbox = document.getElementById('femaleckbox') as HTMLInputElement;
-	const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
-	const resultsContainer = document.getElementById('search-results');
-	const resultsContainerTwo = document.getElementById('search-results-two');	
-
-	const button = document.getElementById('download-btn');
-
 
   	region_form?.addEventListener('submit', async (event) => {
     event.preventDefault(); // Stop GitHub Pages from attempting a form redirect
@@ -101,13 +82,7 @@ import DeprivationTable from '../components/DeprivationTable.astro';
     const region_query = region_input.value.trim().toLowerCase();
     const year_query = year_input.value.trim();
 
-
-    if (!region_query || !year_query || !resultsContainer) return;
-
-	/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
-	*/
-	var key_query = '';
-	var key_query_two = '';
+    if (!region_query || !year_query || !resultsContainer || !linkContainerOne || !linkContainerTwo ) return;
 
 	var male_input = '';
 	var female_input = '';
@@ -119,9 +94,11 @@ import DeprivationTable from '../components/DeprivationTable.astro';
     if(female_checkbox && female_checkbox.checked){
         female_input = 'female';
 	}
-	
-	//console.log(male_input + ' is-checked');
-	//console.log(female_input + ' is-checked');
+
+	/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
+	*/
+	var key_query = '';
+	var key_query_two = '';
 
 	// only deprivation has been added
 	if(deprivation_input.value !== 'Select...' && male_input === '' && female_input === ''){
@@ -167,6 +144,9 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	console.log(key_query);
 
     resultsContainer.innerHTML = '<p>Searching records...</p>';
+	linkContainerOne.innerHTML = '<p></p>';
+	linkContainerTwo.innerHTML = '<p></p>';
+
 
 	// call cancerType function in utils
 	const CSV_file = cancerType(`${cancer_type.value}`);
@@ -177,6 +157,7 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 		if (!response.ok) throw new Error('Failed to retrieve data file.');
 		
 		const csvText = await response.text();
+		var encodedUri = '';
 	
         // parse CSV text directly into JSON format
       	Papa.parse<CSVRow>(csvText, {
@@ -211,10 +192,14 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 	 		if (matchedItems){
 	 			// call generateTable function in utils
 	 			resultsContainer.innerHTML = generateTable(matchedItems);
+				encodedUri = createDownloadFile(matchedItems);
+				linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
 	 		}
 
 	 	    if (matchedItemsSecond && resultsContainerTwo != null){
 	 			resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
+				encodedUri = createDownloadFile(matchedItemsSecond);
+				linkContainerTwo.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
 	 	    }
 
 			// returned if matching fails
@@ -243,45 +228,12 @@ import DeprivationTable from '../components/DeprivationTable.astro';
   // function to initialize the EChart
   function renderChart(data: any[], dataSecond: any[], chartInstance: echarts.ECharts) {
     
-    const year = data.map((row: { diagnosisYear: any; }) => row.diagnosisYear).filter(Boolean);
+    const year = data.map((row: { diagnosisYear: string; }) => row.diagnosisYear).filter(Boolean);
     const region = data.map((row: { table: any; }) => row.table).filter(Boolean);
     // convert object to string for the slice later
     var regionString = region.toString();
 
-	// create arrays of arrays
-	const ages = dataMap(data);
-	const agesSecond = dataMap(dataSecond);
-	// flatten each to a single array
-	const ageSeries = ages.flat(1);
-	const ageSeriesTwo = agesSecond.flat(1);
-
-    const option = {
-      title: {
-        text: regionString.slice(0, -1) + ' - Incidents by Age - Diagnosis Year : ' + year 
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      xAxis: {
-        type: 'category',
-        data: ["0-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"]
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: ageSeries,
-          type: 'line',
-          smooth: true
-        },
-		{
-          data: ageSeriesTwo,
-          type: 'line',
-          smooth: true
-        } 
-      ]
-    };
+	const option = setChartOptions(data, dataSecond, year, regionString);
 
     // Set options to render the chart
     chartInstance.setOption(option);

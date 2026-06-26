@@ -114,6 +114,82 @@ export function dataMap(data: any[]) {
 		return fixedArray;
 }
 
+export function createDownloadFile(tableData: CSVRow[]){
+
+	// Convert JSON data to CSV string
+	const csvRows = [
+	// headers	
+	['ageSpecificIncidenceAge0_49:',
+		'ageSpecificIncidenceAge50_54',
+		'ageSpecificIncidenceAge55_59',
+		'ageSpecificIncidenceAge60_64',
+		'ageSpecificIncidenceAge65_69',
+		'ageSpecificIncidenceAge70_74',
+		'ageSpecificIncidenceAge75_79',
+		'ageSpecificIncidenceAge80_84',
+		'ageSpecificIncidenceAge85_89',
+		'ageSpecificIncidenceAge90',
+		'ageStandardisedIncidence'
+	], 
+	...tableData.map(item => [item.ageSpecificIncidenceAge0_49, 
+	item.ageSpecificIncidenceAge50_54,
+	item.ageSpecificIncidenceAge55_59,
+	item.ageSpecificIncidenceAge60_64,
+	item.ageSpecificIncidenceAge65_69,
+	item.ageSpecificIncidenceAge70_74,
+	item.ageSpecificIncidenceAge75_79,
+	item.ageSpecificIncidenceAge80_84,
+	item.ageSpecificIncidenceAge85_89,
+	item.ageSpecificIncidenceAge90,
+	item.ageStandardisedIncidence])
+	];
+	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
+	const encodedUri = encodeURI(csvContent);
+	console.log(encodedUri);
+	return encodedUri;
+	
+}
+
+export function setChartOptions(data: any[], dataSecond: any[], year: string[], optionString: string){
+
+	// create arrays of arrays
+	const ages = dataMap(data);
+	const agesSecond = dataMap(dataSecond);
+	// flatten each to a single array
+	const ageSeries = ages.flat(1);
+	const ageSeriesTwo = agesSecond.flat(1);
+
+    const option = {
+      title: {
+        text: optionString.slice(0, -1) + ' - Incidents by Age - Diagnosis Year : ' + year 
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        type: 'category',
+        data: ["0-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: ageSeries,
+          type: 'line',
+          smooth: true
+        },
+		{
+          data: ageSeriesTwo,
+          type: 'line',
+          smooth: true
+        } 
+      ]
+    };
+
+	return option;
+}
+
 /*
 export function getCSVData({yearQuery, keyQuery, keyQueryTwo, csvText}: CSVDataInput): CSVData {
 

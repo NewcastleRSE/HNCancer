@@ -26,3 +26,15 @@ export interface CSVData {
 	matchedRows: CSVRow[];
 	matchedRowsSecond: CSVRow[];
 }
+
+// used in all searches
+export const year_input = document.getElementById('year-input') as HTMLInputElement;
+export const deprivation_input = document.getElementById('deprivation-input') as HTMLInputElement;
+export const male_checkbox = document.getElementById('maleckbox') as HTMLInputElement;
+export const female_checkbox = document.getElementById('femaleckbox') as HTMLInputElement;
+export const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
+export const resultsContainer = document.getElementById('search-results') as HTMLInputElement;
+export const resultsContainerTwo = document.getElementById('search-results-two') as HTMLInputElement;
+export const linkContainerOne = document.getElementById('download-link-table-one') as HTMLInputElement;	
+export const linkContainerTwo = document.getElementById('download-link-table-two') as HTMLInputElement;	
+
