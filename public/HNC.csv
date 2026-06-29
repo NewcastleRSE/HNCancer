@@ -2649,7 +2649,6 @@ id,table,diagnosisYear,ageSpecificIncidenceAge0_49,ageSpecificIncidenceAge50_54,
 2648,Male/Yorkshire and The Humber/Early Stage+,2022,0,0,0,0,0,0,0,0,0,0,0
 2649,Male/Yorkshire and The Humber/Early Stage+,2023,0,0,0,0,0,0,0,0,0,0,0
 2650,,,,,,,,,,,,,
-2651,,,,,,,,,,,,,
 2652,Male/Yorkshire and The Humber/Advanced Stage+, ,,,,,,,,,,,
 2653,Male/Yorkshire and The Humber/Advanced Stage+,2016,2.6285293,29.658661,42.725151,45.014324,42.597942,60.995552,38.558399,48.864765,49.733101,75.597221,18.816092
 2654,Male/Yorkshire and The Humber/Advanced Stage+,2017,3.1660542,38.418827,38.222538,58.330147,56.760052,46.453514,50.42017,30.501238,29.049126,29.327663,19.557714
@@ -2710,7 +2709,6 @@ id,table,diagnosisYear,ageSpecificIncidenceAge0_49,ageSpecificIncidenceAge50_54,
 2709,Female/London/Early Stage+,2021,0.50237453,3.4073989,3.7607274,7.640696,10.492144,6.9199362,10.207396,7.4627795,3.7877352,8.5841818,2.9084432
 2710,Female/London/Early Stage+,2022,0,0,0,0,0,0,0,0,0,0,0
 2711,,2023,0,0,0,0,0,0,0,0,0,0,0
-2713,,,,,,,,,,,,,
 2714,Female/London/Advanced Stage+, ,,,,,,,,,,,
 2715,Female/London/Advanced Stage+,2016,0.86588389,4.9749298,6.6278715,20.731775,9.9491348,13.708793,15.960258,11.523245,11.553125,23.205894,5.1156416
 2716,Female/London/Advanced Stage+,2017,0.71119028,6.280684,9.3709936,7.1082144,16.519264,18.142097,13.949503,25.364939,15.240128,8.758357,5.2330351
@@ -2731,7 +2729,6 @@ id,table,diagnosisYear,ageSpecificIncidenceAge0_49,ageSpecificIncidenceAge50_54,
 2731,Female/North East/Early Stage+,2022,0,0,0,0,0,0,0,0,0,0,0
 2732,Female/North East/Early Stage+,2023,0,0,0,0,0,0,0,0,0,0,0
 2733,,,,,,,,,,,,,
-2734,,,,,,,,,,,,,
 2735,Female/North East/Advanced Stage+, ,,,,,,,,,,,
 2736,Female/North East/Advanced Stage+,2016,1.7720487,11.133716,12.034616,25.005001,20.64184,27.381815,21.271658,12.589702,15.825289,19.760242,8.2478428
 2737,Female/North East/Advanced Stage+,2017,0.88934624,13.21259,16.068043,20.813183,15.207198,21.937201,7.829474,9.9103117,19.414459,13.168291,6.6776886
@@ -3212,7 +3209,6 @@ id,table,diagnosisYear,ageSpecificIncidenceAge0_49,ageSpecificIncidenceAge50_54,
 3212, Male/IMD1/Early Stage+,2022,0,0,0,0,0,0,0,0,0,0,0
 3213, Male/IMD1/Early Stage+,2023,0,0,0,0,0,0,0,0,0,0,0
 3214,,,,,,,,,,,,,
-3215,,,,,,,,,,,,,
 3216, Male/IMD1/Advanced Stage+, ,,,,,,,,,,,
 3217, Male/IMD1/Advanced Stage+,2016,3.1885884,39.637318,57.851772,66.947243,78.411217,77.76722,61.561192,46.955139,28.999084,29.501427,25.064156
 3218, Male/IMD1/Advanced Stage+,2017,2.742667,44.098701,55.401115,73.329269,89.771927,70.343193,61.009796,46.37447,30.647316,42.666161,25.701506

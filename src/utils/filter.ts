@@ -32,7 +32,7 @@ export function cancerType(value: string){
 
 	switch (value) {
 		case "Head and Neck":
-			CSV_file = BASE_URL + '/HNC.csv';
+			CSV_file = BASE_URL + '/Incidence-HNC.csv';
 			break;
 		case "Laryngeal":
 			CSV_file = BASE_URL + '/Incidence-Larynx.csv';
@@ -57,11 +57,11 @@ export function generateTable(tableData: CSVRow[]){
 		  <div class="table-container">
 			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
 				<thead>
-					<th colspan="10" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${item.table.slice(0, -1)} - Year of diagnosis: ${item.diagnosisYear}</th>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${item.table.slice(0, -1)} - Year of diagnosis: ${item.diagnosisYear}</th>
 				</thead>
 				<tbody>
 					<tr>
-						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Age</th>	
+						<th colspan="11" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Age</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">0-49</th>
@@ -74,6 +74,7 @@ export function generateTable(tableData: CSVRow[]){
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">80-84</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">85-89</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">90+</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">Age Standardised</th>
 					</tr>
 					<tr style="border: 1px solid #ccc;" >
 						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge0_49 * 100) / 100}</td>
@@ -86,6 +87,7 @@ export function generateTable(tableData: CSVRow[]){
 						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge80_84 * 100) / 100}</td>
 						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge85_89 * 100) / 100}</td>
 						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge90 * 100) / 100}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageStandardisedIncidence * 100) / 100}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -110,6 +112,82 @@ export function dataMap(data: any[]) {
 		data.map((row: { ageSpecificIncidenceAge90: any; }) => row.ageSpecificIncidenceAge90).filter(Boolean)];
 
 		return fixedArray;
+}
+
+export function createDownloadFile(tableData: CSVRow[]){
+
+	// Convert JSON data to CSV string
+	const csvRows = [
+	// headers	
+	['ageSpecificIncidenceAge0_49:',
+		'ageSpecificIncidenceAge50_54',
+		'ageSpecificIncidenceAge55_59',
+		'ageSpecificIncidenceAge60_64',
+		'ageSpecificIncidenceAge65_69',
+		'ageSpecificIncidenceAge70_74',
+		'ageSpecificIncidenceAge75_79',
+		'ageSpecificIncidenceAge80_84',
+		'ageSpecificIncidenceAge85_89',
+		'ageSpecificIncidenceAge90',
+		'ageStandardisedIncidence'
+	], 
+	...tableData.map(item => [item.ageSpecificIncidenceAge0_49, 
+	item.ageSpecificIncidenceAge50_54,
+	item.ageSpecificIncidenceAge55_59,
+	item.ageSpecificIncidenceAge60_64,
+	item.ageSpecificIncidenceAge65_69,
+	item.ageSpecificIncidenceAge70_74,
+	item.ageSpecificIncidenceAge75_79,
+	item.ageSpecificIncidenceAge80_84,
+	item.ageSpecificIncidenceAge85_89,
+	item.ageSpecificIncidenceAge90,
+	item.ageStandardisedIncidence])
+	];
+	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
+	const encodedUri = encodeURI(csvContent);
+	console.log(encodedUri);
+	return encodedUri;
+	
+}
+
+export function setChartOptions(data: any[], dataSecond: any[], year: string[], optionString: string){
+
+	// create arrays of arrays
+	const ages = dataMap(data);
+	const agesSecond = dataMap(dataSecond);
+	// flatten each to a single array
+	const ageSeries = ages.flat(1);
+	const ageSeriesTwo = agesSecond.flat(1);
+
+    const option = {
+      title: {
+        text: optionString.slice(0, -1) + ' - Incidents by Age - Diagnosis Year : ' + year 
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        type: 'category',
+        data: ["0-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: ageSeries,
+          type: 'line',
+          smooth: true
+        },
+		{
+          data: ageSeriesTwo,
+          type: 'line',
+          smooth: true
+        } 
+      ]
+    };
+
+	return option;
 }
 
 /*

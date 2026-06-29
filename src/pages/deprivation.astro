@@ -8,7 +8,7 @@ import Header from './header.astro';
 import YearSelect from '../components/YearSelect.astro';
 import CancerTypeSelect from '../components/CancerTypeSelect.astro';
 import SexSelect from '../components/SexSelect.astro';
-import DeprivationTable from '../components/DeprivationTable.astro';
+import PagePanels from '../components/PagePanels.astro';
 ---
 
 <Layout>
@@ -72,25 +72,7 @@ import DeprivationTable from '../components/DeprivationTable.astro';
 				</div>	
 			</form>
 		</div>
-		
-        <!-- bottom left, below map -->
-        <div id="bottom-panel" class="grid-panel">
-            	<DeprivationTable />	
-        
-        </div>
-
-        <!-- right side, stretches full height -->
-        <div id="right-panel" class="grid-panel">
-            <h2>Main Data Area</h2>
-
-			<!-- Output target container for chart -->
-			<div id="csv-chart" style="width: 100%; height: 400px;"></div>
-
-			<!-- Output target container for table -->
-			<div id="search-results" style="width: 100%; height: 250px;"></div>
-			<div id="search-results-two" style="width: 100%; height: 250px;"></div>
-			
-        </div>
+		<PagePanels />
     </div>
 
 </Layout>
@@ -99,26 +81,15 @@ import DeprivationTable from '../components/DeprivationTable.astro';
   // Import PapaParse directly into your client bundle
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
-	import { filterArray, cancerType, generateTable, dataMap } from "../utils/filter";
+	import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions  } from "../utils/filter";
+	import { year_input, deprivation_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { CSVRow } from '../types';
-import { createConsoleLogger } from 'astro/app';
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
-
 	const deprivation_form = document.getElementById('deprivation-search-form') as HTMLFormElement;
-	const deprivation_input = document.getElementById('deprivation-input') as HTMLInputElement;
-	const year_input = document.getElementById('year-input') as HTMLInputElement;
-	const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
-	const male_checkbox = document.getElementById('maleckbox') as HTMLInputElement;
-	const female_checkbox = document.getElementById('femaleckbox') as HTMLInputElement;
 	const radio_inputs = document.querySelectorAll("input[type='radio']") as NodeListOf<HTMLInputElement>;
-	const resultsContainer = document.getElementById('search-results');	
-	const resultsContainerTwo = document.getElementById('search-results-two');	
-
-	const button = document.getElementById('download-btn');
-
-
+	
   	deprivation_form?.addEventListener('submit', async (event) => {
     event.preventDefault(); // Stop GitHub Pages from attempting a form redirect
     
@@ -135,13 +106,8 @@ import { createConsoleLogger } from 'astro/app';
 		} 
 	});
 
-	/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
-	*/
-	var key_query = '';
-	var key_query_two = '';
-
-	let male_input = '';
-	let female_input = '';
+	var male_input = '';
+	var female_input = '';
 
     // check the checkboxes buttons
 	if(male_checkbox && male_checkbox.checked){
@@ -150,6 +116,11 @@ import { createConsoleLogger } from 'astro/app';
 	if(female_checkbox && female_checkbox.checked){
 		female_input = 'female';
 	}
+		/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
+	*/
+	var key_query = '';
+	var key_query_two = '';
+
 
 	// only deprivation has been added
     if (deprivation_query !== 'Select deprivation level...'  && male_input === ''  && female_input === '' && radio_input === ''){
@@ -209,58 +180,61 @@ import { createConsoleLogger } from 'astro/app';
 		if (!response.ok) throw new Error('Failed to retrieve data file.');
 		
 		const csvText = await response.text();
+		var encodedUri = '';
 
-      // parse CSV text directly into JSON format
-      Papa.parse<CSVRow>(csvText, {
-        header: true, // Uses row 1 keys mapping row values into key-value objects
-        skipEmptyLines: true,
-        complete: (results) => {
-			const matchedItems = results.data.filter(item => 
-				item.table?.toLowerCase().includes(key_query) &&
-				item.diagnosisYear?.toLowerCase().includes(year_query) 
-					
-			);
+      	// parse CSV text directly into JSON format
+      	Papa.parse<CSVRow>(csvText, {
+			header: true, // Uses row 1 keys mapping row values into key-value objects
+			skipEmptyLines: true,
+			complete: (results) => {
+				const matchedItems = results.data.filter(item => 
+					item.table?.toLowerCase().includes(key_query) &&
+					item.diagnosisYear?.toLowerCase().includes(year_query) 
+						
+				);
 
-			// declared in case a second query is needed 
-			var matchedItemsSecond: CSVRow[] = [];
+				// declared in case a second query is needed 
+				var matchedItemsSecond: CSVRow[] = [];
 
-			// if we have a second search needed
-			if(key_query_two !== ''){
-				matchedItemsSecond = results.data.filter(item => 
-				item.table?.toLowerCase().includes(key_query_two) &&
-				item.diagnosisYear?.toLowerCase().includes(year_query) 
-				);	
-			}
-	
-			// returned if matching fails
-			if (matchedItems.length === 0 && matchedItemsSecond.length === 0) {
-				resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
-				return;
-			}
+				// if we have a second search needed
+				if(key_query_two !== ''){
+					matchedItemsSecond = results.data.filter(item => 
+					item.table?.toLowerCase().includes(key_query_two) &&
+					item.diagnosisYear?.toLowerCase().includes(year_query) 
+					);	
+				}
+		
+				// returned if matching fails
+				if (matchedItems.length === 0 && matchedItemsSecond.length === 0) {
+					resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
+					return;
+				}
 
-			// filter to catch unwanted extra matches where 'male' also brings back 'female' records
-			if(matchedItems.length !== 0){
-				filterArray(matchedItems, key_query);
-			}
+				// filter to catch unwanted extra matches where 'male' also brings back 'female' records
+				if(matchedItems.length !== 0){
+					filterArray(matchedItems, key_query);
+				}
 
-			if(matchedItemsSecond.length !== 0){
+				if(matchedItemsSecond.length !== 0){
 
-				filterArray(matchedItemsSecond, key_query_two);
-			}
-	
-			if (matchedItems){
-				// call generateTable function in utils
-				resultsContainer.innerHTML = generateTable(matchedItems);
-			}
+					filterArray(matchedItemsSecond, key_query_two);
+				}
+		
+				if (matchedItems){
+					// call generateTable function in utils
+					resultsContainer.innerHTML = generateTable(matchedItems);
+					encodedUri = createDownloadFile(matchedItems);
+					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
+				}
 
-		    if (matchedItemsSecond && resultsContainerTwo != null){
-				resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
-		    }
+				if (matchedItemsSecond && resultsContainerTwo != null){
+					resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
+					encodedUri = createDownloadFile(matchedItemsSecond);
+					linkContainerTwo.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
+				}
 
-			// call function to render an echart
-			renderChart(matchedItems, matchedItemsSecond, myChart);
-
-	
+				// call function to render an echart
+				renderChart(matchedItems, matchedItemsSecond, myChart);
         },
         error: (error: Error) => {
           resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
@@ -282,41 +256,7 @@ import { createConsoleLogger } from 'astro/app';
 	  // convert object to string for the slice later
     var deprivationString = deprivation.toString();
 
-	// create arrays of arrays
-	const ages = dataMap(data);
-	const agesSecond = dataMap(dataSecond);
-	// flatten each to a single array
-	const ageSeries = ages.flat(1);
-	const ageSeriesTwo = agesSecond.flat(1);
-
-    const option = {
-      title: {
-        text: deprivationString.slice(0, -1) + ' Incidents by Age - Diagnosis Year : ' + year 
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      xAxis: {
-        type: 'category',
-        data: ["0-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"]
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: ageSeries,
-          type: 'line',
-          smooth: true
-        },
-		{
-          data: ageSeriesTwo,
-          type: 'line',
-          smooth: true
-        } 
-      ]
-    };
-
+	const option = setChartOptions(data, dataSecond, year, deprivationString);
     // Set options to render the chart
     chartInstance.setOption(option);
 
@@ -329,75 +269,26 @@ import { createConsoleLogger } from 'astro/app';
 
 <style>
 
-	#download-btn {
-		margin-top: 40px;
-	}
+#csv-search-form {
+	display: flex; 
+	gap: 0.5rem; 
+	margin-top: 1.5rem;
+}
 
-	#csv-search-form {
-		display: flex; 
-		gap: 0.5rem; 
-		margin-top: 1.5rem;
-	}
+/* A responsive 2x2 grid container */
+.dashboard-container {
+	display: grid;
+	height: 100vh;
+	width: 100vw;
+	/* splits screen horizontally, favoring left side a little */
+	grid-template-columns: 25fr 75fr;
+	/* splits screen vertically, favoring the top a little */
+	grid-template-rows: 65fr 35fr;
+}
 
-	/* A responsive 2x2 grid container */
-	.dashboard-container {
-		display: grid;
-		height: 100vh;
-		width: 100vw;
-		/* splits screen horizontally, favoring left side a little */
-		grid-template-columns: 25fr 75fr;
-		/* splits screen vertically, favoring the top a little */
-		grid-template-rows: 65fr 35fr;
-	}
-
-	/* individual grid panels */
-	.grid-panel {
-		background: #ffffff;
-		border: 1px solid #e2e8f0;
-		box-sizing: border-box;
-		overflow: auto;
-		padding: 20px;
-	}
-
-	#panel {
-		padding-left: 20px;
-		padding-top: 20px;
-	}
-
-
-	/* bottom left below the map */
-	#bottom-panel {
-		grid-column: 1;
-		grid-row: 2;
-		background: #fff;
-	}
-
-	/* right side goes from top to bottom, place for data? */
-	#right-panel {
-		grid-column: 2;
-		grid-row: 1 / span 2;
-		background: #fdfdfd;
-		border-left: 2px solid #cbd5e0;
-	}
-
-	/* responsiveness... */
-	@media (max-width: 768px) {
-		.dashboard-container {
-			display: flex;
-			flex-direction: column;
-			height: auto;
-			overflow-y: auto;
-		}
-		html, body { overflow: auto; height: auto; }
-		#map { height: 400px; }
-		#bottom-panel, #right-panel { height: auto; width: 100%; border-left: none; border-top: 1px solid #cbd5e0; }
-	}
-
-	
-	#container {
-		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-		height: 100%;
-	}
-
+#panel {
+	padding-left: 20px;
+	padding-top: 20px;
+}
 
 </style>
