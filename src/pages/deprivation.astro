@@ -227,7 +227,7 @@ import PagePanels from '../components/PagePanels.astro';
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
 				}
 
-				if (matchedItemsSecond && resultsContainerTwo != null){
+				if (matchedItemsSecond.length !== 0 && resultsContainerTwo != null){
 					resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
 					encodedUri = createDownloadFile(matchedItemsSecond);
 					linkContainerTwo.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
