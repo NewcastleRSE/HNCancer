@@ -6,8 +6,6 @@ export default defineConfig({
   site: 'https://newcastlerse.github.io/',
   base: '/HNCancer',
   vite: {
-    optimizeDeps: {
-      
-    }
+    optimizeDeps: {  }
   },
 });

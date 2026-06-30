@@ -1,5 +1,4 @@
 import type { CSVRow, CSVDataInput, CSVData } from '../types';
-import Papa from 'papaparse';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
