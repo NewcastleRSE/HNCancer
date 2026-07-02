@@ -21,7 +21,7 @@ import PagePanels from '../components/PagePanels.astro';
 			<h1 class="is-size-3">Search by Cancer Type, Sex and Year</h1>
 			<hr/>
   			<h2 class="is-size-5 mb-2">Select your search criteria</h2>
-			<form id="region-search-form">
+			<form id="sex-search-form">
 
 				<CancerTypeSelect />
 				<hr />
@@ -52,7 +52,7 @@ import PagePanels from '../components/PagePanels.astro';
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
-	const sex_form = document.getElementById('region-search-form') as HTMLFormElement;
+	const sex_form = document.getElementById('sex-search-form') as HTMLFormElement;
 
  	sex_form?.addEventListener('submit', async (event) => {
     event.preventDefault(); // Stop GitHub Pages from attempting a form redirect

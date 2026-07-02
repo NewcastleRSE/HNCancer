@@ -148,10 +148,12 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
         	complete: (results) => {
 	 		 const matchedItems = results.data.filter(item => 
 			 	item.table?.toLowerCase().includes(key_query) &&
-	 		 	item.diagnosisYear?.toLowerCase().includes(year_query)
+	 		 	item.diagnosisYear?.toLowerCase().includes(year_query) 
 	 		);
 
-	 		// declared in case a second query is needed (optional)
+			console.log(matchedItems)
+
+	 		// declared in case a second query is needed (optional)ß
 	 		var matchedItemsSecond: CSVRow[] = [];
 
 	 		// if we have a second search for the female records

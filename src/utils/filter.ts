@@ -99,6 +99,9 @@ export function generateTable(tableData: CSVRow[]){
 // maps the data
 export function dataMap(data: any[]) {
 
+	console.log('data');
+	console.log(data);
+
 	const fixedArray = [ data.map((row: { ageSpecificIncidenceAge0_49: any; }) => row.ageSpecificIncidenceAge0_49).filter(Boolean),
     	data.map((row: { ageSpecificIncidenceAge50_54: any; }) => row.ageSpecificIncidenceAge50_54).filter(Boolean),
 		data.map((row: { ageSpecificIncidenceAge55_59: any; }) => row.ageSpecificIncidenceAge55_59).filter(Boolean),
@@ -157,6 +160,9 @@ export function setChartOptions(data: any[], dataSecond: any[], year: string[], 
 	// flatten each to a single array
 	const ageSeries = ages.flat(1);
 	const ageSeriesTwo = agesSecond.flat(1);
+
+	console.log(ages);
+	console.log(ageSeries);
 
     const option = {
       title: {

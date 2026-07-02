@@ -1,4 +1,4 @@
-diagnosisYear,ageBand,sex,dep,region,stage,route,rate,ciLb,ciUb
+diagnosisyear,ageband,sex,dep,region,stage,route,rate,ci_lb,ci_ub
 2016,0-49,All Persons,All IMD Quintiles,All Regions,All Stages,All Routes,3.15,3.1,3.19
 2017,0-49,All Persons,All IMD Quintiles,All Regions,All Stages,All Routes,3.14,3.1,3.19
 2018,0-49,All Persons,All IMD Quintiles,All Regions,All Stages,All Routes,3.15,3.1,3.19

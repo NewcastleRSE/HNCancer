@@ -15,6 +15,19 @@ export interface CSVRow {
     ageStandardisedIncidence: number;
 } 
 
+export interface NewCSVRow {
+    diagnosisYear: string;
+    ageBand: string;
+    sex: string;
+    dep: string;
+    region: string;
+    stage: string;
+    route: string;
+    rate: number;
+    ciLb: number;
+    ciUb: number;
+}
+
 export interface CSVDataInput {
 	yearQuery: string;
 	keyQuery: string;
