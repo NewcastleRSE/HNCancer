@@ -50,7 +50,7 @@ import SexSelect from '../components/SexSelect.astro';
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
 	//import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions  } from "../utils/filter";
-	import { setInequalitiesChartOptions  } from "../utils/filter-new";
+	import { determineSexInput, setInequalitiesChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { NewCSVRow } from '../types';
 
@@ -62,7 +62,6 @@ import SexSelect from '../components/SexSelect.astro';
     event.preventDefault(); 
 
 	var sexes = [];
-	var allpersons = '';
 	var malecheckbox_input = '';
 	var femalecheckbox_input = '';
 	// check the checkboxes buttons
@@ -74,10 +73,8 @@ import SexSelect from '../components/SexSelect.astro';
         femalecheckbox_input = 'Female';
 		sexes.push(femalecheckbox_input);
 	}
-	if(sexes.length === 2 || sexes.length === 0){
-		// search term used in csv
-		allpersons = 'All Persons';
-	}
+    // call function to find the sex value
+	const sex_input: string | undefined  = determineSexInput(sexes);
 
 	var ages = [];
 	var allages = '';
@@ -237,7 +234,7 @@ import SexSelect from '../components/SexSelect.astro';
 		const csvText = await response.text();
 		var encodedUri = '';
 
-		console.log(allpersons);
+		console.log(sex_input);
 		console.log(allages);
 		console.log(alllevels);
 		console.log(allregions);
@@ -248,7 +245,7 @@ import SexSelect from '../components/SexSelect.astro';
 			skipEmptyLines: true,
 			complete: (results) => {
 				const matchedItems = results.data.filter(item => 
-					item.sex?.includes(allpersons) &&
+					item.sex?.includes(sex_input) &&
 					item.ageBand?.includes(allages) && 
 				    item.dep?.includes(alllevels) &&
 					item.region.includes(allregions) &&

@@ -115,3 +115,18 @@ export function setInequalitiesChartOptions(data: any[], rates: string[], option
 	return option;
 }
 
+
+export function determineSexInput(sexes: string[]){
+
+	if(sexes.length === 2 || sexes.length === 0){
+		// search term used in csv
+		return 'All Persons';
+	}
+	else if(sexes.length === 1){
+		return sexes[0];
+	}
+	else {
+		return '';
+	}
+
+}
