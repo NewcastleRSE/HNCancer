@@ -161,5 +161,18 @@ export function determineDepInput(deprivation: string[]){
 
 }
 
+export function determineRegionInput(regions: string[]){
 
-	
+	if(regions.length === 0){
+		
+		return 'All Regions';
+	}
+	else if(regions.length === 1){
+		return regions[0];
+	}
+	else {
+		return '';
+	}
+
+}
+

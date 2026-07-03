@@ -50,7 +50,7 @@ import SexSelect from '../components/SexSelect.astro';
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
 	//import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions  } from "../utils/filter";
-	import { determineSexInput, determineAgeInput, determineDepInput, setInequalitiesChartOptions  } from "../utils/filter-new";
+	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, setInequalitiesChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { NewCSVRow } from '../types';
 
@@ -163,7 +163,7 @@ import SexSelect from '../components/SexSelect.astro';
 		deprivation.push(imd5checkbox_input);
     } 
 
-	// call function to find the age values
+	// call function to find the dep values
 	const deprivation_input: string | undefined  = determineDepInput(deprivation);
 
 	var regions = [];
@@ -213,9 +213,10 @@ import SexSelect from '../components/SexSelect.astro';
         yhcheckbox_input = 'Yorkshire and the Humber';
 		regions.push(yhcheckbox_input);
     } 
-	if(regions.length === 0){
-		allregions = 'All Regions';
-	}
+
+	// call function to find the region values
+	const region_input: string | undefined  = determineRegionInput(regions);
+	
 	
 	// no sex selected so return no records
   //  if (!resultsContainer) return;
@@ -236,7 +237,7 @@ import SexSelect from '../components/SexSelect.astro';
 		console.log(sex_input);
 		console.log(age_input);
 		console.log(deprivation_input);
-		console.log(allregions);
+		console.log(region_input);
 		
       	// parse CSV text directly into JSON format
       	Papa.parse<NewCSVRow>(csvText, {
@@ -247,7 +248,7 @@ import SexSelect from '../components/SexSelect.astro';
 					item.sex?.includes(sex_input) &&
 					item.ageBand?.includes(age_input) && 
 				    item.dep?.includes(deprivation_input) &&
-					item.region.includes(allregions) &&
+					item.region.includes(region_input) &&
 					item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
 				);
