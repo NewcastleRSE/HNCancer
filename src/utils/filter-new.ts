@@ -130,3 +130,36 @@ export function determineSexInput(sexes: string[]){
 	}
 
 }
+
+export function determineAgeInput(ages: string[]){
+
+	if(ages.length === 0){
+		
+		return 'all ages';
+	}
+	else if(ages.length === 1){
+		return ages[0];
+	}
+	else {
+		return '';
+	}
+
+}
+
+export function determineDepInput(deprivation: string[]){
+
+	if(deprivation.length === 0){
+		
+		return 'All IMD Quintiles';
+	}
+	else if(deprivation.length === 1){
+		return deprivation[0];
+	}
+	else {
+		return '';
+	}
+
+}
+
+
+	
