@@ -77,7 +77,6 @@ import SexSelect from '../components/SexSelect.astro';
 	const sex_input: string | undefined  = determineSexInput(sexes);
 
 	var ages = [];
-	var allages = '';
 	var age049checkbox_input = '';
 	var age5054checkbox_input = '';
 	var age5559checkbox_input = '';
@@ -136,7 +135,6 @@ import SexSelect from '../components/SexSelect.astro';
 	const age_input: string | undefined  = determineAgeInput(ages);
 
 	var deprivation = [];
-	var alllevels = ''
 	var imd1checkbox_input = '';
 	var imd2checkbox_input = '';
 	var imd3checkbox_input = '';
@@ -163,11 +161,12 @@ import SexSelect from '../components/SexSelect.astro';
 		deprivation.push(imd5checkbox_input);
     } 
 
+	console.log(deprivation);
+
 	// call function to find the dep values
 	const deprivation_input: string | undefined  = determineDepInput(deprivation);
 
 	var regions = [];
-	var allregions = '';
 	var emcheckbox_input = '';
 	var eecheckbox_input = '';
 	var locheckbox_input = '';
@@ -213,6 +212,8 @@ import SexSelect from '../components/SexSelect.astro';
         yhcheckbox_input = 'Yorkshire and the Humber';
 		regions.push(yhcheckbox_input);
     } 
+
+	console.log(regions);
 
 	// call function to find the region values
 	const region_input: string | undefined  = determineRegionInput(regions);

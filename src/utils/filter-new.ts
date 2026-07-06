@@ -140,6 +140,9 @@ export function determineAgeInput(ages: string[]){
 	else if(ages.length === 1){
 		return ages[0];
 	}
+	else if(ages.length > 1){
+		return 'Multiple Ages';
+	}
 	else {
 		return '';
 	}
@@ -155,6 +158,9 @@ export function determineDepInput(deprivation: string[]){
 	else if(deprivation.length === 1){
 		return deprivation[0];
 	}
+	else if(deprivation.length > 1){
+		return 'Multiple IMD';
+	}
 	else {
 		return '';
 	}
@@ -169,6 +175,9 @@ export function determineRegionInput(regions: string[]){
 	}
 	else if(regions.length === 1){
 		return regions[0];
+	}
+	else if(regions.length > 1){
+		return 'Multiple Regions';
 	}
 	else {
 		return '';
