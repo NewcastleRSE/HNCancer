@@ -4,11 +4,8 @@ import Header from './header.astro';
 import CancerTypeSelect from '../components/CancerTypeSelect.astro';
 import SexSelect from '../components/SexSelect.astro';
 import AgeSelect from '../components/AgeSelect.astro';
-import StageCheckboxSelect from '../components/StageCheckboxSelect.astro';
 import RouteCheckboxSelect from '../components/RouteCheckboxSelect.astro';
 import MultiStageSelect from '../components/MultiStageSelect.astro';
-import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
-import DepCheckboxSelect from '../components/DepCheckboxSelect.astro';
 import PagePanels from '../components/PagePanels.astro';
 ---
 
@@ -50,116 +47,112 @@ import PagePanels from '../components/PagePanels.astro';
     </div>
 
 </Layout>
-
-
 <script>
 
  	const result = document.getElementById('result') as HTMLInputElement;
 	const radio_inputs = document.querySelectorAll("input[type='radio']") as NodeListOf<HTMLInputElement>;
 
-	let radio_input = '';
+	var radio_input = '';
 	result.innerHTML = '<p></p>';
 
     var radioGroup = document.getElementById('optionSelect') as HTMLFormElement;
 
+	// wait for a radio button to be selected
    	radioGroup?.addEventListener('change', async (event) => {
-		console.log("radio button selected!");
-
 		radio_inputs.forEach(button => {
 		if(button && button.checked){
             radio_input = button.value;
-			console.log(radio_input);
 			
   			if(radio_input === 'dep'){
 			
- 				result.innerHTML = `<div class="checkboxes">
-										<div class="checkboxes">
-											<label class="checkbox">
-											<input id="imd1ckbox" type="checkbox" />
-											IMD1
-											</label>
-											<label class="checkbox">
-											<input id="imd2ckbox" type="checkbox" />
-											IMD2
-											</label>
-											<label class="checkbox">
-											<input id="imd3ckbox" type="checkbox" />
-											IMD3
-											</label>
-											<label class="checkbox">
-											<input id="imd4ckbox" type="checkbox" />
-											IMD4
-											</label>
-											<label class="checkbox">
-											<input id="imd5ckbox" type="checkbox" />
-											IMD5
-											</label>
-											</div>
-										</div>
-										`;
+ 				result.innerHTML = `<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL LEVELS.</div>
+				<div class="checkboxes">
+					<div class="checkboxes">
+						<label class="checkbox">
+						<input id="imd1ckbox" type="checkbox" />
+						IMD1
+						</label>
+						<label class="checkbox">
+						<input id="imd2ckbox" type="checkbox" />
+						IMD2
+						</label>
+						<label class="checkbox">
+						<input id="imd3ckbox" type="checkbox" />
+						IMD3
+						</label>
+						<label class="checkbox">
+						<input id="imd4ckbox" type="checkbox" />
+						IMD4
+						</label>
+						<label class="checkbox">
+						<input id="imd5ckbox" type="checkbox" />
+						IMD5
+						</label>
+						</div>
+					</div>
+					`;
 			} 
 			else if (radio_input === 'region'){
-				result.innerHTML = `<div class="checkboxes">
-										<div class="checkboxes">
-											<label class="checkbox">
-											<input id="emckbox" type="checkbox" />
-											East Midlands
-											</label>
-											<label class="checkbox">
-											<input id="eeckbox" type="checkbox" />
-											East England
-											</label>
-											<label class="checkbox">
-											<input id="lockbox" type="checkbox" />
-											London
-											</label>
-											<label class="checkbox">
-											<input id="neckbox" type="checkbox" />
-											North East
-											</label>
-											<label class="checkbox">
-											<input id="nwckbox" type="checkbox" />
-											North West
-											</label>
-											<label class="checkbox">
-											<input id="seckbox" type="checkbox" />
-											South East
-											</label>
-											<label class="checkbox">
-											<input id="swckbox" type="checkbox" />
-											South West
-											</label>
-											<label class="checkbox">
-											<input id="wmckbox" type="checkbox" />
-											West Midlands
-											</label>
-											<label class="checkbox">
-											<input id="yhckbox" type="checkbox" />
-											Yorkshire and the Humber
-											</label>
-											<label class="checkbox">
-										</div>
-									</div>`;
+				result.innerHTML = `<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL REGIONS.</div>
+				<div class="checkboxes">
+					<div class="checkboxes">
+						<label class="checkbox">
+						<input id="emckbox" type="checkbox" />
+						East Midlands
+						</label>
+						<label class="checkbox">
+						<input id="eeckbox" type="checkbox" />
+						East England
+						</label>
+						<label class="checkbox">
+						<input id="lockbox" type="checkbox" />
+						London
+						</label>
+						<label class="checkbox">
+						<input id="neckbox" type="checkbox" />
+						North East
+						</label>
+						<label class="checkbox">
+						<input id="nwckbox" type="checkbox" />
+						North West
+						</label>
+						<label class="checkbox">
+						<input id="seckbox" type="checkbox" />
+						South East
+						</label>
+						<label class="checkbox">
+						<input id="swckbox" type="checkbox" />
+						South West
+						</label>
+						<label class="checkbox">
+						<input id="wmckbox" type="checkbox" />
+						West Midlands
+						</label>
+						<label class="checkbox">
+						<input id="yhckbox" type="checkbox" />
+						Yorkshire and the Humber
+						</label>
+						<label class="checkbox">
+					</div>
+				</div>`;
 
   			}
 			else if (radio_input === 'stage'){
-				result.innerHTML = `<div class="checkboxes">
-									<label class="checkbox">
-										<input id="earlyckbox" type="checkbox" />
-										Early Stage
-										</label>
-										<label class="checkbox">
-										<input id="advckbox" type="checkbox" />
-										Advanced Stage
-										</label>
-									</div>`
+				result.innerHTML = `<div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH STAGES.</div>
+				<div class="checkboxes">
+					<label class="checkbox">
+						<input id="earlyckbox" type="checkbox" />
+						Early Stage
+						</label>
+						<label class="checkbox">
+						<input id="advckbox" type="checkbox" />
+						Advanced Stage
+						</label>
+					</div>`
 
 			}
 		} });
 	});
-
-	
- 
 </script>
 
 
