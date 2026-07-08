@@ -52,7 +52,7 @@ import SexSelect from '../components/SexSelect.astro';
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
 	//import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions  } from "../utils/filter";
-	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, setInequalitiesChartOptions, setInequalitiesAgeChartOptions  } from "../utils/filter-new";
+	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, setInequalitiesChartOptions, setInequalitiesMultiChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { NewCSVRow } from '../types';
 
@@ -248,30 +248,19 @@ import SexSelect from '../components/SexSelect.astro';
 			skipEmptyLines: true,
 			complete: (results) => {
 
-				console.log(results.data.filter(item => 
-					item.sex?.includes(sex_input) &&
-					item.ageBand?.includes(age_input) && 
-				    item.dep?.includes(deprivation_input) &&
-					item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes')
-				));
-
 				var tempTable: NewCSVRow[] = [];
 				var matchedItems: NewCSVRow[] = [];
 				var allMatchedItems: any[] = [];
 
 				// if the multiple queries are to be done on the ages, do a pre-query to get all age results
 				if(ages.length > 1) {
-
-					console.log('More than one age');
-
 					tempTable = results.data.filter(item => 
 					item.sex?.includes(sex_input) &&
 				    item.dep?.includes(deprivation_input) &&
-					item.region.includes(region_input) &&
+					item.region?.includes(region_input) &&
 					item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
-				);
+					);
 
 					ages.forEach(age => {
 						var temp = tempTable.filter(item => 
@@ -281,21 +270,28 @@ import SexSelect from '../components/SexSelect.astro';
 
 					console.log(allMatchedItems);
 
-					renderAgeChart(allMatchedItems, myChart);
+					renderMultiChart(allMatchedItems, myChart);
 
 				}
 				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
 				else if(deprivation.length > 1) {
-
-					console.log('More than one dep level');
-
 					tempTable = results.data.filter(item => 
 					item.sex?.includes(sex_input) &&
-				    item.dep?.includes(age_input) &&
-					item.region.includes(region_input) &&
+				    item.ageBand?.includes(age_input) &&
+					item.region?.includes(region_input) &&
 					item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
-				);
+					);
+
+					deprivation.forEach(level => {
+						var temp = tempTable.filter(item => 
+						item.dep?.includes(level));
+						allMatchedItems.push(temp);
+					});
+
+					console.log(allMatchedItems);
+
+					renderMultiChart(allMatchedItems, myChart);
 				}
 				// if the multiple queries are to be done on the regions, do a pre-query to get all region results
 				else if(regions.length > 1) {
@@ -308,7 +304,18 @@ import SexSelect from '../components/SexSelect.astro';
 				    item.dep?.includes(deprivation_input) &&
 					item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
-				);
+					);
+
+					regions.forEach(region => {
+						var temp = tempTable.filter(item => 
+						item.region?.includes(region));
+						allMatchedItems.push(temp);
+					});
+
+					console.log(allMatchedItems);
+
+					renderMultiChart(allMatchedItems, myChart);
+
 				}
 				else {
 					// do all the filters
@@ -319,23 +326,23 @@ import SexSelect from '../components/SexSelect.astro';
 				 	item.region.includes(region_input) &&
 				 	item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
-				 );
+				 	);
+
+				 	//remove all years result
+					matchedItems.pop();
+					console.log(matchedItems)
+
+					// returned if matching fails
+					if (matchedItems.length === 0) {
+						resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
+						return;
+					}
+
+					// call function to render an echart
+					renderChart(matchedItems, myChart);
+			
 				}
 				
-
-				// tempTable.pop();
-				// console.log(tempTable);
-
-				//remove all years result
-				matchedItems.pop();
-				console.log(matchedItems)
-
-				// returned if matching fails
-				 if (matchedItems.length === 0) {
-				 	resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
-				 	return;
-				 }
-		
 				/*if (matchedItems){
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateTable(matchedItems);
@@ -343,9 +350,7 @@ import SexSelect from '../components/SexSelect.astro';
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
 				 } */
 
-				// // call function to render an echart
-				renderChart(matchedItems, myChart);
-			
+		
 			},
 			error: (error: Error) => {
 			resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
@@ -362,8 +367,7 @@ import SexSelect from '../components/SexSelect.astro';
   // function to initialize the EChart
   function renderChart(data: any[], chartInstance: echarts.ECharts) {
     
-    // const ageBand = data.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
-	const rates = data.map((row: { rate: any; }) => row.rate).filter(Boolean);
+  	const rates = data.map((row: { rate: any; }) => row.rate).filter(Boolean);
 
 	console.log(rates);
 
@@ -380,32 +384,28 @@ import SexSelect from '../components/SexSelect.astro';
   }
 
  // function to initialize the EChart
-  function renderAgeChart(data: any[], chartInstance: echarts.ECharts) {
+   function renderMultiChart(data: any[], chartInstance: echarts.ECharts) {
 
-	var allRates: any[] = [];
+ 	var allRates: any[] = [];
 
-	data.forEach(item => {
-		var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+ 	data.forEach(item => {
+ 		var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
 		allRates.push(temp);
-	});
+ 	});
     
-	// const ratesOne = ageOne.map((row: { rate: any; }) => row.rate).filter(Boolean);
-	// const ratesTwo = ageTwo.map((row: { rate: any; }) => row.rate).filter(Boolean);
-	// const ratesThree = ageThree.map((row: { rate: any; }) => row.rate).filter(Boolean);
+ 	console.log(allRates);
 
-	console.log(allRates);
+ 	const optionString="Head and Neck";
 
-	const optionString="Head and Neck";
-
-	const option = setInequalitiesAgeChartOptions(allRates, optionString);
+	const option = setInequalitiesMultiChartOptions(allRates, optionString);
     // Set options to render the chart
-    chartInstance.setOption(option);
+     chartInstance.setOption(option);
 
-    // Optional: Make the chart responsive to window resizing
-    window.addEventListener('resize', () => {
-      chartInstance.resize();
-    });
-  }
+     // Optional: Make the chart responsive to window resizing
+     window.addEventListener('resize', () => {
+       chartInstance.resize();
+     });
+   }
 
 
 </script>

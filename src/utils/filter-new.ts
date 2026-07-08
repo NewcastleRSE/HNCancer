@@ -85,63 +85,109 @@ export function dataMap(data: any[]) {
 export function setInequalitiesChartOptions(rates: string[], optionString: string){
 
     const option = {
-      title: {
+       title: {
         text: optionString + ' - Incident rates by Diagnosis Year' 
       },
-      tooltip: {
-        trigger: 'axis'
+       tooltip: {
+         trigger: 'axis'
+       },
+       xAxis: {
+         type: 'category',
+         data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
+       },
+       yAxis: {
+         type: 'value'
       },
-      xAxis: {
-        type: 'category',
-        data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
-      },
-      yAxis: {
-        type: 'value'
-      },
+	  legend: {
+    	data: ['Blue line']
+ 		},
       series: [
-        {
-          data: rates,
-          type: 'line',
-          smooth: true,
-		  label: true
-        }
-      ]
-    };
+         {
+           	data: rates,
+			name: 'Blue line',
+          	type: 'line',
+           	smooth: true,
+		  	label: true
+         }
+       ]
+     };
 
-	return option;
-}
+ 	return option;
+ }
 
-export function setInequalitiesAgeChartOptions(allRates: string[], optionString: string){
+export function setInequalitiesMultiChartOptions(allRates: string[], optionString: string){
 
     const option = {
-      title: {
-        text: optionString + ' - Incident rates by Diagnosis Year' 
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      xAxis: {
-        type: 'category',
-        data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
+		title: {
+			text: optionString + ' - Incident rates by Diagnosis Year' 
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		xAxis: {
+			type: 'category',
+			data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
+		},
+		yAxis: {
+			type: 'value'
+		},
+      	series: [
         {
           	data: allRates[0],
           	type: 'line',
           	smooth: true,
 		 	 label: true
         },
-		 {
+		{
           	data: allRates[1],
           	type: 'line',
           	smooth: true,
 		  	label: true
         },
-		 {
+		{
           	data: allRates[2],
+          	type: 'line',
+          	smooth: true,
+			label: true
+        },
+		{
+          	data: allRates[3],
+          	type: 'line',
+          	smooth: true,
+		 	 label: true
+        },
+		{
+          	data: allRates[4],
+          	type: 'line',
+          	smooth: true,
+		  	label: true
+        },
+		{
+          	data: allRates[5],
+          	type: 'line',
+          	smooth: true,
+			label: true
+        },
+		{
+          	data: allRates[6],
+          	type: 'line',
+          	smooth: true,
+		 	 label: true
+        },
+		{
+          	data: allRates[7],
+          	type: 'line',
+          	smooth: true,
+		  	label: true
+        },
+		{
+          	data: allRates[8],
+          	type: 'line',
+          	smooth: true,
+			label: true
+        },
+		{
+          	data: allRates[9],
           	type: 'line',
           	smooth: true,
 			label: true
