@@ -82,12 +82,7 @@ export function dataMap(data: any[]) {
 }
 
 
-export function setInequalitiesChartOptions(data: any[], rates: string[], optionString: string){
-
-	// create arrays of arrays
-	const years = dataMap(data);
-	// flatten to a single array
-	const yearSeries = years.flat(1);
+export function setInequalitiesChartOptions(rates: string[], optionString: string){
 
     const option = {
       title: {
@@ -107,7 +102,8 @@ export function setInequalitiesChartOptions(data: any[], rates: string[], option
         {
           data: rates,
           type: 'line',
-          smooth: true
+          smooth: true,
+		  label: true
         }
       ]
     };
@@ -115,6 +111,46 @@ export function setInequalitiesChartOptions(data: any[], rates: string[], option
 	return option;
 }
 
+export function setInequalitiesAgeChartOptions(allRates: string[], optionString: string){
+
+    const option = {
+      title: {
+        text: optionString + ' - Incident rates by Diagnosis Year' 
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        type: 'category',
+        data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          	data: allRates[0],
+          	type: 'line',
+          	smooth: true,
+		 	 label: true
+        },
+		 {
+          	data: allRates[1],
+          	type: 'line',
+          	smooth: true,
+		  	label: true
+        },
+		 {
+          	data: allRates[2],
+          	type: 'line',
+          	smooth: true,
+			label: true
+        }
+      ]
+    };
+
+	return option;
+}
 
 export function determineSexInput(sexes: string[]){
 

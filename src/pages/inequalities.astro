@@ -24,6 +24,8 @@ import SexSelect from '../components/SexSelect.astro';
 				<hr />
 				<div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH SEXES.</div>
 				<SexSelect />
+
+				<div class="mb-2 mt-4 mr-2 has-text-weight-bold">Choose more than one selection on either AGE, DEPRIVATION or REGION</div>
 				<hr />
 				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL AGES.</div>
 				<AgeSelect />
@@ -50,7 +52,7 @@ import SexSelect from '../components/SexSelect.astro';
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
 	//import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions  } from "../utils/filter";
-	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, setInequalitiesChartOptions  } from "../utils/filter-new";
+	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, setInequalitiesChartOptions, setInequalitiesAgeChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { NewCSVRow } from '../types';
 
@@ -61,7 +63,7 @@ import SexSelect from '../components/SexSelect.astro';
  	inequalities_form?.addEventListener('submit', async (event) => {
     event.preventDefault(); 
 
-	var sexes = [];
+	var sexes: string[] = [];
 	var malecheckbox_input = '';
 	var femalecheckbox_input = '';
 	// check the checkboxes buttons
@@ -76,7 +78,7 @@ import SexSelect from '../components/SexSelect.astro';
     // call function to find the sex value
 	const sex_input: string | undefined  = determineSexInput(sexes);
 
-	var ages = [];
+	var ages: string[] = [];
 	var age049checkbox_input = '';
 	var age5054checkbox_input = '';
 	var age5559checkbox_input = '';
@@ -134,7 +136,7 @@ import SexSelect from '../components/SexSelect.astro';
 	// call function to find the age values
 	const age_input: string | undefined  = determineAgeInput(ages);
 
-	var deprivation = [];
+	var deprivation: string[] = [];
 	var imd1checkbox_input = '';
 	var imd2checkbox_input = '';
 	var imd3checkbox_input = '';
@@ -166,7 +168,7 @@ import SexSelect from '../components/SexSelect.astro';
 	// call function to find the dep values
 	const deprivation_input: string | undefined  = determineDepInput(deprivation);
 
-	var regions = [];
+	var regions: string[] = [];
 	var emcheckbox_input = '';
 	var eecheckbox_input = '';
 	var locheckbox_input = '';
@@ -181,7 +183,7 @@ import SexSelect from '../components/SexSelect.astro';
 		regions.push(emcheckbox_input);
     } 
 	if(eecheckbox && eecheckbox.checked){
-        eecheckbox_input = 'East England';
+        eecheckbox_input = 'East of England';
 		regions.push(eecheckbox_input);
     } 
 	if(locheckbox && locheckbox.checked){
@@ -209,7 +211,7 @@ import SexSelect from '../components/SexSelect.astro';
 		regions.push(wmcheckbox_input);
     } 
 	if(yhcheckbox && yhcheckbox.checked){
-        yhcheckbox_input = 'Yorkshire and the Humber';
+        yhcheckbox_input = 'Yorkshire and The Humber';
 		regions.push(yhcheckbox_input);
     } 
 
@@ -245,24 +247,84 @@ import SexSelect from '../components/SexSelect.astro';
 			header: true,  // ignore the first line
 			skipEmptyLines: true,
 			complete: (results) => {
-				const matchedItems = results.data.filter(item => 
+
+				console.log(results.data.filter(item => 
 					item.sex?.includes(sex_input) &&
 					item.ageBand?.includes(age_input) && 
+				    item.dep?.includes(deprivation_input) &&
+					item.stage?.includes('All Stages') &&
+					item.route?.includes('All Routes')
+				));
+
+				var tempTable: NewCSVRow[] = [];
+				var matchedItems: NewCSVRow[] = [];
+				var allMatchedItems: any[] = [];
+
+				// if the multiple queries are to be done on the ages, do a pre-query to get all age results
+				if(ages.length > 1) {
+
+					console.log('More than one age');
+
+					tempTable = results.data.filter(item => 
+					item.sex?.includes(sex_input) &&
 				    item.dep?.includes(deprivation_input) &&
 					item.region.includes(region_input) &&
 					item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
 				);
 
-				// var temp = results.data.filter(item => 
-				// 	item.ageBand?.includes(age_query50_54) && 
-				// 	item.sex?.includes(sex_query) &&
-				// 	item.dep?.includes(dep_query) &&
-				// 	item.region.includes(region_query)
-				// );
+					ages.forEach(age => {
+						var temp = tempTable.filter(item => 
+						item.ageBand?.includes(age));
+						allMatchedItems.push(temp);
+					});
 
-				// temp.pop();
-				// console.log(temp);
+					console.log(allMatchedItems);
+
+					renderAgeChart(allMatchedItems, myChart);
+
+				}
+				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
+				else if(deprivation.length > 1) {
+
+					console.log('More than one dep level');
+
+					tempTable = results.data.filter(item => 
+					item.sex?.includes(sex_input) &&
+				    item.dep?.includes(age_input) &&
+					item.region.includes(region_input) &&
+					item.stage?.includes('All Stages') &&
+					item.route?.includes('All Routes')
+				);
+				}
+				// if the multiple queries are to be done on the regions, do a pre-query to get all region results
+				else if(regions.length > 1) {
+
+					console.log('More than one region');
+
+					tempTable = results.data.filter(item => 
+					item.sex?.includes(sex_input) &&
+					item.ageBand?.includes(age_input) && 
+				    item.dep?.includes(deprivation_input) &&
+					item.stage?.includes('All Stages') &&
+					item.route?.includes('All Routes')
+				);
+				}
+				else {
+					// do all the filters
+					matchedItems = results.data.filter(item => 
+				 	item.sex?.includes(sex_input) &&
+				 	item.ageBand?.includes(age_input) && 
+				    item.dep?.includes(deprivation_input) &&
+				 	item.region.includes(region_input) &&
+				 	item.stage?.includes('All Stages') &&
+					item.route?.includes('All Routes')
+				 );
+				}
+				
+
+				// tempTable.pop();
+				// console.log(tempTable);
 
 				//remove all years result
 				matchedItems.pop();
@@ -307,7 +369,7 @@ import SexSelect from '../components/SexSelect.astro';
 
 	const optionString="Head and Neck";
 
-	const option = setInequalitiesChartOptions(data, rates, optionString);
+	const option = setInequalitiesChartOptions(rates, optionString);
     // Set options to render the chart
     chartInstance.setOption(option);
 
@@ -316,6 +378,36 @@ import SexSelect from '../components/SexSelect.astro';
       chartInstance.resize();
     });
   }
+
+ // function to initialize the EChart
+  function renderAgeChart(data: any[], chartInstance: echarts.ECharts) {
+
+	var allRates: any[] = [];
+
+	data.forEach(item => {
+		var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+		allRates.push(temp);
+	});
+    
+	// const ratesOne = ageOne.map((row: { rate: any; }) => row.rate).filter(Boolean);
+	// const ratesTwo = ageTwo.map((row: { rate: any; }) => row.rate).filter(Boolean);
+	// const ratesThree = ageThree.map((row: { rate: any; }) => row.rate).filter(Boolean);
+
+	console.log(allRates);
+
+	const optionString="Head and Neck";
+
+	const option = setInequalitiesAgeChartOptions(allRates, optionString);
+    // Set options to render the chart
+    chartInstance.setOption(option);
+
+    // Optional: Make the chart responsive to window resizing
+    window.addEventListener('resize', () => {
+      chartInstance.resize();
+    });
+  }
+
+
 </script>
 
 <style>
