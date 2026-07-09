@@ -250,6 +250,8 @@ import SexSelect from '../components/SexSelect.astro';
 			skipEmptyLines: true,
 			complete: (results) => {
 
+				// console.log(results);
+
 				var tempTable: CSVRow[] = [];
 				var matchedItems: CSVRow[] = [];
 				var allMatchedItems: any[] = [];
@@ -263,7 +265,7 @@ import SexSelect from '../components/SexSelect.astro';
 					item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
 					);
-
+					
 					ages.forEach(age => {
 						var temp = tempTable.filter(item => 
 						item.ageBand?.includes(age));
@@ -327,7 +329,7 @@ import SexSelect from '../components/SexSelect.astro';
 				    item.dep?.includes(deprivation_input) &&
 				 	item.region.includes(region_input) &&
 				 	item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes')
+					item.route?.includes('All Routes') 
 				 	);
 
 					console.log(matchedItems);
@@ -346,11 +348,11 @@ import SexSelect from '../components/SexSelect.astro';
 					// call function to render an echart
 					renderChart(cancerTypeToShow, matchedItems, myChart);
 
-					if (matchedItemsAllYears){
+					if (matchedItemsAllYears){ 
 					// get the indicence rates
 					const rates = matchedItemsAllYears.map((row: { rate: any; }) => row.rate).filter(Boolean);
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, 'sex:age:deprivation:region');
+					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + region_input);
 					encodedUri = createDownloadFile(rates);
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
 				 	} 
