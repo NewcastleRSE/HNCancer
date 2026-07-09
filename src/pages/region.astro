@@ -48,7 +48,7 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
 <script>
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
-	import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions } from "../utils/filter";
+	import { filterArray, cancerType, generateTable, setChartOptions } from "../utils/filter";
 	import { year_input, deprivation_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { CSVRow } from '../types';
 
@@ -176,14 +176,14 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
 	 		if (matchedItems){
 	 			// call generateTable function in utils
 	 			resultsContainer.innerHTML = generateTable(matchedItems);
-				encodedUri = createDownloadFile(matchedItems);
-				linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
+				//encodedUri = createDownloadFile(matchedItems);
+				//linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
 	 		}
 
 	 	    if (matchedItemsSecond.length !== 0 && resultsContainerTwo != null){
 	 			resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
-				encodedUri = createDownloadFile(matchedItemsSecond);
-				linkContainerTwo.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
+				//encodedUri = createDownloadFile(matchedItemsSecond);
+				//linkContainerTwo.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
 	 	    }
 
 			// returned if matching fails

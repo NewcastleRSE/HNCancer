@@ -1,4 +1,4 @@
-import type { NewCSVRow, CSVDataInput, CSVData } from '../types';
+import type { CSVRow, CSVDataInput, CSVData } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -28,18 +28,53 @@ export function cancerType(value: string){
 	return CSV_file;
  }
 
-// generates a table
-export function generateInequalitiesTable(tableData: NewCSVRow[]){
+ export function createInequalitiesDownloadFile(tableData: CSVRow[]){
 
-	const string = tableData.map(item => `
+	// Convert JSON data to CSV string
+	const csvRows = [
+	// headers	
+	['diagnosisYear:',
+		'ageBand',
+		'sex',
+		'dep',
+		'region',
+		'stage',
+		'route',
+		'rate',
+		'ciLb',
+		'ciUb'
+	], 
+	...tableData.map(item => [item.diagnosisYear, 
+	item.ageBand,
+	item.sex,
+	item.dep,
+	item.region,
+	item.stage,
+	item.route,
+	item.rate,
+	item.ciLb,
+	item.ciUb
+	])
+	];
+	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
+	const encodedUri = encodeURI(csvContent);
+	console.log(encodedUri);
+	return encodedUri;
+	
+}
+
+// generates a table
+export function generateInequalitiesTable(cancerType: string, rates: string[], searchTerms: string){
+
+	const string = `
 		  <div class="table-container">
 			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
 				<thead>
-					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${item.diagnosisYear} - Year of diagnosis: ${item.diagnosisYear}</th>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
 				</thead>
 				<tbody>
 					<tr>
-						<th colspan="11" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Age</th>	
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
 				
@@ -51,15 +86,24 @@ export function generateInequalitiesTable(tableData: NewCSVRow[]){
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
 					</tr>
 					<tr style="border: 1px solid #ccc;" >
-						<td style="border: 1px solid #ccc; padding: 1rem">${item.diagnosisYear}</td>
-						
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]}</td>
 					</tr>
 				</tbody>
 			</table>
 			</div>
-           `).join(''); 
+           `;
 
 		   return string;
   }
@@ -99,12 +143,12 @@ export function setInequalitiesChartOptions(rates: string[], optionString: strin
          type: 'value'
       },
 	  legend: {
-    	data: ['Blue line']
+    	// data: ['searchTerms']
  		},
       series: [
          {
            	data: rates,
-			name: 'Blue line',
+			//name: searchTerms,
           	type: 'line',
            	smooth: true,
 		  	label: true

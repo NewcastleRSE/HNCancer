@@ -22,10 +22,10 @@ import SexSelect from '../components/SexSelect.astro';
 
 				<CancerTypeSelect />
 				<hr />
-				<div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH SEXES.</div>
+				<div class="mb-2 mr-2 has-text-weight-bold">Choose one sex, or neither. If neither are selected then the result will be for BOTH SEXES.</div>
 				<SexSelect />
 
-				<div class="mb-2 mt-4 mr-2 has-text-weight-bold">Choose more than one selection on either AGE, DEPRIVATION or REGION</div>
+				<div class="mb-2 mt-4 mr-2 p-2 has-text-weight-bold has-background-warning">Compare multiple selections on either AGE, DEPRIVATION or REGION</div>
 				<hr />
 				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL AGES.</div>
 				<AgeSelect />
@@ -51,10 +51,11 @@ import SexSelect from '../components/SexSelect.astro';
   // Import PapaParse directly into your client bundle
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
-	//import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions  } from "../utils/filter";
+	import { cancerType, createDownloadFile, generateTable, setChartOptions  } from "../utils/filter";
+	import { generateInequalitiesTable, createInequalitiesDownloadFile } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, setInequalitiesChartOptions, setInequalitiesMultiChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
-	import type { NewCSVRow } from '../types';
+	import type { CSVRow } from '../types';
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
@@ -227,7 +228,8 @@ import SexSelect from '../components/SexSelect.astro';
     resultsContainer.innerHTML = '<p>Searching records...</p>';
 
 	const CSV_file = 'HNC.csv';
-	// const CSV_file = cancerType(`${cancer_type.value}`);
+	const cancerTypeToShow: string = cancer_type.value;
+
 
     try {
         // get raw CSV data
@@ -243,13 +245,13 @@ import SexSelect from '../components/SexSelect.astro';
 		console.log(region_input);
 		
       	// parse CSV text directly into JSON format
-      	Papa.parse<NewCSVRow>(csvText, {
+      	Papa.parse<CSVRow>(csvText, {
 			header: true,  // ignore the first line
 			skipEmptyLines: true,
 			complete: (results) => {
 
-				var tempTable: NewCSVRow[] = [];
-				var matchedItems: NewCSVRow[] = [];
+				var tempTable: CSVRow[] = [];
+				var matchedItems: CSVRow[] = [];
 				var allMatchedItems: any[] = [];
 
 				// if the multiple queries are to be done on the ages, do a pre-query to get all age results
@@ -270,7 +272,7 @@ import SexSelect from '../components/SexSelect.astro';
 
 					console.log(allMatchedItems);
 
-					renderMultiChart(allMatchedItems, myChart);
+					renderMultiChart(cancerTypeToShow, allMatchedItems, myChart);
 
 				}
 				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
@@ -291,7 +293,7 @@ import SexSelect from '../components/SexSelect.astro';
 
 					console.log(allMatchedItems);
 
-					renderMultiChart(allMatchedItems, myChart);
+					renderMultiChart(cancerTypeToShow, allMatchedItems, myChart);
 				}
 				// if the multiple queries are to be done on the regions, do a pre-query to get all region results
 				else if(regions.length > 1) {
@@ -314,7 +316,7 @@ import SexSelect from '../components/SexSelect.astro';
 
 					console.log(allMatchedItems);
 
-					renderMultiChart(allMatchedItems, myChart);
+					renderMultiChart(cancerTypeToShow, allMatchedItems, myChart);
 
 				}
 				else {
@@ -328,9 +330,12 @@ import SexSelect from '../components/SexSelect.astro';
 					item.route?.includes('All Routes')
 				 	);
 
-				 	//remove all years result
+					console.log(matchedItems);
+				 	// keep all years result for table generation
+					const matchedItemsAllYears = matchedItems;
+					//remove all years result
 					matchedItems.pop();
-					console.log(matchedItems)
+					console.log(matchedItems);
 
 					// returned if matching fails
 					if (matchedItems.length === 0) {
@@ -339,18 +344,18 @@ import SexSelect from '../components/SexSelect.astro';
 					}
 
 					// call function to render an echart
-					renderChart(matchedItems, myChart);
-			
+					renderChart(cancerTypeToShow, matchedItems, myChart);
+
+					if (matchedItemsAllYears){
+					// get the indicence rates
+					const rates = matchedItemsAllYears.map((row: { rate: any; }) => row.rate).filter(Boolean);
+					// call generateTable function in utils
+					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, 'sex:age:deprivation:region');
+					encodedUri = createDownloadFile(rates);
+					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
+				 	} 
 				}
 				
-				/*if (matchedItems){
-					// call generateTable function in utils
-					resultsContainer.innerHTML = generateTable(matchedItems);
-					encodedUri = createDownloadFile(matchedItems);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
-				 } */
-
-		
 			},
 			error: (error: Error) => {
 			resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
@@ -365,15 +370,13 @@ import SexSelect from '../components/SexSelect.astro';
 
 
   // function to initialize the EChart
-  function renderChart(data: any[], chartInstance: echarts.ECharts) {
+  function renderChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
     
   	const rates = data.map((row: { rate: any; }) => row.rate).filter(Boolean);
 
 	console.log(rates);
 
-	const optionString="Head and Neck";
-
-	const option = setInequalitiesChartOptions(rates, optionString);
+	const option = setInequalitiesChartOptions(rates, cancerType);
     // Set options to render the chart
     chartInstance.setOption(option);
 
@@ -384,7 +387,7 @@ import SexSelect from '../components/SexSelect.astro';
   }
 
  // function to initialize the EChart
-   function renderMultiChart(data: any[], chartInstance: echarts.ECharts) {
+   function renderMultiChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
 
  	var allRates: any[] = [];
 
@@ -395,9 +398,7 @@ import SexSelect from '../components/SexSelect.astro';
     
  	console.log(allRates);
 
- 	const optionString="Head and Neck";
-
-	const option = setInequalitiesMultiChartOptions(allRates, optionString);
+	const option = setInequalitiesMultiChartOptions(allRates, cancerType);
     // Set options to render the chart
      chartInstance.setOption(option);
 
