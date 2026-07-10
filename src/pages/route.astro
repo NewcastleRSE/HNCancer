@@ -1,14 +1,11 @@
 ---
-// This is Astro's frontmatter
-// here you can write regular JavaScript or TypeScript
-// It will only run on the server and never executes client-side
-
 import Layout from '../layouts/Layout.astro';
 import Header from './header.astro';
-import YearSelect from '../components/YearSelect.astro';
 import CancerTypeSelect from '../components/CancerTypeSelect.astro';
 import SexSelect from '../components/SexSelect.astro';
-import RegionSelectOpt from '../components/RegionSelectOpt.astro';
+import AgeSelect from '../components/AgeSelect.astro';
+import RouteCheckboxSelect from '../components/RouteCheckboxSelect.astro';
+import MultiStageSelect from '../components/MultiStageSelect.astro';
 import PagePanels from '../components/PagePanels.astro';
 ---
 
@@ -19,220 +16,145 @@ import PagePanels from '../components/PagePanels.astro';
         <!- top left: panel area -->
         <div id="panel">
 
-			<h1 class="is-size-3">Search by Cancer Type, Route and Year</h1>
+			<h1 class="is-size-3">Search by Cancer Type, Route, Sex and Age</h1>
 			<hr/>
   			<h2 class="is-size-5 mb-2">Select your search criteria</h2>
-			<form id="route-search-form">
+			<form id="stage-search-form">
 
 				<CancerTypeSelect />
-				
-				<div class="select">
-					<select id="route-input">
-						<option disabled selected>Select route...</option>
-						<option = "Non-emergency route">Non-emergency route</option>
-						<option = "Emergency route">Emergency route</option>
-					</select>
-				</div>
-
-				<YearSelect />
+                <hr />
+                <div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for ALL ROUTES.</div>
+				<RouteCheckboxSelect />
 				<hr />
-				<div class="mb-2">Add optional Sex</div>
+				<div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH SEXES.</div>
 				<SexSelect />
 				<hr />
-				<div class="mb-2">Add optional Region</div> 
-				<RegionSelectOpt />
+				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL AGES.</div>
+				<AgeSelect />
 				<hr />
+                <div class="mb-2 mr-2 has-text-weight-bold">Add one of the following options.</div>
+                <MultiStageSelect />
+				 <hr />
+				<div id="result"></div>
+                <hr />
 				<div class="mb-2">
 					<input class="button" type="submit" value="Search" />
 				    <input class="button" type="reset" value="Reset" />
 				</div>	
 			</form>
 		</div>
-		
-       <PagePanels />
+		<PagePanels />
     </div>
 
 </Layout>
-
 <script>
-  // Import PapaParse directly into your client bundle
-	import Papa from 'papaparse';
-	import * as echarts from 'echarts';
-	import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions } from "../utils/filter";
-	import { year_input, route_input, region_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
-	import type { CSVRow } from '../types';
 
-    const chartDom = document.getElementById('csv-chart');
-	const myChart = echarts.init(chartDom);
-	const route_form = document.getElementById('route-search-form') as HTMLFormElement;
+ 	const result = document.getElementById('result') as HTMLInputElement;
+	const radio_inputs = document.querySelectorAll("input[type='radio']") as NodeListOf<HTMLInputElement>;
 
-  	route_form?.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Stop GitHub Pages from attempting a form redirect
-    
-    const route_query = route_input.value.trim();
-    const year_query = year_input.value.trim();
+	var radio_input = '';
+	result.innerHTML = '<p></p>';
 
-    if (!route_query || !year_query || !resultsContainer) return;
+    var radioGroup = document.getElementById('optionSelect') as HTMLFormElement;
 
-	var male_input = '';
-	var female_input = '';
-
-	// check the checkboxes buttons
-	if(male_checkbox && male_checkbox.checked){
-		male_input = 'Male';
-	} 
-	if(female_checkbox && female_checkbox.checked){
-		female_input = 'Female';
-	}
-
-	/* make unique keys to query with - key_query can hold multiple factors and contain them in one query string. However, to bring back records from both sexes (as opposed to either 'male' or 'female') a second query string is required to bring back a new dataset that can be mapped onto a table. 
-	*/
-	var key_query = '';
-	var key_query_two = '';
-
-	// if only route has been added
-    if ((route_query !== 'Select route...') && male_input === '' && female_input === '' && region_input.value === 'Select...'){
-		key_query = route_query + '~';
-	}
-	// if route plus region has been added, no sex
-	else if(route_query !== 'Select route...' && male_input === '' && female_input === '' && region_input.value !== 'Select...'  ){
-
-	    key_query = region_input.value + '/' + route_query + '*';
-	}   
-	// if route plus male sex has been added
-	else if(route_query !== 'Select route...' && male_input !== '' && female_input === '' && region_input.value === 'Select...'  ){
-
-	    key_query = male_input + '/' + route_query + '*';
-	}   
-	 // if route plus female sex has been added
-	else if(route_query !== 'Select route...' && male_input === '' && female_input !== '' && region_input.value === 'Select...' ){
-
-	    key_query = female_input + '/' + route_query + '*';
-	}  
-	// if route plus both male and female sex have been added
-	else if(route_query !== 'Select route...'  && male_input !== '' && female_input !== '' && region_input.value === 'Select...' ){
-
-		key_query = male_input + '/' + route_query + '*';
-		key_query_two = female_input + '/' +  route_query + '*';
-	} 
-	// if route and region plus male sex has been added
-	else if(route_query !== 'Select route...' &&  male_input !== '' && female_input === '' && region_input.value !== 'Select...' ){
-		 key_query = male_input + '/' + region_input.value + '/' + route_query + '+';
-	}  
-	// if route and region plus female sex has been added
-	else if(route_query !== 'Select route...' &&  male_input === '' && female_input !== '' && region_input.value !== 'Select...' ){
-		 key_query = female_input + '/' + region_input.value + '/' + route_query + '+';
-	} 
-	// if route and region plus both male and female sex have been added
-	else if(route_query !== 'Select route...' &&  male_input !== '' && female_input !== '' && region_input.value !== 'Select...' ){
-
-	    key_query = male_input + '/' + region_input.value + '/' + route_query + '+';
-		key_query_two = female_input + '/' + region_input.value + '/' + route_query + '+';
-	}   
-	else {
-		key_query = route_query;
-	}
-
-	// console.log(key_query);
-	// console.log(key_query_two);
-
-    resultsContainer.innerHTML = '<p>Searching records...</p>';
-
-	const CSV_file = cancerType(`${cancer_type.value}`);
-
-    try {
-        // get raw CSV data
-		const response = await fetch(CSV_file);
-		if (!response.ok) throw new Error('Failed to retrieve data file.');
-		
-		const csvText = await response.text();
-		var encodedUri = '';
-
-		
-      	// parse CSV text directly into JSON format
-      	Papa.parse<CSVRow>(csvText, {
-			header: true, // Uses row 1 keys mapping row values into key-value objects
-			skipEmptyLines: true,
-			complete: (results) => {
-				const matchedItems = results.data.filter(item => 
-					item.table?.includes(key_query) &&
-					item.diagnosisYear?.toLowerCase().includes(year_query) 
-				);
-				
-				// declared in case a second query is needed (optional)
-				var matchedItemsSecond: CSVRow[] = [];
-
-				// if we have a second search for the female records
-				if(key_query_two !== ''){
-					matchedItemsSecond = results.data.filter(item => 
-					item.table?.includes(key_query_two) &&
-					item.diagnosisYear?.toLowerCase().includes(year_query) 
-					);
-				}
-				
-				// returned if matching fails
-				if (matchedItems.length === 0 && matchedItemsSecond.length === 0) {
-					resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
-					return;
-				}
-
-				// filter to catch unwanted extra matches where 'male' also brings back 'female' records
-				if(matchedItems.length !== 0){
-					filterArray(matchedItems, key_query);
-				}
-
-				if(matchedItemsSecond.length !== 0){
-					filterArray(matchedItemsSecond, key_query_two);
-				}
-
-				if (matchedItems){
-					// call generateTable function in utils
-					resultsContainer.innerHTML = generateTable(matchedItems);
-					encodedUri = createDownloadFile(matchedItems);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
-				}
-
-				if (matchedItemsSecond.length !== 0 && resultsContainerTwo != null){
-					resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
-					encodedUri = createDownloadFile(matchedItemsSecond);
-					linkContainerTwo.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
-				}
-
-				// call function to render an echart
-				renderChart(matchedItems, matchedItemsSecond, myChart);
+	// wait for a radio button to be selected
+   	radioGroup?.addEventListener('change', async (event) => {
+		radio_inputs.forEach(button => {
+		if(button && button.checked){
+            radio_input = button.value;
 			
-			},
-			error: (error: Error) => {
-			resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
+  			if(radio_input === 'dep'){
+			
+ 				result.innerHTML = `<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL LEVELS.</div>
+				<div class="checkboxes">
+					<div class="checkboxes">
+						<label class="checkbox">
+						<input id="imd1ckbox" type="checkbox" />
+						IMD1
+						</label>
+						<label class="checkbox">
+						<input id="imd2ckbox" type="checkbox" />
+						IMD2
+						</label>
+						<label class="checkbox">
+						<input id="imd3ckbox" type="checkbox" />
+						IMD3
+						</label>
+						<label class="checkbox">
+						<input id="imd4ckbox" type="checkbox" />
+						IMD4
+						</label>
+						<label class="checkbox">
+						<input id="imd5ckbox" type="checkbox" />
+						IMD5
+						</label>
+						</div>
+					</div>
+					`;
+			} 
+			else if (radio_input === 'region'){
+				result.innerHTML = `<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL REGIONS.</div>
+				<div class="checkboxes">
+					<div class="checkboxes">
+						<label class="checkbox">
+						<input id="emckbox" type="checkbox" />
+						East Midlands
+						</label>
+						<label class="checkbox">
+						<input id="eeckbox" type="checkbox" />
+						East England
+						</label>
+						<label class="checkbox">
+						<input id="lockbox" type="checkbox" />
+						London
+						</label>
+						<label class="checkbox">
+						<input id="neckbox" type="checkbox" />
+						North East
+						</label>
+						<label class="checkbox">
+						<input id="nwckbox" type="checkbox" />
+						North West
+						</label>
+						<label class="checkbox">
+						<input id="seckbox" type="checkbox" />
+						South East
+						</label>
+						<label class="checkbox">
+						<input id="swckbox" type="checkbox" />
+						South West
+						</label>
+						<label class="checkbox">
+						<input id="wmckbox" type="checkbox" />
+						West Midlands
+						</label>
+						<label class="checkbox">
+						<input id="yhckbox" type="checkbox" />
+						Yorkshire and the Humber
+						</label>
+						<label class="checkbox">
+					</div>
+				</div>`;
+
+  			}
+			else if (radio_input === 'stage'){
+				result.innerHTML = `<div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH STAGES.</div>
+				<div class="checkboxes">
+					<label class="checkbox">
+						<input id="earlyckbox" type="checkbox" />
+						Early Stage
+						</label>
+						<label class="checkbox">
+						<input id="advckbox" type="checkbox" />
+						Advanced Stage
+						</label>
+					</div>`
+
 			}
-      });
-
-    } catch (err) {
-      resultsContainer.innerHTML = '<p style="color: red;">Could not fetch CSV file.</p>';
-      console.error(err);
-    }
-  });
-
-
-  // function to initialize the EChart
-  function renderChart(data: any[], dataSecond: any[],chartInstance: echarts.ECharts) {
-    
-    const year = data.map((row: { diagnosisYear: any; }) => row.diagnosisYear).filter(Boolean);
-    const route = data.map((row: { table: any; }) => row.table).filter(Boolean);
-	// convert object to string for the slice later
-    var routeString = route.toString();
-
-	const option = setChartOptions(data, dataSecond, year, routeString);
-
-    // Set options to render the chart
-    chartInstance.setOption(option);
-
-    // Optional: Make the chart responsive to window resizing
-    window.addEventListener('resize', () => {
-      chartInstance.resize();
-    });
-  }
+		} });
+	});
 </script>
+
 
 <style>
 

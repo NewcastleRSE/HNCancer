@@ -1,28 +1,28 @@
-import type { CSVRow, CSVDataInput, CSVData } from '../types';
+import type { CSVRow } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
  /* in the case where 3 query items are joined by /, the male query also greedy matches the female record
   and the additional result needs to be filtered out */
 
-export function filterArray(data: CSVRow[], query: string){	
+// export function filterArray(data: CSVRow[], query: string){	
 
-	var deleteUnwanted = false;
-	var unwantedFormat = /^Female\/\w+\/?.*$/;
-	// grab the first part of the string
-	var array = query.split('/');
+// 	var deleteUnwanted = false;
+// 	var unwantedFormat = /^Female\/\w+\/?.*$/;
+// 	// grab the first part of the string
+// 	var array = query.split('/');
 
-	data.forEach(function (item){
-		if (item.table.match(unwantedFormat) && array[0] === 'male'){
-			deleteUnwanted = true;
-		}
-	})
+// 	data.forEach(function (item){
+// 		if (item.table.match(unwantedFormat) && array[0] === 'male'){
+// 			deleteUnwanted = true;
+// 		}
+// 	})
 
-	if(deleteUnwanted){
-  		data.splice(1,1);
-	}
-	return data;
- }
+// 	if(deleteUnwanted){
+//   		data.splice(1,1);
+// 	}
+// 	return data;
+//  }
 
 // determines which spreadsheet should be used
 export function cancerType(value: string){
@@ -99,6 +99,9 @@ export function generateTable(tableData: CSVRow[]){
 // maps the data
 export function dataMap(data: any[]) {
 
+	console.log('data');
+	console.log(data);
+
 	const fixedArray = [ data.map((row: { ageSpecificIncidenceAge0_49: any; }) => row.ageSpecificIncidenceAge0_49).filter(Boolean),
     	data.map((row: { ageSpecificIncidenceAge50_54: any; }) => row.ageSpecificIncidenceAge50_54).filter(Boolean),
 		data.map((row: { ageSpecificIncidenceAge55_59: any; }) => row.ageSpecificIncidenceAge55_59).filter(Boolean),
@@ -113,40 +116,38 @@ export function dataMap(data: any[]) {
 		return fixedArray;
 }
 
-export function createDownloadFile(tableData: CSVRow[]){
+  export function createDownloadFile(rates: string[]){
 
-	// Convert JSON data to CSV string
-	const csvRows = [
-	// headers	
-	['ageSpecificIncidenceAge0_49:',
-		'ageSpecificIncidenceAge50_54',
-		'ageSpecificIncidenceAge55_59',
-		'ageSpecificIncidenceAge60_64',
-		'ageSpecificIncidenceAge65_69',
-		'ageSpecificIncidenceAge70_74',
-		'ageSpecificIncidenceAge75_79',
-		'ageSpecificIncidenceAge80_84',
-		'ageSpecificIncidenceAge85_89',
-		'ageSpecificIncidenceAge90',
-		'ageStandardisedIncidence'
-	], 
-	...tableData.map(item => [item.ageSpecificIncidenceAge0_49, 
-	item.ageSpecificIncidenceAge50_54,
-	item.ageSpecificIncidenceAge55_59,
-	item.ageSpecificIncidenceAge60_64,
-	item.ageSpecificIncidenceAge65_69,
-	item.ageSpecificIncidenceAge70_74,
-	item.ageSpecificIncidenceAge75_79,
-	item.ageSpecificIncidenceAge80_84,
-	item.ageSpecificIncidenceAge85_89,
-	item.ageSpecificIncidenceAge90,
-	item.ageStandardisedIncidence])
+  	// Convert array of values to CSV string
+  	const csvRows = [ 	// headers	
+ 		[
+			'2016',
+			'2017',
+			'2018',
+			'2019',
+			'2020',
+			'2021',
+			'2022',
+			'2023',
+			'All Years'
+		], 
+  		[
+		rates[0], 
+		rates[1], 
+		rates[2], 
+		rates[3], 
+		rates[4], 
+		rates[5], 
+		rates[6], 
+		rates[7], 
+		rates[8], 
+		rates[9]
+  		]
 	];
-	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
-	const encodedUri = encodeURI(csvContent);
-	console.log(encodedUri);
-	return encodedUri;
-	
+  	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");;
+
+ 	const encodedUri = encodeURI(csvContent);
+ 	return encodedUri;
 }
 
 export function setChartOptions(data: any[], dataSecond: any[], year: string[], optionString: string){
@@ -157,6 +158,9 @@ export function setChartOptions(data: any[], dataSecond: any[], year: string[], 
 	// flatten each to a single array
 	const ageSeries = ages.flat(1);
 	const ageSeriesTwo = agesSecond.flat(1);
+
+	console.log(ages);
+	console.log(ageSeries);
 
     const option = {
       title: {

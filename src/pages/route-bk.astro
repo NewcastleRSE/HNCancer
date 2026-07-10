@@ -6,8 +6,9 @@
 import Layout from '../layouts/Layout.astro';
 import Header from './header.astro';
 import YearSelect from '../components/YearSelect.astro';
-import SexSelect from '../components/SexSelect.astro';
 import CancerTypeSelect from '../components/CancerTypeSelect.astro';
+import SexSelect from '../components/SexSelect.astro';
+import RegionSelectOpt from '../components/RegionSelectOpt.astro';
 import PagePanels from '../components/PagePanels.astro';
 ---
 
@@ -18,26 +19,37 @@ import PagePanels from '../components/PagePanels.astro';
         <!- top left: panel area -->
         <div id="panel">
 
-			<h1 class="is-size-3">Search by Cancer Type, Sex and Year</h1>
+			<h1 class="is-size-3">Search by Cancer Type, Route and Year</h1>
 			<hr/>
   			<h2 class="is-size-5 mb-2">Select your search criteria</h2>
-			<form id="sex-search-form">
+			<form id="route-search-form">
 
 				<CancerTypeSelect />
-				<hr />
-				<div class="mb-2">Choose Sex..</div>
-				<SexSelect />
-				<hr />
+				
+				<div class="select">
+					<select id="route-input">
+						<option disabled selected>Select route...</option>
+						<option = "Non-emergency route">Non-emergency route</option>
+						<option = "Emergency route">Emergency route</option>
+					</select>
+				</div>
+
 				<YearSelect />
 				<hr />
-
+				<div class="mb-2">Add optional Sex</div>
+				<SexSelect />
+				<hr />
+				<div class="mb-2">Add optional Region</div> 
+				<RegionSelectOpt />
+				<hr />
 				<div class="mb-2">
 					<input class="button" type="submit" value="Search" />
 				    <input class="button" type="reset" value="Reset" />
 				</div>	
 			</form>
 		</div>
-    	<PagePanels />
+		
+       <PagePanels />
     </div>
 
 </Layout>
@@ -46,23 +58,26 @@ import PagePanels from '../components/PagePanels.astro';
   // Import PapaParse directly into your client bundle
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
-	import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions  } from "../utils/filter";
-	import { year_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo} from '../types';
+	import { filterArray, cancerType, generateTable, createDownloadFile, setChartOptions } from "../utils/filter";
+	import { year_input, route_input, region_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { CSVRow } from '../types';
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
-	const sex_form = document.getElementById('sex-search-form') as HTMLFormElement;
+	const route_form = document.getElementById('route-search-form') as HTMLFormElement;
 
- 	sex_form?.addEventListener('submit', async (event) => {
+  	route_form?.addEventListener('submit', async (event) => {
     event.preventDefault(); // Stop GitHub Pages from attempting a form redirect
     
+    const route_query = route_input.value.trim();
     const year_query = year_input.value.trim();
 
-	let male_input = '';
-	let female_input = '';
+    if (!route_query || !year_query || !resultsContainer) return;
 
-    // check the checkboxes buttons
+	var male_input = '';
+	var female_input = '';
+
+	// check the checkboxes buttons
 	if(male_checkbox && male_checkbox.checked){
 		male_input = 'Male';
 	} 
@@ -75,26 +90,51 @@ import PagePanels from '../components/PagePanels.astro';
 	var key_query = '';
 	var key_query_two = '';
 
-
-	// no sex selected so return no records
-    if (!year_query || !resultsContainer || (male_input === '' && female_input === '')) return;
-
-    //  male search is requested
-	if(year_input.value !== 'Select a year...' && male_input !== '' && female_input === ''){
-
-        key_query = male_input + '~';
-	 }
-	// female search is requested
-	else if(year_input.value !== 'Select a year...' && male_input === '' && female_input !== '' ){
-
-       key_query = female_input + '~';
+	// if only route has been added
+    if ((route_query !== 'Select route...') && male_input === '' && female_input === '' && region_input.value === 'Select...'){
+		key_query = route_query + '~';
 	}
-	// both male and female sex has been added
-	else if(year_input.value !== 'Select a year...' && male_input !== '' && female_input !== '' ){
+	// if route plus region has been added, no sex
+	else if(route_query !== 'Select route...' && male_input === '' && female_input === '' && region_input.value !== 'Select...'  ){
 
-       key_query = male_input + '~';
-	   key_query_two = female_input + '~';
+	    key_query = region_input.value + '/' + route_query + '*';
+	}   
+	// if route plus male sex has been added
+	else if(route_query !== 'Select route...' && male_input !== '' && female_input === '' && region_input.value === 'Select...'  ){
+
+	    key_query = male_input + '/' + route_query + '*';
+	}   
+	 // if route plus female sex has been added
+	else if(route_query !== 'Select route...' && male_input === '' && female_input !== '' && region_input.value === 'Select...' ){
+
+	    key_query = female_input + '/' + route_query + '*';
+	}  
+	// if route plus both male and female sex have been added
+	else if(route_query !== 'Select route...'  && male_input !== '' && female_input !== '' && region_input.value === 'Select...' ){
+
+		key_query = male_input + '/' + route_query + '*';
+		key_query_two = female_input + '/' +  route_query + '*';
+	} 
+	// if route and region plus male sex has been added
+	else if(route_query !== 'Select route...' &&  male_input !== '' && female_input === '' && region_input.value !== 'Select...' ){
+		 key_query = male_input + '/' + region_input.value + '/' + route_query + '+';
+	}  
+	// if route and region plus female sex has been added
+	else if(route_query !== 'Select route...' &&  male_input === '' && female_input !== '' && region_input.value !== 'Select...' ){
+		 key_query = female_input + '/' + region_input.value + '/' + route_query + '+';
+	} 
+	// if route and region plus both male and female sex have been added
+	else if(route_query !== 'Select route...' &&  male_input !== '' && female_input !== '' && region_input.value !== 'Select...' ){
+
+	    key_query = male_input + '/' + region_input.value + '/' + route_query + '+';
+		key_query_two = female_input + '/' + region_input.value + '/' + route_query + '+';
+	}   
+	else {
+		key_query = route_query;
 	}
+
+	// console.log(key_query);
+	// console.log(key_query_two);
 
     resultsContainer.innerHTML = '<p>Searching records...</p>';
 
@@ -107,6 +147,7 @@ import PagePanels from '../components/PagePanels.astro';
 		
 		const csvText = await response.text();
 		var encodedUri = '';
+
 		
       	// parse CSV text directly into JSON format
       	Papa.parse<CSVRow>(csvText, {
@@ -117,28 +158,33 @@ import PagePanels from '../components/PagePanels.astro';
 					item.table?.includes(key_query) &&
 					item.diagnosisYear?.toLowerCase().includes(year_query) 
 				);
-
-				// declared in case a second query is needed 
+				
+				// declared in case a second query is needed (optional)
 				var matchedItemsSecond: CSVRow[] = [];
 
-				// if we have a second search needed
+				// if we have a second search for the female records
 				if(key_query_two !== ''){
 					matchedItemsSecond = results.data.filter(item => 
 					item.table?.includes(key_query_two) &&
 					item.diagnosisYear?.toLowerCase().includes(year_query) 
 					);
 				}
-
+				
 				// returned if matching fails
 				if (matchedItems.length === 0 && matchedItemsSecond.length === 0) {
 					resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
 					return;
 				}
 
+				// filter to catch unwanted extra matches where 'male' also brings back 'female' records
+				if(matchedItems.length !== 0){
+					filterArray(matchedItems, key_query);
+				}
+
 				if(matchedItemsSecond.length !== 0){
 					filterArray(matchedItemsSecond, key_query_two);
 				}
-		
+
 				if (matchedItems){
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateTable(matchedItems);
@@ -159,7 +205,7 @@ import PagePanels from '../components/PagePanels.astro';
 			error: (error: Error) => {
 			resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
 			}
-      	});
+      });
 
     } catch (err) {
       resultsContainer.innerHTML = '<p style="color: red;">Could not fetch CSV file.</p>';
@@ -169,15 +215,15 @@ import PagePanels from '../components/PagePanels.astro';
 
 
   // function to initialize the EChart
-  function renderChart(data: any[], dataSecond: any[], chartInstance: echarts.ECharts) {
+  function renderChart(data: any[], dataSecond: any[],chartInstance: echarts.ECharts) {
     
     const year = data.map((row: { diagnosisYear: any; }) => row.diagnosisYear).filter(Boolean);
-    const sex = data.map((row: { table: any; }) => row.table).filter(Boolean);
+    const route = data.map((row: { table: any; }) => row.table).filter(Boolean);
+	// convert object to string for the slice later
+    var routeString = route.toString();
 
-	  // convert object to string for the slice later
-    var sexString = sex.toString();
+	const option = setChartOptions(data, dataSecond, year, routeString);
 
-	const option = setChartOptions(data, dataSecond, year, sexString);
     // Set options to render the chart
     chartInstance.setOption(option);
 
@@ -211,5 +257,6 @@ import PagePanels from '../components/PagePanels.astro';
 	padding-left: 20px;
 	padding-top: 20px;
 }
+
 
 </style>
