@@ -108,6 +108,54 @@ export function generateInequalitiesTable(cancerType: string, rates: string[], s
 		   return string;
   }
 
+  // generates a table
+export function generateMultiInequalitiesTable(cancerType: string, rates: string[], searchTerms: string){
+
+	console.log('in function');
+	console.log(rates);
+
+	const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+				
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
+					</tr>
+					<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]}</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+           `;
+
+		   return string;
+  }
+
 // maps the data
 export function dataMap(data: any[]) {
 
