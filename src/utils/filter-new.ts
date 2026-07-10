@@ -1,4 +1,4 @@
-import type { CSVRow, CSVDataInput, CSVData } from '../types';
+import type { CSVRow } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -109,10 +109,10 @@ export function generateInequalitiesTable(cancerType: string, rates: string[], s
   }
 
   // generates a table
-export function generateMultiInequalitiesTable(cancerType: string, rates: string[], searchTerms: string){
+export function generateMultiInequalitiesTable(cancerType: string, allRates: string[], searchTerms: string){
 
 	console.log('in function');
-	console.log(rates);
+	console.log(allRates);
 
 	const string = `
 		  <div class="table-container">
@@ -136,24 +136,35 @@ export function generateMultiInequalitiesTable(cancerType: string, rates: string
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
 
-					</tr>
-					<tr style="border: 1px solid #ccc;" >
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]}</td>	
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]}</td>
-					</tr>
-				</tbody>
-			</table>
-			</div>
-           `;
+					</tr>`;
 
-		   return string;
+					var extraString: string = ''
+
+					allRates.forEach(row => {
+						var tempString = `
+							<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[6]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[7]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[8]}</td>
+					</tr>	
+						`
+						extraString += tempString;
+					})
+
+					
+
+					const endString = `</tbody>
+							</table>
+							</div>
+						`;
+
+		   return string + extraString + endString;
   }
 
 // maps the data

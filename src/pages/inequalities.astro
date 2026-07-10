@@ -253,9 +253,7 @@ import SexSelect from '../components/SexSelect.astro';
 				// console.log(results);
 
 				var tempTable: CSVRow[] = [];
-				var matchedItems: CSVRow[] = [];
-				var allMatchedItems: any[] = [];
-				var allRates: any[] = [];
+				var matchedItems: CSVRow[] = [];	
 
 				// if the multiple queries are to be done on the ages, do a pre-query to get all age results
 				if(ages.length > 1) {
@@ -266,6 +264,8 @@ import SexSelect from '../components/SexSelect.astro';
 					item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
 					);
+
+					var allMatchedItems: any[] = [];
 					
 					ages.forEach(age => {
 						var temp = tempTable.filter(item => 
@@ -273,13 +273,17 @@ import SexSelect from '../components/SexSelect.astro';
 						allMatchedItems.push(temp);
 					});
 
-					console.log('all matched items');
-					console.log(allMatchedItems);
+					var allRates: string[] = [];
 
-					renderMultiChart(cancerTypeToShow, allMatchedItems, myChart);
+					if (allMatchedItems){ 
+						// get the indicence rates
+						allMatchedItems.forEach(item => {
+						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						allRates.push(temp);
+						});
+					}
 
-					console.log('all rates');
-					console.log(allRates);
+					renderMultiChart(cancerTypeToShow, allRates, myChart);
 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + region_input);
@@ -296,6 +300,8 @@ import SexSelect from '../components/SexSelect.astro';
 					item.route?.includes('All Routes')
 					);
 
+					var allMatchedItems: any[] = [];
+
 					deprivation.forEach(level => {
 						var temp = tempTable.filter(item => 
 						item.dep?.includes(level));
@@ -303,16 +309,18 @@ import SexSelect from '../components/SexSelect.astro';
 					});
 
 					console.log(allMatchedItems);
-
+					
+					var allRates: string[] = [];
+				
 					if (allMatchedItems){ 
-					// get the indicence rates
+						// get the indicence rates
 						allMatchedItems.forEach(item => {
 						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
 						allRates.push(temp);
 						});
 					}
 
-					renderMultiChart(cancerTypeToShow, allMatchedItems, myChart);
+					renderMultiChart(cancerTypeToShow, allRates, myChart);
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
@@ -324,8 +332,6 @@ import SexSelect from '../components/SexSelect.astro';
 				// if the multiple queries are to be done on the regions, do a pre-query to get all region results
 				else if(regions.length > 1) {
 
-					console.log('More than one region');
-
 					tempTable = results.data.filter(item => 
 					item.sex?.includes(sex_input) &&
 					item.ageBand?.includes(age_input) && 
@@ -333,6 +339,8 @@ import SexSelect from '../components/SexSelect.astro';
 					item.stage?.includes('All Stages') &&
 					item.route?.includes('All Routes')
 					);
+
+					var allMatchedItems: any[] = [];
 
 					regions.forEach(region => {
 						var temp = tempTable.filter(item => 
@@ -342,6 +350,9 @@ import SexSelect from '../components/SexSelect.astro';
 
 					console.log(allMatchedItems);
 
+						
+					var allRates: string[] = [];
+
 					if (allMatchedItems){ 
 					// get the indicence rates
 						allMatchedItems.forEach(item => {
@@ -350,7 +361,7 @@ import SexSelect from '../components/SexSelect.astro';
 						});
 					}
 
-					renderMultiChart(cancerTypeToShow, allMatchedItems, myChart);
+					renderMultiChart(cancerTypeToShow, allRates, myChart);
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
@@ -401,6 +412,7 @@ import SexSelect from '../components/SexSelect.astro';
 			resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
 			}
       	});
+
     } catch (err) {
       resultsContainer.innerHTML = '<p style="color: red;">Could not fetch CSV file.</p>';
       console.error(err);
@@ -409,7 +421,7 @@ import SexSelect from '../components/SexSelect.astro';
 );
   
   // function to initialize the EChart
-  function renderChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
+function renderChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
     
   	const rates = data.map((row: { rate: any; }) => row.rate).filter(Boolean);
 
@@ -423,21 +435,13 @@ import SexSelect from '../components/SexSelect.astro';
     window.addEventListener('resize', () => {
       chartInstance.resize();
     });
-  }
+}
 
  // function to initialize the EChart
-   function renderMultiChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
+function renderMultiChart(cancerType: string, allRates: string[], chartInstance: echarts.ECharts) {
 
- 	var allRates: any[] = [];
-
- 	data.forEach(item => {
- 		var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-		allRates.push(temp);
- 	});
-    
- 	// console.log(allRates);
-
-	const option = setInequalitiesMultiChartOptions(data, cancerType);
+	// expects an array of string values
+	const option = setInequalitiesMultiChartOptions(allRates, cancerType);
     // Set options to render the chart
      chartInstance.setOption(option);
 
@@ -445,9 +449,9 @@ import SexSelect from '../components/SexSelect.astro';
      window.addEventListener('resize', () => {
        chartInstance.resize();
      });
-   }
+}
 
-   function getRatesFromMatchedItems(allMatchedItems: any[]){
+function getRatesFromMatchedItems(allMatchedItems: any[]){
 
 	var allRates: string[] = [];
 
@@ -460,8 +464,8 @@ import SexSelect from '../components/SexSelect.astro';
 
 		return allRates;
 
-   		}
-	};
+   	}
+};
 
 </script>
 
