@@ -370,3 +370,37 @@ export function determineRegionInput(regions: string[]){
 
 }
 
+export function determineStageInput(stages: string[]){
+
+	if(stages.length === 2 || stages.length === 0){
+		// search term used in csv
+		return 'All Stages';
+	}
+	else if(stages.length === 1){
+		return stages[0];
+	}
+	else {
+		return '';
+	}
+
+}
+
+export function determineRouteInput(routes: string[]){
+
+	if(routes.length === 2 || routes.length === 0){
+		console.log(routes.length);
+		// search term used in csv
+		return 'All Routes';
+	}
+	else if(routes.length === 1){
+		return routes[0];		
+	}
+	else {
+		return '';
+	}
+
+}
+
+
+
+

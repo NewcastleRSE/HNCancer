@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from './header.astro';
 import CancerTypeSelect from '../components/CancerTypeSelect.astro';
 import AgeSelect from '../components/AgeSelect.astro';
-import DepCheckboxSelect from '../components/DepCheckboxSelect.astro';
+import DeprivationCheckboxSelect from '../components/DeprivationCheckboxSelect.astro';
 import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 import PagePanels from '../components/PagePanels.astro';
 import SexSelect from '../components/SexSelect.astro';
@@ -30,10 +30,8 @@ import SexSelect from '../components/SexSelect.astro';
 				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL AGES.</div>
 				<AgeSelect />
 				<hr />
-				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL LEVELS.</div>
-				<DepCheckboxSelect />
+				<DeprivationCheckboxSelect />
 				<hr />
-				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL REGIONS.</div>
 				<RegionCheckboxSelect />
 				<hr />
 				<div class="mb-2">
@@ -276,12 +274,14 @@ import SexSelect from '../components/SexSelect.astro';
 
 					var allRates: string[] = [];
 
+				    // allRates = getRatesFromMatchedItems(matchedItems);
+
 					if (allMatchedItems){ 
-						// get the indicence rates
-						allMatchedItems.forEach(item => {
-						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						allRates.push(temp);
-						});
+					 	// get the indicence rates
+					 	allMatchedItems.forEach(item => {
+					 	var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+					 	allRates.push(temp);
+					 	});
 					}
 
 					renderMultiChart(cancerTypeToShow, allRates, myChart);
