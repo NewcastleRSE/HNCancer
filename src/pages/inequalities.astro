@@ -53,6 +53,7 @@ import SexSelect from '../components/SexSelect.astro';
 	import { generateInequalitiesTable, generateMultiInequalitiesTable, createInequalitiesDownloadFile } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, setInequalitiesChartOptions, setInequalitiesMultiChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
+	import { renderChart, renderMultiChart } from '../utils/charts';
 	import type { CSVRow } from '../types';
 
     const chartDom = document.getElementById('csv-chart');
@@ -421,52 +422,6 @@ import SexSelect from '../components/SexSelect.astro';
 	}
 );
   
-  // function to initialize the EChart
-function renderChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
-    
-  	const rates = data.map((row: { rate: any; }) => row.rate).filter(Boolean);
-
-	console.log(rates);
-
-	const option = setInequalitiesChartOptions(rates, cancerType);
-    // Set options to render the chart
-    chartInstance.setOption(option);
-
-    // Optional: Make the chart responsive to window resizing
-    window.addEventListener('resize', () => {
-      chartInstance.resize();
-    });
-}
-
- // function to initialize the EChart
-function renderMultiChart(cancerType: string, allRates: string[], chartInstance: echarts.ECharts) {
-
-	// expects an array of string values
-	const option = setInequalitiesMultiChartOptions(allRates, cancerType);
-    // Set options to render the chart
-     chartInstance.setOption(option);
-
-     // Optional: Make the chart responsive to window resizing
-     window.addEventListener('resize', () => {
-       chartInstance.resize();
-     });
-}
-
-function getRatesFromMatchedItems(allMatchedItems: any[]){
-
-	var allRates: string[] = [];
-
-		if (allMatchedItems){ 
-			// get the indicence rates
-			allMatchedItems.forEach(item => {
-			var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-			allRates.push(temp);
-		});
-
-		return allRates;
-
-   	}
-};
 
 </script>
 

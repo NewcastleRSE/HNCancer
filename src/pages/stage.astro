@@ -66,6 +66,7 @@ import PagePanels from '../components/PagePanels.astro';
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, determineStageInput, determineRouteInput, setInequalitiesChartOptions, setInequalitiesMultiChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, earlyckbox, advckbox, emergckbox,nonemergckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { CSVRow } from '../types';
+	import { renderChart, renderMultiChart } from '../utils/charts';
 
 	const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
@@ -328,8 +329,8 @@ import PagePanels from '../components/PagePanels.astro';
 					item.sex?.includes(sex_input) &&
 				    item.dep?.includes(deprivation_input) &&
 					item.region?.includes(region_input) &&
-					item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes')
+					item.stage?.includes(stage_input) &&
+					item.route?.includes(route_input)
 					);
 
 					var allMatchedItems: any[] = [];
@@ -352,7 +353,7 @@ import PagePanels from '../components/PagePanels.astro';
 					 	});
 					}
 
-					// renderMultiChart(cancerTypeToShow, allRates, myChart);
+					renderMultiChart(cancerTypeToShow, allRates, myChart);
 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + region_input);
@@ -365,8 +366,8 @@ import PagePanels from '../components/PagePanels.astro';
 					item.sex?.includes(sex_input) &&
 				    item.ageBand?.includes(age_input) &&
 					item.region?.includes(region_input) &&
-					item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes')
+					item.stage?.includes(stage_input) &&
+					item.route?.includes(route_input)
 					);
 
 					var allMatchedItems: any[] = [];
@@ -389,7 +390,7 @@ import PagePanels from '../components/PagePanels.astro';
 						});
 					}
 
-					// renderMultiChart(cancerTypeToShow, allRates, myChart);
+					renderMultiChart(cancerTypeToShow, allRates, myChart);
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
@@ -405,8 +406,8 @@ import PagePanels from '../components/PagePanels.astro';
 					item.sex?.includes(sex_input) &&
 					item.ageBand?.includes(age_input) && 
 				    item.dep?.includes(deprivation_input) &&
-					item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes')
+					item.stage?.includes(stage_input) &&
+					item.route?.includes(route_input)
 					);
 
 					var allMatchedItems: any[] = [];
@@ -430,7 +431,7 @@ import PagePanels from '../components/PagePanels.astro';
 						});
 					}
 
-					// renderMultiChart(cancerTypeToShow, allRates, myChart);
+					renderMultiChart(cancerTypeToShow, allRates, myChart);
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
@@ -465,7 +466,7 @@ import PagePanels from '../components/PagePanels.astro';
 					}
 
 					// call function to render an echart
-					// renderChart(cancerTypeToShow, matchedItems, myChart);
+					renderChart(cancerTypeToShow, matchedItems, myChart);
 
 					if (matchedItemsAllYears){ 
 					// get the indicence rates
@@ -591,8 +592,6 @@ import PagePanels from '../components/PagePanels.astro';
 
 	*/
 
-	
- 
 </script>
 
 <style>
