@@ -6,6 +6,8 @@ export function renderChart(cancerType: string, data: any[], chartInstance: echa
     
   	const rates = data.map((row: { rate: any; }) => row.rate).filter(Boolean);
 
+    //remove all years result
+	rates.pop();
 	console.log(rates);
 
 	const option = setInequalitiesChartOptions(rates, cancerType);
