@@ -46,6 +46,12 @@ export const secheckbox = document.getElementById('seckbox') as HTMLInputElement
 export const swcheckbox = document.getElementById('swckbox') as HTMLInputElement;
 export const wmcheckbox = document.getElementById('wmckbox') as HTMLInputElement;
 export const yhcheckbox = document.getElementById('yhckbox') as HTMLInputElement;
+// stage checkboxes
+export const earlyckbox = document.getElementById('earlyckbox') as HTMLInputElement;
+export const advckbox = document.getElementById('advckbox') as HTMLInputElement;
+// route checkboxes
+export const emergckbox = document.getElementById('emergckbox') as HTMLInputElement;
+export const nonemergckbox = document.getElementById('nonemergckbox') as HTMLInputElement;
 
 export const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
 export const resultsContainer = document.getElementById('search-results') as HTMLInputElement;
