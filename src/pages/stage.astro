@@ -26,23 +26,18 @@ import PagePanels from '../components/PagePanels.astro';
 
 				<CancerTypeSelect />
                 <hr />
-                <div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for ALL STAGES.</div>
+                <div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH STAGES.</div>
 				<StageCheckboxSelect />
 				<hr />
 				<div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH SEXES.</div>
 				<SexSelect />
 				<hr />
+				<div class="mb-2 mt-4 mr-2 p-2 has-text-weight-bold has-background-warning">Compare multiple selections on either AGE or DEPRIVATION</div>
+				<hr />
 				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL AGES.</div>
 				<AgeSelect />
 				<hr />
-                <div class="mb-2 mr-2 has-text-weight-bold">Add one of the following options.</div>
-                <MultiRouteSelect />
-                <hr />
 				<DeprivationCheckboxSelect />
-				<hr />
-				<RegionCheckboxSelect />
-				<hr />
-				<RouteCheckboxSelect />
 				<hr />
 				<!-- <div id="result"></div> -->
                 <hr />
@@ -212,6 +207,7 @@ import PagePanels from '../components/PagePanels.astro';
 		// call function to find the dep values
 		const deprivation_input: string | undefined  = determineDepInput(deprivation);
 
+		/*
 		// REGION
 		var regions: string[] = [];
 		var emcheckbox_input = '';
@@ -285,7 +281,7 @@ import PagePanels from '../components/PagePanels.astro';
 
 		// call function to find the sex value
 		const route_input: string | undefined  = determineRouteInput(routes);
-
+        */
 		
 		// no sex selected so return no records
 	//  if (!resultsContainer) return;
@@ -309,8 +305,6 @@ import PagePanels from '../components/PagePanels.astro';
 		console.log(sex_input);
 		console.log(age_input);
 		console.log(deprivation_input);
-		console.log(region_input);
-		console.log(route_input);
 		
       	// parse CSV text directly into JSON format
       	Papa.parse<CSVRow>(csvText, {
@@ -328,9 +322,9 @@ import PagePanels from '../components/PagePanels.astro';
 					tempTable = results.data.filter(item => 
 					item.sex?.includes(sex_input) &&
 				    item.dep?.includes(deprivation_input) &&
-					item.region?.includes(region_input) &&
-					item.stage?.includes(stage_input) &&
-					item.route?.includes(route_input)
+					item.region?.includes('All Regions') &&
+					item.route?.includes('All Routes') &&
+					item.stage?.includes(stage_input)
 					);
 
 					var allMatchedItems: any[] = [];
@@ -356,18 +350,19 @@ import PagePanels from '../components/PagePanels.astro';
 					renderMultiChart(cancerTypeToShow, allRates, myChart);
 
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + region_input);
+					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + stage_input);
+					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + stage_input; 
 					encodedUri = createDownloadFile(allRates);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';	 
+					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
 				}
 				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
 				else if(deprivation.length > 1) {
 					tempTable = results.data.filter(item => 
 					item.sex?.includes(sex_input) &&
 				    item.ageBand?.includes(age_input) &&
-					item.region?.includes(region_input) &&
-					item.stage?.includes(stage_input) &&
-					item.route?.includes(route_input)
+					item.region?.includes('All Regions') &&
+					item.route?.includes('All Routes') &&
+					item.stage?.includes(stage_input)
 					);
 
 					var allMatchedItems: any[] = [];
@@ -394,53 +389,13 @@ import PagePanels from '../components/PagePanels.astro';
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + region_input);
+					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + stage_input);
+					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + stage_input; 
 					encodedUri = createDownloadFile(allRates);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
+					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
 				}
-				// if the multiple queries are to be done on the regions, do a pre-query to get all region results
-				else if(regions.length > 1) {
-
-					tempTable = results.data.filter(item => 
-					item.sex?.includes(sex_input) &&
-					item.ageBand?.includes(age_input) && 
-				    item.dep?.includes(deprivation_input) &&
-					item.stage?.includes(stage_input) &&
-					item.route?.includes(route_input)
-					);
-
-					var allMatchedItems: any[] = [];
-
-					regions.forEach(region => {
-						var temp = tempTable.filter(item => 
-						item.region?.includes(region));
-						allMatchedItems.push(temp);
-					});
-
-					console.log(allMatchedItems);
-
-						
-					var allRates: string[] = [];
-
-					if (allMatchedItems){ 
-					// get the indicence rates
-						allMatchedItems.forEach(item => {
-						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						allRates.push(temp);
-						});
-					}
-
-					renderMultiChart(cancerTypeToShow, allRates, myChart);
-
-					if (allMatchedItems){ 
-					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + deprivation_input);
-					encodedUri = createDownloadFile(allRates);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
-				 	} 
-
-				}
+			
 				else {
 
 					// do all the filters
@@ -448,9 +403,9 @@ import PagePanels from '../components/PagePanels.astro';
 				 	item.sex?.includes(sex_input) &&
 				 	item.ageBand?.includes(age_input) && 
 				    item.dep?.includes(deprivation_input) &&
-				 	item.region.includes(region_input) &&
-				 	item.stage?.includes(stage_input) &&
-					item.route?.includes(route_input) 
+				 	item.region?.includes('All Regions') &&
+					item.route?.includes('All Routes') &&
+					item.stage?.includes(stage_input)
 				 	);
 
 					console.log(matchedItems);
@@ -468,9 +423,10 @@ import PagePanels from '../components/PagePanels.astro';
 					// get the indicence rates
 					const rates = matchedItems.map((row: { rate: any; }) => row.rate).filter(Boolean);
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + region_input);
+					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + stage_input);
 					encodedUri = createDownloadFile(rates);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
+					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + stage_input; 
+					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
 				}
 			},	

@@ -266,8 +266,9 @@ import PagePanels from '../components/PagePanels.astro';
 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + route_input);
+					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
 					encodedUri = createDownloadFile(allRates);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';	 
+					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
 				}
 				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
 				else if(deprivation.length > 1) {
@@ -305,7 +306,8 @@ import PagePanels from '../components/PagePanels.astro';
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + route_input);
 					encodedUri = createDownloadFile(allRates);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
+					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
+					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
 				}
 				else {
@@ -337,7 +339,8 @@ import PagePanels from '../components/PagePanels.astro';
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + route_input);
 					encodedUri = createDownloadFile(rates);
-					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + 'test' + '.csv">Download CSV</a>';
+					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
+					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
 				}
 			},	
