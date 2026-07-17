@@ -10,7 +10,7 @@ import SexSelect from '../components/SexSelect.astro';
 ---
 
 <Layout>
-  	<Header />
+  	<Header client:load />
 
     <div class="dashboard-container">
         <!- top left: panel area -->
@@ -394,12 +394,7 @@ import SexSelect from '../components/SexSelect.astro';
 				 	);
 
 					console.log(matchedItems);
-				 	// keep all years result for table generation
-					const matchedItemsAllYears = matchedItems;
-					//remove all years result
-					matchedItems.pop();
-					console.log(matchedItems);
-
+				
 					// returned if matching fails
 					if (matchedItems.length === 0) {
 						resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
@@ -409,9 +404,9 @@ import SexSelect from '../components/SexSelect.astro';
 					// call function to render an echart
 					renderChart(cancerTypeToShow, matchedItems, myChart);
 
-					if (matchedItemsAllYears){ 
+					if (matchedItems){ 
 					// get the indicence rates
-					const rates = matchedItemsAllYears.map((row: { rate: any; }) => row.rate).filter(Boolean);
+					const rates = matchedItems.map((row: { rate: any; }) => row.rate).filter(Boolean);
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + region_input);
 					encodedUri = createDownloadFile(rates);
