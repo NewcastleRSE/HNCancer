@@ -280,7 +280,9 @@ import SexSelect from '../components/SexSelect.astro';
 					if (allMatchedItems){ 
 					 	// get the indicence rates
 					 	allMatchedItems.forEach(item => {
+						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
 					 	var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						temp.splice(0,0, key[0]);
 					 	allRates.push(temp);
 					 	});
 					}
@@ -318,7 +320,9 @@ import SexSelect from '../components/SexSelect.astro';
 					if (allMatchedItems){ 
 						// get the indicence rates
 						allMatchedItems.forEach(item => {
+						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);	
 						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						temp.splice(0,0, key[0]);
 						allRates.push(temp);
 						});
 					}
@@ -360,7 +364,9 @@ import SexSelect from '../components/SexSelect.astro';
 					if (allMatchedItems){ 
 					// get the indicence rates
 						allMatchedItems.forEach(item => {
+						var key = item.map((row: { region: any; }) => row.region).filter(Boolean);	
 						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						temp.splice(0,0, key[0]);
 						allRates.push(temp);
 						});
 					}

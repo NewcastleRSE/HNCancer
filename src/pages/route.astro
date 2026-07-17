@@ -75,12 +75,10 @@ import PagePanels from '../components/PagePanels.astro';
 		if(emergckbox && emergckbox.checked){
 			emergcheckbox_input = 'Emergency';
 			routes.push(emergcheckbox_input);
-			console.log('emergency checked!');
 		} 
 		if(nonemergckbox && nonemergckbox.checked){
 			nonemergcheckbox_input = 'Non-Emergency';
 			routes.push(nonemergcheckbox_input);
-			console.log('non-emergency checked!');
 		}
 
 		console.log(routes);
@@ -257,7 +255,9 @@ import PagePanels from '../components/PagePanels.astro';
 					if (allMatchedItems){ 
 					 	// get the indicence rates
 					 	allMatchedItems.forEach(item => {
+						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
 					 	var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						temp.splice(0,0, key[0]);
 					 	allRates.push(temp);
 					 	});
 					}
@@ -295,7 +295,9 @@ import PagePanels from '../components/PagePanels.astro';
 					if (allMatchedItems){ 
 						// get the indicence rates
 						allMatchedItems.forEach(item => {
+						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);
 						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						temp.splice(0,0, key[0]);
 						allRates.push(temp);
 						});
 					}

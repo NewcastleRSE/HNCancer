@@ -59,7 +59,7 @@ import PagePanels from '../components/PagePanels.astro';
 	import { cancerType, createDownloadFile, generateTable, setChartOptions  } from "../utils/filter";
 	import { generateInequalitiesTable, generateMultiInequalitiesTable, createInequalitiesDownloadFile } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, determineStageInput, determineRouteInput, setInequalitiesChartOptions, setInequalitiesMultiChartOptions  } from "../utils/filter-new";
-	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, earlyckbox, advckbox, emergckbox,nonemergckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
+	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, earlyckbox, advckbox, emergckbox,nonemergckbox, cancer_type, resultsContainer,linkContainerOne } from '../types';
 	import type { CSVRow } from '../types';
 	import { renderChart, renderMultiChart } from '../utils/charts';
 
@@ -342,7 +342,9 @@ import PagePanels from '../components/PagePanels.astro';
 					if (allMatchedItems){ 
 					 	// get the indicence rates
 					 	allMatchedItems.forEach(item => {
+						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
 					 	var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						temp.splice(0,0, key[0]);
 					 	allRates.push(temp);
 					 	});
 					}
@@ -380,7 +382,9 @@ import PagePanels from '../components/PagePanels.astro';
 					if (allMatchedItems){ 
 						// get the indicence rates
 						allMatchedItems.forEach(item => {
+						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);
 						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						temp.splice(0,0, key[0]);
 						allRates.push(temp);
 						});
 					}
