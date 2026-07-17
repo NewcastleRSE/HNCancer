@@ -28,6 +28,7 @@ export function cancerType(value: string){
 	return CSV_file;
  }
 
+ /*
  export function createInequalitiesDownloadFile(tableData: CSVRow[]){
 
 	// Convert JSON data to CSV string
@@ -59,9 +60,10 @@ export function cancerType(value: string){
 	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
 	const encodedUri = encodeURI(csvContent);
 	console.log(encodedUri);
-	return encodedUri;
-	
+	return encodedUri;	
 }
+
+*/
 
 // generates a table
 export function generateInequalitiesTable(cancerType: string, rates: string[], searchTerms: string){
@@ -125,7 +127,8 @@ export function generateMultiInequalitiesTable(cancerType: string, allRates: str
 						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
-				
+
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem">Key</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
 						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
@@ -143,7 +146,7 @@ export function generateMultiInequalitiesTable(cancerType: string, allRates: str
 					allRates.forEach(row => {
 						var tempString = `
 							<tr style="border: 1px solid #ccc;" >
-						<td style="border: 1px solid #ccc; padding: 1rem">${row[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[0]}</td>
 						<td style="border: 1px solid #ccc; padding: 1rem">${row[1]}</td>
 						<td style="border: 1px solid #ccc; padding: 1rem">${row[2]}</td>
 						<td style="border: 1px solid #ccc; padding: 1rem">${row[3]}</td>
@@ -152,6 +155,7 @@ export function generateMultiInequalitiesTable(cancerType: string, allRates: str
 						<td style="border: 1px solid #ccc; padding: 1rem">${row[6]}</td>	
 						<td style="border: 1px solid #ccc; padding: 1rem">${row[7]}</td>
 						<td style="border: 1px solid #ccc; padding: 1rem">${row[8]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[9]}</td>
 					</tr>	
 						`
 						extraString += tempString;
@@ -167,6 +171,7 @@ export function generateMultiInequalitiesTable(cancerType: string, allRates: str
 		   return string + extraString + endString;
   }
 
+  /*
 // maps the data
 export function dataMap(data: any[]) {
 
@@ -184,6 +189,7 @@ export function dataMap(data: any[]) {
 		return fixedArray;
 }
 
+*/
 
 export function setInequalitiesChartOptions(rates: string[], optionString: string){
 
