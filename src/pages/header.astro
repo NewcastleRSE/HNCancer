@@ -4,7 +4,7 @@
 
 	<nav class="navbar" role="navigation" aria-label="main navigation">
 
-	<a role="button" id="burger" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="nav-links">
+	<a role="button" id="nav-burger" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="nav-links">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -27,7 +27,7 @@
 document.addEventListener('DOMContentLoaded', (): void => {
 // Get the burger element and the target menu
 
-const burger = document.getElementById('burger') as HTMLFormElement;
+const burger = document.getElementById('nav-burger') as HTMLFormElement;
 const menu = document.getElementById('nav-links') as HTMLFormElement;
 
 if(burger && menu) {
@@ -35,10 +35,10 @@ if(burger && menu) {
 	// Toggle the "is-active" class on both elements
 	burger.classList.toggle('is-active');
 	menu.classList.toggle('is-active');
-	
+
 	// Check state and convert the boolean to a string
-	const isExpanded: boolean = burger.classList.contains('is-active');
-	burger.setAttribute('aria-expanded', String(isExpanded));
+	const isExpanded: boolean = menu.classList.contains('is-active');
+	menu.setAttribute('aria-expanded', String(isExpanded));
 });
 }
 
@@ -78,6 +78,25 @@ nav :hover {
 	margin-top: 15px;
 }
 
+.navbar-start {
+	background-color: #454b52;
+	color: #dee6ed;
+}
+
+.navbar-start.is-active{
+	display: block;
+}
+
+
+@media (width <= 1024px) {
+
+	.navbar-start {
+	background-color: #454b52;
+	color: #dee6ed;
+	display: none;
+}
+
+}
 
 
 </style>
