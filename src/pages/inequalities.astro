@@ -49,8 +49,8 @@ import SexSelect from '../components/SexSelect.astro';
   // Import PapaParse directly into your client bundle
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
-	import { cancerType, createDownloadFile, generateTable, setChartOptions  } from "../utils/filter";
-	import { generateInequalitiesTable, generateMultiInequalitiesTable, createInequalitiesDownloadFile } from "../utils/filter-new";
+	import { cancerType, createDownloadFile, createMultiDownloadFile } from "../utils/filter";
+	import { generateInequalitiesTable, generateMultiInequalitiesTable } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, setInequalitiesChartOptions, setInequalitiesMultiChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import { renderChart, renderMultiChart } from '../utils/charts';
@@ -291,7 +291,7 @@ import SexSelect from '../components/SexSelect.astro';
 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + region_input);
-					encodedUri = createDownloadFile(allRates);
+					encodedUri = createMultiDownloadFile(allRates);
 					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
 				}
@@ -332,7 +332,7 @@ import SexSelect from '../components/SexSelect.astro';
 					if (allMatchedItems){ 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + region_input);
-					encodedUri = createDownloadFile(allRates);
+					encodedUri = createMultiDownloadFile(allRates);
 					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
@@ -376,7 +376,7 @@ import SexSelect from '../components/SexSelect.astro';
 					if (allMatchedItems){ 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + deprivation_input);
-					encodedUri = createDownloadFile(allRates);
+					encodedUri = createMultiDownloadFile(allRates);
 					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 

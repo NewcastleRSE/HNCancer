@@ -49,6 +49,8 @@ export function cancerType(value: string){
 	return CSV_file;
  }
 
+ /*
+
 // generates a table
 export function generateTable(tableData: CSVRow[]){
 
@@ -114,7 +116,7 @@ export function dataMap(data: any[]) {
 		data.map((row: { ageSpecificIncidenceAge90: any; }) => row.ageSpecificIncidenceAge90).filter(Boolean)];
 
 		return fixedArray;
-}
+} */
 
   export function createDownloadFile(rates: string[]){
 
@@ -150,6 +152,26 @@ export function dataMap(data: any[]) {
  	return encodedUri;
 }
 
+ export function createMultiDownloadFile(allRates: string[]){
+
+  	// Convert array of values to CSV string
+  	const csvRowHeaderString = `Key,2016,2017,2018,2019,2020,2021,2022,2023,All Years\n`;
+
+	var rowsString: string = '';
+	
+	allRates.forEach(row => {
+		var tempString = `${row[0]},${row[1]},${row[2]},${row[3]},${row[4]},${row[5]},${row[6]},${row[7]},${row[8]},${row[9]},\n`;
+		rowsString += tempString;
+	});
+
+  	const csvContent = "data:text/csv;charset=utf-8," + csvRowHeaderString + rowsString;
+
+ 	const encodedUri = encodeURI(csvContent);
+ 	return encodedUri;
+}
+
+
+/*
 export function setChartOptions(data: any[], dataSecond: any[], year: string[], optionString: string){
 
 	// create arrays of arrays

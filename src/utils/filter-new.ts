@@ -28,6 +28,7 @@ export function cancerType(value: string){
 	return CSV_file;
  }
 
+ /*
  export function createInequalitiesDownloadFile(tableData: CSVRow[]){
 
 	// Convert JSON data to CSV string
@@ -59,9 +60,10 @@ export function cancerType(value: string){
 	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
 	const encodedUri = encodeURI(csvContent);
 	console.log(encodedUri);
-	return encodedUri;
-	
+	return encodedUri;	
 }
+
+*/
 
 // generates a table
 export function generateInequalitiesTable(cancerType: string, rates: string[], searchTerms: string){
@@ -169,6 +171,7 @@ export function generateMultiInequalitiesTable(cancerType: string, allRates: str
 		   return string + extraString + endString;
   }
 
+  /*
 // maps the data
 export function dataMap(data: any[]) {
 
@@ -186,6 +189,7 @@ export function dataMap(data: any[]) {
 		return fixedArray;
 }
 
+*/
 
 export function setInequalitiesChartOptions(rates: string[], optionString: string){
 
