@@ -53,7 +53,7 @@ import SexSelect from '../components/SexSelect.astro';
 	import { generateInequalitiesTable, generateMultiInequalitiesTable } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
-	import { renderChart, renderMultiChart } from '../utils/charts';
+	import { returnAllChartRates, renderChart, renderMultiChart } from '../utils/charts';
 	import type { CSVRow } from '../types';
 
     const chartDom = document.getElementById('csv-chart');
@@ -286,18 +286,7 @@ import SexSelect from '../components/SexSelect.astro';
 					 	});
 					}
 
-					var allChartRates: string[] = [];
-
-					if (allMatchedItems){ 
-					 	// get the indicence rates
-					 	allMatchedItems.forEach(item => {
-					 	var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						// remove the all years result
-						temp.pop();
-					 	allChartRates.push(temp);
-					 	});
-					}
-		
+					var allChartRates = returnAllChartRates(allMatchedItems);
 					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
 
 					// call generateTable function in utils
@@ -338,7 +327,8 @@ import SexSelect from '../components/SexSelect.astro';
 						});
 					}
 
-					renderMultiChart(cancerTypeToShow, allRates, myChart);
+					var allChartRates = returnAllChartRates(allMatchedItems);
+					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
@@ -382,7 +372,8 @@ import SexSelect from '../components/SexSelect.astro';
 						});
 					}
 
-					renderMultiChart(cancerTypeToShow, allRates, myChart);
+					var allChartRates = returnAllChartRates(allMatchedItems);
+					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils

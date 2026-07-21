@@ -1,5 +1,22 @@
 import { setChartOptions, setMultiChartOptions } from "../utils/filter-new";
 import * as echarts from 'echarts';
+
+export function returnAllChartRates(allMatchedItems: any[]){
+
+	var allChartRates: string[] = [];
+
+	if (allMatchedItems){ 
+		// get the indicence rates
+		allMatchedItems.forEach(item => {
+		var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+		// remove the all years result
+		temp.pop();
+		allChartRates.push(temp);
+		});
+	}
+	return allChartRates;
+
+}
     
     // function to initialize the EChart
 export function renderChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
