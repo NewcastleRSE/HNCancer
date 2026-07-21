@@ -52,12 +52,14 @@ import SexSelect from '../components/SexSelect.astro';
 	import { cancerType, createDownloadFile, createMultiDownloadFile } from "../utils/filter";
 	import { generateInequalitiesTable, generateMultiInequalitiesTable } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput  } from "../utils/filter-new";
-	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
-	import { returnAllChartRates, renderChart, renderMultiChart } from '../utils/charts';
+	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, confidenceBandsChart, linkContainerOne, linkContainerTwo } from '../types';
+	import { returnAllChartRates, renderChart, renderMultiChart, renderConfidenceChart } from '../utils/charts';
 	import type { CSVRow } from '../types';
 
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
+	const chartConfidenceDom = document.getElementById('confidence-bands-chart');
+	const myConfidenceChart = echarts.init(chartConfidenceDom);
 	const inequalities_form = document.getElementById('inequalities-search-form') as HTMLFormElement;
 
  	inequalities_form?.addEventListener('submit', async (event) => {
@@ -414,7 +416,23 @@ import SexSelect from '../components/SexSelect.astro';
 					encodedUri = createDownloadFile(rates);
 					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
+
 				 	} 
+
+					if (matchedItems){ 
+						const rates = matchedItems.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						const lowerBounds = matchedItems.map((row: { ciLb: number; }) => row.ciLb).filter(Boolean);
+						const upperBounds = matchedItems.map((row: { ciUb: number; }) => row.ciUb).filter(Boolean);
+
+						console.log('lowerBounds');
+						console.log(lowerBounds);
+						console.log('upperBounds');
+						console.log(upperBounds);
+
+						// call function to render a chart showing confidence bands
+						renderConfidenceChart(cancerTypeToShow, rates, lowerBounds, upperBounds, myConfidenceChart);
+					}
+
 				}
 			},	
 			error: (error: Error) => {

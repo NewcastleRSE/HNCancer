@@ -1,4 +1,4 @@
-import { setChartOptions, setMultiChartOptions } from "../utils/filter-new";
+import { setChartOptions, setMultiChartOptions, setConfidenceChartOptions } from "../utils/filter-new";
 import * as echarts from 'echarts';
 
 export function returnAllChartRates(allMatchedItems: any[]){
@@ -70,3 +70,22 @@ export function getRatesFromMatchedItems(allMatchedItems: any[]){
 
    	}
 };
+
+    
+    // function to initialize the EChart
+export function renderConfidenceChart(cancerType: string, rates: string[], lowerBounds: number[], upperBounds: number[], confidenceChartInstance: echarts.ECharts) {
+    
+    //remove all years result
+	rates.pop();
+	lowerBounds.pop();
+	upperBounds.pop();
+
+	const confidenceOption = setConfidenceChartOptions(rates, lowerBounds, upperBounds, cancerType);
+    // Set options to render the chart
+    confidenceChartInstance.setOption(confidenceOption);
+
+    // Optional: Make the chart responsive to window resizing
+    window.addEventListener('resize', () => {
+      confidenceChartInstance.resize();
+    });
+}

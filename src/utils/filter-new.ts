@@ -287,6 +287,74 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
 	return option;
 }
 
+export function setConfidenceChartOptions(rates: string[], lowerBounds: number[], upperBounds: number[], optionString: string){
+
+	console.log(lowerBounds);
+	console.log(rates);
+	console.log(upperBounds);
+
+	const option = {
+		title: {
+			text: optionString + ' - Incident rates and confidence bands' 
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		xAxis: {
+			type: 'category',
+			data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
+		},
+		yAxis: {
+			type: 'value'
+		},
+      	series: [
+        {
+          	data: lowerBounds,
+          	type: 'line',
+          	smooth: false,
+		 	label: true,
+			lineStyle: {
+				normal: {
+				color: 'grey',
+				width: 1,
+				type: 'dashed'
+				}
+			}
+        },
+		{
+          	data: rates,
+          	type: 'line',
+          	smooth: false,
+		  	label: true,
+			lineStyle: {
+				normal: {
+				color: 'black',
+				width: 1,
+				type: 'solid'
+				}
+			}
+        },
+		{
+          	data: upperBounds,
+          	type: 'line',
+          	smooth: false,
+			label: true,
+			lineStyle: {
+				normal: {
+				color: 'grey',
+				width: 1,
+				type: 'dashed'
+				}
+			}
+        },
+	
+      ]
+    };
+
+	return option;
+
+}
+
 export function determineSexInput(sexes: string[]){
 
 	if(sexes.length === 2 || sexes.length === 0){
