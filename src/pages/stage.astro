@@ -58,7 +58,7 @@ import PagePanels from '../components/PagePanels.astro';
 	import * as echarts from 'echarts';
 	import { cancerType, createDownloadFile, createMultiDownloadFile } from "../utils/filter";
 	import { generateInequalitiesTable, generateMultiInequalitiesTable } from "../utils/filter-new";
-	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, determineStageInput, determineRouteInput, setInequalitiesChartOptions, setInequalitiesMultiChartOptions  } from "../utils/filter-new";
+	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, determineStageInput, determineRouteInput, setChartOptions, setMultiChartOptions  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, earlyckbox, advckbox, emergckbox,nonemergckbox, cancer_type, resultsContainer,linkContainerOne } from '../types';
 	import type { CSVRow } from '../types';
 	import { renderChart, renderMultiChart } from '../utils/charts';
@@ -66,7 +66,7 @@ import PagePanels from '../components/PagePanels.astro';
 	const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
 	const stage_form = document.getElementById('stage-search-form') as HTMLFormElement;
-
+exit
  	const result = document.getElementById('result') as HTMLInputElement;
 	const radio_inputs = document.querySelectorAll("input[type='radio']") as NodeListOf<HTMLInputElement>;
 
