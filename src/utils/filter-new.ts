@@ -2,7 +2,6 @@ import type { CSVRow } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
-
 // determines which spreadsheet should be used
 export function cancerType(value: string){
 
@@ -113,7 +112,7 @@ export function generateInequalitiesTable(cancerType: string, rates: string[], s
   // generates a table
 export function generateMultiInequalitiesTable(cancerType: string, allRates: string[], searchTerms: string){
 
-	console.log('in function');
+	console.log('in table gen function');
 	console.log(allRates);
 
 	const string = `
@@ -171,27 +170,8 @@ export function generateMultiInequalitiesTable(cancerType: string, allRates: str
 		   return string + extraString + endString;
   }
 
-  /*
-// maps the data
-export function dataMap(data: any[]) {
 
-	const fixedArray = [ data.map((row: { ageSpecificIncidenceAge0_49: any; }) => row.ageSpecificIncidenceAge0_49).filter(Boolean),
-    	data.map((row: { ageSpecificIncidenceAge50_54: any; }) => row.ageSpecificIncidenceAge50_54).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge55_59: any; }) => row.ageSpecificIncidenceAge55_59).filter(Boolean),
-  		data.map((row: { ageSpecificIncidenceAge60_64: any; }) => row.ageSpecificIncidenceAge60_64).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge65_69: any; }) => row.ageSpecificIncidenceAge65_69).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge70_74: any; }) => row.ageSpecificIncidenceAge70_74).filter(Boolean),
-    	data.map((row: { ageSpecificIncidenceAge75_79: any; }) => row.ageSpecificIncidenceAge75_79).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge80_84: any; }) => row.ageSpecificIncidenceAge80_84).filter(Boolean),
-  		data.map((row: { ageSpecificIncidenceAge85_89: any; }) => row.ageSpecificIncidenceAge85_89).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge90: any; }) => row.ageSpecificIncidenceAge90).filter(Boolean)];
-
-		return fixedArray;
-}
-
-*/
-
-export function setInequalitiesChartOptions(rates: string[], optionString: string){
+export function setChartOptions(rates: string[], optionString: string){
 
     const option = {
        title: {
@@ -224,7 +204,7 @@ export function setInequalitiesChartOptions(rates: string[], optionString: strin
  	return option;
  }
 
-export function setInequalitiesMultiChartOptions(allRates: string[], optionString: string){
+export function setMultiChartOptions(allRates: string[], optionString: string){
 
     const option = {
 		title: {

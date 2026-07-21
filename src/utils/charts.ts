@@ -1,5 +1,22 @@
-import { setInequalitiesChartOptions, setInequalitiesMultiChartOptions } from "../utils/filter-new";
+import { setChartOptions, setMultiChartOptions } from "../utils/filter-new";
 import * as echarts from 'echarts';
+
+export function returnAllChartRates(allMatchedItems: any[]){
+
+	var allChartRates: string[] = [];
+
+	if (allMatchedItems){ 
+		// get the indicence rates
+		allMatchedItems.forEach(item => {
+		var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+		// remove the all years result
+		temp.pop();
+		allChartRates.push(temp);
+		});
+	}
+	return allChartRates;
+
+}
     
     // function to initialize the EChart
 export function renderChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
@@ -8,9 +25,8 @@ export function renderChart(cancerType: string, data: any[], chartInstance: echa
 
     //remove all years result
 	rates.pop();
-	console.log(rates);
 
-	const option = setInequalitiesChartOptions(rates, cancerType);
+	const option = setChartOptions(rates, cancerType);
     // Set options to render the chart
     chartInstance.setOption(option);
 
@@ -23,8 +39,11 @@ export function renderChart(cancerType: string, data: any[], chartInstance: echa
  // function to initialize the EChart
 export function renderMultiChart(cancerType: string, allRates: string[], chartInstance: echarts.ECharts) {
 
+	console.log('in multi-chart render');
+	console.log(allRates);
+
 	// expects an array of string values
-	const option = setInequalitiesMultiChartOptions(allRates, cancerType);
+	const option = setMultiChartOptions(allRates, cancerType);
     // Set options to render the chart
      chartInstance.setOption(option);
 

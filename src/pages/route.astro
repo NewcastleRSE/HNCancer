@@ -55,10 +55,10 @@ import PagePanels from '../components/PagePanels.astro';
 	import * as echarts from 'echarts';
 	import { cancerType, createDownloadFile, createMultiDownloadFile  } from "../utils/filter";
 	import { generateInequalitiesTable, generateMultiInequalitiesTable } from "../utils/filter-new";
-	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, determineStageInput, determineRouteInput, setInequalitiesChartOptions, setInequalitiesMultiChartOptions  } from "../utils/filter-new";
+	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, determineStageInput, determineRouteInput } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, earlyckbox, advckbox, emergckbox,nonemergckbox, cancer_type, resultsContainer, resultsContainerTwo, linkContainerOne, linkContainerTwo } from '../types';
 	import type { CSVRow } from '../types';
-	import { renderChart, renderMultiChart } from '../utils/charts';
+	import { returnAllChartRates, renderChart, renderMultiChart } from '../utils/charts';
 
 	const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
@@ -262,7 +262,8 @@ import PagePanels from '../components/PagePanels.astro';
 					 	});
 					}
 
-					renderMultiChart(cancerTypeToShow, allRates, myChart);
+					var allChartRates = returnAllChartRates(allMatchedItems);
+					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + route_input);
@@ -302,7 +303,8 @@ import PagePanels from '../components/PagePanels.astro';
 						});
 					}
 
-					renderMultiChart(cancerTypeToShow, allRates, myChart);
+					var allChartRates = returnAllChartRates(allMatchedItems);
+					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
