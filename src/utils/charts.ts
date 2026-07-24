@@ -1,4 +1,4 @@
-import { setChartOptions, setMultiChartOptions, setConfidenceChartOptions } from "../utils/filter-new";
+import { setChartOptions, setMultiChartOptions } from "../utils/filter-new";
 import * as echarts from 'echarts';
 
 export function returnAllChartRates(allMatchedItems: any[]){
