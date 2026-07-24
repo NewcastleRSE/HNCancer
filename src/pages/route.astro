@@ -267,7 +267,7 @@ import PagePanels from '../components/PagePanels.astro';
 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + route_input);
-					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
+					const filename = 'DL-'  + cancerType + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
 					encodedUri = createMultiDownloadFile(allRates);
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
 				}
@@ -310,7 +310,7 @@ import PagePanels from '../components/PagePanels.astro';
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + route_input);
 					encodedUri = createMultiDownloadFile(allRates);
-					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
+					const filename = 'DL-'  + cancerType + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
 				}
@@ -343,7 +343,7 @@ import PagePanels from '../components/PagePanels.astro';
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + route_input);
 					encodedUri = createDownloadFile(rates);
-					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
+					const filename = 'DL-'  + cancerType + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
 				}
