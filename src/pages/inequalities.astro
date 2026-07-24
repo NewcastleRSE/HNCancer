@@ -50,7 +50,7 @@ import SexSelect from '../components/SexSelect.astro';
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
 	import { cancerType, createDownloadFile, createMultiDownloadFile } from "../utils/filter";
-	import { generateInequalitiesTable, generateMultiInequalitiesTable } from "../utils/filter-new";
+	import { generateSingleRowTable, generateMultiRowTable } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, confidenceBandsChart, linkContainerOne, linkContainerTwo } from '../types';
 	import { returnAllChartRates, renderChart, renderMultiChart, renderConfidenceChart } from '../utils/charts';
@@ -292,9 +292,9 @@ import SexSelect from '../components/SexSelect.astro';
 					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
 
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + region_input);
+					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + region_input);
 					encodedUri = createMultiDownloadFile(allRates);
-					const filename = 'DL-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
+					const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
 				}
 				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
@@ -334,9 +334,9 @@ import SexSelect from '../components/SexSelect.astro';
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + region_input);
+					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + region_input);
 					encodedUri = createMultiDownloadFile(allRates);
-					const filename = 'DL-'  + cancerType + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
+					const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
 				}
@@ -379,9 +379,9 @@ import SexSelect from '../components/SexSelect.astro';
 
 					if (allMatchedItems){ 
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiInequalitiesTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + deprivation_input);
+					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + deprivation_input);
 					encodedUri = createMultiDownloadFile(allRates);
-					const filename = 'DL-' + cancerType + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
+					const filename = 'DL-' + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
 
@@ -411,28 +411,16 @@ import SexSelect from '../components/SexSelect.astro';
 					if (matchedItems){ 
 					// get the indicence rates
 					const rates = matchedItems.map((row: { rate: any; }) => row.rate).filter(Boolean);
+					const lowerBounds = matchedItems.map((row: { ciLb: number; }) => row.ciLb).filter(Boolean);
+					const upperBounds = matchedItems.map((row: { ciUb: number; }) => row.ciUb).filter(Boolean);
+
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateInequalitiesTable(cancerTypeToShow, rates, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + region_input);
-					encodedUri = createDownloadFile(rates);
-					const filename = 'DL-' + cancerType + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
+					resultsContainer.innerHTML = generateSingleRowTable(cancerTypeToShow, rates, lowerBounds, upperBounds, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + region_input);
+					encodedUri = createDownloadFile(rates,lowerBounds,upperBounds);
+					const filename = 'DL-' + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 
 				 	} 
-
-					if (matchedItems){ 
-						const rates = matchedItems.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						const lowerBounds = matchedItems.map((row: { ciLb: number; }) => row.ciLb).filter(Boolean);
-						const upperBounds = matchedItems.map((row: { ciUb: number; }) => row.ciUb).filter(Boolean);
-
-						console.log('lowerBounds');
-						console.log(lowerBounds);
-						console.log('upperBounds');
-						console.log(upperBounds);
-
-						// call function to render a chart showing confidence bands
-						renderConfidenceChart(cancerTypeToShow, rates, lowerBounds, upperBounds, myConfidenceChart);
-					}
-
 				}
 			},	
 			error: (error: Error) => {

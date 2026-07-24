@@ -118,32 +118,32 @@ export function dataMap(data: any[]) {
 		return fixedArray;
 } */
 
-  export function createDownloadFile(rates: string[]){
+  export function createDownloadFile(rates: string[], lowerBounds: number[], upperBounds: number[]){
 
   	// Convert array of values to CSV string
   	const csvRows = [ 	// headers	
  		[
-			'2016',
-			'2017',
-			'2018',
-			'2019',
-			'2020',
-			'2021',
-			'2022',
-			'2023',
-			'All Years'
+			'2016','ciLb','ciUb',
+			'2017','ciLb','ciUb',
+			'2018','ciLb','ciUb',
+			'2019','ciLb','ciUb',
+			'2020','ciLb','ciUb',
+			'2021','ciLb','ciUb',
+			'2022','ciLb','ciUb',
+			'2023','ciLb','ciUb',
+			'All Years','ciLb','ciUb'
 		], 
   		[
-		rates[0], 
-		rates[1], 
-		rates[2], 
-		rates[3], 
-		rates[4], 
-		rates[5], 
-		rates[6], 
-		rates[7], 
-		rates[8], 
-		rates[9]
+		rates[0] + ',' + lowerBounds[0] + ',' + upperBounds[0], 
+		rates[1] + ',' + lowerBounds[1] + ',' + upperBounds[1],  
+		rates[2] + ',' + lowerBounds[2] + ',' + upperBounds[2], 
+		rates[3] + ',' + lowerBounds[3] + ',' + upperBounds[3],  
+		rates[4] + ',' + lowerBounds[4] + ',' + upperBounds[4],  
+		rates[5] + ',' + lowerBounds[5] + ',' + upperBounds[5],  
+		rates[6] + ',' + lowerBounds[6] + ',' + upperBounds[6],  
+		rates[7] + ',' + lowerBounds[7] + ',' + upperBounds[7],  
+		rates[8] + ',' + lowerBounds[8] + ',' + upperBounds[8], 
+		rates[9] + ',' + lowerBounds[9] + ',' + upperBounds[9] 
   		]
 	];
   	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");;
