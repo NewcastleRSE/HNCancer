@@ -59,7 +59,7 @@ import SexSelect from '../components/SexSelect.astro';
     const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
 	const chartConfidenceDom = document.getElementById('confidence-bands-chart');
-	const myConfidenceChart = echarts.init(chartConfidenceDom);
+	//const myConfidenceChart = echarts.init(chartConfidenceDom);
 	const inequalities_form = document.getElementById('inequalities-search-form') as HTMLFormElement;
 
  	inequalities_form?.addEventListener('submit', async (event) => {
@@ -133,8 +133,6 @@ import SexSelect from '../components/SexSelect.astro';
 		ages.push(age90checkbox_input);
     } 
 
-	console.log(ages);
-
 	// call function to find the age values
 	const age_input: string | undefined  = determineAgeInput(ages);
 
@@ -164,8 +162,6 @@ import SexSelect from '../components/SexSelect.astro';
         imd5checkbox_input = 'IMD5';
 		deprivation.push(imd5checkbox_input);
     } 
-
-	console.log(deprivation);
 
 	// call function to find the dep values
 	const deprivation_input: string | undefined  = determineDepInput(deprivation);
@@ -216,8 +212,6 @@ import SexSelect from '../components/SexSelect.astro';
         yhcheckbox_input = 'Yorkshire and The Humber';
 		regions.push(yhcheckbox_input);
     } 
-
-	console.log(regions);
 
 	// call function to find the region values
 	const region_input: string | undefined  = determineRegionInput(regions);
@@ -281,10 +275,10 @@ import SexSelect from '../components/SexSelect.astro';
 					 	// get the indicence rates
 					 	allMatchedItems.forEach(item => {
 						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
-					 	var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+					 	var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
 						// add the key value to the array
-						temp.splice(0,0, key[0]);
-					 	allRates.push(temp);
+						rates.splice(0,0, key[0]);
+					 	allRates.push(rates);
 					 	});
 					}
 
@@ -315,7 +309,7 @@ import SexSelect from '../components/SexSelect.astro';
 						allMatchedItems.push(temp);
 					});
 
-					console.log(allMatchedItems);
+					// console.log(allMatchedItems);
 					
 					var allRates: string[] = [];
 				
