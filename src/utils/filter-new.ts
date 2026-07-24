@@ -160,8 +160,6 @@ export function generateMultiInequalitiesTable(cancerType: string, allRates: str
 						extraString += tempString;
 					})
 
-					
-
 					const endString = `</tbody>
 							</table>
 							</div>
@@ -195,7 +193,7 @@ export function setChartOptions(rates: string[], optionString: string){
            	data: rates,
 			//name: searchTerms,
           	type: 'line',
-           	smooth: true,
+           	smooth: false,
 		  	label: true
          }
        ]
@@ -224,31 +222,31 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
         {
           	data: allRates[0],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		 	 label: true
         },
 		{
           	data: allRates[1],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		  	label: true
         },
 		{
           	data: allRates[2],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 			label: true
         },
 		{
           	data: allRates[3],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		 	 label: true
         },
 		{
           	data: allRates[4],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		  	label: true
         },
 		{
@@ -272,13 +270,13 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
 		{
           	data: allRates[8],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 			label: true
         },
 		{
           	data: allRates[9],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 			label: true
         }
       ]
