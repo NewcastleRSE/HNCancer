@@ -83,14 +83,16 @@ export function cancerType(value: string){
  	return encodedUri;
 }
 
- export function createMultiDownloadFile(allRates: string[]){
+ export function createMultiDownloadFile(allDownloadRates: string[]){
 
   	// Convert array of values to CSV string
-  	const csvRowHeaderString = `Key,2016,2017,2018,2019,2020,2021,2022,2023,All Years\n`;
+  	//const csvRowHeaderString = `Key,2016,2017,2018,2019,2020,2021,2022,2023,All Years\n`;
+
+	const csvRowHeaderString =`Key,2016,ciLb,ciUb,2017,ciLb,ciUb,2018,ciLb,ciUb,2019,ciLb,ciUb,2020,ciLb,ciUb,2021,ciLb,ciUb,2022,ciLb,ciUb,2023,ciLb,ciUb,All Years,ciLb,ciUb\n`
 
 	var rowsString: string = '';
 	
-	allRates.forEach(row => {
+	allDownloadRates.forEach(row => {
 		var tempString = `${row[0]},${row[1]},${row[2]},${row[3]},${row[4]},${row[5]},${row[6]},${row[7]},${row[8]},${row[9]},\n`;
 		rowsString += tempString;
 	});

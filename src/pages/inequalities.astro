@@ -379,6 +379,7 @@ import SexSelect from '../components/SexSelect.astro';
 					console.log(allMatchedItems);
 						
 					var allRates: any[] = [];
+					var allDownloadRates: any[] = [];
 
 					if (allMatchedItems){ 
 					// get the indicence rates
@@ -389,14 +390,19 @@ import SexSelect from '../components/SexSelect.astro';
 						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
 						// concatenate values to form a new string with rates and bounds
 						const boundedRates: string[] = [];
+						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
 							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
 							boundedRates.push(tempString);
+							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
+							downloadFormattedRates.push(downloadString);
 						}
 						// add the key value to the array
 						boundedRates.splice(0,0, key[0]);
+						downloadFormattedRates.splice(0,0, key[0]);
 					 	allRates.push(boundedRates);
+						allDownloadRates.push(downloadFormattedRates);
 						});
 					}
 
@@ -406,7 +412,7 @@ import SexSelect from '../components/SexSelect.astro';
 					if (allMatchedItems){ 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + deprivation_input);
-					encodedUri = createMultiDownloadFile(allRates);
+					encodedUri = createMultiDownloadFile(allDownloadRates);
 					const filename = 'DL-' + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
