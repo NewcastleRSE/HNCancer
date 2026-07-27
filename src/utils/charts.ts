@@ -71,7 +71,8 @@ export function getRatesFromMatchedItems(allMatchedItems: any[]){
    	}
 };
 
-    
+ 
+/*
     // function to initialize the EChart
 export function renderConfidenceChart(cancerType: string, rates: string[], lowerBounds: number[], upperBounds: number[], confidenceChartInstance: echarts.ECharts) {
     
@@ -88,4 +89,4 @@ export function renderConfidenceChart(cancerType: string, rates: string[], lower
     window.addEventListener('resize', () => {
       confidenceChartInstance.resize();
     });
-}
+} */
