@@ -302,7 +302,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 						allMatchedItems.push(temp);
 					});
 
-					var allRates: string[] = [];
+					var allRates: any[] = [];
 
 				    // allRates = getRatesFromMatchedItems(matchedItems);
 
@@ -310,9 +310,19 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 					 	// get the indicence rates
 					 	allMatchedItems.forEach(item => {
 						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
-					 	var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						temp.splice(0,0, key[0]);
-					 	allRates.push(temp);
+					 	var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+					var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
+						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
+						// concatenate values to form a new string with rates and bounds
+						const boundedRates: string[] = [];
+
+						for(var i = 0; i < rates.length; i++){
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							boundedRates.push(tempString);
+						}
+						// add the key value to the array
+						boundedRates.splice(0,0, key[0]);
+					 	allRates.push(boundedRates);
 					 	});
 					}
 
@@ -345,15 +355,25 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 
 					console.log(allMatchedItems);
 					
-					var allRates: string[] = [];
+					var allRates: any[] = [];
 				
 					if (allMatchedItems){ 
 						// get the indicence rates
 						allMatchedItems.forEach(item => {
 						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);
-						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						temp.splice(0,0, key[0]);
-						allRates.push(temp);
+						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
+						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
+						// concatenate values to form a new string with rates and bounds
+						const boundedRates: string[] = [];
+
+						for(var i = 0; i < rates.length; i++){
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							boundedRates.push(tempString);
+						}
+						// add the key value to the array
+						boundedRates.splice(0,0, key[0]);
+					 	allRates.push(boundedRates);
 						});
 					}
 
@@ -389,16 +409,25 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 
 					console.log(allMatchedItems);
 
-						
-					var allRates: string[] = [];
+					var allRates: any[] = [];
 
 					if (allMatchedItems){ 
 					// get the indicence rates
 						allMatchedItems.forEach(item => {
 						var key = item.map((row: { region: any; }) => row.region).filter(Boolean);	
-						var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						temp.splice(0,0, key[0]);
-						allRates.push(temp);
+						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
+						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
+						// concatenate values to form a new string with rates and bounds
+						const boundedRates: string[] = [];
+
+						for(var i = 0; i < rates.length; i++){
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							boundedRates.push(tempString);
+						}
+						// add the key value to the array
+						boundedRates.splice(0,0, key[0]);
+					 	allRates.push(boundedRates);
 						});
 					}
 
