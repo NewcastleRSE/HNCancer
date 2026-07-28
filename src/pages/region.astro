@@ -49,7 +49,7 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
 	import { cancerType } from "../utils/filter";
-	import { year_input, deprivation_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, linkContainerOne, linkContainerTwo } from '../types';
+	import { year_input, deprivation_input, male_checkbox, female_checkbox,cancer_type, resultsContainer, downloadLinkBtn,   } from '../types';
 	import type { CSVRow } from '../types';
 
 	export const chartDom = document.getElementById('csv-chart');
@@ -64,7 +64,7 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
     const region_query = region_input.value.trim().toLowerCase();
     const year_query = year_input.value.trim();
 
-    if (!region_query || !year_query || !resultsContainer || !linkContainerOne || !linkContainerTwo ) return;
+    if (!region_query || !year_query || !resultsContainer || !downloadLinkBtn || !  ) return;
 
 	var male_input = '';
 	var female_input = '';
@@ -126,8 +126,8 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
 	console.log(key_query);
 
     resultsContainer.innerHTML = '<p>Searching records...</p>';
-	// linkContainerOne.innerHTML = '<p></p>';
-	// linkContainerTwo.innerHTML = '<p></p>';
+	// downloadLinkBtn.innerHTML = '<p></p>';
+	//  .innerHTML = '<p></p>';
 
 
 	// call cancerType function in utils
@@ -177,13 +177,13 @@ import DeprivationSelect from '../components/DeprivationSelect.astro';
 	 			// call generateTable function in utils
 	 			resultsContainer.innerHTML = generateTable(matchedItems);
 				//encodedUri = createDownloadFile(matchedItems);
-				//linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
+				//downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query.slice(0, -1) + '.csv">Download CSV</a>';
 	 		}
 
 	 	    if (matchedItemsSecond.length !== 0 && resultsContainerTwo != null){
 	 			resultsContainerTwo.innerHTML = generateTable(matchedItemsSecond);
 				//encodedUri = createDownloadFile(matchedItemsSecond);
-				//linkContainerTwo.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
+				// .innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + key_query_two.slice(0, -1) + '.csv">Download CSV</a>';
 	 	    }
 
 			// returned if matching fails
