@@ -53,7 +53,7 @@ import SexSelect from '../components/SexSelect.astro';
 	import { generateSingleRowTable, generateMultiRowTable } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput  } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, confidenceBandsChart, downloadLinkBtn, chart_area,   } from '../types';
-	import { returnAllChartRates, renderChart, renderMultiChart } from '../utils/charts';
+	import { returnAllChartRates, renderChart, renderMultiChart, renderBlankChart } from '../utils/charts';
 	import type { CSVRow } from '../types';
 
     const chartDom = document.getElementById('csv-chart');
@@ -253,7 +253,7 @@ import SexSelect from '../components/SexSelect.astro';
 
 				// check that the user hasn't entered too many options
 				if(ages.length > 1 && deprivation.length > 1 || ages.length > 1 && regions.length > 1 || deprivation.length > 1 && regions.length > 1 ){
-					//chart_area.innerHTML = '<p>No chart available</p>';
+					renderBlankChart(cancerTypeToShow, myChart);
 					resultsContainer.innerHTML = '<p> No records are currently available matching this combination of options.</p>';
 					downloadLinkBtn.innerHTML = '<p></p>';
 					return;	

@@ -42,7 +42,7 @@ export function renderMultiChart(cancerType: string, allRates: string[], chartIn
 	console.log('in multi-chart render');
 	console.log(allRates);
 
-	// expects an array of string values
+	// expects an multi-dimensional array of string values
 	const option = setMultiChartOptions(allRates, cancerType);
     // Set options to render the chart
      chartInstance.setOption(option);
@@ -51,6 +51,34 @@ export function renderMultiChart(cancerType: string, allRates: string[], chartIn
      window.addEventListener('resize', () => {
        chartInstance.resize();
      });
+}
+
+// creates a blank chart with null values and wipes out any previous multi-line chart 
+export function renderBlankChart(cancerType: string, chartInstance: echarts.ECharts){
+
+	const allRates: any[] = [
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
+		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A']
+	];
+
+	const option = setMultiChartOptions(allRates, cancerType);
+	
+    // Set options to render the chart
+     chartInstance.setOption(option);
+
+     // Optional: Make the chart responsive to window resizing
+     window.addEventListener('resize', () => {
+       chartInstance.resize();
+     });
+
 }
 
 
