@@ -56,9 +56,9 @@ export const nonemergckbox = document.getElementById('nonemergckbox') as HTMLInp
 export const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
 export const resultsContainer = document.getElementById('search-results') as HTMLInputElement;
 export const confidenceBandsChart = document.getElementById('confidence-bands-chart') as HTMLInputElement;
-export const linkContainerOne = document.getElementById('download-link-table-one') as HTMLInputElement;	
-export const linkContainerTwo = document.getElementById('download-link-table-two') as HTMLInputElement;	
+export const downloadLinkBtn = document.getElementById('download-link') as HTMLInputElement;	
 export const stage_input = document.getElementById('stage-input') as HTMLInputElement;
 export const region_input = document.getElementById('region-input') as HTMLInputElement;
 export const route_input = document.getElementById('route-input') as HTMLInputElement;
+export const chart_area = document.getElementById('csv-chart') as HTMLInputElement;
 
