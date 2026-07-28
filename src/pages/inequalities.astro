@@ -251,6 +251,11 @@ import SexSelect from '../components/SexSelect.astro';
 				var tempTable: CSVRow[] = [];
 				var matchedItems: CSVRow[] = [];	
 
+				// check that the user hasn't entered too many options
+				if(ages.length > 1 && deprivation.length > 1 || ages.length > 1 && regions.length > 1 || deprivation.length > 1 && regions.length > 1 ){
+					resultsContainer.innerHTML = '<p> No records are currently available matching this combination of options.</p>';
+					return;	
+				}
 				// if the multiple queries are to be done on the ages, do a pre-query to get all age results
 				if(ages.length > 1) {
 					tempTable = results.data.filter(item => 

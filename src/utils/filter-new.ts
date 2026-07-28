@@ -76,25 +76,9 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
   // generates a table
 
   export function generateMultiRowTable(cancerType: string, allRates: string[], searchTerms: string){
-// export function generateMultiRowTable(cancerType: string, allRates: string[], allLowerBounds: string[], allUpperBounds: string[], searchTerms: string){
 
 	console.log('in table gen function');
 	console.log(allRates);
-	//console.log(allLowerBounds);
-	//console.log(allUpperBounds);
-
-	
-   /*
-	if (allRates.length !== 0 && allLowerBounds.length !== 0 && allUpperBounds.length !== 0){
-		// merge array values 
-		for (var i = 0; i < allRates.length; i++){
-		allRates[i] += '(' + allLowerBounds[i] + ',' + allUpperBounds[i] + ')';
-		}
-	}
-	else {
-		return;
-	} 
-	*/
 
 	const string = `
 		  <div class="table-container">
