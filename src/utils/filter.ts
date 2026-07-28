@@ -104,6 +104,7 @@ export function cancerType(value: string){
 }
 
 
+
 /*
 export function setChartOptions(data: any[], dataSecond: any[], year: string[], optionString: string){
 
