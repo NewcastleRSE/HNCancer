@@ -253,7 +253,7 @@ import SexSelect from '../components/SexSelect.astro';
 
 				// check that the user hasn't entered too many options
 				if(ages.length > 1 && deprivation.length > 1 || ages.length > 1 && regions.length > 1 || deprivation.length > 1 && regions.length > 1 ){
-					chart_area.innerHTML = '<p>No chart available</p>';
+					//chart_area.innerHTML = '<p>No chart available</p>';
 					resultsContainer.innerHTML = '<p> No records are currently available matching this combination of options.</p>';
 					downloadLinkBtn.innerHTML = '<p></p>';
 					return;	
