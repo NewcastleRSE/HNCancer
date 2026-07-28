@@ -166,6 +166,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 		// call function to find the age values
 		const age_input: string | undefined  = determineAgeInput(ages);
 
+		// REGIONS
 		var regions: string[] = [];
 		var emcheckbox_input = '';
 		var eecheckbox_input = '';
@@ -303,27 +304,31 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 					});
 
 					var allRates: any[] = [];
-
-				    // allRates = getRatesFromMatchedItems(matchedItems);
+					var allDownloadRates: any[] = [];
 
 					if (allMatchedItems){ 
-					 	// get the indicence rates
-					 	allMatchedItems.forEach(item => {
-						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
-					 	var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-					var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
+					// get the indicence rates
+						allMatchedItems.forEach(item => {
+						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);	
+						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
+						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
 						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
 						// concatenate values to form a new string with rates and bounds
 						const boundedRates: string[] = [];
+						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
 							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
 							boundedRates.push(tempString);
+							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
+							downloadFormattedRates.push(downloadString);
 						}
 						// add the key value to the array
 						boundedRates.splice(0,0, key[0]);
+						downloadFormattedRates.splice(0,0, key[0]);
 					 	allRates.push(boundedRates);
-					 	});
+						allDownloadRates.push(downloadFormattedRates);
+						});
 					}
 
 					var allChartRates = returnAllChartRates(allMatchedItems);
@@ -332,7 +337,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + route_input);
 					const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
-					encodedUri = createMultiDownloadFile(allRates);
+					encodedUri = createMultiDownloadFile(allDownloadRates);
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
 				}
 				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
@@ -356,24 +361,30 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 					console.log(allMatchedItems);
 					
 					var allRates: any[] = [];
-				
+					var allDownloadRates: any[] = [];
+
 					if (allMatchedItems){ 
-						// get the indicence rates
+					// get the indicence rates
 						allMatchedItems.forEach(item => {
-						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);
+						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);	
 						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
 						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
 						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
 						// concatenate values to form a new string with rates and bounds
 						const boundedRates: string[] = [];
+						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
 							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
 							boundedRates.push(tempString);
+							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
+							downloadFormattedRates.push(downloadString);
 						}
 						// add the key value to the array
 						boundedRates.splice(0,0, key[0]);
+						downloadFormattedRates.splice(0,0, key[0]);
 					 	allRates.push(boundedRates);
+						allDownloadRates.push(downloadFormattedRates);
 						});
 					}
 
@@ -383,7 +394,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 					if (allMatchedItems){ 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + route_input);
-					encodedUri = createMultiDownloadFile(allRates);
+					encodedUri = createMultiDownloadFile(allDownloadRates);
 					const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
@@ -410,6 +421,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 					console.log(allMatchedItems);
 
 					var allRates: any[] = [];
+					var allDownloadRates: any[] = [];
 
 					if (allMatchedItems){ 
 					// get the indicence rates
@@ -420,14 +432,19 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
 						// concatenate values to form a new string with rates and bounds
 						const boundedRates: string[] = [];
+						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
 							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
 							boundedRates.push(tempString);
+							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
+							downloadFormattedRates.push(downloadString);
 						}
 						// add the key value to the array
 						boundedRates.splice(0,0, key[0]);
+						downloadFormattedRates.splice(0,0, key[0]);
 					 	allRates.push(boundedRates);
+						allDownloadRates.push(downloadFormattedRates);
 						});
 					}
 
@@ -437,7 +454,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 					if (allMatchedItems){ 
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + deprivation_input);
-					encodedUri = createMultiDownloadFile(allRates);
+					encodedUri = createMultiDownloadFile(allDownloadRates);
 					const filename = 'DL-' + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 					linkContainerOne.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
 				 	} 
