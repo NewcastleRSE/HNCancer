@@ -27,45 +27,9 @@ export function cancerType(value: string){
 	return CSV_file;
  }
 
- /*
- export function createInequalitiesDownloadFile(tableData: CSVRow[]){
-
-	// Convert JSON data to CSV string
-	const csvRows = [
-	// headers	
-	['diagnosisYear:',
-		'ageBand',
-		'sex',
-		'dep',
-		'region',
-		'stage',
-		'route',
-		'rate',
-		'ciLb',
-		'ciUb'
-	], 
-	...tableData.map(item => [item.diagnosisYear, 
-	item.ageBand,
-	item.sex,
-	item.dep,
-	item.region,
-	item.stage,
-	item.route,
-	item.rate,
-	item.ciLb,
-	item.ciUb
-	])
-	];
-	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
-	const encodedUri = encodeURI(csvContent);
-	console.log(encodedUri);
-	return encodedUri;	
-}
-
-*/
 
 // generates a table
-export function generateInequalitiesTable(cancerType: string, rates: string[], searchTerms: string){
+export function generateSingleRowTable(cancerType: string, rates: string[], lowerBounds: number[], upperBounds: number[], searchTerms: string){
 
 	const string = `
 		  <div class="table-container">
@@ -91,15 +55,15 @@ export function generateInequalitiesTable(cancerType: string, rates: string[], s
 
 					</tr>
 					<tr style="border: 1px solid #ccc;" >
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]}</td>	
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]} (<em>${lowerBounds[0]}, ${upperBounds[0]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]} (<em>${lowerBounds[1]}, ${upperBounds[1]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]} (<em>${lowerBounds[2]}, ${upperBounds[2]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]} (<em>${lowerBounds[3]}, ${upperBounds[3]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]} (<em>${lowerBounds[4]}, ${upperBounds[4]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]} (<em>${lowerBounds[5]}, ${upperBounds[5]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]} (<em>${lowerBounds[6]}, ${upperBounds[6]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]} (<em>${lowerBounds[7]}, ${upperBounds[7]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]} (<em>${lowerBounds[8]}, ${upperBounds[8]}</em>)</td>
 					</tr>
 				</tbody>
 			</table>
@@ -110,7 +74,8 @@ export function generateInequalitiesTable(cancerType: string, rates: string[], s
   }
 
   // generates a table
-export function generateMultiInequalitiesTable(cancerType: string, allRates: string[], searchTerms: string){
+
+  export function generateMultiRowTable(cancerType: string, allRates: string[], searchTerms: string){
 
 	console.log('in table gen function');
 	console.log(allRates);
@@ -160,8 +125,6 @@ export function generateMultiInequalitiesTable(cancerType: string, allRates: str
 						extraString += tempString;
 					})
 
-					
-
 					const endString = `</tbody>
 							</table>
 							</div>
@@ -175,7 +138,7 @@ export function setChartOptions(rates: string[], optionString: string){
 
     const option = {
        title: {
-        text: optionString + ' - Incident rates by Diagnosis Year' 
+        text: optionString + ' - Incidence rates by Diagnosis Year' 
       },
        tooltip: {
          trigger: 'axis'
@@ -185,7 +148,11 @@ export function setChartOptions(rates: string[], optionString: string){
          data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
        },
        yAxis: {
-         type: 'value'
+         type: 'value',
+		 minInterval: 1, // Enforces the minimum gap between ticks is 1
+		  axisLabel: {
+        	formatter: '{value}' // Ensures labels display without decimals
+		  }
       },
 	  legend: {
     	// data: ['searchTerms']
@@ -195,7 +162,7 @@ export function setChartOptions(rates: string[], optionString: string){
            	data: rates,
 			//name: searchTerms,
           	type: 'line',
-           	smooth: true,
+           	smooth: false,
 		  	label: true
          }
        ]
@@ -224,31 +191,31 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
         {
           	data: allRates[0],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		 	 label: true
         },
 		{
           	data: allRates[1],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		  	label: true
         },
 		{
           	data: allRates[2],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 			label: true
         },
 		{
           	data: allRates[3],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		 	 label: true
         },
 		{
           	data: allRates[4],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		  	label: true
         },
 		{
@@ -272,13 +239,13 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
 		{
           	data: allRates[8],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 			label: true
         },
 		{
           	data: allRates[9],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 			label: true
         }
       ]
@@ -286,6 +253,75 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
 
 	return option;
 }
+
+/*
+export function setConfidenceChartOptions(rates: string[], lowerBounds: number[], upperBounds: number[], optionString: string){
+
+	console.log(lowerBounds);
+	console.log(rates);
+	console.log(upperBounds);
+
+	const option = {
+		title: {
+			text: optionString + ' - Incident rates and confidence bands' 
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		xAxis: {
+			type: 'category',
+			data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
+		},
+		yAxis: {
+			type: 'value'
+		},
+      	series: [
+        {
+          	data: lowerBounds,
+          	type: 'line',
+          	smooth: false,
+		 	label: true,
+			lineStyle: {
+				normal: {
+				color: 'grey',
+				width: 1,
+				type: 'dashed'
+				}
+			}
+        },
+		{
+          	data: rates,
+          	type: 'line',
+          	smooth: false,
+		  	label: true,
+			lineStyle: {
+				normal: {
+				color: 'black',
+				width: 1,
+				type: 'solid'
+				}
+			}
+        },
+		{
+          	data: upperBounds,
+          	type: 'line',
+          	smooth: false,
+			label: true,
+			lineStyle: {
+				normal: {
+				color: 'grey',
+				width: 1,
+				type: 'dashed'
+				}
+			}
+        },
+	
+      ]
+    };
+
+	return option;
+
+} */
 
 export function determineSexInput(sexes: string[]){
 

@@ -70,3 +70,23 @@ export function getRatesFromMatchedItems(allMatchedItems: any[]){
 
    	}
 };
+
+ 
+/*
+    // function to initialize the EChart
+export function renderConfidenceChart(cancerType: string, rates: string[], lowerBounds: number[], upperBounds: number[], confidenceChartInstance: echarts.ECharts) {
+    
+    //remove all years result
+	rates.pop();
+	lowerBounds.pop();
+	upperBounds.pop();
+
+	const confidenceOption = setConfidenceChartOptions(rates, lowerBounds, upperBounds, cancerType);
+    // Set options to render the chart
+    confidenceChartInstance.setOption(confidenceOption);
+
+    // Optional: Make the chart responsive to window resizing
+    window.addEventListener('resize', () => {
+      confidenceChartInstance.resize();
+    });
+} */

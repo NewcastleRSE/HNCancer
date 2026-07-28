@@ -49,101 +49,32 @@ export function cancerType(value: string){
 	return CSV_file;
  }
 
- /*
-
-// generates a table
-export function generateTable(tableData: CSVRow[]){
-
-	const string = tableData.map(item => `
-		  <div class="table-container">
-			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
-				<thead>
-					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${item.table.slice(0, -1)} - Year of diagnosis: ${item.diagnosisYear}</th>
-				</thead>
-				<tbody>
-					<tr>
-						<th colspan="11" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Age</th>	
-					</tr>	
-					<tr style="border: 1px solid #ccc;" >
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">0-49</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">50-54</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">55-59</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">60-64</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">65-69</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">70-74</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">75-79</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">80-84</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">85-89</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">90+</th>
-						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">Age Standardised</th>
-					</tr>
-					<tr style="border: 1px solid #ccc;" >
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge0_49 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge50_54 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge55_59 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge60_64 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge65_69 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge70_74 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge75_79 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge80_84 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge85_89 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageSpecificIncidenceAge90 * 100) / 100}</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${Math.round(item.ageStandardisedIncidence * 100) / 100}</td>
-					</tr>
-				</tbody>
-			</table>
-			</div>
-           `).join(''); 
-
-		   return string;
-  }
-
-// maps the data
-export function dataMap(data: any[]) {
-
-	console.log('data');
-	console.log(data);
-
-	const fixedArray = [ data.map((row: { ageSpecificIncidenceAge0_49: any; }) => row.ageSpecificIncidenceAge0_49).filter(Boolean),
-    	data.map((row: { ageSpecificIncidenceAge50_54: any; }) => row.ageSpecificIncidenceAge50_54).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge55_59: any; }) => row.ageSpecificIncidenceAge55_59).filter(Boolean),
-  		data.map((row: { ageSpecificIncidenceAge60_64: any; }) => row.ageSpecificIncidenceAge60_64).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge65_69: any; }) => row.ageSpecificIncidenceAge65_69).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge70_74: any; }) => row.ageSpecificIncidenceAge70_74).filter(Boolean),
-    	data.map((row: { ageSpecificIncidenceAge75_79: any; }) => row.ageSpecificIncidenceAge75_79).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge80_84: any; }) => row.ageSpecificIncidenceAge80_84).filter(Boolean),
-  		data.map((row: { ageSpecificIncidenceAge85_89: any; }) => row.ageSpecificIncidenceAge85_89).filter(Boolean),
-		data.map((row: { ageSpecificIncidenceAge90: any; }) => row.ageSpecificIncidenceAge90).filter(Boolean)];
-
-		return fixedArray;
-} */
-
-  export function createDownloadFile(rates: string[]){
+  export function createDownloadFile(rates: string[], lowerBounds: number[], upperBounds: number[]){
 
   	// Convert array of values to CSV string
   	const csvRows = [ 	// headers	
  		[
-			'2016',
-			'2017',
-			'2018',
-			'2019',
-			'2020',
-			'2021',
-			'2022',
-			'2023',
-			'All Years'
+			'2016','ciLb','ciUb',
+			'2017','ciLb','ciUb',
+			'2018','ciLb','ciUb',
+			'2019','ciLb','ciUb',
+			'2020','ciLb','ciUb',
+			'2021','ciLb','ciUb',
+			'2022','ciLb','ciUb',
+			'2023','ciLb','ciUb',
+			'All Years','ciLb','ciUb'
 		], 
   		[
-		rates[0], 
-		rates[1], 
-		rates[2], 
-		rates[3], 
-		rates[4], 
-		rates[5], 
-		rates[6], 
-		rates[7], 
-		rates[8], 
-		rates[9]
+		rates[0] + ',' + lowerBounds[0] + ',' + upperBounds[0], 
+		rates[1] + ',' + lowerBounds[1] + ',' + upperBounds[1],  
+		rates[2] + ',' + lowerBounds[2] + ',' + upperBounds[2], 
+		rates[3] + ',' + lowerBounds[3] + ',' + upperBounds[3],  
+		rates[4] + ',' + lowerBounds[4] + ',' + upperBounds[4],  
+		rates[5] + ',' + lowerBounds[5] + ',' + upperBounds[5],  
+		rates[6] + ',' + lowerBounds[6] + ',' + upperBounds[6],  
+		rates[7] + ',' + lowerBounds[7] + ',' + upperBounds[7],  
+		rates[8] + ',' + lowerBounds[8] + ',' + upperBounds[8], 
+		rates[9] + ',' + lowerBounds[9] + ',' + upperBounds[9] 
   		]
 	];
   	const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");;
@@ -152,14 +83,16 @@ export function dataMap(data: any[]) {
  	return encodedUri;
 }
 
- export function createMultiDownloadFile(allRates: string[]){
+ export function createMultiDownloadFile(allDownloadRates: string[]){
 
   	// Convert array of values to CSV string
-  	const csvRowHeaderString = `Key,2016,2017,2018,2019,2020,2021,2022,2023,All Years\n`;
+  	//const csvRowHeaderString = `Key,2016,2017,2018,2019,2020,2021,2022,2023,All Years\n`;
+
+	const csvRowHeaderString =`Key,2016,ciLb,ciUb,2017,ciLb,ciUb,2018,ciLb,ciUb,2019,ciLb,ciUb,2020,ciLb,ciUb,2021,ciLb,ciUb,2022,ciLb,ciUb,2023,ciLb,ciUb,All Years,ciLb,ciUb\n`
 
 	var rowsString: string = '';
 	
-	allRates.forEach(row => {
+	allDownloadRates.forEach(row => {
 		var tempString = `${row[0]},${row[1]},${row[2]},${row[3]},${row[4]},${row[5]},${row[6]},${row[7]},${row[8]},${row[9]},\n`;
 		rowsString += tempString;
 	});
@@ -169,6 +102,7 @@ export function dataMap(data: any[]) {
  	const encodedUri = encodeURI(csvContent);
  	return encodedUri;
 }
+
 
 
 /*
