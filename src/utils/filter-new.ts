@@ -75,10 +75,12 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 
   // generates a table
 
-  export function generateMultiRowTable(cancerType: string, allRates: string[], searchTerms: string){
+ 
+  
+export function generateMultiRowTable(cancerType: string, allRates: string[], searchTerms: string){
 
-	console.log('in table gen function');
-	console.log(allRates);
+	// console.log('in table gen function');
+	// console.log(allRates);
 
 	const string = `
 		  <div class="table-container">
@@ -131,7 +133,69 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 						`;
 
 		   return string + extraString + endString;
-  }
+}
+
+export function generateDichotomyMultiRowTable(cancerType: string, allRates: string[], searchTerms: string){
+
+	// console.log('in table gen function');
+	// console.log(allRates);
+
+	const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem">Key</th>
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem"></th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
+					</tr>`;
+
+					var extraString: string = ''
+
+					allRates.forEach(row => {
+						var tempString = `
+							<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[6]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[7]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[8]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[9]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[10]}</td>
+					</tr>	
+						`
+						extraString += tempString;
+					})
+
+					const endString = `</tbody>
+							</table>
+							</div>
+						`;
+
+		   return string + extraString + endString;
+}
+
+
 
 
 export function setChartOptions(rates: string[], optionString: string){
@@ -175,7 +239,7 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
 
     const option = {
 		title: {
-			text: optionString + ' - Incident rates by Diagnosis Year' 
+			text: optionString + ' - Incidence rates by Diagnosis Year' 
 		},
 		tooltip: {
 			trigger: 'axis'
@@ -221,19 +285,19 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
 		{
           	data: allRates[5],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 			label: true
         },
 		{
           	data: allRates[6],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		 	 label: true
         },
 		{
           	data: allRates[7],
           	type: 'line',
-          	smooth: true,
+          	smooth: false,
 		  	label: true
         },
 		{
@@ -247,6 +311,66 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
           	type: 'line',
           	smooth: false,
 			label: true
+        },
+		 {
+          	data: allRates[10],
+          	type: 'line',
+          	smooth: false,
+		 	 label: true
+        },
+		{
+          	data: allRates[11],
+          	type: 'line',
+          	smooth: false,
+		  	label: true
+        },
+		{
+          	data: allRates[12],
+          	type: 'line',
+          	smooth: false,
+			label: true
+        },
+		{
+          	data: allRates[13],
+          	type: 'line',
+          	smooth: false,
+		 	 label: true
+        },
+		{
+          	data: allRates[14],
+          	type: 'line',
+          	smooth: false,
+		  	label: true
+        },
+		{
+          	data: allRates[15],
+          	type: 'line',
+          	smooth: false,
+			label: true
+        },
+		{
+          	data: allRates[16],
+          	type: 'line',
+          	smooth: false,
+		 	 label: true
+        },
+		{
+          	data: allRates[17],
+          	type: 'line',
+          	smooth: false,
+		  	label: true
+        },
+		{
+          	data: allRates[18],
+          	type: 'line',
+          	smooth: false,
+			label: true
+        },
+		{
+          	data: allRates[19],
+          	type: 'line',
+          	smooth: false,
+			label: true
         }
       ]
     };
@@ -254,74 +378,6 @@ export function setMultiChartOptions(allRates: string[], optionString: string){
 	return option;
 }
 
-/*
-export function setConfidenceChartOptions(rates: string[], lowerBounds: number[], upperBounds: number[], optionString: string){
-
-	console.log(lowerBounds);
-	console.log(rates);
-	console.log(upperBounds);
-
-	const option = {
-		title: {
-			text: optionString + ' - Incident rates and confidence bands' 
-		},
-		tooltip: {
-			trigger: 'axis'
-		},
-		xAxis: {
-			type: 'category',
-			data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
-		},
-		yAxis: {
-			type: 'value'
-		},
-      	series: [
-        {
-          	data: lowerBounds,
-          	type: 'line',
-          	smooth: false,
-		 	label: true,
-			lineStyle: {
-				normal: {
-				color: 'grey',
-				width: 1,
-				type: 'dashed'
-				}
-			}
-        },
-		{
-          	data: rates,
-          	type: 'line',
-          	smooth: false,
-		  	label: true,
-			lineStyle: {
-				normal: {
-				color: 'black',
-				width: 1,
-				type: 'solid'
-				}
-			}
-        },
-		{
-          	data: upperBounds,
-          	type: 'line',
-          	smooth: false,
-			label: true,
-			lineStyle: {
-				normal: {
-				color: 'grey',
-				width: 1,
-				type: 'dashed'
-				}
-			}
-        },
-	
-      ]
-    };
-
-	return option;
-
-} */
 
 export function determineSexInput(sexes: string[]){
 

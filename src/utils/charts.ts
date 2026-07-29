@@ -39,8 +39,8 @@ export function renderChart(cancerType: string, data: any[], chartInstance: echa
  // function to initialize the EChart
 export function renderMultiChart(cancerType: string, allRates: string[], chartInstance: echarts.ECharts) {
 
-	console.log('in multi-chart render');
-	console.log(allRates);
+	// console.log('in multi-chart render');
+	// console.log(allRates);
 
 	// expects an multi-dimensional array of string values
 	const option = setMultiChartOptions(allRates, cancerType);
@@ -98,23 +98,3 @@ export function getRatesFromMatchedItems(allMatchedItems: any[]){
 
    	}
 };
-
- 
-/*
-    // function to initialize the EChart
-export function renderConfidenceChart(cancerType: string, rates: string[], lowerBounds: number[], upperBounds: number[], confidenceChartInstance: echarts.ECharts) {
-    
-    //remove all years result
-	rates.pop();
-	lowerBounds.pop();
-	upperBounds.pop();
-
-	const confidenceOption = setConfidenceChartOptions(rates, lowerBounds, upperBounds, cancerType);
-    // Set options to render the chart
-    confidenceChartInstance.setOption(confidenceOption);
-
-    // Optional: Make the chart responsive to window resizing
-    window.addEventListener('resize', () => {
-      confidenceChartInstance.resize();
-    });
-} */
