@@ -608,15 +608,43 @@ import SexSelect from '../components/SexSelect.astro';
 
 				}
 				else {
-					// do all the filters
-					matchedItems = results.data.filter(item => 
-				 	item.sex?.includes(sex_input) &&
-				 	item.ageBand?.includes(age_input) && 
-				    item.dep?.includes(deprivation_input) &&
-				 	item.region.includes(region_input) &&
-				 	item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes') 
-				 	);
+
+					// check whether sex_input is male amd female
+					// if so, run a query for both sexes
+					if(sex_input === 'Male:Female'){
+
+						tempTable = results.data.filter(item => 
+							item.sex?.includes('Male') &&
+							item.ageBand?.includes(age_input) && 
+							item.dep?.includes(deprivation_input) &&
+							item.region.includes(region_input) &&
+							item.stage?.includes('All Stages') &&
+							item.route?.includes('All Routes') 
+						);
+					
+						tempTableTwo = results.data.filter(item => 
+							item.sex?.includes('Female') &&
+							item.ageBand?.includes(age_input) && 
+							item.dep?.includes(deprivation_input) &&
+							item.region.includes(region_input) &&
+							item.stage?.includes('All Stages') &&
+							item.route?.includes('All Routes') 
+						);
+					}
+					else {
+						// do all the filters
+						matchedItems = results.data.filter(item => 
+							item.sex?.includes(sex_input) &&
+							item.ageBand?.includes(age_input) && 
+							item.dep?.includes(deprivation_input) &&
+							item.region.includes(region_input) &&
+							item.stage?.includes('All Stages') &&
+							item.route?.includes('All Routes') 
+						);
+					}
+
+					// TODO
+					// merge tempTable and tempTableTwo into matched items
 
 					console.log(matchedItems);
 				
