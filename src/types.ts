@@ -6,6 +6,7 @@ export interface CSVRow {
     region: string;
     stage: string;
     route: string;
+    count: string;
     rate: number;
     ciLb: number;
     ciUb: number;

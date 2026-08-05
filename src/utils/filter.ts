@@ -2,28 +2,6 @@ import type { CSVRow } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
- /* in the case where 3 query items are joined by /, the male query also greedy matches the female record
-  and the additional result needs to be filtered out */
-
-// export function filterArray(data: CSVRow[], query: string){	
-
-// 	var deleteUnwanted = false;
-// 	var unwantedFormat = /^Female\/\w+\/?.*$/;
-// 	// grab the first part of the string
-// 	var array = query.split('/');
-
-// 	data.forEach(function (item){
-// 		if (item.table.match(unwantedFormat) && array[0] === 'male'){
-// 			deleteUnwanted = true;
-// 		}
-// 	})
-
-// 	if(deleteUnwanted){
-//   		data.splice(1,1);
-// 	}
-// 	return data;
-//  }
-
 // determines which spreadsheet should be used
 export function cancerType(value: string){
 
@@ -41,6 +19,9 @@ export function cancerType(value: string){
 			break;
 		case "Oropharyngeal":
 			CSV_file = BASE_URL + '/Incidence-Oropharynx.csv';
+			break;
+		case "Other":
+			CSV_file = BASE_URL + '/Incidence-Other.csv';
 			break;
 		default:
 			console.log(`Cancer type not recognised`);

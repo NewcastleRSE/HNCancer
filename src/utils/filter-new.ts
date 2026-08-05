@@ -20,7 +20,10 @@ export function cancerType(value: string){
 		case "Oropharyngeal":
 			CSV_file = BASE_URL + '/Incidence-Oropharynx.csv';
 			break;
-		default:
+		case "Other":
+			CSV_file = BASE_URL + '/Incidence-Other.csv';
+			break;
+			default:
 			console.log(`Cancer type not recognised`);
 		}
 
