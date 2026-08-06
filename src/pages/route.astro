@@ -54,7 +54,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 	import Papa from 'papaparse';
 	import * as echarts from 'echarts';
 	import { cancerType, createDownloadFile, createMultiDownloadFile  } from "../utils/filter";
-	import { generateSingleRowTable, generateMultiRowTable } from "../utils/filter-new";
+	import { generateSingleRowTable, generateMultiRowTable, generateDichotomyMultiRowTable } from "../utils/filter-new";
 	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput, determineStageInput, determineRouteInput } from "../utils/filter-new";
 	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, earlyckbox, advckbox, emergckbox,nonemergckbox, cancer_type, resultsContainer, downloadLinkBtn, chart_area  } from '../types';
 	import type { CSVRow } from '../types';
@@ -63,6 +63,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 	const chartDom = document.getElementById('csv-chart');
 	const myChart = echarts.init(chartDom);
 	const route_form = document.getElementById('route-search-form') as HTMLFormElement;
+	const radio_inputs = document.querySelectorAll("input[type='radio']") as NodeListOf<HTMLInputElement>;
 
 	route_form?.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -87,6 +88,16 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 		const route_input: string | undefined  = determineRouteInput(routes);
 
 		// SEX
+		// set a default if no button is selected
+		var sex_input: string = 'All Persons';
+
+		radio_inputs.forEach(button => {
+			if(button && button.checked){
+				sex_input = button.value;
+				console.log(sex_input);
+			}
+		});
+		/*
 		var sexes: string[] = [];
 		var malecheckbox_input = '';
 		var femalecheckbox_input = '';
@@ -103,7 +114,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 		console.log(sexes);
 
 		// call function to find the sex value
-		const sex_input: string | undefined  = determineSexInput(sexes);
+		const sex_input: string | undefined  = determineSexInput(sexes); */
 
 		// AGE
 		var ages: string[] = [];
@@ -280,6 +291,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 				// console.log(results);
 
 				var tempTable: CSVRow[] = [];
+				var tempTableTwo: CSVRow[] = [];
 				var matchedItems: CSVRow[] = [];	
 
 				if(CSV_file === ''){
@@ -298,20 +310,54 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 				}
 				// if the multiple queries are to be done on the ages, do a pre-query to get all age results
 				if(ages.length > 1) {
-					tempTable = results.data.filter(item => 
-					item.sex?.includes(sex_input) &&
-				    item.dep?.includes(deprivation_input) &&
-					item.region?.includes(region_input) &&
-					item.stage?.includes('All Stages') &&
-					item.route?.includes(route_input)
-					);
 
+					// check whether sex_input is male amd female
+					// if so, run a query for both sexes
+					if(sex_input === 'Male:Female'){
+
+						console.log('here');
+
+						tempTable = results.data.filter(item => 
+							item.sex?.includes('Male') &&
+							item.dep?.includes(deprivation_input) &&
+							item.region?.includes(region_input) &&
+							item.stage?.includes('All Stages') &&
+							item.route?.includes(route_input)
+						);
+
+							tempTableTwo = results.data.filter(item => 
+							item.sex?.includes('Female') &&
+							item.dep?.includes(deprivation_input) &&
+							item.region?.includes(region_input) &&
+							item.stage?.includes('All Stages') &&
+							item.route?.includes(route_input)
+						);
+
+					}
+					// just run one pre-query
+					else {
+						tempTable = results.data.filter(item => 
+						item.sex?.includes(sex_input) &&
+						item.dep?.includes(deprivation_input) &&
+						item.region?.includes(region_input) &&
+						item.stage?.includes('All Stages') &&
+						item.route?.includes(route_input)
+						);
+					}
+	
 					var allMatchedItems: any[] = [];
 					
 					ages.forEach(age => {
 						var temp = tempTable.filter(item => 
 						item.ageBand?.includes(age));
 						allMatchedItems.push(temp);
+
+						// get second round of data
+						if(tempTableTwo.length !== 0){
+							var tempTwo = tempTableTwo.filter(item => 
+							item.ageBand?.includes(age));
+							allMatchedItems.push(tempTwo);
+						}
 					});
 
 					var allRates: any[] = [];
@@ -319,7 +365,7 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 
 					if (allMatchedItems){ 
 					// get the indicence rates
-						allMatchedItems.forEach(item => {
+						allMatchedItems.forEach((item, index) => {
 						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
 						var counts = item.map((row: { count: any; }) => row.count).filter(Boolean);		
 						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
@@ -337,6 +383,18 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 						}
 						// add the key value to the array
 						boundedRates.splice(0,0, key[0]);
+
+						// add another column to the table for sex
+						if(sex_input === 'Male:Female'){
+					
+							if (index % 2 == 0){
+								boundedRates.splice(0,0, 'Male');
+							}
+							else{
+								boundedRates.splice(0,0, 'Female');
+							}
+						}
+
 						downloadFormattedRates.splice(0,0, key[0]);
 					 	allRates.push(boundedRates);
 						allDownloadRates.push(downloadFormattedRates);
@@ -346,11 +404,27 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 					var allChartRates = returnAllChartRates(allMatchedItems);
 					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
 
+					if (allMatchedItems){
+						// call generateTable function in utils
+						if(sex_input === 'Male:Female'){
+							resultsContainer.innerHTML = generateDichotomyMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + route_input);
+						}
+						else {
+							resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + route_input);
+						}
+						
+						encodedUri = createMultiDownloadFile(allDownloadRates);
+						const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
+						downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
+
+					}
+
+					/*
 					// call generateTable function in utils
 					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + route_input);
 					const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + route_input; 
 					encodedUri = createMultiDownloadFile(allDownloadRates);
-					downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
+					downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 */
 				}
 				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
 				else if(deprivation.length > 1) {
