@@ -29,11 +29,11 @@ import PagePanels from '../components/PagePanels.astro';
                 <div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH STAGES.</div>
 				<StageCheckboxSelect />
 				<hr />
-				<div class="mb-2 mr-2 has-text-weight-bold">Choose one, both or neither. If neither are selected then the result will be for BOTH SEXES.</div>
+				<div class="mb-2 mr-2 has-text-weight-bold">Choose an option. If none are selected then the result will be for ALL SEXES.</div>
 				<SexSelect />
 				<hr />
 				<RegionCheckboxSelect />
-				<div class="mb-2 mt-4 mr-2 p-2 has-text-weight-bold has-background-warning">Compare multiple selections on either AGE or DEPRIVATION</div>
+				<!-- <div class="mb-2 mt-4 mr-2 p-2 has-text-weight-bold has-background-warning">Compare multiple selections on either AGE or DEPRIVATION</div> -->
 				<hr />
 				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL AGES.</div>
 				<AgeSelect />
@@ -97,23 +97,34 @@ import PagePanels from '../components/PagePanels.astro';
 		console.log(stages);
 
 		// SEX
-		var sexes: string[] = [];
-		var malecheckbox_input = '';
-		var femalecheckbox_input = '';
-		// check the checkboxes buttons
-		if(male_checkbox && male_checkbox.checked){
-			malecheckbox_input = 'Male';
-			sexes.push(malecheckbox_input);
-		} 
-		if(female_checkbox && female_checkbox.checked){
-			femalecheckbox_input = 'Female';
-			sexes.push(femalecheckbox_input);
-		}
 
-		console.log(sexes);
+			// set a default if no button is selected
+		var sex_input: string = 'All Persons';
 
-		// call function to find the sex value
-		const sex_input: string | undefined  = determineSexInput(sexes);
+		radio_inputs.forEach(button => {
+			if(button && button.checked){
+				sex_input = button.value;
+				console.log(sex_input);
+			}
+		});
+
+		// var sexes: string[] = [];
+		// var malecheckbox_input = '';
+		// var femalecheckbox_input = '';
+		// // check the checkboxes buttons
+		// if(male_checkbox && male_checkbox.checked){
+		// 	malecheckbox_input = 'Male';
+		// 	sexes.push(malecheckbox_input);
+		// } 
+		// if(female_checkbox && female_checkbox.checked){
+		// 	femalecheckbox_input = 'Female';
+		// 	sexes.push(femalecheckbox_input);
+		// }
+
+		// console.log(sexes);
+
+		// // call function to find the sex value
+		// const sex_input: string | undefined  = determineSexInput(sexes);
 
 		// AGE
 		var ages: string[] = [];
@@ -288,10 +299,8 @@ import PagePanels from '../components/PagePanels.astro';
 
 		resultsContainer.innerHTML = '<p>Searching records...</p>';
 
-		const BASE_URL = import.meta.env.BASE_URL;
-		const CSV_file = BASE_URL + '/HNC-old.csv';
+		const CSV_file = cancerType(cancer_type.value);
 		const cancerTypeToShow: string = cancer_type.value;
-
 
     try {
         // get raw CSV data
@@ -355,7 +364,8 @@ import PagePanels from '../components/PagePanels.astro';
 					if (allMatchedItems){ 
 					// get the indicence rates
 						allMatchedItems.forEach(item => {
-						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);	
+						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);
+						var counts = item.map((row: { count: any; }) => row.count).filter(Boolean);		
 						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
 						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
 						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
@@ -412,7 +422,8 @@ import PagePanels from '../components/PagePanels.astro';
 					if (allMatchedItems){ 
 					// get the indicence rates
 						allMatchedItems.forEach(item => {
-						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);	
+						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);
+						var counts = item.map((row: { count: any; }) => row.count).filter(Boolean);		
 						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
 						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
 						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
@@ -471,7 +482,8 @@ import PagePanels from '../components/PagePanels.astro';
 					if (allMatchedItems){ 
 					// get the indicence rates
 						allMatchedItems.forEach(item => {
-						var key = item.map((row: { region: any; }) => row.region).filter(Boolean);	
+						var key = item.map((row: { region: any; }) => row.region).filter(Boolean);
+						var counts = item.map((row: { count: any; }) => row.count).filter(Boolean);		
 						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
 						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
 						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
@@ -520,9 +532,10 @@ import PagePanels from '../components/PagePanels.astro';
 
 					console.log(matchedItems);
 				
-					// returned if matching fails
 					if (matchedItems.length === 0) {
-						resultsContainer.innerHTML = '<p class="mb-4"> No records found matching that query.</p>';			
+						renderBlankChart(cancerTypeToShow, myChart);
+						resultsContainer.innerHTML = '<p class="mb-4">No records found matching that query.</p>';
+						downloadLinkBtn.innerHTML = '<p></p>';			
 						return;
 					}
 
@@ -531,12 +544,13 @@ import PagePanels from '../components/PagePanels.astro';
 
 					if (matchedItems){ 
 					// get the indicence rates
+					const counts = matchedItems.map((row: { count: any; }) => row.count).filter(Boolean);	
 					const rates = matchedItems.map((row: { rate: any; }) => row.rate).filter(Boolean);
 					const lowerBounds = matchedItems.map((row: { ciLb: number; }) => row.ciLb).filter(Boolean);
 					const upperBounds = matchedItems.map((row: { ciUb: number; }) => row.ciUb).filter(Boolean);
 
 					// call generateTable function in utils
-					resultsContainer.innerHTML = generateSingleRowTable(cancerTypeToShow, rates, lowerBounds, upperBounds, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + stage_input);
+					resultsContainer.innerHTML = generateSingleRowTable(cancerTypeToShow, rates, counts, lowerBounds, upperBounds, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + stage_input);
 					encodedUri = createDownloadFile(rates, lowerBounds, upperBounds);
 					const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + stage_input; 
 					downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';

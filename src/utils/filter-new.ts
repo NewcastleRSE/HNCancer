@@ -196,7 +196,7 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 					const endString = `</tbody>
 							</table>
 							</div>
-							<div class="mb-4" is-size-7 is-italic>Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+							<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 						`;
 
 		   return string + extraString + endString;
