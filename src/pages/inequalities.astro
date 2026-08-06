@@ -247,7 +247,14 @@ import SexSelect from '../components/SexSelect.astro';
 
 				var tempTable: CSVRow[] = [];
 				var tempTableTwo: CSVRow[] = [];
-				var matchedItems: CSVRow[] = [];	
+				var matchedItems: CSVRow[] = [];
+				
+				if(CSV_file === ''){
+					renderBlankChart(cancerTypeToShow, myChart);
+					resultsContainer.innerHTML = '<p class="has-text-danger"> Please choose a cancer type.</p>';
+					downloadLinkBtn.innerHTML = '<p></p>';
+					return;
+				}
 
 				// check that the user hasn't entered too many options
 				if(ages.length > 1 && deprivation.length > 1 || ages.length > 1 && regions.length > 1 || deprivation.length > 1 && regions.length > 1 ){
@@ -325,7 +332,7 @@ import SexSelect from '../components/SexSelect.astro';
 						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ') ' + '\n<strong>' + counts[i] + '</strong>';
 							boundedRates.push(tempString);
 							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
 							downloadFormattedRates.push(downloadString);
@@ -441,7 +448,7 @@ import SexSelect from '../components/SexSelect.astro';
 						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ') ' + '\n<strong>' + counts[i] + '</strong>';
 							boundedRates.push(tempString);
 							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
 							downloadFormattedRates.push(downloadString);
@@ -553,7 +560,7 @@ import SexSelect from '../components/SexSelect.astro';
 						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ') ' + '\n<strong>' + counts[i] + '</strong>';
 							boundedRates.push(tempString);
 							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
 							downloadFormattedRates.push(downloadString);

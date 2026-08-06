@@ -42,7 +42,7 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 				</thead>
 				<tbody>
 					<tr>
-						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
 				
@@ -70,6 +70,8 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 					</tr>
 				</tbody>
 			</table>
+
+			<div class="mb-4">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 			</div>
            `;
 
@@ -93,7 +95,7 @@ export function generateMultiRowTable(cancerType: string, allRates: string[], se
 				</thead>
 				<tbody>
 					<tr>
-						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
 
@@ -133,6 +135,7 @@ export function generateMultiRowTable(cancerType: string, allRates: string[], se
 					const endString = `</tbody>
 							</table>
 							</div>
+							<div class="mb-4">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 						`;
 
 		   return string + extraString + endString;
@@ -151,7 +154,7 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 				</thead>
 				<tbody>
 					<tr>
-						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
 
@@ -193,6 +196,7 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 					const endString = `</tbody>
 							</table>
 							</div>
+							<div class="mb-4">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 						`;
 
 		   return string + extraString + endString;

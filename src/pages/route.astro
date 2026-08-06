@@ -285,6 +285,13 @@ import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
 				var tempTable: CSVRow[] = [];
 				var matchedItems: CSVRow[] = [];	
 
+				if(CSV_file === ''){
+					renderBlankChart(cancerTypeToShow, myChart);
+					resultsContainer.innerHTML = '<p class="has-text-danger"> Please choose a cancer type.</p>';
+					downloadLinkBtn.innerHTML = '<p></p>';
+					return;
+				}
+
 					// check that the user hasn't entered too many options
 				if(ages.length > 1 && deprivation.length > 1 || ages.length > 1 && regions.length > 1 || deprivation.length > 1 && regions.length > 1 ){
 					renderBlankChart(cancerTypeToShow, myChart);
