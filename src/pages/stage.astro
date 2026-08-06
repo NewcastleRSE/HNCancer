@@ -374,7 +374,7 @@ import PagePanels from '../components/PagePanels.astro';
 						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')' + '\n<strong>' + counts[i] + '</strong>';
 							boundedRates.push(tempString);
 							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
 							downloadFormattedRates.push(downloadString);
@@ -432,7 +432,7 @@ import PagePanels from '../components/PagePanels.astro';
 						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')' + '\n<strong>' + counts[i] + '</strong>';
 							boundedRates.push(tempString);
 							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
 							downloadFormattedRates.push(downloadString);
@@ -492,7 +492,7 @@ import PagePanels from '../components/PagePanels.astro';
 						const downloadFormattedRates: string[] = []
 
 						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')' + '\n<strong>' + counts[i] + '</strong>';
 							boundedRates.push(tempString);
 							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
 							downloadFormattedRates.push(downloadString);
