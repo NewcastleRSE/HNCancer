@@ -654,7 +654,7 @@ import SexSelect from '../components/SexSelect.astro';
 							const downloadFormattedRates: string[] = []
 
 							for(var i = 0; i < rates.length; i++){
-								var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
+								var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ') ' + '\n<strong>' + counts[i] + '</strong>';
 								boundedRates.push(tempString);
 								var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
 								downloadFormattedRates.push(downloadString);
@@ -704,7 +704,7 @@ import SexSelect from '../components/SexSelect.astro';
 
 								// returned if matching fails
 						if (matchedItems.length === 0) {
-							resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
+							resultsContainer.innerHTML = '<p class="mb-4">No records found matching that query.</p>';			
 							return;
 						}
 
@@ -719,7 +719,7 @@ import SexSelect from '../components/SexSelect.astro';
 						const upperBounds = matchedItems.map((row: { ciUb: number; }) => row.ciUb).filter(Boolean);
 
 						// call generateTable function in utils
-						resultsContainer.innerHTML = generateSingleRowTable(cancerTypeToShow, rates, lowerBounds, upperBounds, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + region_input);
+						resultsContainer.innerHTML = generateSingleRowTable(cancerTypeToShow, rates, counts, lowerBounds, upperBounds, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + region_input);
 						encodedUri = createDownloadFile(rates,lowerBounds,upperBounds);
 						const filename = 'DL-' + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
 						downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';

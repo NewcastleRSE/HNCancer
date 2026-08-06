@@ -32,7 +32,7 @@ export function cancerType(value: string){
 
 
 // generates a table
-export function generateSingleRowTable(cancerType: string, rates: string[], lowerBounds: number[], upperBounds: number[], searchTerms: string){
+export function generateSingleRowTable(cancerType: string, rates: string[], counts: string [], lowerBounds: number[], upperBounds: number[], searchTerms: string){
 
 	const string = `
 		  <div class="table-container">
@@ -58,20 +58,20 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 
 					</tr>
 					<tr style="border: 1px solid #ccc;" >
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]} (<em>${lowerBounds[0]}, ${upperBounds[0]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]} (<em>${lowerBounds[1]}, ${upperBounds[1]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]} (<em>${lowerBounds[2]}, ${upperBounds[2]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]} (<em>${lowerBounds[3]}, ${upperBounds[3]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]} (<em>${lowerBounds[4]}, ${upperBounds[4]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]} (<em>${lowerBounds[5]}, ${upperBounds[5]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]} (<em>${lowerBounds[6]}, ${upperBounds[6]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]} (<em>${lowerBounds[7]}, ${upperBounds[7]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]} (<em>${lowerBounds[8]}, ${upperBounds[8]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]} (<em>${lowerBounds[0]}, ${upperBounds[0]}</em>) <strong>${counts[0]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]} (<em>${lowerBounds[1]}, ${upperBounds[1]}</em>) <strong>${counts[1]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]} (<em>${lowerBounds[2]}, ${upperBounds[2]}</em>) <strong>${counts[2]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]} (<em>${lowerBounds[3]}, ${upperBounds[3]}</em>) <strong>${counts[3]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]} (<em>${lowerBounds[4]}, ${upperBounds[4]}</em>) <strong>${counts[4]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]} (<em>${lowerBounds[5]}, ${upperBounds[5]}</em>) <strong>${counts[5]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]} (<em>${lowerBounds[6]}, ${upperBounds[6]}</em>) <strong>${counts[6]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]} (<em>${lowerBounds[7]}, ${upperBounds[7]}</em>) <strong>${counts[7]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]} (<em>${lowerBounds[8]}, ${upperBounds[8]}</em>) <strong>${counts[8]}</strong></td>
 					</tr>
 				</tbody>
 			</table>
 
-			<div class="mb-4">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+			<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 			</div>
            `;
 
@@ -135,7 +135,7 @@ export function generateMultiRowTable(cancerType: string, allRates: string[], se
 					const endString = `</tbody>
 							</table>
 							</div>
-							<div class="mb-4">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+							<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 						`;
 
 		   return string + extraString + endString;
@@ -196,7 +196,7 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 					const endString = `</tbody>
 							</table>
 							</div>
-							<div class="mb-4">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+							<div class="mb-4" is-size-7 is-italic>Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 						`;
 
 		   return string + extraString + endString;
