@@ -9,12 +9,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.10",
     "astro": "^6.3.6",
     "echarts": "^6.1.0",
-    "papaparse": "^5.5.3"
+    "papaparse": "^5.5.3",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@types/papaparse": "^5.5.2"
