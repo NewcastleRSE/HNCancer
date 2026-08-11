@@ -63,3 +63,30 @@ export const region_input = document.getElementById('region-input') as HTMLInput
 export const route_input = document.getElementById('route-input') as HTMLInputElement;
 export const chart_area = document.getElementById('csv-chart') as HTMLInputElement;
 
+// --- Data ---
+
+// Object with data and metadata for one indicidence value (rate) 
+// Created by filtering/aggregating CSVRow data
+// Unlike CSVRow, all values are strings
+export interface ProcessedRow {
+  ageBand: string,
+  ciLb: string,
+  ciUb: string,
+  count: string,
+  dep: string,
+  diagnosisYear: string,
+  rate: string,
+  region: string,
+  route: string,
+  sex: string,
+  stage: string
+}
+
+// --- Charts ---
+
+// Data used for each series (line) in a chart
+export interface ChartSeries {
+    name: string;
+    years: number[];
+    rates: number[];
+}
