@@ -1,4 +1,4 @@
-import type { CSVRow } from '../types';
+import type { ChartSeries } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -242,144 +242,52 @@ export function setChartOptions(rates: string[], optionString: string){
  	return option;
  }
 
-export function setMultiChartOptions(allRates: string[], optionString: string){
+export function setMultiChartOptions(allSeries: ChartSeries[], optionString: string){
+
+	// Get year range from data for the x-axis
+	const allYears = allSeries.flatMap(series => series.years);
+	const minYear = Math.min(...allYears);
+	const maxYear = Math.max(...allYears);
+
 
     const option = {
 		title: {
 			text: optionString + ' - Incidence rates by Diagnosis Year' 
 		},
 		tooltip: {
-			trigger: 'axis'
+			trigger: 'axis',
+			// To keep "year" as string in tooltip label
+			axisPointer: {
+				label: {
+					formatter: (params: any) => params.value.toString()
+				}
+    		}
 		},
 		xAxis: {
-			type: 'category',
-			data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
+			// Treat years as "value" to make more robust 
+			// (e.g., to nonchronological orders or missing years)
+			type: 'value',
+			min: minYear,
+			max: maxYear,
+			interval: 1,
+			// Format years as strings to prevent commas from being inserted
+			axisLabel: {
+				formatter: (value: number) => value.toString()
+			}
 		},
 		yAxis: {
 			type: 'value'
 		},
-      	series: [
-        {
-          	data: allRates[0],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[1],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[2],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[3],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[4],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[5],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[6],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[7],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[8],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[9],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		 {
-          	data: allRates[10],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[11],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[12],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[13],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[14],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[15],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[16],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[17],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[18],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[19],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        }
-      ]
+      	series: allSeries.map(series => ({
+			name: series.name,
+			type: 'line',
+			smooth: false,
+			label: true,
+			data: series.years.map((year, i) => [
+				year,
+				series.rates[i]
+			])
+		}))
     };
 
 	return option;
