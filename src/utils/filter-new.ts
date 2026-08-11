@@ -278,6 +278,10 @@ export function setMultiChartOptions(allSeries: ChartSeries[], optionString: str
 		yAxis: {
 			type: 'value'
 		},
+		legend: {
+			type: 'scroll',
+			orient: 'horizontal'
+		},
       	series: allSeries.map(series => ({
 			name: series.name,
 			type: 'line',
