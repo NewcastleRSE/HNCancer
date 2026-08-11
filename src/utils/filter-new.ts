@@ -287,6 +287,10 @@ export function setMultiChartOptions(allSeries: ChartSeries[], optionString: str
 			type: 'line',
 			smooth: false,
 			label: true,
+			endLabel: {
+				show: false,
+				formatter: '{a}',
+			},
 			data: series.years.map((year, i) => [
 				year,
 				series.rates[i]

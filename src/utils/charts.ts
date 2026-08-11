@@ -136,8 +136,24 @@ export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], c
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
 	chartInstance.clear();
 
+	// Show the end labels for each line after the animation has finished
+	const showLabels = () => {
+        chartInstance.setOption({
+            series: allSeries.map(() => ({
+                endLabel: {
+                    show: true
+                }
+            }))
+        });
+
+        chartInstance.off('finished', showLabels);
+    };
+    chartInstance.on('finished', showLabels);
+
     // Set options to render the chart
      chartInstance.setOption(option);
+
+	 
 
      // Optional: Make the chart responsive to window resizing
      window.addEventListener('resize', () => {
