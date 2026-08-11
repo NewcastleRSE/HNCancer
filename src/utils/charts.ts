@@ -128,8 +128,14 @@ export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], c
 	console.log('in multi-chart render');
 	console.log(allSeries);
 
+	
 	// expects an multi-dimensional array of string values
 	const option = setMultiChartOptions(allSeries, cancerType);
+
+	// Clear previous chart/options
+	// Otherwise, options will add new data to existing data (instead of replacing existing data)
+	chartInstance.clear();
+
     // Set options to render the chart
      chartInstance.setOption(option);
 
