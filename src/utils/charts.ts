@@ -153,20 +153,38 @@ export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], c
 
 	// Show the end labels for each line after the animation has finished
 	const showLabels = () => {
+	    // Remove any existing listeners
+		chartInstance.off('finished', showLabels);
 
-		// Show end label when animation finishes
-        chartInstance.setOption({
-            series: allSeries.map(() => ({
-                endLabel: {
-                    show: true
-                }
-            })),
-			// Turn off future animations (e.g., for legend toggling)
-			animation: false
-        });
-		// Remove listener after animation finishes
-        chartInstance.off('finished', showLabels);
-    };
+		requestAnimationFrame(() => {
+			chartInstance.setOption({
+			    // Turn off future animations (e.g., for legend toggling)
+				animation: false,
+			    // Show end label when animation finishes
+				series: allSeries.map(() => ({
+					endLabel: {
+						show: true
+					}
+				}))
+			});
+		});
+	};
+
+	// const showLabels = () => {
+
+	// 	
+    //     chartInstance.setOption({
+    //         series: allSeries.map(() => ({
+    //             endLabel: {
+    //                 show: true
+    //             }
+    //         })),
+	// 		
+	// 		animation: false
+    //     });
+	// 	
+    //     chartInstance.off('finished', showLabels);
+    // };
     chartInstance.on('finished', showLabels);
 
     // Set options to render the chart
