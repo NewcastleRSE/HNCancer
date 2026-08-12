@@ -168,21 +168,6 @@ export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], c
 		});
 	};
 
-	// const showLabels = () => {
-
-	// 	
-    //     chartInstance.setOption({
-    //         series: allSeries.map(() => ({
-    //             endLabel: {
-    //                 show: true
-    //             }
-    //         })),
-	// 		
-	// 		animation: false
-    //     });
-	// 	
-    //     chartInstance.off('finished', showLabels);
-    // };
     chartInstance.on('finished', showLabels);
 
     // Set options to render the chart
