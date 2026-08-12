@@ -57,7 +57,6 @@ function getSeriesName(row: ProcessedRow): string {
 export function returnAllChartSeries(allMatchedItems: ProcessedRow[][]): ChartSeries[] {
 
 	console.log("allMatchedItems: ", allMatchedItems)
-	//console.log("rate type: ", typeof allMatchedItems[0][0].rate);	
 
 	// Create chart data 
 	var allChartSeries: ChartSeries[] = [];
@@ -142,7 +141,6 @@ export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], c
 
 	console.log('in multi-chart render');
 	console.log(allSeries);
-
 	
 	// expects an multi-dimensional array of string values
 	const option = setMultiChartOptions(allSeries, cancerType);
