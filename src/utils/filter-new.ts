@@ -249,11 +249,24 @@ export function setMultiChartOptions(allSeries: ChartSeries[], optionString: str
 	const minYear = Math.min(...allYears);
 	const maxYear = Math.max(...allYears);
 
+	// Calculate size of right margin based on label lengths
+	// Will be length of longest label * 7, with min of 150 and max of 275
+	const longestNameLength = Math.max(
+    ...allSeries.map(series => series.name.length)
+	);
+	const rightMargin = Math.min(
+		275,
+		Math.max(150, longestNameLength * 7)
+	);
 
+	// Options
     const option = {
 		title: {
 			text: optionString + ' - Incidence rates by Diagnosis Year' 
 		},
+		grid: {
+        	right: rightMargin
+    	},
 		tooltip: {
 			trigger: 'axis',
 			// To keep "year" as string in tooltip label
