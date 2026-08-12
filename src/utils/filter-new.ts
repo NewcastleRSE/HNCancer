@@ -268,6 +268,12 @@ export function setLineChartOptions(allSeries: ChartSeries[], optionString: stri
 				show: false,
 				formatter: '{a}',
 			},
+			// Use square symbol if series is only male or female data
+			// Note: assumes string "male" does not occur in any other filter options
+			symbol: series.name.toLowerCase().includes("male") ? "emptyRect" : "emptyCircle",
+			// If series is female data, also rotate rectangle
+			symbolRotate: series.name.toLowerCase().includes("female") ? 45 : 0,
+			// Create year, rate data pairs
 			data: series.years.map((year, i) => [
 				year,
 				series.rates[i]
