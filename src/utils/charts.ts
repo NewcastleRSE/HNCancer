@@ -1,4 +1,4 @@
-import { setMultiChartOptions } from "../utils/filter-new";
+import { setLineChartOptions } from "../utils/filter-new";
 import * as echarts from 'echarts';
 import type { ProcessedRow, ChartSeries } from "../types";
 
@@ -113,7 +113,7 @@ export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | Processed
 
 // Function in initialise a single- or multi-line chart
 // "element" is the id of the DOM element where the chart will be added
-export function initMultiChart(element: string): echarts.ECharts {
+export function initLineChart(element: string): echarts.ECharts {
 	const chartDom = document.getElementById(element);
   	const chartInstance = echarts.init(chartDom);
 
@@ -127,13 +127,13 @@ export function initMultiChart(element: string): echarts.ECharts {
 }
 
  // function to render a single- or multi-line chart
-export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], chartInstance: echarts.ECharts) {
+export function renderLineChart(cancerType: string, allSeries: ChartSeries[], chartInstance: echarts.ECharts) {
 
 	console.log('in multi-chart render');
 	console.log(allSeries);
 	
 	// expects an multi-dimensional array of string values
-	const option = setMultiChartOptions(allSeries, cancerType);
+	const option = setLineChartOptions(allSeries, cancerType);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
@@ -181,7 +181,7 @@ export function renderBlankChart(cancerType: string, chartInstance: echarts.ECha
 		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A']
 	];
 
-	const option = setMultiChartOptions(allRates, cancerType);
+	const option = setLineChartOptions(allRates, cancerType);
 	
     // Set options to render the chart
      chartInstance.setOption(option);

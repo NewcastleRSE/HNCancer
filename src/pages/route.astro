@@ -112,13 +112,13 @@ import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
   import type { CSVRow } from "../types";
   import {
     returnAllChartSeries,
-    renderMultiChart,
+    renderLineChart,
     renderBlankChart,
-    initMultiChart,
+    initLineChart,
   } from "../utils/charts";
 
   // Initialise chart
-  const myChart = initMultiChart("csv-chart");
+  const myChart = initLineChart("csv-chart");
 
   const route_form = document.getElementById(
     "route-search-form",
@@ -489,7 +489,7 @@ import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
             }
 
             var allChartSeries = returnAllChartSeries(allMatchedItems);
-            renderMultiChart(cancerTypeToShow, allChartSeries, myChart);
+            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
 
             if (allMatchedItems) {
               // call generateTable function in utils
@@ -604,7 +604,7 @@ import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
             }
 
             var allChartSeries = returnAllChartSeries(allMatchedItems);
-            renderMultiChart(cancerTypeToShow, allChartSeries, myChart);
+            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
 
             if (allMatchedItems) {
               // call generateTable function in utils
@@ -705,7 +705,7 @@ import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
             }
 
             var allChartSeries = returnAllChartSeries(allMatchedItems);
-            renderMultiChart(cancerTypeToShow, allChartSeries, myChart);
+            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
 
             if (allMatchedItems) {
               // call generateTable function in utils
@@ -757,7 +757,7 @@ import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
 
             // call function to render an echart
             var allChartSeries = returnAllChartSeries(matchedItems);
-            renderMultiChart(cancerTypeToShow, allChartSeries, myChart);
+            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
 
             if (matchedItems) {
               // get the indicence rates

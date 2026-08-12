@@ -205,7 +205,7 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 
 // Options for single or multi line chart
 // Also adds data to the chart
-export function setMultiChartOptions(allSeries: ChartSeries[], optionString: string){
+export function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 
 	// Get year range from data for the x-axis
 	const allYears = allSeries.flatMap(series => series.years);
