@@ -153,12 +153,16 @@ export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], c
 
 	// Show the end labels for each line after the animation has finished
 	const showLabels = () => {
+
+		// Show end label when animation finishes
         chartInstance.setOption({
             series: allSeries.map(() => ({
                 endLabel: {
                     show: true
                 }
-            }))
+            })),
+			// Turn off future animations (e.g., for legend toggling)
+			animation: false
         });
 		// Remove listener after animation finishes
         chartInstance.off('finished', showLabels);
