@@ -122,10 +122,12 @@ import PagePanels from "../components/PagePanels.astro";
     renderChart,
     renderMultiChart,
     renderBlankChart,
+    initMultiChart,
   } from "../utils/charts";
 
-  const chartDom = document.getElementById("csv-chart");
-  const myChart = echarts.init(chartDom);
+  // Initialise chart
+  const myChart = initMultiChart("csv-chart");
+
   const stage_form = document.getElementById(
     "stage-search-form",
   ) as HTMLFormElement;

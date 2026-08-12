@@ -115,10 +115,12 @@ import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
     renderChart,
     renderMultiChart,
     renderBlankChart,
+    initMultiChart,
   } from "../utils/charts";
 
-  const chartDom = document.getElementById("csv-chart");
-  const myChart = echarts.init(chartDom);
+  // Initialise chart
+  const myChart = initMultiChart("csv-chart");
+
   const route_form = document.getElementById(
     "route-search-form",
   ) as HTMLFormElement;

@@ -122,7 +122,22 @@ export function renderChart(cancerType: string, data: any[], chartInstance: echa
     });
 }
 
- // function to initialize the EChart
+// function in initialise a multi-line chart
+// Element is the DOM element where the chart will be added
+export function initMultiChart(element: string): echarts.ECharts {
+	const chartDom = document.getElementById(element);
+  	const chartInstance = echarts.init(chartDom);
+
+	// Event listener for window resizing
+     window.addEventListener('resize', () => {
+       chartInstance.resize();
+     });
+
+	return chartInstance
+
+}
+
+ // function to render the multi-line chart
 export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], chartInstance: echarts.ECharts) {
 
 	console.log('in multi-chart render');
@@ -145,7 +160,7 @@ export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], c
                 }
             }))
         });
-
+		// Remove listener after animation finishes
         chartInstance.off('finished', showLabels);
     };
     chartInstance.on('finished', showLabels);
@@ -153,12 +168,6 @@ export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], c
     // Set options to render the chart
      chartInstance.setOption(option);
 
-	 
-
-     // Optional: Make the chart responsive to window resizing
-     window.addEventListener('resize', () => {
-       chartInstance.resize();
-     });
 }
 
 // creates a blank chart with null values and wipes out any previous multi-line chart 

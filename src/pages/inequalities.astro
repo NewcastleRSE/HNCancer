@@ -103,11 +103,13 @@ import SexSelect from "../components/SexSelect.astro";
     renderChart,
     renderMultiChart,
     renderBlankChart,
+    initMultiChart,
   } from "../utils/charts";
   import type { CSVRow } from "../types";
 
-  const chartDom = document.getElementById("csv-chart");
-  const myChart = echarts.init(chartDom);
+  // Initialise chart
+  const myChart = initMultiChart("csv-chart");
+
   const inequalities_form = document.getElementById(
     "inequalities-search-form",
   ) as HTMLFormElement;
