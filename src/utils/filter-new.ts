@@ -222,13 +222,19 @@ export function setLineChartOptions(allSeries: ChartSeries[], optionString: stri
 		Math.max(150, longestNameLength * 7)
 	);
 
+	// Whether there are multiple series
+	const isMulti = allSeries.length > 1;
+
 	// Options
     const option = {
 		title: {
-			text: optionString + ' - Incidence rates by Diagnosis Year' 
+			text: optionString + ' Cancer Rates' 
 		},
 		grid: {
-        	right: rightMargin
+        	right: rightMargin,
+			// If legend, add extra white space between the legend and bottom of the chart
+			// Otherwise, use default (60)
+			bottom: isMulti? 100: 60, 
     	},
 		tooltip: {
 			trigger: 'axis',
@@ -246,16 +252,25 @@ export function setLineChartOptions(allSeries: ChartSeries[], optionString: stri
 			min: minYear,
 			max: maxYear,
 			interval: 1,
+			name: 'Diagnosis year',
+			nameLocation: 'middle',
+			nameTextStyle: {
+				fontWeight: 'bold'
+			},
 			// Format years as strings to prevent commas from being inserted
 			axisLabel: {
 				formatter: (value: number) => value.toString()
 			}
 		},
 		yAxis: {
-			type: 'value'
+			type: 'value',
+			name: 'Incidence\n(diagnoses per 100,000 people)',
+			nameTextStyle: {
+				fontWeight: 'bold'
+			}
 		},
 		legend: {
-			show: allSeries.length > 1, // if multiple series, show legend
+			show: isMulti, // if multiple series, show legend
 			type: 'scroll',
 			orient: 'horizontal'
 		},
