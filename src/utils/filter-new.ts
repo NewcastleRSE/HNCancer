@@ -255,6 +255,7 @@ export function setMultiChartOptions(allSeries: ChartSeries[], optionString: str
 			type: 'value'
 		},
 		legend: {
+			show: allSeries.length > 1, // if multiple series, show legend
 			type: 'scroll',
 			orient: 'horizontal'
 		},
