@@ -100,7 +100,6 @@ import SexSelect from "../components/SexSelect.astro";
   } from "../types";
   import {
     returnAllChartSeries,
-    renderChart,
     renderMultiChart,
     renderBlankChart,
     initMultiChart,
@@ -927,7 +926,8 @@ import SexSelect from "../components/SexSelect.astro";
               }
 
               // call function to render an echart
-              renderChart(cancerTypeToShow, matchedItems, myChart);
+              var allChartSeries = returnAllChartSeries(matchedItems);
+              renderMultiChart(cancerTypeToShow, allChartSeries, myChart);
 
               if (matchedItems) {
                 // get the indicence rates

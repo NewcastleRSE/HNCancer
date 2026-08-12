@@ -203,45 +203,8 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 }
 
 
-
-
-export function setChartOptions(rates: string[], optionString: string){
-
-    const option = {
-       title: {
-        text: optionString + ' - Incidence rates by Diagnosis Year' 
-      },
-       tooltip: {
-         trigger: 'axis'
-       },
-       xAxis: {
-         type: 'category',
-         data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
-       },
-       yAxis: {
-         type: 'value',
-		 minInterval: 1, // Enforces the minimum gap between ticks is 1
-		  axisLabel: {
-        	formatter: '{value}' // Ensures labels display without decimals
-		  }
-      },
-	  legend: {
-    	// data: ['searchTerms']
- 		},
-      series: [
-         {
-           	data: rates,
-			//name: searchTerms,
-          	type: 'line',
-           	smooth: false,
-		  	label: true
-         }
-       ]
-     };
-
- 	return option;
- }
-
+// Options for single or multi line chart
+// Also adds data to the chart
 export function setMultiChartOptions(allSeries: ChartSeries[], optionString: string){
 
 	// Get year range from data for the x-axis

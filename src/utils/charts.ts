@@ -1,4 +1,4 @@
-import { setChartOptions, setMultiChartOptions } from "../utils/filter-new";
+import { setMultiChartOptions } from "../utils/filter-new";
 import * as echarts from 'echarts';
 import type { ProcessedRow, ChartSeries } from "../types";
 
@@ -54,23 +54,30 @@ function getSeriesName(row: ProcessedRow): string {
 
 // --- Exported functions ---
 
-export function returnAllChartSeries(allMatchedItems: ProcessedRow[][]): ChartSeries[] {
+export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | ProcessedRow[][]): ChartSeries[] {
 
 	console.log("allMatchedItems: ", allMatchedItems)
+
+	// If input data is ProcessedRow[] (representing one series), convert to 
+	// ProcessedRow[][] by wrapping in outer array
+	const seriesData: ProcessedRow[][] =
+    Array.isArray(allMatchedItems[0])
+        ? allMatchedItems as ProcessedRow[][]
+        : [allMatchedItems as ProcessedRow[]];
 
 	// Create chart data 
 	var allChartSeries: ChartSeries[] = [];
 
-	if (allMatchedItems){ 
+	if (seriesData){ 
 
 		// Validate metadata across different years within each series
-		allMatchedItems.forEach(validateSeriesMetadata);
+		seriesData.forEach(validateSeriesMetadata);
 
 		// Create each chart series
 		// Here, 
 		// 		series = incidence rates for one set of filters, across all years
 		// 		row = data for one incidence rate
-        allMatchedItems.forEach(series => {
+        seriesData.forEach(series => {
 
             // Remove the "all years" result
 			// (will remove any years starting with "all", case insensitive)
@@ -102,27 +109,10 @@ export function returnAllChartSeries(allMatchedItems: ProcessedRow[][]): ChartSe
 	return allChartSeries;
 
 }
-    
-// function to initialize the EChart
-export function renderChart(cancerType: string, data: any[], chartInstance: echarts.ECharts) {
-    
-  	const rates = data.map((row: { rate: any; }) => row.rate).filter(Boolean);
 
-    //remove all years result
-	rates.pop();
 
-	const option = setChartOptions(rates, cancerType);
-    // Set options to render the chart
-    chartInstance.setOption(option);
-
-    // Optional: Make the chart responsive to window resizing
-    window.addEventListener('resize', () => {
-      chartInstance.resize();
-    });
-}
-
-// function in initialise a multi-line chart
-// Element is the DOM element where the chart will be added
+// Function in initialise a single- or multi-line chart
+// "element" is the id of the DOM element where the chart will be added
 export function initMultiChart(element: string): echarts.ECharts {
 	const chartDom = document.getElementById(element);
   	const chartInstance = echarts.init(chartDom);
@@ -136,7 +126,7 @@ export function initMultiChart(element: string): echarts.ECharts {
 
 }
 
- // function to render the multi-line chart
+ // function to render a single- or multi-line chart
 export function renderMultiChart(cancerType: string, allSeries: ChartSeries[], chartInstance: echarts.ECharts) {
 
 	console.log('in multi-chart render');

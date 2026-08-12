@@ -67,15 +67,15 @@ export const chart_area = document.getElementById('csv-chart') as HTMLInputEleme
 
 // Object with data and metadata for one indicidence value (rate) 
 // Created by filtering/aggregating CSVRow data
-// Unlike CSVRow, all values are strings
+// Unlike CSVRow, ciLb, ciUb, and rate may be strings
 export interface ProcessedRow {
   ageBand: string,
-  ciLb: string,
-  ciUb: string,
+  ciLb: string | number,
+  ciUb: string | number,
   count: string,
   dep: string,
   diagnosisYear: string,
-  rate: string,
+  rate: string | number,
   region: string,
   route: string,
   sex: string,

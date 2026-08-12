@@ -84,52 +84,6 @@ export function cancerType(value: string){
  	return encodedUri;
 }
 
-
-
-/*
-export function setChartOptions(data: any[], dataSecond: any[], year: string[], optionString: string){
-
-	// create arrays of arrays
-	const ages = dataMap(data);
-	const agesSecond = dataMap(dataSecond);
-	// flatten each to a single array
-	const ageSeries = ages.flat(1);
-	const ageSeriesTwo = agesSecond.flat(1);
-
-	console.log(ages);
-	console.log(ageSeries);
-
-    const option = {
-      title: {
-        text: optionString.slice(0, -1) + ' - Incidents by Age - Diagnosis Year : ' + year 
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      xAxis: {
-        type: 'category',
-        data: ["0-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"]
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: ageSeries,
-          type: 'line',
-          smooth: true
-        },
-		{
-          data: ageSeriesTwo,
-          type: 'line',
-          smooth: true
-        } 
-      ]
-    };
-
-	return option;
-}
-
 /*
 export function getCSVData({yearQuery, keyQuery, keyQueryTwo, csvText}: CSVDataInput): CSVData {
 

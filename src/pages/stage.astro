@@ -119,7 +119,6 @@ import PagePanels from "../components/PagePanels.astro";
   import type { CSVRow } from "../types";
   import {
     returnAllChartSeries,
-    renderChart,
     renderMultiChart,
     renderBlankChart,
     initMultiChart,
@@ -785,7 +784,8 @@ import PagePanels from "../components/PagePanels.astro";
             }
 
             // call function to render an echart
-            renderChart(cancerTypeToShow, matchedItems, myChart);
+            var allChartSeries = returnAllChartSeries(matchedItems);
+            renderMultiChart(cancerTypeToShow, allChartSeries, myChart);
 
             if (matchedItems) {
               // get the indicence rates
