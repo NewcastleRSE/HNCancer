@@ -1,3 +1,5 @@
+import { CHART_LABEL_VARIABLES } from "./utils/charts"
+
 export interface CSVRow {
     diagnosisYear: string;
     ageBand: string;
@@ -89,4 +91,18 @@ export interface ChartSeries {
     name: string;
     years: number[];
     rates: number[];
+    variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
+}
+
+// Chart labels info (for any variables that are not "all")
+// "variables" are the variable: value pairs before they were concatenated into the series name
+export interface SeriesLabels {
+    name: string; // full label
+    variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
+}
+
+// Create colormapping for chart
+export interface ChartColorMapping {
+    key: typeof CHART_LABEL_VARIABLES[number] | null;
+    colors: Record<string, string>;
 }

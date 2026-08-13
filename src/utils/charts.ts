@@ -1,12 +1,14 @@
 import { setLineChartOptions } from "../utils/filter-new";
 import * as echarts from 'echarts';
-import type { ProcessedRow, ChartSeries } from "../types";
+import type { ProcessedRow, ChartSeries, SeriesLabels } from "../types";
 
-// --- Helper functions within module ---
+// --- Constants --- 
 
-// Fields used to create labels
-// Order determines order of labels
-const CHART_LABEL_FIELDS = [
+// Variables used to create series names/labels
+// Info from these variables is also used for symbol/colour encoding
+// Order determines order of labels and prioritisation for colour encoding 
+// (if multiple variables have different values across the series)
+export const CHART_LABEL_VARIABLES = [
 	'sex',
     'ageBand',
     'dep',
@@ -14,6 +16,8 @@ const CHART_LABEL_FIELDS = [
     'route',
     'stage'
 ] as const;
+
+// --- Helper functions within module ---
 
 // Validate processed data for one series (line)
 // Checks that ProcessedRow[] arrays (rates for different years, but same filters) 
@@ -27,7 +31,7 @@ function validateSeriesMetadata(series: ProcessedRow[]) {
   const first = series[0];
 
   // Loop through all fields used to create labels
-  for (const field of CHART_LABEL_FIELDS) {
+  for (const field of CHART_LABEL_VARIABLES) {
     const expected = first[field];
 
     const consistent = series.every(row => row[field] === expected);
@@ -41,15 +45,23 @@ function validateSeriesMetadata(series: ProcessedRow[]) {
 }
 
 // Get the name of the series (i.e., the data in ProcessedRow[]) from one row (array)
+// Also stories the variables and variable values used to make the name
 // Use validateSeriesMetadata first to check that each row has same metadata
-function getSeriesName(row: ProcessedRow): string {
-  return CHART_LABEL_FIELDS
-	// Get value for each of the label fields
-    .map(field => row[field])
-	// Only keep values that don't start with "all" (case insensitive)
-    .filter(value => !value.toLowerCase().startsWith('all'))
-	// Concatenate remaining values together to create label for series
-    .join(', ');
+function getSeriesLabels(row: ProcessedRow): SeriesLabels {
+	// Get values for each of the label variables
+    const variables = CHART_LABEL_VARIABLES
+		// Only keep values that don't start with "all" (case insensitive)
+        .filter(field => !row[field].toLowerCase().startsWith('all'))
+		// Get the 
+        .reduce((result, field) => {
+            result[field] = row[field];
+            return result;
+        }, {} as Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>);
+
+    return {
+        name: Object.values(variables).join(', '),
+        variables: variables
+    };
 }
 
 // --- Exported functions ---
@@ -84,7 +96,7 @@ export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | Processed
             const rows = series.filter(row => !row.diagnosisYear.toLowerCase().startsWith('all'));
 
 			// Use first row to get label
-            const name = getSeriesName(rows[0]);
+            const labels = getSeriesLabels(rows[0]);
 
 			// Get years and change to numbers
             const years = rows.map(row => Number(row.diagnosisYear));
@@ -97,9 +109,10 @@ export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | Processed
             const rates = rows.map(row => Number(row.rate))
 
             allChartSeries.push({
-                name: name,
+                name: labels.name,
                 years: years,
-                rates: rates
+                rates: rates,
+				variables: labels.variables
             });
         });
     }
@@ -129,8 +142,8 @@ export function initLineChart(element: string): echarts.ECharts {
  // function to render a single- or multi-line chart
 export function renderLineChart(cancerType: string, allSeries: ChartSeries[], chartInstance: echarts.ECharts) {
 
-	console.log('in multi-chart render');
-	console.log(allSeries);
+	console.log('in line chart render');
+	console.log("chart series: ", allSeries);
 	
 	// expects an multi-dimensional array of string values
 	const option = setLineChartOptions(allSeries, cancerType);

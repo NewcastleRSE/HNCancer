@@ -1,4 +1,5 @@
 import type { ChartSeries } from '../types';
+import { getChartColorMapping } from './colors';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -202,7 +203,6 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 		   return string + extraString + endString;
 }
 
-
 // Options for single or multi line chart
 // Also adds data to the chart
 export function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
@@ -224,6 +224,10 @@ export function setLineChartOptions(allSeries: ChartSeries[], optionString: stri
 
 	// Whether there are multiple series
 	const isMulti = allSeries.length > 1;
+
+	// Get colormapping
+	const cmap = getChartColorMapping(allSeries);
+	console.log("Chart cmap: ", cmap)
 
 	// Options
     const option = {
@@ -286,8 +290,28 @@ export function setLineChartOptions(allSeries: ChartSeries[], optionString: stri
 			// Use square symbol if series is only male or female data
 			// Note: assumes string "male" does not occur in any other filter options
 			symbol: series.name.toLowerCase().includes("male") ? "emptyRect" : "emptyCircle",
+			
 			// If series is female data, also rotate rectangle
 			symbolRotate: series.name.toLowerCase().includes("female") ? 45 : 0,
+
+			// Colors - depends on specific variable (cmap.key) if present; otherwise
+			// full label is used
+			itemStyle: {
+                color: cmap.colors[
+                    cmap.key
+                        ? series.variables[cmap.key]!
+                        : series.name
+                ]
+            },
+
+            lineStyle: {
+                color: cmap.colors[
+                    cmap.key
+                        ? series.variables[cmap.key]!
+                        : series.name
+                ]
+            },
+
 			// Create year, rate data pairs
 			data: series.years.map((year, i) => [
 				year,
