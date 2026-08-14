@@ -22,13 +22,17 @@ function getChartVariablesWithMultipleValues(
 
 // --- Colors and colormaps ---
 
-// const CMAP_CONT_UPPER = '#eac001';
-// const CMAP_CONT_LOWER = '#2A4858';
-// const CMAP_CONT = chroma
-//                     .scale([CMAP_CONT_LOWER, CMAP_CONT_UPPER])
-//                     .mode('lch')
-const CMAP_CONT = chroma.scale('Viridis')
+//const CMAP_CONT = chroma.scale('Viridis')
 
+const CMAP_CONT = chroma.scale([
+    "#291f5b",
+    "#4b206b",
+    "#701f6f",
+    "#a2256d",
+    "#d33159",
+    "#f87a08",
+    "#f7c922"
+])
 // echarts default
 const CMAP_CAT = [
     '#5070dd',
