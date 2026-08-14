@@ -18,11 +18,11 @@
     "chroma-js": "^3.2.0",
     "echarts": "^6.1.0",
     "install": "^0.13.0",
-    "papaparse": "^5.5.3",
-    "typescript": "^6.0.3"
+    "papaparse": "^5.5.3"
   },
   "devDependencies": {
     "@types/chroma-js": "^3.1.2",
-    "@types/papaparse": "^5.5.2"
+    "@types/papaparse": "^5.5.2",
+    "typescript": "^7.0.2"
   }
 }
