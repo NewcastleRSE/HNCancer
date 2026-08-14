@@ -46,18 +46,29 @@ const CMAP_CAT = [
     '#3fbe95'
 ];
 
+// Male/Female categorical
+const CMAP_MF = [
+    '#12a4ac',
+    '#934fb5',
+]
+
 const CLR_SERIES_DEFAULT = '#384585';
 
 export const VARIABLE_CMAPS = Object.fromEntries(
     Object.entries(VARIABLE_OPTIONS).map(([variable, options]) => {
 
         // Colormap depends on if continuous or categorical variables
-        const colors =
-            VARIABLE_TYPE[variable as keyof typeof VARIABLE_TYPE] === 'continuous'
-                ? CMAP_CONT.colors(options.length)
-                : options.map(
-                    (_, index) => CMAP_CAT[index % CMAP_CAT.length]
-                );
+        var colors: string[] = []
+        if (variable === "sex") {
+            colors = CMAP_MF;
+        } else {
+            colors =
+                VARIABLE_TYPE[variable as keyof typeof VARIABLE_TYPE] === 'continuous'
+                    ? CMAP_CONT.colors(options.length)
+                    : options.map(
+                        (_, index) => CMAP_CAT[index % CMAP_CAT.length]
+                    );
+        }
 
         return [
             variable,
