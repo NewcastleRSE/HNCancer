@@ -84,6 +84,18 @@ export interface ProcessedRow {
   stage: string
 }
 
+// Filter object for filtering Incidence spreadsheet
+// TODO: Make these types more specific based on VARIABLE_OPTIONS and VARIABLE_ALL
+// spreadsheet values
+export type IncidenceFilter = {
+    dep: string | string[];
+    region: string | string[];
+    sex: string | string[];
+    ageBand: string | string[];
+    route: string | string[];
+    stage: string | string[];
+};
+
 // --- Charts ---
 
 // Data used for each series (line) in a chart
