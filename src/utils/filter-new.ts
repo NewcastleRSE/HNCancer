@@ -1,4 +1,5 @@
-import type { CSVRow } from '../types';
+import type { ChartSeries } from '../types';
+import { getChartColorMapping } from './colors';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -202,184 +203,121 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 		   return string + extraString + endString;
 }
 
+// Options for single or multi line chart
+// Also adds data to the chart
+export function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 
+	// Get year range from data for the x-axis
+	const allYears = allSeries.flatMap(series => series.years);
+	const minYear = Math.min(...allYears);
+	const maxYear = Math.max(...allYears);
 
+	// Calculate size of right margin based on label lengths
+	// Will be length of longest label * 7, with min of 150 and max of 275
+	const longestNameLength = Math.max(
+    ...allSeries.map(series => series.name.length)
+	);
+	const rightMargin = Math.min(
+		275,
+		Math.max(150, longestNameLength * 7)
+	);
 
-export function setChartOptions(rates: string[], optionString: string){
+	// Whether there are multiple series
+	const isMulti = allSeries.length > 1;
 
-    const option = {
-       title: {
-        text: optionString + ' - Incidence rates by Diagnosis Year' 
-      },
-       tooltip: {
-         trigger: 'axis'
-       },
-       xAxis: {
-         type: 'category',
-         data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
-       },
-       yAxis: {
-         type: 'value',
-		 minInterval: 1, // Enforces the minimum gap between ticks is 1
-		  axisLabel: {
-        	formatter: '{value}' // Ensures labels display without decimals
-		  }
-      },
-	  legend: {
-    	// data: ['searchTerms']
- 		},
-      series: [
-         {
-           	data: rates,
-			//name: searchTerms,
-          	type: 'line',
-           	smooth: false,
-		  	label: true
-         }
-       ]
-     };
+	// Get colormapping
+	const cmap = getChartColorMapping(allSeries);
+	console.log("Chart cmap: ", cmap)
 
- 	return option;
- }
-
-export function setMultiChartOptions(allRates: string[], optionString: string){
-
+	// Options
     const option = {
 		title: {
-			text: optionString + ' - Incidence rates by Diagnosis Year' 
+			text: optionString + ' Cancer Rates' 
 		},
+		grid: {
+        	right: rightMargin,
+			// If legend, add extra white space between the legend and bottom of the chart
+			// Otherwise, use default (60)
+			bottom: isMulti? 100: 60, 
+    	},
 		tooltip: {
-			trigger: 'axis'
+			trigger: 'axis',
+			// To keep "year" as string in tooltip label
+			axisPointer: {
+				label: {
+					formatter: (params: any) => params.value.toString()
+				}
+    		}
 		},
 		xAxis: {
-			type: 'category',
-			data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
+			// Treat years as "value" to make more robust 
+			// (e.g., to nonchronological orders or missing years)
+			type: 'value',
+			min: minYear,
+			max: maxYear,
+			interval: 1,
+			name: 'Diagnosis year',
+			nameLocation: 'middle',
+			nameTextStyle: {
+				fontWeight: 'bold'
+			},
+			// Format years as strings to prevent commas from being inserted
+			axisLabel: {
+				formatter: (value: number) => value.toString()
+			}
 		},
 		yAxis: {
-			type: 'value'
+			type: 'value',
+			name: 'Incidence\n(diagnoses per 100,000 people)',
+			nameTextStyle: {
+				fontWeight: 'bold'
+			}
 		},
-      	series: [
-        {
-          	data: allRates[0],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[1],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[2],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[3],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[4],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[5],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[6],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[7],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[8],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[9],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		 {
-          	data: allRates[10],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[11],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[12],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[13],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[14],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[15],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[16],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[17],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[18],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[19],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        }
-      ]
+		legend: {
+			show: isMulti, // if multiple series, show legend
+			type: 'scroll',
+			orient: 'horizontal'
+		},
+      	series: allSeries.map(series => ({
+			name: series.name,
+			type: 'line',
+			smooth: false,
+			label: true,
+			endLabel: {
+				show: false,
+				formatter: '{a}',
+			},
+			// Use square symbol if series is only male or female data
+			// Note: assumes string "male" does not occur in any other filter options
+			symbol: series.name.toLowerCase().includes("male") ? "emptyRect" : "emptyCircle",
+			
+			// If series is female data, also rotate rectangle
+			symbolRotate: series.name.toLowerCase().includes("female") ? 45 : 0,
+
+			// Colors - depends on specific variable (cmap.key) if present; otherwise
+			// full label is used
+			itemStyle: {
+                color: cmap.colors[
+                    cmap.key
+                        ? series.variables[cmap.key]!
+                        : series.name
+                ]
+            },
+
+            lineStyle: {
+                color: cmap.colors[
+                    cmap.key
+                        ? series.variables[cmap.key]!
+                        : series.name
+                ]
+            },
+
+			// Create year, rate data pairs
+			data: series.years.map((year, i) => [
+				year,
+				series.rates[i]
+			])
+		}))
     };
 
 	return option;

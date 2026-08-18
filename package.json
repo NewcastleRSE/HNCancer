@@ -9,14 +9,17 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check"
   },
   "dependencies": {
     "astro": "^6.3.6",
+    "chroma-js": "^3.2.0",
     "echarts": "^6.1.0",
     "papaparse": "^5.5.3"
   },
   "devDependencies": {
+    "@types/chroma-js": "^3.1.2",
     "@types/papaparse": "^5.5.2"
   }
 }
