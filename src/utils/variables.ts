@@ -60,7 +60,20 @@ export const VARIABLE_OPTIONS = {
 
 } as const;
 
-// TODO: object of "all" options for each variable
+// "All" options for each variable
+// Values correspond to spreadsheet values for each variable and should not be changed 
+// unless spreadsheet format changes.
+// Labels can be used to label UI elements; updated these will only impact the displayed
+// text in the UI.
+export const VARIABLE_ALL = {
+    dep: {value: "All IMD Quintiles", label: "All IMD Quintiles"},
+    region: {value: "All Regions", label: "All Regions"},
+    sex: {value: "All Persons", label: "All Persons"},
+    ageBand: {value: "all ages", label: "All Ages"},
+    route: {value: "All Routes", label: "All Routes"},
+    stage: {value: "All Stages", label: "All Stages"}
+
+} as const;
 
 // Type of each variable (continuous or categorical)
 export const VARIABLE_TYPE = {
