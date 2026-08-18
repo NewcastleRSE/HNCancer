@@ -8,7 +8,7 @@ export interface CSVRow {
     region: string;
     stage: string;
     route: string;
-    count: string;
+    count: string | number;
     rate: number;
     ciLb: number;
     ciUb: number;
@@ -72,12 +72,12 @@ export const chart_area = document.getElementById('csv-chart') as HTMLInputEleme
 // Unlike CSVRow, ciLb, ciUb, and rate may be strings
 export interface ProcessedRow {
   ageBand: string,
-  ciLb: string | number,
-  ciUb: string | number,
-  count: string,
+  ciLb: number,
+  ciUb: number,
+  count: string | number,
   dep: string,
   diagnosisYear: string,
-  rate: string | number,
+  rate: number,
   region: string,
   route: string,
   sex: string,

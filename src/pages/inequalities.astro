@@ -60,9 +60,9 @@ import SexSelect from "../components/SexSelect.astro";
     createMultiDownloadFile,
   } from "../utils/filter";
   import {
-    generateSingleRowTable,
-    generateMultiRowTable,
-    generateDichotomyMultiRowTable,
+    generateSingleRowTableDEPRECATED,
+    generateMultiRowTableDEPRECATED,
+    generateDichotomyMultiRowTableDEPRECATED,
   } from "../utils/filter-new";
   import {
     determineAgeInput,
@@ -441,13 +441,18 @@ import SexSelect from "../components/SexSelect.astro";
             if (allMatchedItems) {
               // call generateTable function in utils
               if (sex_input === "Male:Female") {
-                resultsContainer.innerHTML = generateDichotomyMultiRowTable(
-                  cancerTypeToShow,
-                  allRates,
-                  sex_input + " : " + deprivation_input + " : " + region_input,
-                );
+                resultsContainer.innerHTML =
+                  generateDichotomyMultiRowTableDEPRECATED(
+                    cancerTypeToShow,
+                    allRates,
+                    sex_input +
+                      " : " +
+                      deprivation_input +
+                      " : " +
+                      region_input,
+                  );
               } else {
-                resultsContainer.innerHTML = generateMultiRowTable(
+                resultsContainer.innerHTML = generateMultiRowTableDEPRECATED(
                   cancerTypeToShow,
                   allRates,
                   sex_input + " : " + deprivation_input + " : " + region_input,
@@ -592,13 +597,14 @@ import SexSelect from "../components/SexSelect.astro";
             if (allMatchedItems) {
               // call generateTable function in utils
               if (sex_input === "Male:Female") {
-                resultsContainer.innerHTML = generateDichotomyMultiRowTable(
-                  cancerTypeToShow,
-                  allRates,
-                  sex_input + " : " + age_input + " : " + region_input,
-                );
+                resultsContainer.innerHTML =
+                  generateDichotomyMultiRowTableDEPRECATED(
+                    cancerTypeToShow,
+                    allRates,
+                    sex_input + " : " + age_input + " : " + region_input,
+                  );
               } else {
-                resultsContainer.innerHTML = generateMultiRowTable(
+                resultsContainer.innerHTML = generateMultiRowTableDEPRECATED(
                   cancerTypeToShow,
                   allRates,
                   sex_input + " : " + age_input + " : " + region_input,
@@ -740,13 +746,14 @@ import SexSelect from "../components/SexSelect.astro";
             if (allMatchedItems) {
               // call generateTable function in utils
               if (sex_input === "Male:Female") {
-                resultsContainer.innerHTML = generateDichotomyMultiRowTable(
-                  cancerTypeToShow,
-                  allRates,
-                  sex_input + " : " + age_input + " : " + region_input,
-                );
+                resultsContainer.innerHTML =
+                  generateDichotomyMultiRowTableDEPRECATED(
+                    cancerTypeToShow,
+                    allRates,
+                    sex_input + " : " + age_input + " : " + region_input,
+                  );
               } else {
-                resultsContainer.innerHTML = generateMultiRowTable(
+                resultsContainer.innerHTML = generateMultiRowTableDEPRECATED(
                   cancerTypeToShow,
                   allRates,
                   sex_input + " : " + age_input + " : " + deprivation_input,
@@ -867,19 +874,20 @@ import SexSelect from "../components/SexSelect.astro";
 
                 // call generateTable function in utils
                 if (sex_input === "Male:Female") {
-                  resultsContainer.innerHTML = generateDichotomyMultiRowTable(
-                    cancerTypeToShow,
-                    allRates,
-                    sex_input +
-                      " : " +
-                      age_input +
-                      " : " +
-                      deprivation_input +
-                      " : " +
-                      region_input,
-                  );
+                  resultsContainer.innerHTML =
+                    generateDichotomyMultiRowTableDEPRECATED(
+                      cancerTypeToShow,
+                      allRates,
+                      sex_input +
+                        " : " +
+                        age_input +
+                        " : " +
+                        deprivation_input +
+                        " : " +
+                        region_input,
+                    );
                 } else {
-                  resultsContainer.innerHTML = generateMultiRowTable(
+                  resultsContainer.innerHTML = generateMultiRowTableDEPRECATED(
                     cancerTypeToShow,
                     allRates,
                     sex_input + " : " + age_input + " : " + deprivation_input,
@@ -945,7 +953,7 @@ import SexSelect from "../components/SexSelect.astro";
                   .filter(Boolean);
 
                 // call generateTable function in utils
-                resultsContainer.innerHTML = generateSingleRowTable(
+                resultsContainer.innerHTML = generateSingleRowTableDEPRECATED(
                   cancerTypeToShow,
                   rates,
                   counts,
