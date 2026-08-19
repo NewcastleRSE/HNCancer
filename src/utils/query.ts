@@ -1,19 +1,19 @@
-import type { IncidenceFilter, CSVRow, ProcessedRow } from "../types";
+import type { IncidenceFilterVariable, IncidenceFilter, CSVRow, ProcessedRow } from "../types";
 
 /* Functions for querying incidence and survival spreadsheets */
 
-// --- Helper functions and types used locally ---
+// --- Constants ---
 
-type IncidenceFilterVariable = keyof IncidenceFilter;
-
-const INCIDENCE_FILTER_VARIABLES: IncidenceFilterVariable[] = [
+export const INCIDENCE_FILTER_VARIABLES = [
     "dep",
     "region",
     "sex",
     "ageBand",
     "route",
     "stage",
-];
+] as const;
+
+// --- Helper functions and types used locally ---
 
 /**
  * Returns true when a row value satisfies a filter value.
@@ -172,6 +172,8 @@ function buildSelectionCombinations(
     return combinations;
 }
 
+// --- Exported functions ---
+
 /**
  * Run an IncidenceFilter against the CSV rows.
  *
@@ -261,5 +263,15 @@ export function queryIncidenceFilter(
     return groupedResults;
 }
 
-// --- Exported functions ---
-
+/**
+ * Creates an empty IncidenceFilter with an empty selection for each variable.
+ */
+export function initIncidenceFilter(): IncidenceFilter {
+    return INCIDENCE_FILTER_VARIABLES.reduce(
+        (filter, variable) => {
+            filter[variable] = [];
+            return filter;
+        },
+        {} as IncidenceFilter
+    );
+}

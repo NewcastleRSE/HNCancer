@@ -51,11 +51,7 @@ import SexSelect from "../components/SexSelect.astro";
 <script>
   // Import PapaParse directly into your client bundle
   import Papa from "papaparse";
-  import {
-    cancerType,
-    createDownloadFile,
-    createMultiDownloadFile,
-  } from "../utils/filter";
+  import { cancerType } from "../utils/filter";
   import {
     generateSingleRowTable,
     generateMultiRowTable,
@@ -101,7 +97,7 @@ import SexSelect from "../components/SexSelect.astro";
     renderBlankChart,
     initLineChart,
   } from "../utils/charts";
-  import { queryIncidenceFilter } from "../utils/query";
+  import { queryIncidenceFilter, initIncidenceFilter } from "../utils/query";
   import type { CSVRow, ProcessedRow } from "../types";
 
   // Initialise chart
@@ -116,6 +112,10 @@ import SexSelect from "../components/SexSelect.astro";
 
   inequalities_form?.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    // Initialise empty filter object for storing UI input
+    // Will be passed to query function
+    const filter = initIncidenceFilter();
 
     // set a default if no button is selected
     var sex_input: string = "All Persons";

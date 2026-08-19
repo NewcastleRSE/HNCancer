@@ -1,4 +1,5 @@
 import { CHART_LABEL_VARIABLES } from "./utils/charts"
+import { INCIDENCE_FILTER_VARIABLES } from "./utils/query"
 
 export interface CSVRow {
     diagnosisYear: string;
@@ -84,16 +85,15 @@ export interface ProcessedRow {
   stage: string
 }
 
-// Filter object for filtering Incidence spreadsheet
-// TODO: Make these types more specific based on VARIABLE_OPTIONS and VARIABLE_ALL
+// Possible keys for IncidenceFilter - must be in INCIDENCE_FILTER_VARIABLES
+export type IncidenceFilterVariable =
+    (typeof INCIDENCE_FILTER_VARIABLES)[number];
+
+// Object for filtering Incidence spreadsheet
+// TODO: Make the values more specific based on VARIABLE_OPTIONS and VARIABLE_ALL
 // spreadsheet values
 export type IncidenceFilter = {
-    dep: string | string[];
-    region: string | string[];
-    sex: string | string[];
-    ageBand: string | string[];
-    route: string | string[];
-    stage: string | string[];
+    [K in IncidenceFilterVariable]: string | string[];
 };
 
 // --- Charts ---
