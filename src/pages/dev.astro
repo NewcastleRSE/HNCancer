@@ -2,11 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "./header.astro";
 import CancerTypeSelect from "../components/CancerTypeSelect.astro";
-import AgeSelect from "../components/AgeSelect.astro";
-import DeprivationCheckboxSelect from "../components/DeprivationCheckboxSelect.astro";
-import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
 import PagePanels from "../components/PagePanels.astro";
-import SexSelect from "../components/SexSelect.astro";
+import IncidenceFilters from "../components/IncidenceFilters.svelte";
 ---
 
 <Layout>
@@ -19,6 +16,8 @@ import SexSelect from "../components/SexSelect.astro";
       <h2 class="is-size-5 mb-2">Select your search criteria</h2>
       <form id="inequalities-search-form">
         <CancerTypeSelect />
+        <hr />
+        <IncidenceFilters client:load />
         <hr />
         <div class="mb-2">
           <input class="button" type="submit" value="Search" />
