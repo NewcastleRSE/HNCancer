@@ -1,5 +1,5 @@
-import { setLineChartOptions } from "../utils/filter-new";
 import * as echarts from 'echarts';
+import { getChartColorMapping } from './colors';
 import type { ProcessedRow, ChartSeries, SeriesLabels } from "../types";
 
 // --- Constants --- 
@@ -63,6 +63,127 @@ function getSeriesLabels(row: ProcessedRow): SeriesLabels {
         variables: variables
     };
 }
+
+// Options for single or multi line chart
+// Also adds data to the chart
+function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
+
+	// Get year range from data for the x-axis
+	const allYears = allSeries.flatMap(series => series.years);
+	const minYear = Math.min(...allYears);
+	const maxYear = Math.max(...allYears);
+
+	// Calculate size of right margin based on label lengths
+	// Will be length of longest label * 7, with min of 150 and max of 275
+	const longestNameLength = Math.max(
+    ...allSeries.map(series => series.name.length)
+	);
+	const rightMargin = Math.min(
+		275,
+		Math.max(150, longestNameLength * 7)
+	);
+
+	// Whether there are multiple series
+	const isMulti = allSeries.length > 1;
+
+	// Get colormapping
+	const cmap = getChartColorMapping(allSeries);
+	console.log("Chart cmap: ", cmap)
+
+	// Options
+    const option = {
+		title: {
+			text: optionString + ' Cancer Rates' 
+		},
+		grid: {
+        	right: rightMargin,
+			// If legend, add extra white space between the legend and bottom of the chart
+			// Otherwise, use default (60)
+			bottom: isMulti? 100: 60, 
+    	},
+		tooltip: {
+			trigger: 'axis',
+			// To keep "year" as string in tooltip label
+			axisPointer: {
+				label: {
+					formatter: (params: any) => params.value.toString()
+				}
+    		}
+		},
+		xAxis: {
+			// Treat years as "value" to make more robust 
+			// (e.g., to nonchronological orders or missing years)
+			type: 'value',
+			min: minYear,
+			max: maxYear,
+			interval: 1,
+			name: 'Diagnosis year',
+			nameLocation: 'middle',
+			nameTextStyle: {
+				fontWeight: 'bold'
+			},
+			// Format years as strings to prevent commas from being inserted
+			axisLabel: {
+				formatter: (value: number) => value.toString()
+			}
+		},
+		yAxis: {
+			type: 'value',
+			name: 'Incidence\n(diagnoses per 100,000 people)',
+			nameTextStyle: {
+				fontWeight: 'bold'
+			}
+		},
+		legend: {
+			show: isMulti, // if multiple series, show legend
+			type: 'scroll',
+			orient: 'horizontal'
+		},
+      	series: allSeries.map(series => ({
+			name: series.name,
+			type: 'line',
+			smooth: false,
+			label: true,
+			endLabel: {
+				show: false,
+				formatter: '{a}',
+			},
+			// Use square symbol if series is only male or female data
+			// Note: assumes string "male" does not occur in any other filter options
+			symbol: series.name.toLowerCase().includes("male") ? "emptyRect" : "emptyCircle",
+			
+			// If series is female data, also rotate rectangle
+			symbolRotate: series.name.toLowerCase().includes("female") ? 45 : 0,
+
+			// Colors - depends on specific variable (cmap.key) if present; otherwise
+			// full label is used
+			itemStyle: {
+                color: cmap.colors[
+                    cmap.key
+                        ? series.variables[cmap.key]!
+                        : series.name
+                ]
+            },
+
+            lineStyle: {
+                color: cmap.colors[
+                    cmap.key
+                        ? series.variables[cmap.key]!
+                        : series.name
+                ]
+            },
+
+			// Create year, rate data pairs
+			data: series.years.map((year, i) => [
+				year,
+				series.rates[i]
+			])
+		}))
+    };
+
+	return option;
+}
+
 
 // --- Exported functions ---
 
@@ -179,30 +300,11 @@ export function renderLineChart(cancerType: string, allSeries: ChartSeries[], ch
 }
 
 // creates a blank chart with null values and wipes out any previous multi-line chart 
+// Could potentially update to instead only clear series data (keeping labels etc.)
 export function renderBlankChart(cancerType: string, chartInstance: echarts.ECharts){
 
-	const allRates: any[] = [
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A'],
-		['#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A','#N/A']
-	];
-
-	const option = setLineChartOptions(allRates, cancerType);
-	
-    // Set options to render the chart
-     chartInstance.setOption(option);
-
-     // Optional: Make the chart responsive to window resizing
-     window.addEventListener('resize', () => {
-       chartInstance.resize();
-     });
+	// Clear previous chart/options
+	chartInstance.clear();
 
 }
 
