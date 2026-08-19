@@ -4,6 +4,7 @@ import type { IncidenceFilterVariable, IncidenceFilter, CSVRow, ProcessedRow } f
 
 // --- Constants ---
 
+// Variables used to filter spreadsheet (use spreadsheet column names)
 export const INCIDENCE_FILTER_VARIABLES = [
     "dep",
     "region",
@@ -13,27 +14,17 @@ export const INCIDENCE_FILTER_VARIABLES = [
     "stage",
 ] as const;
 
+// Labels for each variable for the UI
+export const INCIDENCE_FILTER_LABELS = {
+    dep: "Deprivation",
+    region: "Region",
+    sex: "Sex",
+    ageBand: "Age",
+    route: "Route",
+    stage: "Stage",
+} as const;
+
 // --- Helper functions and types used locally ---
-
-/**
- * Returns true when a row value satisfies a filter value.
- *
- * String filter:
- *     rowValue === filterValue
- *
- * Array filter:
- *     rowValue matches any selected value
- */
-function matchesFilterValue(
-    rowValue: string | undefined,
-    filterValue: string | string[],
-): boolean {
-    if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue ?? "");
-    }
-
-    return rowValue === filterValue;
-}
 
 /**
  * Apply an IncidenceFilter to a set of rows.
@@ -44,18 +35,17 @@ function matchesFilterValue(
  */
 function queryIncidenceRows(
     rows: CSVRow[],
-    filter: Partial<IncidenceFilter>,
+    filter: Partial<IncidenceFilter> | FilterSelection,
 ): ProcessedRow[] {
     return rows.filter((row) =>
         INCIDENCE_FILTER_VARIABLES.every((variable) => {
             const filterValue = filter[variable];
 
-            // Variable isn't part of this particular filter.
             if (filterValue === undefined) {
                 return true;
             }
 
-            return matchesFilterValue(row[variable], filterValue);
+            return filterValue.includes(row[variable] ?? "");
         }),
     );
 }
@@ -64,11 +54,11 @@ function queryIncidenceRows(
  * Return the variables which have multiple selected values.
  */
 function getMultiSelectVariables(
-    filter: IncidenceFilter,
+  filter: IncidenceFilter,
 ): IncidenceFilterVariable[] {
-    return INCIDENCE_FILTER_VARIABLES.filter((variable) =>
-        Array.isArray(filter[variable]),
-    );
+  return INCIDENCE_FILTER_VARIABLES.filter(
+    (variable) => filter[variable].length > 1,
+  );
 }
 
 /**
@@ -118,8 +108,9 @@ function buildPreQueryFilter(
     return preQueryFilter;
 }
 
-type FilterSelection = Partial<IncidenceFilter>;
-
+type FilterSelection = Partial<
+    Record<IncidenceFilterVariable, string>
+>;
 /**
  * Generate all combinations of the selected values in the
  * multi-select variables.
@@ -150,10 +141,6 @@ function buildSelectionCombinations(
 
     for (const variable of multiVariables) {
         const values = filter[variable];
-
-        if (!Array.isArray(values)) {
-            continue;
-        }
 
         const nextCombinations: FilterSelection[] = [];
 

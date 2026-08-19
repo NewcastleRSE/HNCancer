@@ -138,51 +138,52 @@ import SexSelect from "../components/SexSelect.astro";
             // Temporary hard-coded filter for testing
             // ---------------------------------------------
             const filter1 = {
-              dep: "IMD1",
-              region: "London",
-              sex: "Male",
-              ageBand: "50-54",
-              route: "All Routes",
-              stage: "All Stages",
+              dep: ["IMD1"],
+              region: ["London"],
+              sex: ["Male"],
+              ageBand: ["50-54"],
+              route: ["All Routes"],
+              stage: ["All Stages"],
             };
 
             const filter2 = {
               dep: ["IMD1", "IMD2", "IMD3"],
-              region: "London",
-              sex: "Male",
-              ageBand: "50-54",
-              route: "All Routes",
-              stage: "All Stages",
+              region: ["London"],
+              sex: ["Male"],
+              ageBand: ["50-54"],
+              route: ["All Routes"],
+              stage: ["All Stages"],
             };
 
             const filter3 = {
               dep: ["IMD1", "IMD4"],
-              region: "London",
+              region: ["London"],
               sex: ["Male", "Female"],
-              ageBand: "50-54",
-              route: "All Routes",
-              stage: "All Stages",
+              ageBand: ["50-54"],
+              route: ["All Routes"],
+              stage: ["All Stages"],
             };
 
             const filter4 = {
-              dep: "IMD1",
+              dep: ["IMD1"],
               region: ["London", "South East", "South West"],
               sex: ["Male", "Female"],
-              ageBand: "50-54",
-              route: "All Routes",
-              stage: "All Stages",
+              ageBand: ["50-54"],
+              route: ["All Routes"],
+              stage: ["All Stages"],
             };
 
             const filter5 = {
-              // with too many multiselect
+              // Too many multiselect variables
               dep: ["IMD1", "IMD4"],
               region: ["London", "South East", "South West"],
               sex: ["Male", "Female"],
-              ageBand: "50-54",
-              route: "All Routes",
-              stage: "All Stages",
+              ageBand: ["50-54"],
+              route: ["All Routes"],
+              stage: ["All Stages"],
             };
-            const filter = filter1;
+
+            const filter = filter4;
 
             // ---------------------------------------------
             // Query

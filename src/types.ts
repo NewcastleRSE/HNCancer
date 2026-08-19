@@ -93,7 +93,7 @@ export type IncidenceFilterVariable =
 // TODO: Make the values more specific based on VARIABLE_OPTIONS and VARIABLE_ALL
 // spreadsheet values
 export type IncidenceFilter = {
-    [K in IncidenceFilterVariable]: string | string[];
+    [K in IncidenceFilterVariable]: string[];
 };
 
 // --- Charts ---
