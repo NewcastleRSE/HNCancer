@@ -340,7 +340,17 @@ import SexSelect from "../components/SexSelect.astro";
               route: "All Routes",
               stage: "All Stages",
             };
-            const filter = filter4;
+
+            const filter5 = {
+              // with too many multiselect
+              dep: ["IMD1", "IMD4"],
+              region: ["London", "South East", "South West"],
+              sex: ["Male", "Female"],
+              ageBand: "50-54",
+              route: "All Routes",
+              stage: "All Stages",
+            };
+            const filter = filter1;
 
             // ---------------------------------------------
             // Query
