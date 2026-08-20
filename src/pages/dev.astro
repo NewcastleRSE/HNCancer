@@ -3,7 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import Header from "./header.astro";
 import CancerTypeSelect from "../components/CancerTypeSelect.astro";
 import PagePanels from "../components/PagePanels.astro";
-import IncidenceQuerySelections from "../components/IncidenceQuerySelections.svelte";
+import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelectionsDynamic.svelte";
+// import IncidenceQuerySelections from "../components/IncidenceQuerySelections.svelte";
 ---
 
 <Layout>
@@ -17,7 +18,8 @@ import IncidenceQuerySelections from "../components/IncidenceQuerySelections.sve
       <form id="inequalities-search-form">
         <CancerTypeSelect />
         <hr />
-        <IncidenceQuerySelections client:load />
+        <!-- <IncidenceQuerySelections client:load /> -->
+        <IncidenceQuerySelectionsDynamic client:load />
       </form>
     </div>
     <PagePanels />
