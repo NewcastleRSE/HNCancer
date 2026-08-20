@@ -38,40 +38,7 @@ import IncidenceFilters from "../components/IncidenceFilters.svelte";
     generateMultiRowTable,
     generateDichotomyMultiRowTable,
   } from "../utils/filter-new";
-  import {
-    determineAgeInput,
-    determineDepInput,
-    determineRegionInput,
-  } from "../utils/filter-new";
-  import {
-    age049checkbox,
-    age5054checkbox,
-    age5559checkbox,
-    age6064checkbox,
-    age6569checkbox,
-    age7074checkbox,
-    age7579checkbox,
-    age8084checkbox,
-    age8589checkbox,
-    age90checkbox,
-    imd1checkbox,
-    imd2checkbox,
-    imd3checkbox,
-    imd4checkbox,
-    imd5checkbox,
-    emcheckbox,
-    eecheckbox,
-    locheckbox,
-    necheckbox,
-    nwcheckbox,
-    secheckbox,
-    swcheckbox,
-    wmcheckbox,
-    yhcheckbox,
-    cancer_type,
-    resultsContainer,
-    downloadLinkBtn,
-  } from "../types";
+  import { cancer_type, resultsContainer, downloadLinkBtn } from "../types";
   import {
     returnAllChartSeries,
     renderLineChart,
