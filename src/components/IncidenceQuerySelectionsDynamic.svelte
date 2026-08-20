@@ -117,17 +117,17 @@
 <div class="query-inputs">
   <h3>Compare</h3>
   <div class="query-inputs-compare">
-    <label>
+    <label class="compare-checkbox">
       <input
         type="checkbox"
         bind:checked={compareMaleFemale}
         onchange={handleCompareMaleFemaleChange}
       />
-      Compare by sex (Male vs. Female)
+      <span>Compare by sex (Male vs. Female)</span>
     </label>
-    <div>
+    <div class="compare-dropdown">
       <label>
-        Compare by
+        <span>Compare by</span>
         <select
           bind:value={comparisonVariable}
           onchange={handleComparisonChange}
@@ -146,10 +146,12 @@
     </div>
   </div>
 
-  <div>
+  <div class="compare-checkbox-group">
     {#if comparisonVariable}
       <CheckboxGroup
-        label={"Choose values to compare"}
+        label={"Choose " +
+          INCIDENCE_FILTER_LABELS[comparisonVariable].toLowerCase() +
+          " values to compare"}
         options={VARIABLE_OPTIONS[comparisonVariable]}
         bind:selectedValues={filter[comparisonVariable]}
       />
@@ -201,5 +203,46 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  /* Min height for checkbox group so doesn't move components beneath when added dynamically */
+  .compare-checkbox-group {
+    min-height: 135px;
+  }
+
+  /* Set up grid for compare components */
+
+  .query-inputs-compare {
+    display: grid;
+    grid-template-columns: 1.25rem auto;
+    row-gap: 0.25rem;
+    align-items: center;
+  }
+
+  .compare-checkbox {
+    display: contents;
+  }
+
+  .compare-checkbox input {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .compare-checkbox span {
+    grid-column: 2;
+  }
+
+  .compare-dropdown {
+    grid-column: 1 / 3;
+  }
+
+  .compare-dropdown label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .compare-dropdown label > span {
+    margin-left: 1.25rem;
   }
 </style>
