@@ -95,37 +95,43 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
             console.log("filter:", filter);
             console.log("groupedResults:", groupedResults);
 
-            // Data for charts and tables
-            const allChartSeries = returnAllChartSeries(groupedResults);
-
-            // ---------------------------------------------------------
-            // Update Chart
-            // ---------------------------------------------------------
-
-            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
-
-            // ---------------------------------------------
-            // Table/download
-            // ---------------------------------------------
-
-            if (groupedResults.length === 1) {
-              resultsContainer.innerHTML = generateSingleRowTable(
-                cancerTypeToShow,
-                groupedResults[0],
-                filter,
-              );
-            } else if (filter.sex.length > 1) {
-              resultsContainer.innerHTML = generateDichotomyMultiRowTable(
-                cancerTypeToShow,
-                groupedResults,
-                filter,
-              );
+            if (groupedResults.length < 1) {
+              renderBlankChart(cancerTypeToShow, myChart);
+              resultsContainer.innerHTML =
+                '<p class="has-text-danger">No data is available for this combination of options.</p>';
             } else {
-              resultsContainer.innerHTML = generateMultiRowTable(
-                cancerTypeToShow,
-                groupedResults,
-                filter,
-              );
+              // Data for charts and tables
+              const allChartSeries = returnAllChartSeries(groupedResults);
+
+              // ---------------------------------------------------------
+              // Update Chart
+              // ---------------------------------------------------------
+
+              renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+
+              // ---------------------------------------------
+              // Table/download
+              // ---------------------------------------------
+
+              if (groupedResults.length === 1) {
+                resultsContainer.innerHTML = generateSingleRowTable(
+                  cancerTypeToShow,
+                  groupedResults[0],
+                  filter,
+                );
+              } else if (filter.sex.length > 1) {
+                resultsContainer.innerHTML = generateDichotomyMultiRowTable(
+                  cancerTypeToShow,
+                  groupedResults,
+                  filter,
+                );
+              } else {
+                resultsContainer.innerHTML = generateMultiRowTable(
+                  cancerTypeToShow,
+                  groupedResults,
+                  filter,
+                );
+              }
             }
           } catch (error) {
             console.error(error);

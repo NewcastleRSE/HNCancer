@@ -24,7 +24,7 @@ export const CHART_LABEL_VARIABLES = [
 // have same metadata.
 function validateSeriesMetadata(series: ProcessedRow[]) {
   if (series.length === 0) {
-    throw new Error('Chart series contains no data');
+    throw new Error('No data is available for this combination of filters.');
   }
 
   // Use first array as expected values
