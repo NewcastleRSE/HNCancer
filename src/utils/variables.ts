@@ -54,8 +54,8 @@ export const VARIABLE_OPTIONS = {
     ],
 
     stage: [
-        { value: "Early Stage", label: "Early Stage"},
-        { value: "Late Stage", label: "Late Stage"}
+        { value: "Early", label: "Early Stage"},
+        { value: "Advanced", label: "Advanced Stage"}
     ],
 
 } as const;
