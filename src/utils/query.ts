@@ -1,3 +1,4 @@
+import { VARIABLE_ALL, VARIABLE_OPTIONS } from "./variables";
 import type { IncidenceFilterVariable, IncidenceFilter, CSVRow, ProcessedRow } from "../types";
 
 /* Functions for querying incidence and survival spreadsheets */
@@ -160,6 +161,40 @@ function buildSelectionCombinations(
 }
 
 // --- Exported functions ---
+
+
+/**
+ * Creates a processed IncidenceFilter by:
+ * - ordering selections according to VARIABLE_OPTIONS
+ * - replacing empty selections with the corresponding "all" value
+ *
+ * The original filter is not modified.
+ */
+export function processIncidenceFilter(
+  filter: IncidenceFilter,
+): IncidenceFilter {
+  const processedFilter = { ...filter };
+
+  // Sort selections according to VARIABLE_OPTIONS.
+  for (const variable of INCIDENCE_FILTER_VARIABLES) {
+    const optionOrder: string[] = VARIABLE_OPTIONS[variable].map(
+      (option) => option.value,
+    );
+
+    processedFilter[variable] = [...processedFilter[variable]].sort(
+      (a, b) => optionOrder.indexOf(a) - optionOrder.indexOf(b),
+    );
+  }
+
+  // Replace empty selections with the corresponding "all" value.
+  for (const variable of INCIDENCE_FILTER_VARIABLES) {
+    if (processedFilter[variable].length === 0) {
+      processedFilter[variable] = [VARIABLE_ALL[variable].value];
+    }
+  }
+
+  return processedFilter;
+}
 
 /**
  * Run an IncidenceFilter against the CSV rows.
