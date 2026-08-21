@@ -13,10 +13,12 @@
     "check": "astro check"
   },
   "dependencies": {
+    "@astrojs/svelte": "^8.1.2",
     "astro": "^6.3.6",
     "chroma-js": "^3.2.0",
     "echarts": "^6.1.0",
-    "papaparse": "^5.5.3"
+    "papaparse": "^5.5.3",
+    "svelte": "^5.56.9"
   },
   "devDependencies": {
     "@types/chroma-js": "^3.1.2",

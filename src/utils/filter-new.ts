@@ -1,5 +1,4 @@
-import type { ChartSeries } from '../types';
-import { getChartColorMapping } from './colors';
+import type { IncidenceFilter, ProcessedRow } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -31,10 +30,63 @@ export function cancerType(value: string){
 	return CSV_file;
  }
 
+// --- Tables ---
+
+// Helper functions for tables
+
+function getSearchTerms(filter: IncidenceFilter): string {
+    const format = (value: string | string[]) =>
+        Array.isArray(value) ? value.join(", ") : value;
+
+    return [
+        format(filter.sex),
+        format(filter.ageBand),
+        format(filter.dep),
+        format(filter.region),
+    ].join(" : ");
+}
+
+function processedRowsToTableData(rows: ProcessedRow[]) {
+    const rates: number[] = [];
+    const counts: (string | number)[] = [];
+    const lowerBounds: number[] = [];
+    const upperBounds: number[] = [];
+
+    rows.forEach(row => {
+        rates.push(row.rate);
+        counts.push(row.count);
+        lowerBounds.push(row.ciLb);
+        upperBounds.push(row.ciUb);
+    });
+
+    return {
+        rates,
+        counts,
+        lowerBounds,
+        upperBounds,
+    };
+}
+
+// --- exported table functions ---
 
 // generates a table
-export function generateSingleRowTable(cancerType: string, rates: string[], counts: string [], lowerBounds: number[], upperBounds: number[], searchTerms: string){
+	export function generateSingleRowTable(
+    cancerType: string,
+    rows: ProcessedRow[],
+    filter: IncidenceFilter
+) {
+	// Get table data from ProcessedRow[] array
+    const {
+        rates,
+        counts,
+        lowerBounds,
+        upperBounds,
+    } = processedRowsToTableData(rows);
 
+	// Get search terms from filters used
+    const searchTerms = getSearchTerms(filter);
+
+	// Create table
 	const string = `
 		  <div class="table-container">
 			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
@@ -83,7 +135,35 @@ export function generateSingleRowTable(cancerType: string, rates: string[], coun
 
  
   
-export function generateMultiRowTable(cancerType: string, allRates: string[], searchTerms: string){
+export function generateMultiRowTable(
+    cancerType: string,
+    groupedResults: ProcessedRow[][],
+    filter: IncidenceFilter
+) {
+	// Get search terms from filters used
+    const searchTerms = getSearchTerms(filter);
+
+	// Get formatted data from ProcessedRow[][] arrays
+    const allRates = groupedResults.map(rows => {
+        const {
+            rates,
+            counts,
+            lowerBounds,
+            upperBounds,
+        } = processedRowsToTableData(rows);
+
+        const key =
+            rows[0]?.dep ??
+            rows[0]?.region ??
+            rows[0]?.ageBand ??
+            "";
+
+        const formattedRates = rates.map((rate, i) =>
+            `${rate} (<em>${lowerBounds[i]}, ${upperBounds[i]}</em>) <strong>${counts[i]}</strong>`
+        );
+
+        return [key, ...formattedRates];
+    });
 
 	// console.log('in table gen function');
 	// console.log(allRates);
@@ -142,7 +222,37 @@ export function generateMultiRowTable(cancerType: string, allRates: string[], se
 		   return string + extraString + endString;
 }
 
-export function generateDichotomyMultiRowTable(cancerType: string, allRates: string[], searchTerms: string){
+export function generateDichotomyMultiRowTable(
+    cancerType: string,
+    groupedResults: ProcessedRow[][],
+    filter: IncidenceFilter
+) {
+	// Get search terms from filters used
+    const searchTerms = getSearchTerms(filter);
+
+	// Get formatted data from ProcessedRows[][] data
+    const allRates = groupedResults.map(rows => {
+        const {
+            rates,
+            counts,
+            lowerBounds,
+            upperBounds,
+        } = processedRowsToTableData(rows);
+
+        const key =
+            rows[0]?.dep ??
+            rows[0]?.region ??
+            rows[0]?.ageBand ??
+            "";
+
+        const sex = rows[0]?.sex ?? "";
+
+        const formattedRates = rates.map((rate, i) =>
+            `${rate} (<em>${lowerBounds[i]}, ${upperBounds[i]}</em>) <strong>${counts[i]}</strong>`
+        );
+
+        return [key, sex, ...formattedRates];
+    });
 
 	// console.log('in table gen function');
 	// console.log(allRates);
@@ -203,126 +313,181 @@ export function generateDichotomyMultiRowTable(cancerType: string, allRates: str
 		   return string + extraString + endString;
 }
 
-// Options for single or multi line chart
-// Also adds data to the chart
-export function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
+// --- DEPRECATED TABLE FUNCTIONS ---
+// For testing refactor
 
-	// Get year range from data for the x-axis
-	const allYears = allSeries.flatMap(series => series.years);
-	const minYear = Math.min(...allYears);
-	const maxYear = Math.max(...allYears);
+// generates a table
+export function generateSingleRowTableDEPRECATED(cancerType: string, rates: string[], counts: string [], lowerBounds: number[], upperBounds: number[], searchTerms: string){
 
-	// Calculate size of right margin based on label lengths
-	// Will be length of longest label * 7, with min of 150 and max of 275
-	const longestNameLength = Math.max(
-    ...allSeries.map(series => series.name.length)
-	);
-	const rightMargin = Math.min(
-		275,
-		Math.max(150, longestNameLength * 7)
-	);
+	const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+				
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
 
-	// Whether there are multiple series
-	const isMulti = allSeries.length > 1;
+					</tr>
+					<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]} (<em>${lowerBounds[0]}, ${upperBounds[0]}</em>) <strong>${counts[0]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]} (<em>${lowerBounds[1]}, ${upperBounds[1]}</em>) <strong>${counts[1]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]} (<em>${lowerBounds[2]}, ${upperBounds[2]}</em>) <strong>${counts[2]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]} (<em>${lowerBounds[3]}, ${upperBounds[3]}</em>) <strong>${counts[3]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]} (<em>${lowerBounds[4]}, ${upperBounds[4]}</em>) <strong>${counts[4]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]} (<em>${lowerBounds[5]}, ${upperBounds[5]}</em>) <strong>${counts[5]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]} (<em>${lowerBounds[6]}, ${upperBounds[6]}</em>) <strong>${counts[6]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]} (<em>${lowerBounds[7]}, ${upperBounds[7]}</em>) <strong>${counts[7]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]} (<em>${lowerBounds[8]}, ${upperBounds[8]}</em>) <strong>${counts[8]}</strong></td>
+					</tr>
+				</tbody>
+			</table>
 
-	// Get colormapping
-	const cmap = getChartColorMapping(allSeries);
-	console.log("Chart cmap: ", cmap)
+			<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+			</div>
+           `;
 
-	// Options
-    const option = {
-		title: {
-			text: optionString + ' Cancer Rates' 
-		},
-		grid: {
-        	right: rightMargin,
-			// If legend, add extra white space between the legend and bottom of the chart
-			// Otherwise, use default (60)
-			bottom: isMulti? 100: 60, 
-    	},
-		tooltip: {
-			trigger: 'axis',
-			// To keep "year" as string in tooltip label
-			axisPointer: {
-				label: {
-					formatter: (params: any) => params.value.toString()
-				}
-    		}
-		},
-		xAxis: {
-			// Treat years as "value" to make more robust 
-			// (e.g., to nonchronological orders or missing years)
-			type: 'value',
-			min: minYear,
-			max: maxYear,
-			interval: 1,
-			name: 'Diagnosis year',
-			nameLocation: 'middle',
-			nameTextStyle: {
-				fontWeight: 'bold'
-			},
-			// Format years as strings to prevent commas from being inserted
-			axisLabel: {
-				formatter: (value: number) => value.toString()
-			}
-		},
-		yAxis: {
-			type: 'value',
-			name: 'Incidence\n(diagnoses per 100,000 people)',
-			nameTextStyle: {
-				fontWeight: 'bold'
-			}
-		},
-		legend: {
-			show: isMulti, // if multiple series, show legend
-			type: 'scroll',
-			orient: 'horizontal'
-		},
-      	series: allSeries.map(series => ({
-			name: series.name,
-			type: 'line',
-			smooth: false,
-			label: true,
-			endLabel: {
-				show: false,
-				formatter: '{a}',
-			},
-			// Use square symbol if series is only male or female data
-			// Note: assumes string "male" does not occur in any other filter options
-			symbol: series.name.toLowerCase().includes("male") ? "emptyRect" : "emptyCircle",
-			
-			// If series is female data, also rotate rectangle
-			symbolRotate: series.name.toLowerCase().includes("female") ? 45 : 0,
+		   return string;
+  }
 
-			// Colors - depends on specific variable (cmap.key) if present; otherwise
-			// full label is used
-			itemStyle: {
-                color: cmap.colors[
-                    cmap.key
-                        ? series.variables[cmap.key]!
-                        : series.name
-                ]
-            },
+  // generates a table
 
-            lineStyle: {
-                color: cmap.colors[
-                    cmap.key
-                        ? series.variables[cmap.key]!
-                        : series.name
-                ]
-            },
+ 
+  
+export function generateMultiRowTableDEPRECATED(cancerType: string, allRates: string[], searchTerms: string){
 
-			// Create year, rate data pairs
-			data: series.years.map((year, i) => [
-				year,
-				series.rates[i]
-			])
-		}))
-    };
+	// console.log('in table gen function');
+	// console.log(allRates);
 
-	return option;
+		const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem">Key</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
+					</tr>`;
+
+					var extraString: string = ''
+
+					allRates.forEach(row => {
+						var tempString = `
+							<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[6]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[7]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[8]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[9]}</td>
+					</tr>	
+						`
+						extraString += tempString;
+					})
+
+					const endString = `</tbody>
+							</table>
+							</div>
+							<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+						`;
+
+		   return string + extraString + endString;
 }
 
+export function generateDichotomyMultiRowTableDEPRECATED(cancerType: string, allRates: string[], searchTerms: string){
+
+	// console.log('in table gen function');
+	// console.log(allRates);
+
+const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem">Key</th>
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem"></th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
+					</tr>`;
+
+					var extraString: string = ''
+
+					allRates.forEach(row => {
+						var tempString = `
+							<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[6]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[7]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[8]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[9]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[10]}</td>
+					</tr>	
+						`
+						extraString += tempString;
+					})
+
+					const endString = `</tbody>
+							</table>
+							</div>
+							<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+						`;
+
+		   return string + extraString + endString;
+}
+
+// --- Inputs ---
 
 export function determineSexInput(sexes: string[]){
 
