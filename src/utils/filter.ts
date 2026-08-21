@@ -2,28 +2,6 @@ import type { CSVRow } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
- /* in the case where 3 query items are joined by /, the male query also greedy matches the female record
-  and the additional result needs to be filtered out */
-
-// export function filterArray(data: CSVRow[], query: string){	
-
-// 	var deleteUnwanted = false;
-// 	var unwantedFormat = /^Female\/\w+\/?.*$/;
-// 	// grab the first part of the string
-// 	var array = query.split('/');
-
-// 	data.forEach(function (item){
-// 		if (item.table.match(unwantedFormat) && array[0] === 'male'){
-// 			deleteUnwanted = true;
-// 		}
-// 	})
-
-// 	if(deleteUnwanted){
-//   		data.splice(1,1);
-// 	}
-// 	return data;
-//  }
-
 // determines which spreadsheet should be used
 export function cancerType(value: string){
 
@@ -41,6 +19,9 @@ export function cancerType(value: string){
 			break;
 		case "Oropharyngeal":
 			CSV_file = BASE_URL + '/Incidence-Oropharynx.csv';
+			break;
+		case "Other":
+			CSV_file = BASE_URL + '/Incidence-Other.csv';
 			break;
 		default:
 			console.log(`Cancer type not recognised`);
@@ -101,52 +82,6 @@ export function cancerType(value: string){
 
  	const encodedUri = encodeURI(csvContent);
  	return encodedUri;
-}
-
-
-
-/*
-export function setChartOptions(data: any[], dataSecond: any[], year: string[], optionString: string){
-
-	// create arrays of arrays
-	const ages = dataMap(data);
-	const agesSecond = dataMap(dataSecond);
-	// flatten each to a single array
-	const ageSeries = ages.flat(1);
-	const ageSeriesTwo = agesSecond.flat(1);
-
-	console.log(ages);
-	console.log(ageSeries);
-
-    const option = {
-      title: {
-        text: optionString.slice(0, -1) + ' - Incidents by Age - Diagnosis Year : ' + year 
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      xAxis: {
-        type: 'category',
-        data: ["0-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90+"]
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: ageSeries,
-          type: 'line',
-          smooth: true
-        },
-		{
-          data: ageSeriesTwo,
-          type: 'line',
-          smooth: true
-        } 
-      ]
-    };
-
-	return option;
 }
 
 /*

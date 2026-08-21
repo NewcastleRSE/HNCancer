@@ -1,3 +1,6 @@
+import { CHART_LABEL_VARIABLES } from "./utils/charts"
+import { INCIDENCE_FILTER_VARIABLES } from "./utils/query"
+
 export interface CSVRow {
     diagnosisYear: string;
     ageBand: string;
@@ -6,6 +9,7 @@ export interface CSVRow {
     region: string;
     stage: string;
     route: string;
+    count: string | number;
     rate: number;
     ciLb: number;
     ciUb: number;
@@ -62,3 +66,55 @@ export const region_input = document.getElementById('region-input') as HTMLInput
 export const route_input = document.getElementById('route-input') as HTMLInputElement;
 export const chart_area = document.getElementById('csv-chart') as HTMLInputElement;
 
+// --- Data ---
+
+// Object with data and metadata for one indicidence value (rate) 
+// Created by filtering/aggregating CSVRow data
+// Unlike CSVRow, ciLb, ciUb, and rate may be strings
+export interface ProcessedRow {
+  ageBand: string,
+  ciLb: number,
+  ciUb: number,
+  count: string | number,
+  dep: string,
+  diagnosisYear: string,
+  rate: number,
+  region: string,
+  route: string,
+  sex: string,
+  stage: string
+}
+
+// Possible keys for IncidenceFilter - must be in INCIDENCE_FILTER_VARIABLES
+export type IncidenceFilterVariable =
+    (typeof INCIDENCE_FILTER_VARIABLES)[number];
+
+// Object for filtering Incidence spreadsheet
+// TODO: Make the values more specific based on VARIABLE_OPTIONS and VARIABLE_ALL
+// spreadsheet values
+export type IncidenceFilter = {
+    [K in IncidenceFilterVariable]: string[];
+};
+
+// --- Charts ---
+
+// Data used for each series (line) in a chart
+export interface ChartSeries {
+    name: string;
+    years: number[];
+    rates: number[];
+    variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
+}
+
+// Chart labels info (for any variables that are not "all")
+// "variables" are the variable: value pairs before they were concatenated into the series name
+export interface SeriesLabels {
+    name: string; // full label
+    variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
+}
+
+// Create colormapping for chart
+export interface ChartColorMapping {
+    key: typeof CHART_LABEL_VARIABLES[number] | null;
+    colors: Record<string, string>;
+}

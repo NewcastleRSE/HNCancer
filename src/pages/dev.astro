@@ -1,0 +1,184 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "./header.astro";
+import CancerTypeSelect from "../components/CancerTypeSelect.astro";
+import PagePanels from "../components/PagePanels.astro";
+import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelectionsDynamic.svelte";
+// import IncidenceQuerySelections from "../components/IncidenceQuerySelections.svelte";
+---
+
+<Layout>
+  <Header />
+
+  <div class="dashboard-container">
+    <!--- top left: panel area ---->
+    <div id="panel">
+      <h1 class="is-size-3 mb-4 mr-2">Dev Search</h1>
+      <h2 class="is-size-5 mb-2">Select your search criteria</h2>
+      <form id="inequalities-search-form">
+        <CancerTypeSelect />
+        <hr />
+        <!-- <IncidenceQuerySelections client:load /> -->
+        <IncidenceQuerySelectionsDynamic client:load />
+      </form>
+    </div>
+    <PagePanels />
+  </div>
+</Layout>
+
+<script>
+  // Import PapaParse directly into your client bundle
+  import Papa from "papaparse";
+  import { cancerType } from "../utils/filter";
+  import {
+    generateSingleRowTable,
+    generateMultiRowTable,
+    generateDichotomyMultiRowTable,
+  } from "../utils/filter-new";
+  import { cancer_type, resultsContainer, downloadLinkBtn } from "../types";
+  import {
+    returnAllChartSeries,
+    renderLineChart,
+    renderBlankChart,
+    initLineChart,
+  } from "../utils/charts";
+  import { queryIncidenceFilter } from "../utils/query";
+  import type { CSVRow, ProcessedRow, IncidenceFilter } from "../types";
+
+  // Initialise chart
+  const myChart = initLineChart("csv-chart");
+
+  document.addEventListener("incidence-query", async (event) => {
+    const filter = (event as CustomEvent<IncidenceFilter>).detail;
+
+    console.log("Incidence filter:", filter);
+
+    resultsContainer.innerHTML = "<p>Searching records...</p>";
+
+    const CSV_file = cancerType(cancer_type.value);
+    const cancerTypeToShow: string = cancer_type.value;
+
+    try {
+      const response = await fetch(CSV_file);
+
+      if (!response.ok) {
+        throw new Error("Failed to retrieve data file.");
+      }
+
+      const csvText = await response.text();
+
+      Papa.parse<CSVRow>(csvText, {
+        header: true,
+        skipEmptyLines: true,
+
+        complete: (results) => {
+          if (CSV_file === "") {
+            renderBlankChart(cancerTypeToShow, myChart);
+
+            resultsContainer.innerHTML =
+              '<p class="has-text-danger">Please choose a cancer type.</p>';
+
+            downloadLinkBtn.innerHTML = "<p></p>";
+
+            return;
+          }
+
+          try {
+            const rows = results.data as ProcessedRow[];
+
+            // ---------------------------------------------
+            // Query
+            // ---------------------------------------------
+
+            const groupedResults = queryIncidenceFilter(rows, filter);
+
+            console.log("filter:", filter);
+            console.log("groupedResults:", groupedResults);
+
+            if (groupedResults.length < 1) {
+              renderBlankChart(cancerTypeToShow, myChart);
+              resultsContainer.innerHTML =
+                '<p class="has-text-danger">No data is available for this combination of options.</p>';
+            } else {
+              // Data for charts and tables
+              const allChartSeries = returnAllChartSeries(groupedResults);
+
+              // ---------------------------------------------------------
+              // Update Chart
+              // ---------------------------------------------------------
+
+              renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+
+              // ---------------------------------------------
+              // Table/download
+              // ---------------------------------------------
+
+              if (groupedResults.length === 1) {
+                resultsContainer.innerHTML = generateSingleRowTable(
+                  cancerTypeToShow,
+                  groupedResults[0],
+                  filter,
+                );
+              } else if (filter.sex.length > 1) {
+                resultsContainer.innerHTML = generateDichotomyMultiRowTable(
+                  cancerTypeToShow,
+                  groupedResults,
+                  filter,
+                );
+              } else {
+                resultsContainer.innerHTML = generateMultiRowTable(
+                  cancerTypeToShow,
+                  groupedResults,
+                  filter,
+                );
+              }
+            }
+          } catch (error) {
+            console.error(error);
+
+            resultsContainer.innerHTML = `<p style="color: red;">${
+              error instanceof Error
+                ? error.message
+                : "Unable to process query."
+            }</p>`;
+
+            downloadLinkBtn.innerHTML = "<p></p>";
+          }
+        },
+
+        error: (error: Error) => {
+          resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
+        },
+      });
+    } catch (err) {
+      resultsContainer.innerHTML =
+        '<p style="color: red;">Could not fetch CSV file.</p>';
+
+      console.error(err);
+    }
+  });
+</script>
+
+<style>
+  #csv-search-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  /* A responsive 2x2 grid container */
+  .dashboard-container {
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    /* splits screen horizontally, favoring left side a little */
+    grid-template-columns: 25fr 75fr;
+    /* splits screen vertically, favoring the top a little */
+    grid-template-rows: 65fr 35fr;
+  }
+
+  #panel {
+    padding-left: 20px;
+    padding-top: 20px;
+  }
+</style>

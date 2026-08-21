@@ -1,517 +1,1030 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from './header.astro';
-import CancerTypeSelect from '../components/CancerTypeSelect.astro';
-import AgeSelect from '../components/AgeSelect.astro';
-import DeprivationCheckboxSelect from '../components/DeprivationCheckboxSelect.astro';
-import RegionCheckboxSelect from '../components/RegionCheckboxSelect.astro';
-import PagePanels from '../components/PagePanels.astro';
-import SexSelect from '../components/SexSelect.astro';
+import Layout from "../layouts/Layout.astro";
+import Header from "./header.astro";
+import CancerTypeSelect from "../components/CancerTypeSelect.astro";
+import AgeSelect from "../components/AgeSelect.astro";
+import DeprivationCheckboxSelect from "../components/DeprivationCheckboxSelect.astro";
+import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
+import PagePanels from "../components/PagePanels.astro";
+import SexSelect from "../components/SexSelect.astro";
 ---
 
 <Layout>
-  	<Header client:load />
+  <Header />
 
-    <div class="dashboard-container">
-        <!- top left: panel area -->
-        <div id="panel">
+  <div class="dashboard-container">
+    <!--- top left: panel area ---->
+    <div id="panel">
+      <h1 class="is-size-3 mb-4 mr-2">
+        Search by Cancer Type, Sex, Age, Deprivation and Region
+      </h1>
+      <h2 class="is-size-5 mb-2">Select your search criteria</h2>
+      <form id="inequalities-search-form">
+        <CancerTypeSelect />
+        <hr />
+        <div class="mb-2 mr-2 has-text-weight-bold">
+          Choose an option. If none are selected then the result will be for ALL
+          SEXES.
+        </div>
+        <SexSelect />
 
-			<h1 class="is-size-3 mb-4">Search by Cancer Type, Sex, Age, Deprivation and Region </h1>
-  			<h2 class="is-size-5 mb-2">Select your search criteria</h2>
-			<form id="inequalities-search-form">
-
-				<CancerTypeSelect />
-				<hr />
-				<div class="mb-2 mr-2 has-text-weight-bold">Choose one sex, or neither. If neither are selected then the result will be for BOTH SEXES.</div>
-				<SexSelect />
-
-				<div class="mb-2 mt-4 mr-2 p-2 has-text-weight-bold has-background-warning">Compare multiple selections on either AGE, DEPRIVATION or REGION</div>
-				<hr />
-				<div class="mb-2 mr-2 has-text-weight-bold">Choose all, some or none. If none are selected then the result will be for ALL AGES.</div>
-				<AgeSelect />
-				<hr />
-				<DeprivationCheckboxSelect />
-				<hr />
-				<RegionCheckboxSelect />
-				<hr />
-				<div class="mb-2">
-					<input class="button" type="submit" value="Search" />
-				    <input class="button" type="reset" value="Reset" />
-				</div>	
-			</form>
-		</div>
-    	<PagePanels />
+        <!-- <div class="mb-2 mt-4 mr-2 p-2 has-text-weight-bold has-background-warning">Compare multiple selections on either AGE, DEPRIVATION or REGION</div>-->
+        <hr />
+        <div class="mb-2 mr-2 has-text-weight-bold">
+          Choose all, some or none. If none are selected then the result will be
+          for ALL AGES.
+        </div>
+        <AgeSelect />
+        <hr />
+        <DeprivationCheckboxSelect />
+        <hr />
+        <RegionCheckboxSelect />
+        <hr />
+        <div class="mb-2">
+          <input class="button" type="submit" value="Search" />
+          <input class="button" type="reset" value="Reset" />
+        </div>
+      </form>
     </div>
-
+    <PagePanels />
+  </div>
 </Layout>
 
 <script>
   // Import PapaParse directly into your client bundle
-	import Papa from 'papaparse';
-	import * as echarts from 'echarts';
-	import { cancerType, createDownloadFile, createMultiDownloadFile } from "../utils/filter";
-	import { generateSingleRowTable, generateMultiRowTable } from "../utils/filter-new";
-	import { determineSexInput, determineAgeInput, determineDepInput, determineRegionInput  } from "../utils/filter-new";
-	import {  male_checkbox, female_checkbox, age049checkbox, age5054checkbox, age5559checkbox, age6064checkbox, age6569checkbox, age7074checkbox, age7579checkbox, age8084checkbox, age8589checkbox, age90checkbox, imd1checkbox, imd2checkbox, imd3checkbox, imd4checkbox, imd5checkbox, emcheckbox, eecheckbox, locheckbox, necheckbox, nwcheckbox, secheckbox, swcheckbox, wmcheckbox, yhcheckbox, cancer_type, resultsContainer, confidenceBandsChart, downloadLinkBtn, chart_area,   } from '../types';
-	import { returnAllChartRates, renderChart, renderMultiChart } from '../utils/charts';
-	import type { CSVRow } from '../types';
+  import Papa from "papaparse";
+  import * as echarts from "echarts";
+  import {
+    cancerType,
+    createDownloadFile,
+    createMultiDownloadFile,
+  } from "../utils/filter";
+  import {
+    generateSingleRowTableDEPRECATED,
+    generateMultiRowTableDEPRECATED,
+    generateDichotomyMultiRowTableDEPRECATED,
+  } from "../utils/filter-new";
+  import {
+    determineAgeInput,
+    determineDepInput,
+    determineRegionInput,
+  } from "../utils/filter-new";
+  import {
+    age049checkbox,
+    age5054checkbox,
+    age5559checkbox,
+    age6064checkbox,
+    age6569checkbox,
+    age7074checkbox,
+    age7579checkbox,
+    age8084checkbox,
+    age8589checkbox,
+    age90checkbox,
+    imd1checkbox,
+    imd2checkbox,
+    imd3checkbox,
+    imd4checkbox,
+    imd5checkbox,
+    emcheckbox,
+    eecheckbox,
+    locheckbox,
+    necheckbox,
+    nwcheckbox,
+    secheckbox,
+    swcheckbox,
+    wmcheckbox,
+    yhcheckbox,
+    cancer_type,
+    resultsContainer,
+    downloadLinkBtn,
+  } from "../types";
+  import {
+    returnAllChartSeries,
+    renderLineChart,
+    renderBlankChart,
+    initLineChart,
+  } from "../utils/charts";
+  import type { CSVRow } from "../types";
 
-    const chartDom = document.getElementById('csv-chart');
-	const myChart = echarts.init(chartDom);
-	const chartConfidenceDom = document.getElementById('confidence-bands-chart');
-	//const myConfidenceChart = echarts.init(chartConfidenceDom);
-	const inequalities_form = document.getElementById('inequalities-search-form') as HTMLFormElement;
+  // Initialise chart
+  const myChart = initLineChart("csv-chart");
 
- 	inequalities_form?.addEventListener('submit', async (event) => {
-    event.preventDefault(); 
+  const inequalities_form = document.getElementById(
+    "inequalities-search-form",
+  ) as HTMLFormElement;
+  const radio_inputs = document.querySelectorAll(
+    "input[type='radio']",
+  ) as NodeListOf<HTMLInputElement>;
 
-	var sexes: string[] = [];
-	var malecheckbox_input = '';
-	var femalecheckbox_input = '';
-	// check the checkboxes buttons
-    if(male_checkbox && male_checkbox.checked){
-        malecheckbox_input = 'Male';
-		sexes.push(malecheckbox_input);
-    } 
-    if(female_checkbox && female_checkbox.checked){
-        femalecheckbox_input = 'Female';
-		sexes.push(femalecheckbox_input);
-	}
-    // call function to find the sex value
-	const sex_input: string | undefined  = determineSexInput(sexes);
+  inequalities_form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-	var ages: string[] = [];
-	var age049checkbox_input = '';
-	var age5054checkbox_input = '';
-	var age5559checkbox_input = '';
-	var age6064checkbox_input = '';
-	var age6569checkbox_input = '';
-	var age7074checkbox_input = '';
-	var age7579checkbox_input = '';
-	var age8084checkbox_input = '';
-	var age8589checkbox_input = '';
-	var age90checkbox_input = '';
-	// check the checkboxes buttons
-    if(age049checkbox && age049checkbox.checked){
-        age049checkbox_input = '0-49';
-		ages.push(age049checkbox_input);
-    } 
-	if(age5054checkbox && age5054checkbox.checked){
-        age5054checkbox_input = '50-54';
-		ages.push(age5054checkbox_input);
-    } 
-	if(age5559checkbox && age5559checkbox.checked){
-        age5559checkbox_input = '55-59';
-		ages.push(age5559checkbox_input);
-    } 
-	if(age6064checkbox && age6064checkbox.checked){
-        age6064checkbox_input = '60-64';
-		ages.push(age6064checkbox_input);
-    } 
-	if(age6569checkbox && age6569checkbox.checked){
-        age6569checkbox_input = '65-69';
-		ages.push(age6569checkbox_input);
-    } 
-	if(age7074checkbox && age7074checkbox.checked){
-        age7074checkbox_input = '70-74';
-		ages.push(age7074checkbox_input);
-    } 
-	if(age7579checkbox && age7579checkbox.checked){
-        age7579checkbox_input = '75-79';
-		ages.push(age7579checkbox_input);
-    } 
-	if(age8084checkbox && age8084checkbox.checked){
-        age8084checkbox_input = '80-84';
-		ages.push(age8084checkbox_input);
-    } 
-	if(age8589checkbox && age8589checkbox.checked){
-        age8589checkbox_input = '85-89';
-		ages.push(age8589checkbox_input);
-    } 
-	if(age90checkbox && age90checkbox.checked){
-        age90checkbox_input = '90';
-		ages.push(age90checkbox_input);
-    } 
+    // set a default if no button is selected
+    var sex_input: string = "All Persons";
 
-	// call function to find the age values
-	const age_input: string | undefined  = determineAgeInput(ages);
+    radio_inputs.forEach((button) => {
+      if (button && button.checked) {
+        sex_input = button.value;
+        console.log(sex_input);
+      }
+    });
 
-	var deprivation: string[] = [];
-	var imd1checkbox_input = '';
-	var imd2checkbox_input = '';
-	var imd3checkbox_input = '';
-	var imd4checkbox_input = '';
-	var imd5checkbox_input = '';
-	if(imd1checkbox && imd1checkbox.checked){
-        imd1checkbox_input = 'IMD1';
-		deprivation.push(imd1checkbox_input);
-    } 
-	if(imd2checkbox && imd2checkbox.checked){
-        imd2checkbox_input = 'IMD2';
-		deprivation.push(imd2checkbox_input);
-    } 
-	if(imd3checkbox && imd3checkbox.checked){
-        imd3checkbox_input = 'IMD3';
-		deprivation.push(imd3checkbox_input);
-    } 
-	if(imd4checkbox && imd4checkbox.checked){
-        imd4checkbox_input = 'IMD4';
-		deprivation.push(imd4checkbox_input);
-    } 
-	if(imd5checkbox && imd5checkbox.checked){
-        imd5checkbox_input = 'IMD5';
-		deprivation.push(imd5checkbox_input);
-    } 
+    var ages: string[] = [];
+    var age049checkbox_input = "";
+    var age5054checkbox_input = "";
+    var age5559checkbox_input = "";
+    var age6064checkbox_input = "";
+    var age6569checkbox_input = "";
+    var age7074checkbox_input = "";
+    var age7579checkbox_input = "";
+    var age8084checkbox_input = "";
+    var age8589checkbox_input = "";
+    var age90checkbox_input = "";
+    // check the checkboxes buttons
+    if (age049checkbox && age049checkbox.checked) {
+      age049checkbox_input = "0-49";
+      ages.push(age049checkbox_input);
+    }
+    if (age5054checkbox && age5054checkbox.checked) {
+      age5054checkbox_input = "50-54";
+      ages.push(age5054checkbox_input);
+    }
+    if (age5559checkbox && age5559checkbox.checked) {
+      age5559checkbox_input = "55-59";
+      ages.push(age5559checkbox_input);
+    }
+    if (age6064checkbox && age6064checkbox.checked) {
+      age6064checkbox_input = "60-64";
+      ages.push(age6064checkbox_input);
+    }
+    if (age6569checkbox && age6569checkbox.checked) {
+      age6569checkbox_input = "65-69";
+      ages.push(age6569checkbox_input);
+    }
+    if (age7074checkbox && age7074checkbox.checked) {
+      age7074checkbox_input = "70-74";
+      ages.push(age7074checkbox_input);
+    }
+    if (age7579checkbox && age7579checkbox.checked) {
+      age7579checkbox_input = "75-79";
+      ages.push(age7579checkbox_input);
+    }
+    if (age8084checkbox && age8084checkbox.checked) {
+      age8084checkbox_input = "80-84";
+      ages.push(age8084checkbox_input);
+    }
+    if (age8589checkbox && age8589checkbox.checked) {
+      age8589checkbox_input = "85-89";
+      ages.push(age8589checkbox_input);
+    }
+    if (age90checkbox && age90checkbox.checked) {
+      age90checkbox_input = "90";
+      ages.push(age90checkbox_input);
+    }
 
-	// call function to find the dep values
-	const deprivation_input: string | undefined  = determineDepInput(deprivation);
+    // call function to find the age values
+    const age_input: string | undefined = determineAgeInput(ages);
 
-	var regions: string[] = [];
-	var emcheckbox_input = '';
-	var eecheckbox_input = '';
-	var locheckbox_input = '';
-	var necheckbox_input = '';
-	var nwcheckbox_input = '';
-	var secheckbox_input = '';
-	var swcheckbox_input = '';
-	var wmcheckbox_input = '';
-	var yhcheckbox_input = '';
-	if(emcheckbox && emcheckbox.checked){
-        emcheckbox_input = 'East Midlands';
-		regions.push(emcheckbox_input);
-    } 
-	if(eecheckbox && eecheckbox.checked){
-        eecheckbox_input = 'East of England';
-		regions.push(eecheckbox_input);
-    } 
-	if(locheckbox && locheckbox.checked){
-        locheckbox_input = 'London';
-		regions.push(locheckbox_input);
-    } 
-	if(necheckbox && necheckbox.checked){
-        necheckbox_input = 'North East';
-		regions.push(necheckbox_input);
-    } 
-	if(nwcheckbox && nwcheckbox.checked){
-        nwcheckbox_input = 'North West';
-		regions.push(nwcheckbox_input);
-    } 
-	if(secheckbox && secheckbox.checked){
-        secheckbox_input = 'South East';
-		regions.push(secheckbox_input);
-    } 
-	if(swcheckbox && swcheckbox.checked){
-        swcheckbox_input = 'South West';
-		regions.push(swcheckbox_input);
-    } 
-	if(wmcheckbox && wmcheckbox.checked){
-        wmcheckbox_input = 'West Midlands';
-		regions.push(wmcheckbox_input);
-    } 
-	if(yhcheckbox && yhcheckbox.checked){
-        yhcheckbox_input = 'Yorkshire and The Humber';
-		regions.push(yhcheckbox_input);
-    } 
+    var deprivation: string[] = [];
+    var imd1checkbox_input = "";
+    var imd2checkbox_input = "";
+    var imd3checkbox_input = "";
+    var imd4checkbox_input = "";
+    var imd5checkbox_input = "";
+    if (imd1checkbox && imd1checkbox.checked) {
+      imd1checkbox_input = "IMD1";
+      deprivation.push(imd1checkbox_input);
+    }
+    if (imd2checkbox && imd2checkbox.checked) {
+      imd2checkbox_input = "IMD2";
+      deprivation.push(imd2checkbox_input);
+    }
+    if (imd3checkbox && imd3checkbox.checked) {
+      imd3checkbox_input = "IMD3";
+      deprivation.push(imd3checkbox_input);
+    }
+    if (imd4checkbox && imd4checkbox.checked) {
+      imd4checkbox_input = "IMD4";
+      deprivation.push(imd4checkbox_input);
+    }
+    if (imd5checkbox && imd5checkbox.checked) {
+      imd5checkbox_input = "IMD5";
+      deprivation.push(imd5checkbox_input);
+    }
 
-	// call function to find the region values
-	const region_input: string | undefined  = determineRegionInput(regions);
-	
-	
-	// no sex selected so return no records
-  //  if (!resultsContainer) return;
+    // call function to find the dep values
+    const deprivation_input: string | undefined =
+      determineDepInput(deprivation);
 
-    resultsContainer.innerHTML = '<p>Searching records...</p>';
+    var regions: string[] = [];
+    var emcheckbox_input = "";
+    var eecheckbox_input = "";
+    var locheckbox_input = "";
+    var necheckbox_input = "";
+    var nwcheckbox_input = "";
+    var secheckbox_input = "";
+    var swcheckbox_input = "";
+    var wmcheckbox_input = "";
+    var yhcheckbox_input = "";
+    if (emcheckbox && emcheckbox.checked) {
+      emcheckbox_input = "East Midlands";
+      regions.push(emcheckbox_input);
+    }
+    if (eecheckbox && eecheckbox.checked) {
+      eecheckbox_input = "East of England";
+      regions.push(eecheckbox_input);
+    }
+    if (locheckbox && locheckbox.checked) {
+      locheckbox_input = "London";
+      regions.push(locheckbox_input);
+    }
+    if (necheckbox && necheckbox.checked) {
+      necheckbox_input = "North East";
+      regions.push(necheckbox_input);
+    }
+    if (nwcheckbox && nwcheckbox.checked) {
+      nwcheckbox_input = "North West";
+      regions.push(nwcheckbox_input);
+    }
+    if (secheckbox && secheckbox.checked) {
+      secheckbox_input = "South East";
+      regions.push(secheckbox_input);
+    }
+    if (swcheckbox && swcheckbox.checked) {
+      swcheckbox_input = "South West";
+      regions.push(swcheckbox_input);
+    }
+    if (wmcheckbox && wmcheckbox.checked) {
+      wmcheckbox_input = "West Midlands";
+      regions.push(wmcheckbox_input);
+    }
+    if (yhcheckbox && yhcheckbox.checked) {
+      yhcheckbox_input = "Yorkshire and The Humber";
+      regions.push(yhcheckbox_input);
+    }
 
-	const BASE_URL = import.meta.env.BASE_URL;
-	const CSV_file = BASE_URL + '/HNC.csv';
-	const cancerTypeToShow: string = cancer_type.value;
+    // call function to find the region values
+    const region_input: string | undefined = determineRegionInput(regions);
 
+    // no sex selected so return no records
+    //  if (!resultsContainer) return;
+
+    resultsContainer.innerHTML = "<p>Searching records...</p>";
+
+    const CSV_file = cancerType(cancer_type.value);
+    const cancerTypeToShow: string = cancer_type.value;
+
+    console.log(CSV_file);
 
     try {
-        // get raw CSV data
-		const response = await fetch(CSV_file);
-		if (!response.ok) throw new Error('Failed to retrieve data file.');
-		
-		const csvText = await response.text();
-		var encodedUri = '';
+      // get raw CSV data
+      const response = await fetch(CSV_file);
+      if (!response.ok) throw new Error("Failed to retrieve data file.");
 
-		console.log(sex_input);
-		console.log(age_input);
-		console.log(deprivation_input);
-		console.log(region_input);
-		
-      	// parse CSV text directly into JSON format
-      	Papa.parse<CSVRow>(csvText, {
-			header: true,  // ignore the first line
-			skipEmptyLines: true,
-			complete: (results) => {
+      const csvText = await response.text();
+      var encodedUri = "";
 
-				// console.log(results);
+      console.log(sex_input);
+      console.log(age_input);
+      console.log(deprivation_input);
+      console.log(region_input);
 
-				var tempTable: CSVRow[] = [];
-				var matchedItems: CSVRow[] = [];	
+      // parse CSV text directly into JSON format
+      Papa.parse<CSVRow>(csvText, {
+        header: true, // ignore the first line
+        skipEmptyLines: true,
+        complete: (results) => {
+          // console.log(results);
 
-				// check that the user hasn't entered too many options
-				if(ages.length > 1 && deprivation.length > 1 || ages.length > 1 && regions.length > 1 || deprivation.length > 1 && regions.length > 1 ){
-					//chart_area.innerHTML = '<p>No chart available</p>';
-					resultsContainer.innerHTML = '<p> No records are currently available matching this combination of options.</p>';
-					downloadLinkBtn.innerHTML = '<p></p>';
-					return;	
-				}
-				// if the multiple queries are to be done on the ages, do a pre-query to get all age results
-				if(ages.length > 1) {
-					tempTable = results.data.filter(item => 
-					item.sex?.includes(sex_input) &&
-				    item.dep?.includes(deprivation_input) &&
-					item.region?.includes(region_input) &&
-					item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes')
-					);
+          var tempTable: CSVRow[] = [];
+          var tempTableTwo: CSVRow[] = [];
+          var matchedItems: CSVRow[] = [];
 
-					var allMatchedItems: any[] = [];
-					
-					ages.forEach(age => {
-						var temp = tempTable.filter(item => 
-						item.ageBand?.includes(age));
-						allMatchedItems.push(temp);
-					});
+          if (CSV_file === "") {
+            renderBlankChart(cancerTypeToShow, myChart);
+            resultsContainer.innerHTML =
+              '<p class="has-text-danger"> Please choose a cancer type.</p>';
+            downloadLinkBtn.innerHTML = "<p></p>";
+            return;
+          }
 
-					console.log('allMatchedItems');
-					console.log(allMatchedItems);
+          // check that the user hasn't entered too many options
+          if (
+            (ages.length > 1 && deprivation.length > 1) ||
+            (ages.length > 1 && regions.length > 1) ||
+            (deprivation.length > 1 && regions.length > 1)
+          ) {
+            renderBlankChart(cancerTypeToShow, myChart);
+            resultsContainer.innerHTML =
+              "<p> No records are currently available matching this combination of options.</p>";
+            downloadLinkBtn.innerHTML = "<p></p>";
+            return;
+          }
+          // if the multiple queries are to be done on the ages, do a pre-query to get all age results
+          if (ages.length > 1) {
+            // check whether sex_input is male amd female
+            // if so, run a query for both sexes
+            if (sex_input === "Male:Female") {
+              tempTable = results.data.filter(
+                (item) =>
+                  item.sex?.includes("Male") &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.region?.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
 
-					var allRates: any[] = [];
-					var allDownloadRates: any[] = [];
+              tempTableTwo = results.data.filter(
+                (item) =>
+                  item.sex?.includes("Female") &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.region?.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+            }
+            // just run one pre-query
+            else {
+              tempTable = results.data.filter(
+                (item) =>
+                  item.sex?.includes(sex_input) &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.region?.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+            }
 
-					if (allMatchedItems){ 
-					// get the indicence rates
-						allMatchedItems.forEach(item => {
-						var key = item.map((row: { ageBand: any; }) => row.ageBand).filter(Boolean);	
-						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
-						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
-						// concatenate values to form a new string with rates and bounds
-						const boundedRates: string[] = [];
-						const downloadFormattedRates: string[] = []
+            var allMatchedItems: any[] = [];
 
-						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
-							boundedRates.push(tempString);
-							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
-							downloadFormattedRates.push(downloadString);
-						}
-						// add the key value to the array
-						boundedRates.splice(0,0, key[0]);
-						downloadFormattedRates.splice(0,0, key[0]);
-					 	allRates.push(boundedRates);
-						allDownloadRates.push(downloadFormattedRates);
-						});
-					}
+            ages.forEach((age) => {
+              var temp = tempTable.filter((item) =>
+                item.ageBand?.includes(age),
+              );
+              allMatchedItems.push(temp);
 
-					var allChartRates = returnAllChartRates(allMatchedItems);
-					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
+              // get second round of data
+              if (tempTableTwo.length !== 0) {
+                var tempTwo = tempTableTwo.filter((item) =>
+                  item.ageBand?.includes(age),
+                );
+                allMatchedItems.push(tempTwo);
+              }
+            });
 
-					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + deprivation_input + ' : ' + region_input);
-					encodedUri = createMultiDownloadFile(allDownloadRates);
-					const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
-					downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';	 
-				}
-				// if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
-				else if(deprivation.length > 1) {
-					tempTable = results.data.filter(item => 
-					item.sex?.includes(sex_input) &&
-				    item.ageBand?.includes(age_input) &&
-					item.region?.includes(region_input) &&
-					item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes')
-					);
+            console.log("allMatchedItems");
+            console.log(allMatchedItems);
 
-					var allMatchedItems: any[] = [];
+            var allRates: any[] = [];
+            var allDownloadRates: any[] = [];
 
-					deprivation.forEach(level => {
-						var temp = tempTable.filter(item => 
-						item.dep?.includes(level));
-						allMatchedItems.push(temp);
-					});
+            if (allMatchedItems) {
+              // get the indicence rates
+              allMatchedItems.forEach((item, index) => {
+                var key = item
+                  .map((row: { ageBand: any }) => row.ageBand)
+                  .filter(Boolean);
+                var counts = item
+                  .map((row: { count: any }) => row.count)
+                  .filter(Boolean);
+                var rates = item
+                  .map((row: { rate: any }) => row.rate)
+                  .filter(Boolean);
+                var lowerBounds = item
+                  .map((row: { ciLb: any }) => row.ciLb)
+                  .filter(Boolean);
+                var upperBounds = item
+                  .map((row: { ciUb: any }) => row.ciUb)
+                  .filter(Boolean);
+                // concatenate values to form a new string with rates and bounds
+                const boundedRates: string[] = [];
+                const downloadFormattedRates: string[] = [];
 
-					// console.log(allMatchedItems);
-					
-					var allRates: any[] = [];
-					var allDownloadRates: any[] = [];
-				
-					if (allMatchedItems){ 
-					// get the indicence rates
-						allMatchedItems.forEach(item => {
-						var key = item.map((row: { dep: any; }) => row.dep).filter(Boolean);	
-						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
-						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
-						// concatenate values to form a new string with rates and bounds
-						const boundedRates: string[] = [];
-						const downloadFormattedRates: string[] = []
+                for (var i = 0; i < rates.length; i++) {
+                  var tempString =
+                    rates[i] +
+                    " (" +
+                    lowerBounds[i] +
+                    "," +
+                    upperBounds[i] +
+                    ") " +
+                    "\n<strong>" +
+                    counts[i] +
+                    "</strong>";
+                  boundedRates.push(tempString);
+                  var downloadString =
+                    rates[i] + "," + lowerBounds[i] + "," + upperBounds[i];
+                  downloadFormattedRates.push(downloadString);
+                }
 
-						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
-							boundedRates.push(tempString);
-							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
-							downloadFormattedRates.push(downloadString);
-						}
-						// add the key value to the array
-						boundedRates.splice(0,0, key[0]);
-						downloadFormattedRates.splice(0,0, key[0]);
-					 	allRates.push(boundedRates);
-						allDownloadRates.push(downloadFormattedRates);
-						});
-					}
+                // add the first key value to the array
+                boundedRates.splice(0, 0, key[0]);
 
-					var allChartRates = returnAllChartRates(allMatchedItems);
-					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
+                // add another column to the table for sex
+                if (sex_input === "Male:Female") {
+                  if (index % 2 == 0) {
+                    boundedRates.splice(0, 0, "Male");
+                  } else {
+                    boundedRates.splice(0, 0, "Female");
+                  }
+                }
 
-					if (allMatchedItems){ 
-					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + region_input);
-						encodedUri = createMultiDownloadFile(allDownloadRates);
-					const filename = 'DL-'  + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
-					downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
-				 	} 
-				}
-				// if the multiple queries are to be done on the regions, do a pre-query to get all region results
-				else if(regions.length > 1) {
+                downloadFormattedRates.splice(0, 0, key[0]);
+                allRates.push(boundedRates);
+                allDownloadRates.push(downloadFormattedRates);
+              });
+            }
 
-					tempTable = results.data.filter(item => 
-					item.sex?.includes(sex_input) &&
-					item.ageBand?.includes(age_input) && 
-				    item.dep?.includes(deprivation_input) &&
-					item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes')
-					);
+            var allChartSeries = returnAllChartSeries(allMatchedItems);
+            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
 
-					var allMatchedItems: any[] = [];
+            if (allMatchedItems) {
+              // call generateTable function in utils
+              if (sex_input === "Male:Female") {
+                resultsContainer.innerHTML =
+                  generateDichotomyMultiRowTableDEPRECATED(
+                    cancerTypeToShow,
+                    allRates,
+                    sex_input +
+                      " : " +
+                      deprivation_input +
+                      " : " +
+                      region_input,
+                  );
+              } else {
+                resultsContainer.innerHTML = generateMultiRowTableDEPRECATED(
+                  cancerTypeToShow,
+                  allRates,
+                  sex_input + " : " + deprivation_input + " : " + region_input,
+                );
+              }
 
-					regions.forEach(region => {
-						var temp = tempTable.filter(item => 
-						item.region?.includes(region));
-						allMatchedItems.push(temp);
-					});
+              encodedUri = createMultiDownloadFile(allDownloadRates);
+              const filename =
+                "DL-" +
+                cancerTypeToShow +
+                "-" +
+                sex_input +
+                "-" +
+                age_input +
+                "-" +
+                deprivation_input +
+                "-" +
+                region_input;
+              downloadLinkBtn.innerHTML =
+                '<a class="button is-link is-light mb-4" href=' +
+                encodedUri +
+                ' download="' +
+                filename +
+                '.csv">Download CSV</a>';
+            }
+          }
+          // if the multiple queries are to be done on the deprivation levels, do a pre-query to get all deprivation results
+          else if (deprivation.length > 1) {
+            // check whether sex_input is male amd female
+            // if so, run a query for both sexes
+            if (sex_input === "Male:Female") {
+              tempTable = results.data.filter(
+                (item) =>
+                  item.sex?.includes("Male") &&
+                  item.ageBand?.includes(age_input) &&
+                  item.region?.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
 
-					console.log(allMatchedItems);
-						
-					var allRates: any[] = [];
-					var allDownloadRates: any[] = [];
+              tempTableTwo = results.data.filter(
+                (item) =>
+                  item.sex?.includes("Female") &&
+                  item.ageBand?.includes(age_input) &&
+                  item.region?.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+            } else {
+              tempTable = results.data.filter(
+                (item) =>
+                  item.sex?.includes(sex_input) &&
+                  item.ageBand?.includes(age_input) &&
+                  item.region?.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+            }
 
-					if (allMatchedItems){ 
-					// get the indicence rates
-						allMatchedItems.forEach(item => {
-						var key = item.map((row: { region: any; }) => row.region).filter(Boolean);	
-						var rates = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-						var lowerBounds = item.map((row: { ciLb: any; }) => row.ciLb).filter(Boolean);
-						var upperBounds = item.map((row: { ciUb: any; }) => row.ciUb).filter(Boolean);
-						// concatenate values to form a new string with rates and bounds
-						const boundedRates: string[] = [];
-						const downloadFormattedRates: string[] = []
+            var allMatchedItems: any[] = [];
 
-						for(var i = 0; i < rates.length; i++){
-							var tempString = rates[i] + ' (' + lowerBounds[i] + ',' + upperBounds[i] + ')';
-							boundedRates.push(tempString);
-							var downloadString = rates[i] + ',' + lowerBounds[i] + ',' + upperBounds[i];
-							downloadFormattedRates.push(downloadString);
-						}
-						// add the key value to the array
-						boundedRates.splice(0,0, key[0]);
-						downloadFormattedRates.splice(0,0, key[0]);
-					 	allRates.push(boundedRates);
-						allDownloadRates.push(downloadFormattedRates);
-						});
-					}
+            deprivation.forEach((level) => {
+              var temp = tempTable.filter((item) => item.dep?.includes(level));
+              allMatchedItems.push(temp);
 
-					var allChartRates = returnAllChartRates(allMatchedItems);
-					renderMultiChart(cancerTypeToShow, allChartRates, myChart);
+              // get second round of data
+              if (tempTableTwo.length !== 0) {
+                var tempTwo = tempTableTwo.filter((item) =>
+                  item.dep?.includes(level),
+                );
+                allMatchedItems.push(tempTwo);
+              }
+            });
 
-					if (allMatchedItems){ 
-					// call generateTable function in utils
-					resultsContainer.innerHTML = generateMultiRowTable(cancerTypeToShow, allRates, sex_input + ' : ' + age_input + ' : ' + deprivation_input);
-					encodedUri = createMultiDownloadFile(allDownloadRates);
-					const filename = 'DL-' + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
-					downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
-				 	} 
+            console.log(allMatchedItems);
 
-				}
-				else {
-					// do all the filters
-					matchedItems = results.data.filter(item => 
-				 	item.sex?.includes(sex_input) &&
-				 	item.ageBand?.includes(age_input) && 
-				    item.dep?.includes(deprivation_input) &&
-				 	item.region.includes(region_input) &&
-				 	item.stage?.includes('All Stages') &&
-					item.route?.includes('All Routes') 
-				 	);
+            var allRates: any[] = [];
+            var allDownloadRates: any[] = [];
 
-					console.log(matchedItems);
-				
-					// returned if matching fails
-					if (matchedItems.length === 0) {
-						resultsContainer.innerHTML = '<p>No records found matching that query.</p>';			
-						return;
-					}
+            if (allMatchedItems) {
+              // get the indicence rates
+              allMatchedItems.forEach((item, index) => {
+                var key = item
+                  .map((row: { dep: any }) => row.dep)
+                  .filter(Boolean);
+                var counts = item
+                  .map((row: { count: any }) => row.count)
+                  .filter(Boolean);
+                var rates = item
+                  .map((row: { rate: any }) => row.rate)
+                  .filter(Boolean);
+                var lowerBounds = item
+                  .map((row: { ciLb: any }) => row.ciLb)
+                  .filter(Boolean);
+                var upperBounds = item
+                  .map((row: { ciUb: any }) => row.ciUb)
+                  .filter(Boolean);
+                // concatenate values to form a new string with rates and bounds
+                const boundedRates: string[] = [];
+                const downloadFormattedRates: string[] = [];
 
-					// call function to render an echart
-					renderChart(cancerTypeToShow, matchedItems, myChart);
+                for (var i = 0; i < rates.length; i++) {
+                  var tempString =
+                    rates[i] +
+                    " (" +
+                    lowerBounds[i] +
+                    "," +
+                    upperBounds[i] +
+                    ") " +
+                    "\n<strong>" +
+                    counts[i] +
+                    "</strong>";
+                  boundedRates.push(tempString);
+                  var downloadString =
+                    rates[i] + "," + lowerBounds[i] + "," + upperBounds[i];
+                  downloadFormattedRates.push(downloadString);
+                }
+                // add the key value to the array
+                boundedRates.splice(0, 0, key[0]);
 
-					if (matchedItems){ 
-					// get the indicence rates
-					const rates = matchedItems.map((row: { rate: any; }) => row.rate).filter(Boolean);
-					const lowerBounds = matchedItems.map((row: { ciLb: number; }) => row.ciLb).filter(Boolean);
-					const upperBounds = matchedItems.map((row: { ciUb: number; }) => row.ciUb).filter(Boolean);
+                // add another column to the table for sex
+                if (sex_input === "Male:Female") {
+                  if (index % 2 == 0) {
+                    boundedRates.splice(0, 0, "Male");
+                  } else {
+                    boundedRates.splice(0, 0, "Female");
+                  }
+                }
+                /*
+						else {
+							boundedRates.splice(0,0, sex_input);
+						} */
+                downloadFormattedRates.splice(0, 0, key[0]);
+                allRates.push(boundedRates);
+                allDownloadRates.push(downloadFormattedRates);
+              });
+            }
 
-					// call generateTable function in utils
-					resultsContainer.innerHTML = generateSingleRowTable(cancerTypeToShow, rates, lowerBounds, upperBounds, sex_input + ' : ' + age_input+ ' : ' + deprivation_input + ' : ' + region_input);
-					encodedUri = createDownloadFile(rates,lowerBounds,upperBounds);
-					const filename = 'DL-' + cancerTypeToShow + '-' + sex_input + '-' + age_input + '-' + deprivation_input + '-' + region_input; 
-					downloadLinkBtn.innerHTML = '<a class="button is-link is-light mb-4" href=' + encodedUri + ' download="' + filename + '.csv">Download CSV</a>';
+            var allChartSeries = returnAllChartSeries(allMatchedItems);
+            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
 
-				 	} 
-				}
-			},	
-			error: (error: Error) => {
-			resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
-			}
-      	});
+            if (allMatchedItems) {
+              // call generateTable function in utils
+              if (sex_input === "Male:Female") {
+                resultsContainer.innerHTML =
+                  generateDichotomyMultiRowTableDEPRECATED(
+                    cancerTypeToShow,
+                    allRates,
+                    sex_input + " : " + age_input + " : " + region_input,
+                  );
+              } else {
+                resultsContainer.innerHTML = generateMultiRowTableDEPRECATED(
+                  cancerTypeToShow,
+                  allRates,
+                  sex_input + " : " + age_input + " : " + region_input,
+                );
+              }
 
+              encodedUri = createMultiDownloadFile(allDownloadRates);
+              const filename =
+                "DL-" +
+                cancerTypeToShow +
+                "-" +
+                sex_input +
+                "-" +
+                age_input +
+                "-" +
+                deprivation_input +
+                "-" +
+                region_input;
+              downloadLinkBtn.innerHTML =
+                '<a class="button is-link is-light mb-4" href=' +
+                encodedUri +
+                ' download="' +
+                filename +
+                '.csv">Download CSV</a>';
+            }
+          }
+          // if the multiple queries are to be done on the regions, do a pre-query to get all region results
+          else if (regions.length > 1) {
+            if (sex_input === "Male:Female") {
+              tempTable = results.data.filter(
+                (item) =>
+                  item.sex?.includes("Male") &&
+                  item.ageBand?.includes(age_input) &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+
+              tempTableTwo = results.data.filter(
+                (item) =>
+                  item.sex?.includes("Female") &&
+                  item.ageBand?.includes(age_input) &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+            } else {
+              tempTable = results.data.filter(
+                (item) =>
+                  item.sex?.includes(sex_input) &&
+                  item.ageBand?.includes(age_input) &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+            }
+
+            var allMatchedItems: any[] = [];
+
+            regions.forEach((region) => {
+              var temp = tempTable.filter((item) =>
+                item.region?.includes(region),
+              );
+              allMatchedItems.push(temp);
+
+              // get second round of data
+              if (tempTableTwo.length !== 0) {
+                var tempTwo = tempTableTwo.filter((item) =>
+                  item.region?.includes(region),
+                );
+                allMatchedItems.push(tempTwo);
+              }
+            });
+
+            console.log(allMatchedItems);
+
+            var allRates: any[] = [];
+            var allDownloadRates: any[] = [];
+
+            if (allMatchedItems) {
+              // get the indicence rates
+              allMatchedItems.forEach((item, index) => {
+                var key = item
+                  .map((row: { region: any }) => row.region)
+                  .filter(Boolean);
+                var counts = item
+                  .map((row: { count: any }) => row.count)
+                  .filter(Boolean);
+                var rates = item
+                  .map((row: { rate: any }) => row.rate)
+                  .filter(Boolean);
+                var lowerBounds = item
+                  .map((row: { ciLb: any }) => row.ciLb)
+                  .filter(Boolean);
+                var upperBounds = item
+                  .map((row: { ciUb: any }) => row.ciUb)
+                  .filter(Boolean);
+                // concatenate values to form a new string with rates and bounds
+                const boundedRates: string[] = [];
+                const downloadFormattedRates: string[] = [];
+
+                for (var i = 0; i < rates.length; i++) {
+                  var tempString =
+                    rates[i] +
+                    " (" +
+                    lowerBounds[i] +
+                    "," +
+                    upperBounds[i] +
+                    ") " +
+                    "\n<strong>" +
+                    counts[i] +
+                    "</strong>";
+                  boundedRates.push(tempString);
+                  var downloadString =
+                    rates[i] + "," + lowerBounds[i] + "," + upperBounds[i];
+                  downloadFormattedRates.push(downloadString);
+                }
+                // add the key value to the array
+                boundedRates.splice(0, 0, key[0]);
+
+                // add another column to the table for sex
+                if (sex_input === "Male:Female") {
+                  if (index % 2 == 0) {
+                    boundedRates.splice(0, 0, "Male");
+                  } else {
+                    boundedRates.splice(0, 0, "Female");
+                  }
+                }
+
+                downloadFormattedRates.splice(0, 0, key[0]);
+                allRates.push(boundedRates);
+                allDownloadRates.push(downloadFormattedRates);
+              });
+            }
+
+            var allChartSeries = returnAllChartSeries(allMatchedItems);
+            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+
+            if (allMatchedItems) {
+              // call generateTable function in utils
+              if (sex_input === "Male:Female") {
+                resultsContainer.innerHTML =
+                  generateDichotomyMultiRowTableDEPRECATED(
+                    cancerTypeToShow,
+                    allRates,
+                    sex_input + " : " + age_input + " : " + region_input,
+                  );
+              } else {
+                resultsContainer.innerHTML = generateMultiRowTableDEPRECATED(
+                  cancerTypeToShow,
+                  allRates,
+                  sex_input + " : " + age_input + " : " + deprivation_input,
+                );
+              }
+              encodedUri = createMultiDownloadFile(allDownloadRates);
+              const filename =
+                "DL-" +
+                cancerTypeToShow +
+                "-" +
+                sex_input +
+                "-" +
+                age_input +
+                "-" +
+                deprivation_input +
+                "-" +
+                region_input;
+              downloadLinkBtn.innerHTML =
+                '<a class="button is-link is-light mb-4" href=' +
+                encodedUri +
+                ' download="' +
+                filename +
+                '.csv">Download CSV</a>';
+            }
+          } else {
+            var allMatchedItems: any[] = [];
+
+            // check whether sex_input is male amd female
+            // if so, run a query for both sexes
+            if (sex_input === "Male:Female") {
+              tempTable = results.data.filter(
+                (item) =>
+                  item.sex?.includes("Male") &&
+                  item.ageBand?.includes(age_input) &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.region.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+
+              tempTableTwo = results.data.filter(
+                (item) =>
+                  item.sex?.includes("Female") &&
+                  item.ageBand?.includes(age_input) &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.region.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+
+              if (tempTableTwo.length > 0) {
+                // we have male & female records
+                console.log(tempTable);
+                console.log(tempTableTwo);
+                allMatchedItems.push(tempTable);
+                allMatchedItems.push(tempTableTwo);
+              }
+
+              console.log(allMatchedItems);
+
+              var allRates: any[] = [];
+              var allDownloadRates: any[] = [];
+
+              if (allMatchedItems) {
+                // get the indicence rates
+                allMatchedItems.forEach((item, index) => {
+                  var key = item
+                    .map((row: { region: any }) => row.region)
+                    .filter(Boolean);
+                  var counts = item
+                    .map((row: { count: any }) => row.count)
+                    .filter(Boolean);
+                  var rates = item
+                    .map((row: { rate: any }) => row.rate)
+                    .filter(Boolean);
+                  var lowerBounds = item
+                    .map((row: { ciLb: any }) => row.ciLb)
+                    .filter(Boolean);
+                  var upperBounds = item
+                    .map((row: { ciUb: any }) => row.ciUb)
+                    .filter(Boolean);
+                  // concatenate values to form a new string with rates and bounds
+                  const boundedRates: string[] = [];
+                  const downloadFormattedRates: string[] = [];
+
+                  for (var i = 0; i < rates.length; i++) {
+                    var tempString =
+                      rates[i] +
+                      " (" +
+                      lowerBounds[i] +
+                      "," +
+                      upperBounds[i] +
+                      ") " +
+                      "\n<strong>" +
+                      counts[i] +
+                      "</strong>";
+                    boundedRates.push(tempString);
+                    var downloadString =
+                      rates[i] + "," + lowerBounds[i] + "," + upperBounds[i];
+                    downloadFormattedRates.push(downloadString);
+                  }
+                  // add the key value to the array
+                  boundedRates.splice(0, 0, key[0]);
+
+                  if (index % 2 == 0) {
+                    boundedRates.splice(0, 0, "Male");
+                  } else {
+                    boundedRates.splice(0, 0, "Female");
+                  }
+
+                  downloadFormattedRates.splice(0, 0, key[0]);
+                  allRates.push(boundedRates);
+                  allDownloadRates.push(downloadFormattedRates);
+                });
+
+                var allChartSeries = returnAllChartSeries(allMatchedItems);
+                renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+
+                // call generateTable function in utils
+                if (sex_input === "Male:Female") {
+                  resultsContainer.innerHTML =
+                    generateDichotomyMultiRowTableDEPRECATED(
+                      cancerTypeToShow,
+                      allRates,
+                      sex_input +
+                        " : " +
+                        age_input +
+                        " : " +
+                        deprivation_input +
+                        " : " +
+                        region_input,
+                    );
+                } else {
+                  resultsContainer.innerHTML = generateMultiRowTableDEPRECATED(
+                    cancerTypeToShow,
+                    allRates,
+                    sex_input + " : " + age_input + " : " + deprivation_input,
+                  );
+                }
+                encodedUri = createMultiDownloadFile(allDownloadRates);
+                const filename =
+                  "DL-" +
+                  cancerTypeToShow +
+                  "-" +
+                  sex_input +
+                  "-" +
+                  age_input +
+                  "-" +
+                  deprivation_input +
+                  "-" +
+                  region_input;
+                downloadLinkBtn.innerHTML =
+                  '<a class="button is-link is-light mb-4" href=' +
+                  encodedUri +
+                  ' download="' +
+                  filename +
+                  '.csv">Download CSV</a>';
+              }
+            } else {
+              // just do one pre query
+              matchedItems = results.data.filter(
+                (item) =>
+                  item.sex?.includes(sex_input) &&
+                  item.ageBand?.includes(age_input) &&
+                  item.dep?.includes(deprivation_input) &&
+                  item.region.includes(region_input) &&
+                  item.stage?.includes("All Stages") &&
+                  item.route?.includes("All Routes"),
+              );
+
+              // returned if matching fails
+              if (matchedItems.length === 0) {
+                renderBlankChart(cancerTypeToShow, myChart);
+                resultsContainer.innerHTML =
+                  '<p class="mb-4">No records found matching that query.</p>';
+                downloadLinkBtn.innerHTML = "<p></p>";
+                return;
+              }
+
+              // call function to render an echart
+              var allChartSeries = returnAllChartSeries(matchedItems);
+              renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+
+              if (matchedItems) {
+                // get the indicence rates
+                const counts = matchedItems
+                  .map((row: { count: any }) => row.count)
+                  .filter(Boolean);
+                const rates = matchedItems
+                  .map((row: { rate: any }) => row.rate)
+                  .filter(Boolean);
+                const lowerBounds = matchedItems
+                  .map((row: { ciLb: number }) => row.ciLb)
+                  .filter(Boolean);
+                const upperBounds = matchedItems
+                  .map((row: { ciUb: number }) => row.ciUb)
+                  .filter(Boolean);
+
+                // call generateTable function in utils
+                resultsContainer.innerHTML = generateSingleRowTableDEPRECATED(
+                  cancerTypeToShow,
+                  rates,
+                  counts,
+                  lowerBounds,
+                  upperBounds,
+                  sex_input +
+                    " : " +
+                    age_input +
+                    " : " +
+                    deprivation_input +
+                    " : " +
+                    region_input,
+                );
+                encodedUri = createDownloadFile(
+                  rates,
+                  lowerBounds,
+                  upperBounds,
+                );
+                const filename =
+                  "DL-" +
+                  cancerTypeToShow +
+                  "-" +
+                  sex_input +
+                  "-" +
+                  age_input +
+                  "-" +
+                  deprivation_input +
+                  "-" +
+                  region_input;
+                downloadLinkBtn.innerHTML =
+                  '<a class="button is-link is-light mb-4" href=' +
+                  encodedUri +
+                  ' download="' +
+                  filename +
+                  '.csv">Download CSV</a>';
+              }
+            }
+          }
+        },
+        error: (error: Error) => {
+          resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
+        },
+      });
     } catch (err) {
-      resultsContainer.innerHTML = '<p style="color: red;">Could not fetch CSV file.</p>';
+      resultsContainer.innerHTML =
+        '<p style="color: red;">Could not fetch CSV file.</p>';
       console.error(err);
     }
-	}
-);
-
-
-  
-
+  });
 </script>
 
 <style>
+  #csv-search-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
 
-#csv-search-form {
-	display: flex; 
-	gap: 0.5rem; 
-	margin-top: 1.5rem;
-}
+  /* A responsive 2x2 grid container */
+  .dashboard-container {
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    /* splits screen horizontally, favoring left side a little */
+    grid-template-columns: 25fr 75fr;
+    /* splits screen vertically, favoring the top a little */
+    grid-template-rows: 65fr 35fr;
+  }
 
-/* A responsive 2x2 grid container */
-.dashboard-container {
-	display: grid;
-	height: 100vh;
-	width: 100vw;
-	/* splits screen horizontally, favoring left side a little */
-	grid-template-columns: 25fr 75fr;
-	/* splits screen vertically, favoring the top a little */
-	grid-template-rows: 65fr 35fr;
-}
-
-#panel {
-	padding-left: 20px;
-	padding-top: 20px;
-}
-
+  #panel {
+    padding-left: 20px;
+    padding-top: 20px;
+  }
 </style>

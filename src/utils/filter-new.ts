@@ -1,4 +1,4 @@
-import type { CSVRow } from '../types';
+import type { IncidenceFilter, ProcessedRow } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -20,17 +20,73 @@ export function cancerType(value: string){
 		case "Oropharyngeal":
 			CSV_file = BASE_URL + '/Incidence-Oropharynx.csv';
 			break;
-		default:
+		case "Other":
+			CSV_file = BASE_URL + '/Incidence-Other.csv';
+			break;
+			default:
 			console.log(`Cancer type not recognised`);
 		}
 
 	return CSV_file;
  }
 
+// --- Tables ---
+
+// Helper functions for tables
+
+function getSearchTerms(filter: IncidenceFilter): string {
+    const format = (value: string | string[]) =>
+        Array.isArray(value) ? value.join(", ") : value;
+
+    return [
+        format(filter.sex),
+        format(filter.ageBand),
+        format(filter.dep),
+        format(filter.region),
+    ].join(" : ");
+}
+
+function processedRowsToTableData(rows: ProcessedRow[]) {
+    const rates: number[] = [];
+    const counts: (string | number)[] = [];
+    const lowerBounds: number[] = [];
+    const upperBounds: number[] = [];
+
+    rows.forEach(row => {
+        rates.push(row.rate);
+        counts.push(row.count);
+        lowerBounds.push(row.ciLb);
+        upperBounds.push(row.ciUb);
+    });
+
+    return {
+        rates,
+        counts,
+        lowerBounds,
+        upperBounds,
+    };
+}
+
+// --- exported table functions ---
 
 // generates a table
-export function generateSingleRowTable(cancerType: string, rates: string[], lowerBounds: number[], upperBounds: number[], searchTerms: string){
+	export function generateSingleRowTable(
+    cancerType: string,
+    rows: ProcessedRow[],
+    filter: IncidenceFilter
+) {
+	// Get table data from ProcessedRow[] array
+    const {
+        rates,
+        counts,
+        lowerBounds,
+        upperBounds,
+    } = processedRowsToTableData(rows);
 
+	// Get search terms from filters used
+    const searchTerms = getSearchTerms(filter);
+
+	// Create table
 	const string = `
 		  <div class="table-container">
 			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
@@ -39,7 +95,7 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 				</thead>
 				<tbody>
 					<tr>
-						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
 				
@@ -55,18 +111,20 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 
 					</tr>
 					<tr style="border: 1px solid #ccc;" >
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]} (<em>${lowerBounds[0]}, ${upperBounds[0]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]} (<em>${lowerBounds[1]}, ${upperBounds[1]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]} (<em>${lowerBounds[2]}, ${upperBounds[2]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]} (<em>${lowerBounds[3]}, ${upperBounds[3]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]} (<em>${lowerBounds[4]}, ${upperBounds[4]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]} (<em>${lowerBounds[5]}, ${upperBounds[5]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]} (<em>${lowerBounds[6]}, ${upperBounds[6]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]} (<em>${lowerBounds[7]}, ${upperBounds[7]}</em>)</td>
-						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]} (<em>${lowerBounds[8]}, ${upperBounds[8]}</em>)</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]} (<em>${lowerBounds[0]}, ${upperBounds[0]}</em>) <strong>${counts[0]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]} (<em>${lowerBounds[1]}, ${upperBounds[1]}</em>) <strong>${counts[1]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]} (<em>${lowerBounds[2]}, ${upperBounds[2]}</em>) <strong>${counts[2]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]} (<em>${lowerBounds[3]}, ${upperBounds[3]}</em>) <strong>${counts[3]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]} (<em>${lowerBounds[4]}, ${upperBounds[4]}</em>) <strong>${counts[4]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]} (<em>${lowerBounds[5]}, ${upperBounds[5]}</em>) <strong>${counts[5]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]} (<em>${lowerBounds[6]}, ${upperBounds[6]}</em>) <strong>${counts[6]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]} (<em>${lowerBounds[7]}, ${upperBounds[7]}</em>) <strong>${counts[7]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]} (<em>${lowerBounds[8]}, ${upperBounds[8]}</em>) <strong>${counts[8]}</strong></td>
 					</tr>
 				</tbody>
 			</table>
+
+			<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 			</div>
            `;
 
@@ -75,10 +133,40 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 
   // generates a table
 
-  export function generateMultiRowTable(cancerType: string, allRates: string[], searchTerms: string){
+ 
+  
+export function generateMultiRowTable(
+    cancerType: string,
+    groupedResults: ProcessedRow[][],
+    filter: IncidenceFilter
+) {
+	// Get search terms from filters used
+    const searchTerms = getSearchTerms(filter);
 
-	console.log('in table gen function');
-	console.log(allRates);
+	// Get formatted data from ProcessedRow[][] arrays
+    const allRates = groupedResults.map(rows => {
+        const {
+            rates,
+            counts,
+            lowerBounds,
+            upperBounds,
+        } = processedRowsToTableData(rows);
+
+        const key =
+            rows[0]?.dep ??
+            rows[0]?.region ??
+            rows[0]?.ageBand ??
+            "";
+
+        const formattedRates = rates.map((rate, i) =>
+            `${rate} (<em>${lowerBounds[i]}, ${upperBounds[i]}</em>) <strong>${counts[i]}</strong>`
+        );
+
+        return [key, ...formattedRates];
+    });
+
+	// console.log('in table gen function');
+	// console.log(allRates);
 
 	const string = `
 		  <div class="table-container">
@@ -88,7 +176,7 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 				</thead>
 				<tbody>
 					<tr>
-						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year</th>	
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
 					</tr>	
 					<tr style="border: 1px solid #ccc;" >
 
@@ -128,200 +216,278 @@ export function generateSingleRowTable(cancerType: string, rates: string[], lowe
 					const endString = `</tbody>
 							</table>
 							</div>
+							<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
 						`;
 
 		   return string + extraString + endString;
-  }
-
-
-export function setChartOptions(rates: string[], optionString: string){
-
-    const option = {
-       title: {
-        text: optionString + ' - Incidence rates by Diagnosis Year' 
-      },
-       tooltip: {
-         trigger: 'axis'
-       },
-       xAxis: {
-         type: 'category',
-         data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
-       },
-       yAxis: {
-         type: 'value',
-		 minInterval: 1, // Enforces the minimum gap between ticks is 1
-		  axisLabel: {
-        	formatter: '{value}' // Ensures labels display without decimals
-		  }
-      },
-	  legend: {
-    	// data: ['searchTerms']
- 		},
-      series: [
-         {
-           	data: rates,
-			//name: searchTerms,
-          	type: 'line',
-           	smooth: false,
-		  	label: true
-         }
-       ]
-     };
-
- 	return option;
- }
-
-export function setMultiChartOptions(allRates: string[], optionString: string){
-
-    const option = {
-		title: {
-			text: optionString + ' - Incident rates by Diagnosis Year' 
-		},
-		tooltip: {
-			trigger: 'axis'
-		},
-		xAxis: {
-			type: 'category',
-			data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
-		},
-		yAxis: {
-			type: 'value'
-		},
-      	series: [
-        {
-          	data: allRates[0],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[1],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[2],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[3],
-          	type: 'line',
-          	smooth: false,
-		 	 label: true
-        },
-		{
-          	data: allRates[4],
-          	type: 'line',
-          	smooth: false,
-		  	label: true
-        },
-		{
-          	data: allRates[5],
-          	type: 'line',
-          	smooth: true,
-			label: true
-        },
-		{
-          	data: allRates[6],
-          	type: 'line',
-          	smooth: true,
-		 	 label: true
-        },
-		{
-          	data: allRates[7],
-          	type: 'line',
-          	smooth: true,
-		  	label: true
-        },
-		{
-          	data: allRates[8],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        },
-		{
-          	data: allRates[9],
-          	type: 'line',
-          	smooth: false,
-			label: true
-        }
-      ]
-    };
-
-	return option;
 }
 
-/*
-export function setConfidenceChartOptions(rates: string[], lowerBounds: number[], upperBounds: number[], optionString: string){
+export function generateDichotomyMultiRowTable(
+    cancerType: string,
+    groupedResults: ProcessedRow[][],
+    filter: IncidenceFilter
+) {
+	// Get search terms from filters used
+    const searchTerms = getSearchTerms(filter);
 
-	console.log(lowerBounds);
-	console.log(rates);
-	console.log(upperBounds);
+	// Get formatted data from ProcessedRows[][] data
+    const allRates = groupedResults.map(rows => {
+        const {
+            rates,
+            counts,
+            lowerBounds,
+            upperBounds,
+        } = processedRowsToTableData(rows);
 
-	const option = {
-		title: {
-			text: optionString + ' - Incident rates and confidence bands' 
-		},
-		tooltip: {
-			trigger: 'axis'
-		},
-		xAxis: {
-			type: 'category',
-			data: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"]
-		},
-		yAxis: {
-			type: 'value'
-		},
-      	series: [
-        {
-          	data: lowerBounds,
-          	type: 'line',
-          	smooth: false,
-		 	label: true,
-			lineStyle: {
-				normal: {
-				color: 'grey',
-				width: 1,
-				type: 'dashed'
-				}
-			}
-        },
-		{
-          	data: rates,
-          	type: 'line',
-          	smooth: false,
-		  	label: true,
-			lineStyle: {
-				normal: {
-				color: 'black',
-				width: 1,
-				type: 'solid'
-				}
-			}
-        },
-		{
-          	data: upperBounds,
-          	type: 'line',
-          	smooth: false,
-			label: true,
-			lineStyle: {
-				normal: {
-				color: 'grey',
-				width: 1,
-				type: 'dashed'
-				}
-			}
-        },
-	
-      ]
-    };
+        const key =
+            rows[0]?.dep ??
+            rows[0]?.region ??
+            rows[0]?.ageBand ??
+            "";
 
-	return option;
+        const sex = rows[0]?.sex ?? "";
 
-} */
+        const formattedRates = rates.map((rate, i) =>
+            `${rate} (<em>${lowerBounds[i]}, ${upperBounds[i]}</em>) <strong>${counts[i]}</strong>`
+        );
+
+        return [key, sex, ...formattedRates];
+    });
+
+	// console.log('in table gen function');
+	// console.log(allRates);
+
+	const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem">Key</th>
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem"></th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
+					</tr>`;
+
+					var extraString: string = ''
+
+					allRates.forEach(row => {
+						var tempString = `
+							<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[6]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[7]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[8]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[9]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[10]}</td>
+					</tr>	
+						`
+						extraString += tempString;
+					})
+
+					const endString = `</tbody>
+							</table>
+							</div>
+							<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+						`;
+
+		   return string + extraString + endString;
+}
+
+// --- DEPRECATED TABLE FUNCTIONS ---
+// For testing refactor
+
+// generates a table
+export function generateSingleRowTableDEPRECATED(cancerType: string, rates: string[], counts: string [], lowerBounds: number[], upperBounds: number[], searchTerms: string){
+
+	const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+				
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
+					</tr>
+					<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[0]} (<em>${lowerBounds[0]}, ${upperBounds[0]}</em>) <strong>${counts[0]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[1]} (<em>${lowerBounds[1]}, ${upperBounds[1]}</em>) <strong>${counts[1]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[2]} (<em>${lowerBounds[2]}, ${upperBounds[2]}</em>) <strong>${counts[2]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[3]} (<em>${lowerBounds[3]}, ${upperBounds[3]}</em>) <strong>${counts[3]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[4]} (<em>${lowerBounds[4]}, ${upperBounds[4]}</em>) <strong>${counts[4]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[5]} (<em>${lowerBounds[5]}, ${upperBounds[5]}</em>) <strong>${counts[5]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[6]} (<em>${lowerBounds[6]}, ${upperBounds[6]}</em>) <strong>${counts[6]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[7]} (<em>${lowerBounds[7]}, ${upperBounds[7]}</em>) <strong>${counts[7]}</strong></td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${rates[8]} (<em>${lowerBounds[8]}, ${upperBounds[8]}</em>) <strong>${counts[8]}</strong></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+			</div>
+           `;
+
+		   return string;
+  }
+
+  // generates a table
+
+ 
+  
+export function generateMultiRowTableDEPRECATED(cancerType: string, allRates: string[], searchTerms: string){
+
+	// console.log('in table gen function');
+	// console.log(allRates);
+
+		const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem">Key</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
+					</tr>`;
+
+					var extraString: string = ''
+
+					allRates.forEach(row => {
+						var tempString = `
+							<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[6]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[7]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[8]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[9]}</td>
+					</tr>	
+						`
+						extraString += tempString;
+					})
+
+					const endString = `</tbody>
+							</table>
+							</div>
+							<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+						`;
+
+		   return string + extraString + endString;
+}
+
+export function generateDichotomyMultiRowTableDEPRECATED(cancerType: string, allRates: string[], searchTerms: string){
+
+	// console.log('in table gen function');
+	// console.log(allRates);
+
+const string = `
+		  <div class="table-container">
+			<table id="ageTable" class="table" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 0.5rem; border-radius: 4px; border-collapse: collapse" caption="Result table by age">
+				<thead>
+					<th colspan="11" style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem" >${cancerType} - Incidence rates - ${searchTerms}</th>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="10" style="border: 1px solid #ccc; padding: 1rem">Incidence rate by Year - Rate (Lb, Ub) - Count</th>	
+					</tr>	
+					<tr style="border: 1px solid #ccc;" >
+
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem">Key</th>
+						<th style="border: 1px solid #ccc; background-color: #e1ecec; padding: 1rem"></th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2016</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2017</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2018</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2019</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2020</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2021</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2022</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">2023</th>
+						<th style="border: 1px solid #ccc; background-color: #dcf5f5; padding: 1rem">All Years</th>
+
+					</tr>`;
+
+					var extraString: string = ''
+
+					allRates.forEach(row => {
+						var tempString = `
+							<tr style="border: 1px solid #ccc;" >
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[0]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem; background-color: #f0f8f8;">${row[1]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[2]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[3]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[4]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[5]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[6]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[7]}</td>	
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[8]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[9]}</td>
+						<td style="border: 1px solid #ccc; padding: 1rem">${row[10]}</td>
+					</tr>	
+						`
+						extraString += tempString;
+					})
+
+					const endString = `</tbody>
+							</table>
+							</div>
+							<div class="mb-4 is-size-7 is-italic">Where the Count is less than 10, the number is suppressed and shown as <strong>'S'</strong></div>
+						`;
+
+		   return string + extraString + endString;
+}
+
+// --- Inputs ---
 
 export function determineSexInput(sexes: string[]){
 
