@@ -15,12 +15,16 @@ NHCancer is a data visualisation project that allows public access to the result
 | Name  | Role | Affiliation
 | ------------- | ------------- | ------------- |
 | Laura Woods  | PI | Newcastle University  |
-| Becky Osselton | RSE  | Newcastle Universtiy  |
+| Lara Forster | Research Assistant | Newcastle University  |
+| Linda Sharp | Professor of Cancer Epidemiology | Newcastle University  |
+| Becky Osselton | RSE  | Newcastle University  |
+| Gabrielle Schroeder | RSE | Newcastle University  |
 
 ## Built With
 
 [Astro](https://docs.astro.build/en/getting-started/)  
 [Apache ECharts](https://echarts.apache.org/en/index.html)  
+[Svelte](https://svelte.dev/)
 
 With help from the [Papa Parse](https://www.papaparse.com/) library to manage the import of CSV data.
   
