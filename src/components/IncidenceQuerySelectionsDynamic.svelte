@@ -60,11 +60,18 @@
     }
 
     // The newly selected comparison variable is no longer controlled
-    // by its single-select dropdown - clear any previous filters
+    // by its single-select dropdown - reset filter for that variable
     if (comparisonVariable) {
       filter[comparisonVariable] = [];
     }
 
+    // Also reset dropdown value for the corresponding single-select dropdown
+    if (comparisonVariable) {
+      singleSelections[comparisonVariable] =
+        VARIABLE_ALL[comparisonVariable].value;
+    }
+
+    // Set new comparison variable
     previousComparisonVariable = comparisonVariable;
   }
 

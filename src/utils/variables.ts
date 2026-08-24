@@ -9,11 +9,11 @@ Used for charts (could also be used for UI components).
 // these are the possible levels when a variable is used as a filter.
 export const VARIABLE_OPTIONS = {
     dep: [
-        { value: 'IMD1', label: 'IMD1' },
+        { value: 'IMD1', label: 'IMD1 (most deprived)' },
         { value: 'IMD2', label: 'IMD2' },
         { value: 'IMD3', label: 'IMD3' },
         { value: 'IMD4', label: 'IMD4' },
-        { value: 'IMD5', label: 'IMD5' },
+        { value: 'IMD5', label: 'IMD5 (least deprived)' },
     ],
 
     region: [
