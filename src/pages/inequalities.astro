@@ -102,12 +102,12 @@ import SexSelect from "../components/SexSelect.astro";
     returnAllChartSeries,
     renderLineChart,
     renderBlankChart,
-    initLineChart,
+    initChart,
   } from "../utils/charts";
   import type { CSVRow } from "../types";
 
   // Initialise chart
-  const myChart = initLineChart("csv-chart");
+  const myChart = initChart("csv-chart");
 
   const inequalities_form = document.getElementById(
     "inequalities-search-form",

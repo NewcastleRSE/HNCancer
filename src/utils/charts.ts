@@ -385,9 +385,9 @@ export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | Processed
 }
 
 
-// Function in initialise a single- or multi-line chart
+// Function in initialise an eCharts chart
 // "element" is the id of the DOM element where the chart will be added
-export function initLineChart(element: string): echarts.ECharts {
+export function initChart(element: string): echarts.ECharts {
 	const chartDom = document.getElementById(element);
   	const chartInstance = echarts.init(chartDom);
 

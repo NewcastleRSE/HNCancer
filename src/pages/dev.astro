@@ -40,13 +40,13 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
     returnAllChartSeries,
     renderLineChart,
     renderBlankChart,
-    initLineChart,
+    initChart,
   } from "../utils/charts";
   import { queryIncidenceFilter } from "../utils/query";
   import type { CSVRow, ProcessedRow, IncidenceFilter } from "../types";
 
   // Initialise chart
-  const myChart = initLineChart("csv-chart");
+  const myChart = initChart("csv-chart");
 
   document.addEventListener("incidence-query", async (event) => {
     const filter = (event as CustomEvent<IncidenceFilter>).detail;

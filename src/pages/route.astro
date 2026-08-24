@@ -114,11 +114,11 @@ import RegionCheckboxSelect from "../components/RegionCheckboxSelect.astro";
     returnAllChartSeries,
     renderLineChart,
     renderBlankChart,
-    initLineChart,
+    initChart,
   } from "../utils/charts";
 
   // Initialise chart
-  const myChart = initLineChart("csv-chart");
+  const myChart = initChart("csv-chart");
 
   const route_form = document.getElementById(
     "route-search-form",

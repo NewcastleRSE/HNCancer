@@ -121,11 +121,11 @@ import PagePanels from "../components/PagePanels.astro";
     returnAllChartSeries,
     renderLineChart,
     renderBlankChart,
-    initLineChart,
+    initChart,
   } from "../utils/charts";
 
   // Initialise chart
-  const myChart = initLineChart("csv-chart");
+  const myChart = initChart("csv-chart");
 
   const stage_form = document.getElementById(
     "stage-search-form",
