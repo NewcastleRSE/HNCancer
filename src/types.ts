@@ -98,11 +98,14 @@ export type IncidenceFilter = {
 
 // --- Charts ---
 
-// Data used for each series (line) in a chart
+// Data used for each series (line) in a chart or table
 export interface ChartSeries {
     name: string;
     years: number[];
     rates: number[];
+    ciLb: number[];
+    ciUb: number[];
+    count: string[];
     variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
 }
 

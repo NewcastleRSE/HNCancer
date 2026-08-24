@@ -187,7 +187,8 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 
 // --- Exported functions ---
 
-export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | ProcessedRow[][]): ChartSeries[] {
+// removeAll Years: whether to remove "all years" values from series (keep for table, remove for chart)
+export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | ProcessedRow[][], removeAllYears = true): ChartSeries[] {
 
 	console.log("allMatchedItems: ", allMatchedItems)
 
@@ -212,9 +213,13 @@ export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | Processed
 		// 		row = data for one incidence rate
         seriesData.forEach(series => {
 
-            // Remove the "all years" result
+			let rows = series;
+
+            // Remove the "all years" result if requested
 			// (will remove any years starting with "all", case insensitive)
-            const rows = series.filter(row => !row.diagnosisYear.toLowerCase().startsWith('all'));
+			if (removeAllYears) {
+            	rows = series.filter(row => !row.diagnosisYear.toLowerCase().startsWith('all'));
+			} 
 
 			// Use first row to get label
             const labels = getSeriesLabels(rows[0]);
@@ -222,17 +227,24 @@ export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | Processed
 			// Get years and change to numbers
             const years = rows.map(row => Number(row.diagnosisYear));
 
-			// Get incidence rates and change to numbers
+			// Get incidence rates (and confidence intervals) and change to numbers
 			// Note - no longer filter out undefined values - will handle any in 
-			// charting step  instead.
+			// charting step instead.
 			// If do filter out missing values, will need to ensure that years array
 			// is also filtered to match
+			// Also get counts, but keep as strings - may be text value if n < 10
             const rates = rows.map(row => Number(row.rate))
+			const ciLb = rows.map(row => Number(row.ciLb))
+			const ciUb = rows.map(row => Number(row.ciUb))
+			const count = rows.map(row => String(row.count))
 
             allChartSeries.push({
                 name: labels.name,
                 years: years,
                 rates: rates,
+				ciLb: ciLb,
+				ciUb: ciUb,
+				count: count,
 				variables: labels.variables
             });
         });
