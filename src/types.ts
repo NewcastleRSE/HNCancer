@@ -101,7 +101,7 @@ export type IncidenceFilter = {
 // Data used for each series (line) in a chart or table
 export interface ChartSeries {
     name: string;
-    years: number[];
+    years: number[] | string[];
     rates: number[];
     ciLb: number[];
     ciUb: number[];

@@ -311,6 +311,7 @@ function setTableChartOptions(allSeries: ChartSeries[]) {
 			},
 		],
 		};
+	return options
 }
 
 // --- Exported functions ---
@@ -353,7 +354,14 @@ export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | Processed
             const labels = getSeriesLabels(rows[0]);
 
 			// Get years and change to numbers
-            const years = rows.map(row => Number(row.diagnosisYear));
+			let years: string[] | number[] = []
+			if (removeAllYears) {
+				// if remove "all years", change to numbers
+             	years = rows.map(row => Number(row.diagnosisYear));
+			} else { 
+				// if include "all years", is a string array
+				years = rows.map(row => String(row.diagnosisYear));
+			}
 
 			// Get incidence rates (and confidence intervals) and change to numbers
 			// Note - no longer filter out undefined values - will handle any in 
@@ -406,8 +414,7 @@ export function renderLineChart(cancerType: string, allSeries: ChartSeries[], ch
 	console.log('in line chart render');
 	console.log("chart series: ", allSeries);
 	
-	// expects an multi-dimensional array of string values
-	const option = setLineChartOptions(allSeries, cancerType);
+	const options = setLineChartOptions(allSeries, cancerType);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
@@ -435,11 +442,30 @@ export function renderLineChart(cancerType: string, allSeries: ChartSeries[], ch
     chartInstance.on('finished', showLabels);
 
     // Set options to render the chart
-     chartInstance.setOption(option);
+     chartInstance.setOption(options);
 
 }
 
-// creates a blank chart with null values and wipes out any previous multi-line chart 
+ // Function to render a table
+ // TODO: add title with cancerType info
+export function renderTableChart(cancerType: string, allSeries: ChartSeries[], chartInstance: echarts.ECharts) {
+
+	console.log('in table render');
+	console.log("chart series: ", allSeries);
+	
+	// Create options for table (matrix) chart for this data
+	const options = setTableChartOptions(allSeries);
+
+	// Clear previous chart/options
+	// Otherwise, options will add new data to existing data (instead of replacing existing data)
+	chartInstance.clear();
+
+    // Set options to render the chart
+     chartInstance.setOption(options);
+
+}
+
+// creates a blank chart with null values and wipes out any previous chart 
 // Could potentially update to instead only clear series data (keeping labels etc.)
 export function renderBlankChart(cancerType: string, chartInstance: echarts.ECharts){
 

@@ -39,6 +39,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
   import {
     returnAllChartSeries,
     renderLineChart,
+    renderTableChart,
     renderBlankChart,
     initChart,
   } from "../utils/charts";
@@ -47,6 +48,9 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
 
   // Initialise chart
   const myChart = initChart("csv-chart");
+
+  // Initialise table
+  const myTable = initChart("csv-table");
 
   document.addEventListener("incidence-query", async (event) => {
     const filter = (event as CustomEvent<IncidenceFilter>).detail;
@@ -100,14 +104,21 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
               resultsContainer.innerHTML =
                 '<p class="has-text-danger">No data is available for this combination of options.</p>';
             } else {
-              // Data for charts and tables
+              // Data for charts
               const allChartSeries = returnAllChartSeries(groupedResults);
 
+              // Data for tables (includes "all years")
+              const allTableSeries = returnAllChartSeries(
+                groupedResults,
+                false,
+              );
+
               // ---------------------------------------------------------
-              // Update Chart
+              // Update chart and eCharts table
               // ---------------------------------------------------------
 
               renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+              renderTableChart(cancerTypeToShow, allTableSeries, myTable);
 
               // ---------------------------------------------
               // Table/download
