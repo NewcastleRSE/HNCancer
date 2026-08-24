@@ -212,8 +212,8 @@ function setTableChartOptions(allSeries: ChartSeries[]) {
 	// Set chart options to create table
 	const options = {
 		grid: {
-			left: 120,
-			right: 20,
+			left: 100,
+			right: 50,
 			top: 50,
 			bottom: 20,
 			containLabel: true,
@@ -224,6 +224,10 @@ function setTableChartOptions(allSeries: ChartSeries[]) {
 			data: years,
 			position: "top",
 
+			axisLabel: {
+			  	fontWeight: "bold",
+			},
+
 			axisTick: {
 				show: false,
 			},
@@ -231,6 +235,7 @@ function setTableChartOptions(allSeries: ChartSeries[]) {
 			axisLine: {
 				show: true,
 				lineStyle: {
+					color: "#666",
 					width: 2,
 				},
 			},
@@ -243,6 +248,10 @@ function setTableChartOptions(allSeries: ChartSeries[]) {
 		yAxis: {
 			type: "category",
 			data: names, // Label for each series
+			inverse: true,
+			axisLabel: {
+			  	fontWeight: "bold",
+			},
 
 			axisTick: {
 				show: false,
@@ -251,18 +260,31 @@ function setTableChartOptions(allSeries: ChartSeries[]) {
 			axisLine: {
 				show: false,
 			},
-
 			splitLine: {
-				show: false,
-			},
+				show: true,
+				lineStyle: {
+				width: 3,
+				},
+			}
 		},
 
 		// Create heatmap using rates values
 		visualMap: {
+			dimension: 2,
 			min: Math.min(...allSeries.flatMap(series => series.rates)),
 			max: Math.max(...allSeries.flatMap(series => series.rates)),
 			calculable: false,
 			show: false, // don't show colourbar
+
+			inRange: {
+			color: [
+				"#f5f9fc",
+				"#e2eef6",
+				"#c9dfed",
+				"#afd0e2",
+				"#95bfd6",
+			],
+			},
 		},
 
 		series: [
@@ -270,6 +292,12 @@ function setTableChartOptions(allSeries: ChartSeries[]) {
 				type: "heatmap",
 
 				data: tableData,
+
+				encode: {
+					x: 0,
+					y: 1,
+					value: 2,
+				},
 
 				itemStyle: {
 					borderWidth: 0,
