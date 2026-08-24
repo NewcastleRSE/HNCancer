@@ -184,6 +184,134 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 	return option;
 }
 
+// Create chart options for eCharts table
+function setTableChartOptions(allSeries: ChartSeries[]) {
+
+	// --- Data formatting ---
+
+	// Get set of ordered years across all series
+	const years = [...new Set(
+		allSeries.flatMap(series => series.years)
+		)].sort((a, b) => a - b);
+
+	// Get labels (names) for each series
+	const names = allSeries.map(series => series.name);
+
+	// Get column index, row index, and data for each cell
+	const tableData = allSeries.flatMap((series, rowIndex) =>
+		series.years.map((year, yearIndex) => [
+			years.indexOf(year),
+			rowIndex,
+			series.rates[yearIndex],
+			series.ciLb[yearIndex],
+			series.ciUb[yearIndex],
+			series.count[yearIndex],
+		])
+	);
+
+	// Set chart options to create table
+	const options = {
+		grid: {
+			left: 120,
+			right: 20,
+			top: 50,
+			bottom: 20,
+			containLabel: true,
+		},
+
+		xAxis: {
+			type: "category",
+			data: years,
+			position: "top",
+
+			axisTick: {
+				show: false,
+			},
+
+			axisLine: {
+				show: true,
+				lineStyle: {
+					width: 2,
+				},
+			},
+
+			splitLine: {
+				show: false,
+			},
+		},
+
+		yAxis: {
+			type: "category",
+			data: names, // Label for each series
+
+			axisTick: {
+				show: false,
+			},
+
+			axisLine: {
+				show: false,
+			},
+
+			splitLine: {
+				show: false,
+			},
+		},
+
+		// Create heatmap using rates values
+		visualMap: {
+			min: Math.min(...allSeries.flatMap(series => series.rates)),
+			max: Math.max(...allSeries.flatMap(series => series.rates)),
+			calculable: false,
+			show: false, // don't show colourbar
+		},
+
+		series: [
+			{
+				type: "heatmap",
+
+				data: tableData,
+
+				itemStyle: {
+					borderWidth: 0,
+					borderBottomWidth: 1,
+					borderColor: "#ccc",
+				},
+
+				label: {
+					show: true,
+
+					// First line: rate
+					// Second line: (ciLb, ciUb)
+					// Third line: n = count
+					formatter: (params: any) => {
+						const [, , rate, ciLb, ciUb, count] = params.value;
+
+						return [
+							`{rate|${rate}}`,
+							`{details|(${ciLb}, ${ciUb})}`,
+							`{details|n = ${count}}`,
+						].join("\n");
+					},
+
+					// Format cell text - rate is larger and heavier weight
+					rich: {
+					rate: {
+						fontSize: 14,
+						fontWeight: "400",
+						lineHeight: 18,
+					},
+
+					details: {
+						fontSize: 12,
+						fontWeight: "200",
+						lineHeight: 16,
+					},
+					},
+				},
+			},
+		],
+		};
+}
 
 // --- Exported functions ---
 
