@@ -145,6 +145,20 @@ function returnAllSeries<T extends number | string>(
 
 }
 
+// Helper for calculating margins
+function computeLabelMargins(allSeries: ChartSeries[] | TableSeries[], minSize: number, maxSize: number) {
+	// Calculate size of margin based on label lengths
+	// Will be length of longest label * 7, with min of 150 and max of 275
+	const longestNameLength = Math.max(
+    ...allSeries.map(series => series.name.length)
+	);
+	const margin = Math.min(
+		maxSize,
+		Math.max(minSize, longestNameLength * 7)
+	);
+	return margin
+}
+
 // Options for single or multi line chart
 // Also adds data to the chart
 function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
@@ -156,13 +170,7 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 
 	// Calculate size of right margin based on label lengths
 	// Will be length of longest label * 7, with min of 150 and max of 275
-	const longestNameLength = Math.max(
-    ...allSeries.map(series => series.name.length)
-	);
-	const rightMargin = Math.min(
-		275,
-		Math.max(150, longestNameLength * 7)
-	);
+	const rightMargin = computeLabelMargins(allSeries, 150, 275)
 
 	// Whether there are multiple series
 	const isMulti = allSeries.length > 1;
@@ -309,14 +317,18 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
 		])
 	);
 
+	// Compute left margin size based on labels
+	const leftMargin = computeLabelMargins(allSeries, 150, 275)
+
 	// Set chart options to create table
 	const options = {
 		title: {
-			text: optionString + ' Cancer Rates' 
+			text: optionString + ' Cancer Rates',
+			left: leftMargin
 		},
 
 		grid: {
-			left: 100,
+			left: leftMargin,
 			right: 50,
 			top: TABLE_GRID_TOP,
 			bottom: TABLE_GRID_BOTTOM,
@@ -355,6 +367,8 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
 			inverse: true,
 			axisLabel: {
 			  	fontWeight: "bold",
+				width: leftMargin,
+				overflow: 'break'
 			},
 
 			axisTick: {
