@@ -51,7 +51,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
   const myChart = initChart("csv-chart");
 
   // Initialise table
-  const myTable = initChart("csv-table");
+  const myTable = initChart("csv-table", false);
 
   document.addEventListener("incidence-query", async (event) => {
     const filter = (event as CustomEvent<IncidenceFilter>).detail;

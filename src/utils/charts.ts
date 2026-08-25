@@ -267,7 +267,7 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 
 // Table sizes
 const TABLE_ROW_HEIGHT = 70;
-const TABLE_GRID_TOP = 50;
+const TABLE_GRID_TOP = 70;
 const TABLE_GRID_BOTTOM = 20;
 
 // Helper function for calculating height of table
@@ -320,7 +320,7 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
 			right: 50,
 			top: TABLE_GRID_TOP,
 			bottom: TABLE_GRID_BOTTOM,
-			containLabel: true,
+			containLabel: false,
 		},
 
 		xAxis: {
@@ -485,15 +485,16 @@ export function returnAllTableSeries(
 
 // Function in initialise an eCharts chart
 // "element" is the id of the DOM element where the chart will be added
-export function initChart(element: string): echarts.ECharts {
+export function initChart(element: string, addResizeListener: boolean = true): echarts.ECharts {
 	const chartDom = document.getElementById(element);
   	const chartInstance = echarts.init(chartDom);
 
 	// Event listener for window resizing
-     window.addEventListener('resize', () => {
-       chartInstance.resize();
-     });
-
+	if (addResizeListener) {
+		window.addEventListener('resize', () => {
+		chartInstance.resize();
+		});
+	}
 	return chartInstance
 
 }
