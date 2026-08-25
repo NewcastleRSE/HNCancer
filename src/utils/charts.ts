@@ -1,6 +1,11 @@
 import * as echarts from 'echarts';
 import { getChartColorMapping } from './colors';
-import type { ProcessedRow, BaseSeries, ChartSeries, TableSeries, SeriesLabels } from "../types";
+import { INCIDENCE_FILTER_LABELS } from "./query"
+import { getVariableValueLabels } from './variables';
+import type { 
+	ProcessedRow, BaseSeries, ChartSeries, TableSeries, SeriesLabels, 
+	IncidenceFilter, IncidenceFilterVariable 
+} from "../types";
 
 // --- Constants --- 
 
@@ -159,6 +164,48 @@ function computeLabelMargins(allSeries: ChartSeries[] | TableSeries[], minSize: 
 	return margin
 }
 
+// Helper for formatting chart subtitles from search terms
+// export function formatIncidenceFilterSubtitle(
+//   filter: IncidenceFilter
+// ): string {
+//   return Object.entries(filter)
+//     .filter(([, values]) => values.length > 0)
+//     .map(([key, values]) => {
+//       const label =
+//         INCIDENCE_FILTER_LABELS[key as keyof typeof INCIDENCE_FILTER_LABELS];
+
+//       return `{key|${label}}{value|: ${values.join(", ")}}`;
+//     })
+//     .join("   ");
+// }
+
+export function formatIncidenceFilterSubtitle(
+  filter: IncidenceFilter
+): string {
+  return Object.entries(filter)
+    .filter(
+      ([key, values]) =>
+        values.length > 0 &&
+        key in INCIDENCE_FILTER_LABELS
+    )
+    .map(([key, values]) => {
+      const label =
+        INCIDENCE_FILTER_LABELS[
+          key as keyof typeof INCIDENCE_FILTER_LABELS
+        ];
+
+      // Convert filter values to their display labels
+      const valueLabels = getVariableValueLabels(
+        key as IncidenceFilterVariable,
+        values
+      );
+
+      // Format the label and values for ECharts rich text
+      return `{key|${label}}{value|: ${valueLabels.join(", ")}}`;
+    })
+    .join("   ");
+}
+
 // Options for single or multi line chart
 // Also adds data to the chart
 function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
@@ -276,7 +323,7 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 // Table sizes
 const TABLE_ROW_HEIGHT = 70;
 const TABLE_COL_WIDTH = 90;
-const TABLE_GRID_TOP = 70;
+const TABLE_GRID_TOP = 90;
 const TABLE_GRID_BOTTOM = 20;
 
 // Helper function for calculating height of table
@@ -289,7 +336,7 @@ function getTableChartHeight(numberOfSeries: number): number {
 }
 
 // Create chart options for eCharts table
-function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
+function setTableChartOptions(allSeries: TableSeries[], optionString: string, filter: IncidenceFilter) {
 
 	// --- Data formatting ---
 
@@ -319,14 +366,40 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
 	);
 
 	// Compute left margin size based on labels
-	const leftMargin = computeLabelMargins(allSeries, 50, 275)
+	const leftMargin = computeLabelMargins(allSeries, 50, 275);
+
+	// Subtitle from search terms
+	const subtitle = formatIncidenceFilterSubtitle(filter);
 
 	// Set chart options to create table
 	const options = {
-		title: {
-			text: optionString + ' Cancer Rates',
-			left: leftMargin
-		},
+		// title: {
+		// 	text: optionString + ' Cancer Rates',
+		// 	
+
+		title: [
+			{
+				text: optionString + ' Cancer Rates',
+				left: leftMargin,
+				top: 10			
+			},
+			{
+				text: subtitle,
+				top: 40,
+				left: leftMargin,
+
+				textStyle: {
+					fontSize: 12,
+					fontWeight: "normal",
+
+				rich: {
+					key: {
+					fontWeight: "bold",
+					},
+				},
+				},
+			},
+			],
 
 		grid: {
 			left: leftMargin,
@@ -554,13 +627,18 @@ export function renderLineChart(cancerType: string, allSeries: ChartSeries[], ch
 
  // Function to render a table
  // TODO: add title with cancerType info
-export function renderTableChart(cancerType: string, allSeries: TableSeries[], chartInstance: echarts.ECharts) {
+export function renderTableChart(
+	cancerType: string, 
+	allSeries: TableSeries[], 
+	chartInstance: echarts.ECharts,
+	filter: IncidenceFilter
+) {
 
 	console.log('in table render');
 	console.log("chart series: ", allSeries);
 	
 	// Create options for table (matrix) chart for this data
-	const options = setTableChartOptions(allSeries, cancerType);
+	const options = setTableChartOptions(allSeries, cancerType, filter);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
