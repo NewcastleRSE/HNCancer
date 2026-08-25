@@ -265,6 +265,20 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 	return option;
 }
 
+// Table sizes
+const TABLE_ROW_HEIGHT = 70;
+const TABLE_GRID_TOP = 50;
+const TABLE_GRID_BOTTOM = 20;
+
+// Helper function for calculating height of table
+function getTableChartHeight(numberOfSeries: number): number {
+  return (
+    TABLE_GRID_TOP +
+    TABLE_GRID_BOTTOM +
+    numberOfSeries * TABLE_ROW_HEIGHT
+  );
+}
+
 // Create chart options for eCharts table
 function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
 
@@ -300,11 +314,12 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
 		title: {
 			text: optionString + ' Cancer Rates' 
 		},
+
 		grid: {
 			left: 100,
 			right: 50,
-			top: 50,
-			bottom: 20,
+			top: TABLE_GRID_TOP,
+			bottom: TABLE_GRID_BOTTOM,
 			containLabel: true,
 		},
 
@@ -534,6 +549,12 @@ export function renderTableChart(cancerType: string, allSeries: TableSeries[], c
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
 	chartInstance.clear();
+
+	// Resize table element to match number of rows in table
+	const height = getTableChartHeight(allSeries.length);
+	const tableElement = chartInstance.getDom();
+	tableElement.style.height = `${height}px`;
+	chartInstance.resize();
 
     // Set options to render the chart
      chartInstance.setOption(options);
