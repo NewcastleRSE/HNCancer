@@ -266,7 +266,7 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 }
 
 // Create chart options for eCharts table
-function setTableChartOptions(allSeries: TableSeries[]) {
+function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
 
 	// --- Data formatting ---
 
@@ -297,6 +297,9 @@ function setTableChartOptions(allSeries: TableSeries[]) {
 
 	// Set chart options to create table
 	const options = {
+		title: {
+			text: optionString + ' Cancer Rates' 
+		},
 		grid: {
 			left: 100,
 			right: 50,
@@ -526,7 +529,7 @@ export function renderTableChart(cancerType: string, allSeries: TableSeries[], c
 	console.log("chart series: ", allSeries);
 	
 	// Create options for table (matrix) chart for this data
-	const options = setTableChartOptions(allSeries);
+	const options = setTableChartOptions(allSeries, cancerType);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
