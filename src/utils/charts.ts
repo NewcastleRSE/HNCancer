@@ -275,6 +275,7 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 
 // Table sizes
 const TABLE_ROW_HEIGHT = 70;
+const TABLE_COL_WIDTH = 90;
 const TABLE_GRID_TOP = 70;
 const TABLE_GRID_BOTTOM = 20;
 
@@ -318,7 +319,7 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string) {
 	);
 
 	// Compute left margin size based on labels
-	const leftMargin = computeLabelMargins(allSeries, 150, 275)
+	const leftMargin = computeLabelMargins(allSeries, 50, 275)
 
 	// Set chart options to create table
 	const options = {
@@ -566,9 +567,20 @@ export function renderTableChart(cancerType: string, allSeries: TableSeries[], c
 	chartInstance.clear();
 
 	// Resize table element to match number of rows in table
-	const height = getTableChartHeight(allSeries.length);
 	const tableElement = chartInstance.getDom();
+	const height = getTableChartHeight(allSeries.length);
 	tableElement.style.height = `${height}px`;
+
+	// Resize table element to fix cell width across different plots (with different label lengths)
+	const numberOfColumns = options.xAxis.data.length;
+
+	const width =
+		options.grid.left +
+		numberOfColumns * TABLE_COL_WIDTH +
+		options.grid.right;
+	tableElement.style.width = `${width}px`;
+
+	// Resize
 	chartInstance.resize();
 
     // Set options to render the chart
