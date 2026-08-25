@@ -1,6 +1,6 @@
 import * as echarts from 'echarts';
 import { getChartColorMapping } from './colors';
-import type { ProcessedRow, ChartSeries, SeriesLabels } from "../types";
+import type { ProcessedRow, BaseSeries, ChartSeries, TableSeries, SeriesLabels } from "../types";
 
 // --- Constants --- 
 
@@ -62,6 +62,87 @@ function getSeriesLabels(row: ProcessedRow): SeriesLabels {
         name: Object.values(variables).join(', '),
         variables: variables
     };
+}
+
+// Base function for creating chart/table series - used by returnAllChartSeries and returnAllTableSeries
+// removeAll Years: whether to remove "all years" values from series (keep for table, remove for chart)
+function returnAllSeries<T extends number | string>(
+  allMatchedItems: ProcessedRow[] | ProcessedRow[][],
+  yearConverter: (row: ProcessedRow) => T,
+  removeAllYears = true,
+): BaseSeries<T>[] {
+	console.log("allMatchedItems: ", allMatchedItems)
+
+	// If input data is ProcessedRow[] (representing one series), convert to 
+	// ProcessedRow[][] by wrapping in outer array
+	const seriesData: ProcessedRow[][] =
+    Array.isArray(allMatchedItems[0])
+        ? allMatchedItems as ProcessedRow[][]
+        : [allMatchedItems as ProcessedRow[]];
+
+	// Create chart data 
+	var allSeries: BaseSeries<T>[] = [];
+
+	if (seriesData){ 
+
+		// Validate metadata across different years within each series
+		seriesData.forEach(validateSeriesMetadata);
+
+		// Create each chart series
+		// Here, 
+		// 		series = incidence rates for one set of filters, across all years
+		// 		row = data for one incidence rate
+        seriesData.forEach(series => {
+
+			let rows = series;
+
+            // Remove the "all years" result if requested
+			// (will remove any years starting with "all", case insensitive)
+			if (removeAllYears) {
+            	rows = series.filter(row => !row.diagnosisYear.toLowerCase().startsWith('all'));
+			} 
+
+			// Use first row to get label
+            const labels = getSeriesLabels(rows[0]);
+
+			// Get years
+			if (removeAllYears) {
+				// Remove "allyears" option in requested
+				rows = series.filter(
+					row => !row.diagnosisYear.toLowerCase().startsWith("all"),
+				);
+			} 
+
+			// Convert to desired type
+			const years = rows.map(yearConverter);
+
+			// Get incidence rates (and confidence intervals) and change to numbers
+			// Note - no longer filter out undefined values - will handle any in 
+			// charting step instead.
+			// If do filter out missing values, will need to ensure that years array
+			// is also filtered to match
+			// Also get counts, but keep as strings - may be text value if n < 10
+            const rates = rows.map(row => Number(row.rate))
+			const ciLb = rows.map(row => Number(row.ciLb))
+			const ciUb = rows.map(row => Number(row.ciUb))
+			const count = rows.map(row => String(row.count))
+
+            allSeries.push({
+                name: labels.name,
+                years: years,
+                rates: rates,
+				ciLb: ciLb,
+				ciUb: ciUb,
+				count: count,
+				variables: labels.variables
+            });
+        });
+    }
+
+	console.log("allSeries: ", allSeries)
+
+	return allSeries;
+
 }
 
 // Options for single or multi line chart
@@ -185,14 +266,19 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 }
 
 // Create chart options for eCharts table
-function setTableChartOptions(allSeries: ChartSeries[]) {
+function setTableChartOptions(allSeries: TableSeries[]) {
 
 	// --- Data formatting ---
 
 	// Get set of ordered years across all series
 	const years = [...new Set(
 		allSeries.flatMap(series => series.years)
-		)].sort((a, b) => a - b);
+	)].sort((a, b) => {
+		if (a.toLowerCase() === "all years") return 1;
+		if (b.toLowerCase() === "all years") return -1;
+
+		return Number(a) - Number(b);
+	});
 
 	// Get labels (names) for each series
 	const names = allSeries.map(series => series.name);
@@ -344,79 +430,37 @@ function setTableChartOptions(allSeries: ChartSeries[]) {
 
 // --- Exported functions ---
 
-// removeAll Years: whether to remove "all years" values from series (keep for table, remove for chart)
-export function returnAllChartSeries(allMatchedItems: ProcessedRow[] | ProcessedRow[][], removeAllYears = true): ChartSeries[] {
+// For chart series, want years to be a number array without "allyears"
+export function returnAllChartSeries(
+  allMatchedItems: ProcessedRow[] | ProcessedRow[][]
+): ChartSeries[] {
+  return returnAllSeries(
+    allMatchedItems,
+    row => Number(row.diagnosisYear),
+    true,
+  );
+}
 
-	console.log("allMatchedItems: ", allMatchedItems)
+// For table series, want years to be a string array with "allyears"
+export function returnAllTableSeries(
+  allMatchedItems: ProcessedRow[] | ProcessedRow[][]
+): TableSeries[] {
+	let series = returnAllSeries(
+		allMatchedItems,
+		row => String(row.diagnosisYear),
+		false,
+	);
 
-	// If input data is ProcessedRow[] (representing one series), convert to 
-	// ProcessedRow[][] by wrapping in outer array
-	const seriesData: ProcessedRow[][] =
-    Array.isArray(allMatchedItems[0])
-        ? allMatchedItems as ProcessedRow[][]
-        : [allMatchedItems as ProcessedRow[]];
+	// Convert "allyears" text to "All years"
+	series = series.map(tableSeries => ({
+		...tableSeries,
+		years: tableSeries.years.map(year =>
+		year.toLowerCase() === "allyears" ? "All years" : year
+		),
+	}));
+	console.log("tableSeries: ", series)
 
-	// Create chart data 
-	var allChartSeries: ChartSeries[] = [];
-
-	if (seriesData){ 
-
-		// Validate metadata across different years within each series
-		seriesData.forEach(validateSeriesMetadata);
-
-		// Create each chart series
-		// Here, 
-		// 		series = incidence rates for one set of filters, across all years
-		// 		row = data for one incidence rate
-        seriesData.forEach(series => {
-
-			let rows = series;
-
-            // Remove the "all years" result if requested
-			// (will remove any years starting with "all", case insensitive)
-			if (removeAllYears) {
-            	rows = series.filter(row => !row.diagnosisYear.toLowerCase().startsWith('all'));
-			} 
-
-			// Use first row to get label
-            const labels = getSeriesLabels(rows[0]);
-
-			// Get years and change to numbers
-			let years: string[] | number[] = []
-			if (removeAllYears) {
-				// if remove "all years", change to numbers
-             	years = rows.map(row => Number(row.diagnosisYear));
-			} else { 
-				// if include "all years", is a string array
-				years = rows.map(row => String(row.diagnosisYear));
-			}
-
-			// Get incidence rates (and confidence intervals) and change to numbers
-			// Note - no longer filter out undefined values - will handle any in 
-			// charting step instead.
-			// If do filter out missing values, will need to ensure that years array
-			// is also filtered to match
-			// Also get counts, but keep as strings - may be text value if n < 10
-            const rates = rows.map(row => Number(row.rate))
-			const ciLb = rows.map(row => Number(row.ciLb))
-			const ciUb = rows.map(row => Number(row.ciUb))
-			const count = rows.map(row => String(row.count))
-
-            allChartSeries.push({
-                name: labels.name,
-                years: years,
-                rates: rates,
-				ciLb: ciLb,
-				ciUb: ciUb,
-				count: count,
-				variables: labels.variables
-            });
-        });
-    }
-
-	console.log("allChartSeries: ", allChartSeries)
-
-	return allChartSeries;
+  	return series;
 
 }
 
@@ -476,7 +520,7 @@ export function renderLineChart(cancerType: string, allSeries: ChartSeries[], ch
 
  // Function to render a table
  // TODO: add title with cancerType info
-export function renderTableChart(cancerType: string, allSeries: ChartSeries[], chartInstance: echarts.ECharts) {
+export function renderTableChart(cancerType: string, allSeries: TableSeries[], chartInstance: echarts.ECharts) {
 
 	console.log('in table render');
 	console.log("chart series: ", allSeries);

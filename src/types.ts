@@ -99,15 +99,18 @@ export type IncidenceFilter = {
 // --- Charts ---
 
 // Data used for each series (line) in a chart or table
-export interface ChartSeries {
-    name: string;
-    years: number[] | string[];
-    rates: number[];
-    ciLb: number[];
-    ciUb: number[];
-    count: string[];
-    variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
+export interface BaseSeries<TYear> {
+  name: string;
+  years: TYear[]; // Will be string[] for TableSeries and number[] for ChartSeries
+  rates: number[];
+  ciLb: number[];
+  ciUb: number[];
+  count: string[];
+  variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
 }
+
+export type ChartSeries = BaseSeries<number>;
+export type TableSeries = BaseSeries<string>;
 
 // Chart labels info (for any variables that are not "all")
 // "variables" are the variable: value pairs before they were concatenated into the series name

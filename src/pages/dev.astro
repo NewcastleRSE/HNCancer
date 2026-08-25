@@ -38,6 +38,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
   import { cancer_type, resultsContainer, downloadLinkBtn } from "../types";
   import {
     returnAllChartSeries,
+    returnAllTableSeries,
     renderLineChart,
     renderTableChart,
     renderBlankChart,
@@ -108,10 +109,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
               const allChartSeries = returnAllChartSeries(groupedResults);
 
               // Data for tables (includes "all years")
-              const allTableSeries = returnAllChartSeries(
-                groupedResults,
-                false,
-              );
+              const allTableSeries = returnAllTableSeries(groupedResults);
 
               // ---------------------------------------------------------
               // Update chart and eCharts table
