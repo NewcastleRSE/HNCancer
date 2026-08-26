@@ -282,7 +282,7 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string, fil
 	let subtitle = ""
 	let nSubtitleLines = 0
 	if (filter) {
-		const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150);
+		({subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150));
 	}
 	// Whether there are multiple series
 	const isMulti = allSeries.length > 1;
