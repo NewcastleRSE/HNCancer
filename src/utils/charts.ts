@@ -267,7 +267,7 @@ const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/lege
 
 // Options for single or multi line chart
 // Also adds data to the chart
-function setLineChartOptions(allSeries: ChartSeries[], optionString: string, filter: IncidenceFilter){
+function setLineChartOptions(allSeries: ChartSeries[], optionString: string, filter?: IncidenceFilter){
 
 	// Get year range from data for the x-axis
 	const allYears = allSeries.flatMap(series => series.years);
@@ -279,8 +279,11 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string, fil
 	const rightMargin = computeLabelMargins(allSeries, 150, 275)
 
 	// Subtitle from search terms
-	const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150);
-
+	let subtitle = ""
+	let nSubtitleLines = 0
+	if (filter) {
+		const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150);
+	}
 	// Whether there are multiple series
 	const isMulti = allSeries.length > 1;
 
@@ -706,7 +709,7 @@ export function renderLineChart(
 	cancerType: string, 
 	allSeries: ChartSeries[], 
 	chartInstance: echarts.ECharts, 
-	filter: IncidenceFilter
+	filter?: IncidenceFilter // option, for creating subtitle with filter options
 ) {
 
 	console.log('in line chart render');
