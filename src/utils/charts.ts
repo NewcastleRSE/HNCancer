@@ -169,20 +169,34 @@ function computeLabelMargins(allSeries: ChartSeries[] | TableSeries[], minSize: 
 //   filter: IncidenceFilter
 // ): string {
 //   return Object.entries(filter)
-//     .filter(([, values]) => values.length > 0)
+//     .filter(
+//       ([key, values]) =>
+//         values.length > 0 &&
+//         key in INCIDENCE_FILTER_LABELS
+//     )
 //     .map(([key, values]) => {
 //       const label =
-//         INCIDENCE_FILTER_LABELS[key as keyof typeof INCIDENCE_FILTER_LABELS];
+//         INCIDENCE_FILTER_LABELS[
+//           key as keyof typeof INCIDENCE_FILTER_LABELS
+//         ];
 
-//       return `{key|${label}}{value|: ${values.join(", ")}}`;
+//       // Convert filter values to their display labels
+//       const valueLabels = getVariableValueLabels(
+//         key as IncidenceFilterVariable,
+//         values
+//       );
+
+//       // Format the label and values for ECharts rich text
+//       return `{key|${label}}{value|: ${valueLabels.join(", ")}}`;
 //     })
 //     .join("   ");
 // }
 
 export function formatIncidenceFilterSubtitle(
-  filter: IncidenceFilter
-): string {
-  return Object.entries(filter)
+  filter: IncidenceFilter,
+  maxLength: number
+): { subtitle: string; lineCount: number } {
+  const fields = Object.entries(filter)
     .filter(
       ([key, values]) =>
         values.length > 0 &&
@@ -201,9 +215,46 @@ export function formatIncidenceFilterSubtitle(
       );
 
       // Format the label and values for ECharts rich text
-      return `{key|${label}}{value|: ${valueLabels.join(", ")}}`;
-    })
-    .join("   ");
+      const formatted = `{key|${label}}{value|: ${valueLabels.join(", ")}}`;
+
+      // Use the unformatted text when calculating the line length
+      const plainText = `${label}: ${valueLabels.join(", ")}`;
+
+      return {
+        formatted,
+        length: plainText.length,
+      };
+    });
+
+  const lines: string[] = [];
+  let currentLine = "";
+  let currentLength = 0;
+
+  for (const field of fields) {
+    const separator = currentLine ? "   " : "";
+    const separatorLength = currentLine ? 3 : 0;
+
+    if (
+      currentLine &&
+      currentLength + separatorLength + field.length > maxLength
+    ) {
+      lines.push(currentLine);
+      currentLine = field.formatted;
+      currentLength = field.length;
+    } else {
+      currentLine += separator + field.formatted;
+      currentLength += separatorLength + field.length;
+    }
+  }
+
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return {
+    subtitle: lines.join("\n"),
+    lineCount: lines.length,
+  };
 }
 
 // Options for single or multi line chart
@@ -325,13 +376,15 @@ const TABLE_ROW_HEIGHT = 70;
 const TABLE_COL_WIDTH = 90;
 const TABLE_GRID_TOP = 90;
 const TABLE_GRID_BOTTOM = 20;
+const TABLE_SUBTITLE_LINE = 16;
 
 // Helper function for calculating height of table
-function getTableChartHeight(numberOfSeries: number): number {
+function getTableChartHeight(numberOfSeries: number, nSubtitleLines: number): number {
   return (
     TABLE_GRID_TOP +
     TABLE_GRID_BOTTOM +
-    numberOfSeries * TABLE_ROW_HEIGHT
+	(nSubtitleLines * TABLE_SUBTITLE_LINE) + 
+    (numberOfSeries * TABLE_ROW_HEIGHT)
   );
 }
 
@@ -369,13 +422,10 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 	const leftMargin = computeLabelMargins(allSeries, 50, 275);
 
 	// Subtitle from search terms
-	const subtitle = formatIncidenceFilterSubtitle(filter);
+	const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150);
 
 	// Set chart options to create table
 	const options = {
-		// title: {
-		// 	text: optionString + ' Cancer Rates',
-		// 	
 
 		title: [
 			{
@@ -391,6 +441,7 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 				textStyle: {
 					fontSize: 12,
 					fontWeight: "normal",
+					lineHeight: TABLE_SUBTITLE_LINE,
 
 				rich: {
 					key: {
@@ -404,7 +455,7 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 		grid: {
 			left: leftMargin,
 			right: 50,
-			top: TABLE_GRID_TOP,
+			top: TABLE_GRID_TOP + (TABLE_SUBTITLE_LINE * nSubtitleLines),
 			bottom: TABLE_GRID_BOTTOM,
 			containLabel: false,
 		},
@@ -531,7 +582,7 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 			},
 		],
 		};
-	return options
+	return {options, nSubtitleLines}
 }
 
 // --- Exported functions ---
@@ -638,7 +689,7 @@ export function renderTableChart(
 	console.log("chart series: ", allSeries);
 	
 	// Create options for table (matrix) chart for this data
-	const options = setTableChartOptions(allSeries, cancerType, filter);
+	const {options, nSubtitleLines} = setTableChartOptions(allSeries, cancerType, filter);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
@@ -646,7 +697,8 @@ export function renderTableChart(
 
 	// Resize table element to match number of rows in table
 	const tableElement = chartInstance.getDom();
-	const height = getTableChartHeight(allSeries.length);
+	const height = getTableChartHeight(allSeries.length, nSubtitleLines);
+	console.log("table height: ", height)
 	tableElement.style.height = `${height}px`;
 
 	// Resize table element to fix cell width across different plots (with different label lengths)
