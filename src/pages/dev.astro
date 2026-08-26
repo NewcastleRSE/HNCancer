@@ -29,14 +29,18 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
 <script>
   // Import PapaParse directly into your client bundle
   import Papa from "papaparse";
-  import { cancerType } from "../utils/filter";
+  import {
+    cancerType,
+    createTidyDownloadFile,
+    createDownloadFilename,
+  } from "../utils/filter";
   // import {
   //   generateSingleRowTable,
   //   generateMultiRowTable,
   //   generateDichotomyMultiRowTable,
   // } from "../utils/filter-new";
   import { setMessageText, clearMessageText } from "../utils/filter-new";
-  import { cancer_type, resultsContainer, downloadLinkBtn } from "../types";
+  import { cancer_type, downloadLinkBtn } from "../types";
   import {
     returnAllChartSeries,
     returnAllTableSeries,
@@ -130,9 +134,18 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
               );
 
               // ---------------------------------------------
-              // Table/download
+              // Download
               // ---------------------------------------------
 
+              const encodedUri = createTidyDownloadFile(groupedResults);
+              const filename = createDownloadFilename(
+                cancerTypeToShow + "_incidence",
+              );
+              downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
+                    href="${encodedUri}"
+                    download="${filename}.csv">
+                  Download CSV
+                </a>`;
               // TODO: remove table code if confirm replacement with eCharts table
 
               // if (groupedResults.length === 1) {

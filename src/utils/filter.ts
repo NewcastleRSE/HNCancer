@@ -1,4 +1,5 @@
-import type { CSVRow } from '../types';
+import type { ProcessedRow } from '../types';
+import Papa from "papaparse";
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -82,6 +83,45 @@ export function cancerType(value: string){
 
  	const encodedUri = encodeURI(csvContent);
  	return encodedUri;
+}
+
+// Download function for tidy data format (one observation - year and filter options - per row)
+export function createTidyDownloadFile(
+  groupedResults: ProcessedRow[] | ProcessedRow[][]
+): string {
+  // Flatten data
+  const rows = Array.isArray(groupedResults[0])
+    ? (groupedResults as ProcessedRow[][]).flat()
+    : (groupedResults as ProcessedRow[]);
+
+  // Create csv format using Papaparse
+  const csv = Papa.unparse(rows);
+
+  // Format for download
+  return (
+    "data:text/csv;charset=utf-8," +
+    encodeURIComponent(csv)
+  );
+}
+
+// Filename for download
+// Timestamp + string (local time)
+export function createDownloadFilename(name: string): string {
+  const now = new Date();
+
+  const pad = (value: number) =>
+    value.toString().padStart(2, "0");
+
+  const timestamp =
+    `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}` +
+    `T${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
+
+  const suffix = name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "_");
+
+  return `${timestamp}_${suffix}.csv`;
 }
 
 /*
