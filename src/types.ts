@@ -59,6 +59,7 @@ export const nonemergckbox = document.getElementById('nonemergckbox') as HTMLInp
 
 export const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
 export const resultsContainer = document.getElementById('search-results') as HTMLInputElement;
+export const messageContainer = document.getElementById('search-message') as HTMLInputElement;
 export const confidenceBandsChart = document.getElementById('confidence-bands-chart') as HTMLInputElement;
 export const downloadLinkBtn = document.getElementById('download-link') as HTMLInputElement;	
 export const stage_input = document.getElementById('stage-input') as HTMLInputElement;

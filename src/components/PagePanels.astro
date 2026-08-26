@@ -4,6 +4,9 @@
 
 <!-- right side, stretches full height -->
 <div id="right-panel" class="grid-panel">
+  <!-- Output container for messages -->
+  <div id="search-message"></div>
+
   <!-- Output target container for chart -->
   <div id="csv-chart"></div>
 
@@ -73,5 +76,16 @@
   :global(#csv-table) {
     width: 1000px;
     height: 10px;
+  }
+
+  /* Message styling */
+  .search-message {
+    width: 100%;
+    min-height: 1.5em;
+  }
+
+  .search-message.is-hidden {
+    min-height: 0;
+    height: 0;
   }
 </style>

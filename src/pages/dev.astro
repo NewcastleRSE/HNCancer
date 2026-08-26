@@ -35,6 +35,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
   //   generateMultiRowTable,
   //   generateDichotomyMultiRowTable,
   // } from "../utils/filter-new";
+  import { setMessageText, clearMessageText } from "../utils/filter-new";
   import { cancer_type, resultsContainer, downloadLinkBtn } from "../types";
   import {
     returnAllChartSeries,
@@ -58,8 +59,6 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
 
     console.log("Incidence filter:", filter);
 
-    resultsContainer.innerHTML = "<p>Searching records...</p>";
-
     const CSV_file = cancerType(cancer_type.value);
     const cancerTypeToShow: string = cancer_type.value;
 
@@ -79,9 +78,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
         complete: (results) => {
           if (CSV_file === "") {
             renderBlankChart(cancerTypeToShow, myChart);
-
-            resultsContainer.innerHTML =
-              '<p class="has-text-danger">Please choose a cancer type.</p>';
+            setMessageText("Please choose a cancer type.", "danger");
 
             downloadLinkBtn.innerHTML = "<p></p>";
 
@@ -103,8 +100,10 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
             if (groupedResults.length < 1) {
               renderBlankChart(cancerTypeToShow, myChart);
               renderBlankChart(cancerTypeToShow, myTable);
-              resultsContainer.innerHTML =
-                '<p class="has-text-danger">No data is available for this combination of options.</p>';
+              setMessageText(
+                "No data is available for these search filters.",
+                "danger",
+              );
             } else {
               // Data for charts
               const allChartSeries = returnAllChartSeries(groupedResults);
@@ -116,6 +115,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
               // Update chart and eCharts table
               // ---------------------------------------------------------
 
+              clearMessageText(); // Remove search message text
               renderLineChart(cancerTypeToShow, allChartSeries, myChart);
               renderTableChart(
                 cancerTypeToShow,
@@ -152,24 +152,22 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
             }
           } catch (error) {
             console.error(error);
-
-            resultsContainer.innerHTML = `<p style="color: red;">${
+            const msg =
               error instanceof Error
                 ? error.message
-                : "Unable to process query."
-            }</p>`;
+                : "Unable to process query.";
+            setMessageText(msg, "danger");
 
             downloadLinkBtn.innerHTML = "<p></p>";
           }
         },
 
         error: (error: Error) => {
-          resultsContainer.innerHTML = `<p style="color: red;">Parsing error: ${error.message}</p>`;
+          setMessageText(`Parsing error: ${error.message}`, "danger");
         },
       });
     } catch (err) {
-      resultsContainer.innerHTML =
-        '<p style="color: red;">Could not fetch CSV file.</p>';
+      setMessageText("Could not fetch CSV file with cancer data.", "danger");
 
       console.error(err);
     }
