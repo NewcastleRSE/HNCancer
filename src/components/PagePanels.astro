@@ -5,10 +5,10 @@
 <!-- right side, stretches full height -->
 <div id="right-panel" class="grid-panel">
   <!-- Output target container for chart -->
-  <div id="csv-chart" style="width: 100%; height: 400px;"></div>
+  <div id="csv-chart"></div>
 
   <!-- Output target containers for tables -->
-  <div id="csv-table" style="width: 1000px; height: 10px;"></div>
+  <div id="csv-table"></div>
   <div id="search-results" style="width: 100%;"></div>
   <div id="download-link"></div>
 </div>
@@ -61,5 +61,17 @@
       Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
       sans-serif;
     height: 100%;
+  }
+
+  /* Chart/table styling - needs global selector so not locally scoped so eCharts can access */
+  :global(#csv-chart) {
+    width: max(100%, 600px);
+    height: 400px;
+    min-width: 400px;
+  }
+
+  :global(#csv-table) {
+    width: 1000px;
+    height: 10px;
   }
 </style>
