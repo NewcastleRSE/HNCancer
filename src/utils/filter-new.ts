@@ -1,4 +1,5 @@
 import type { IncidenceFilter, ProcessedRow } from '../types';
+import { messageContainer } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -29,6 +30,37 @@ export function cancerType(value: string){
 
 	return CSV_file;
  }
+
+// -- Messages --
+
+
+// Set 
+export function setMessageText(
+  message: string,
+  type: "normal" | "danger" = "normal",
+) {
+  if (!messageContainer) return;
+
+  // Replace any previous message
+  messageContainer.textContent = message;
+
+  // Update styling
+  messageContainer.className = "search-message";
+
+  // If "danger", update class
+  if (type === "danger") {
+    messageContainer.classList.add("has-text-danger");
+  }
+
+  messageContainer.classList.remove("is-hidden");
+}
+
+export function clearMessageText() {
+  if (!messageContainer) return;
+
+  messageContainer.textContent = "";
+  messageContainer.className = "search-message is-hidden";
+}
 
 // --- Tables ---
 

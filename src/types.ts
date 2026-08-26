@@ -59,6 +59,7 @@ export const nonemergckbox = document.getElementById('nonemergckbox') as HTMLInp
 
 export const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
 export const resultsContainer = document.getElementById('search-results') as HTMLInputElement;
+export const messageContainer = document.getElementById('search-message') as HTMLInputElement;
 export const confidenceBandsChart = document.getElementById('confidence-bands-chart') as HTMLInputElement;
 export const downloadLinkBtn = document.getElementById('download-link') as HTMLInputElement;	
 export const stage_input = document.getElementById('stage-input') as HTMLInputElement;
@@ -98,13 +99,19 @@ export type IncidenceFilter = {
 
 // --- Charts ---
 
-// Data used for each series (line) in a chart
-export interface ChartSeries {
-    name: string;
-    years: number[];
-    rates: number[];
-    variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
+// Data used for each series (line) in a chart or table
+export interface BaseSeries<TYear> {
+  name: string;
+  years: TYear[]; // Will be string[] for TableSeries and number[] for ChartSeries
+  rates: number[];
+  ciLb: number[];
+  ciUb: number[];
+  count: string[];
+  variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
 }
+
+export type ChartSeries = BaseSeries<number>;
+export type TableSeries = BaseSeries<string>;
 
 // Chart labels info (for any variables that are not "all")
 // "variables" are the variable: value pairs before they were concatenated into the series name

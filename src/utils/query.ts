@@ -16,7 +16,10 @@ export const INCIDENCE_FILTER_VARIABLES = [
 ] as const;
 
 // Labels for each variable for the UI
-export const INCIDENCE_FILTER_LABELS = {
+export const INCIDENCE_FILTER_LABELS: Record<
+  IncidenceFilterVariable,
+  string
+> = {
     dep: "Deprivation",
     region: "Region",
     sex: "Sex",
