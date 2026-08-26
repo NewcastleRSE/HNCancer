@@ -3,17 +3,19 @@ Descriptions of the variables used to filter/compare cancer rates.
 
 Used for charts (could also be used for UI components).
 */
+import type { IncidenceFilterVariable } from "../types";
+
 
 // Options for each variable
 // Values must match possible values in CSV tables, but "all" values are excluded here -
 // these are the possible levels when a variable is used as a filter.
 export const VARIABLE_OPTIONS = {
     dep: [
-        { value: 'IMD1', label: 'IMD1' },
+        { value: 'IMD1', label: 'IMD1 (most deprived)' },
         { value: 'IMD2', label: 'IMD2' },
         { value: 'IMD3', label: 'IMD3' },
         { value: 'IMD4', label: 'IMD4' },
-        { value: 'IMD5', label: 'IMD5' },
+        { value: 'IMD5', label: 'IMD5 (least deprived)' },
     ],
 
     region: [
@@ -85,3 +87,24 @@ export const VARIABLE_TYPE = {
     stage: "categorical"
 } as const;
 
+// Conversion function from values to labels
+export function getVariableValueLabels(
+  key: IncidenceFilterVariable,
+  values: string[]
+): string[] {
+  const options = VARIABLE_OPTIONS[key as keyof typeof VARIABLE_OPTIONS];
+
+  return values.map(value => {
+    // Check for an "all" value first
+    const allOption = VARIABLE_ALL[key as keyof typeof VARIABLE_ALL];
+
+    if (allOption?.value === value) {
+      return allOption.label;
+    }
+
+    // Otherwise find the matching variable option
+    const option = options?.find(option => option.value === value);
+
+    return option?.label ?? value;
+  });
+}
