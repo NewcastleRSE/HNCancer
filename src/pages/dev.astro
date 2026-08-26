@@ -30,11 +30,11 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
   // Import PapaParse directly into your client bundle
   import Papa from "papaparse";
   import { cancerType } from "../utils/filter";
-  import {
-    generateSingleRowTable,
-    generateMultiRowTable,
-    generateDichotomyMultiRowTable,
-  } from "../utils/filter-new";
+  // import {
+  //   generateSingleRowTable,
+  //   generateMultiRowTable,
+  //   generateDichotomyMultiRowTable,
+  // } from "../utils/filter-new";
   import { cancer_type, resultsContainer, downloadLinkBtn } from "../types";
   import {
     returnAllChartSeries,
@@ -128,25 +128,27 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
               // Table/download
               // ---------------------------------------------
 
-              if (groupedResults.length === 1) {
-                resultsContainer.innerHTML = generateSingleRowTable(
-                  cancerTypeToShow,
-                  groupedResults[0],
-                  filter,
-                );
-              } else if (filter.sex.length > 1) {
-                resultsContainer.innerHTML = generateDichotomyMultiRowTable(
-                  cancerTypeToShow,
-                  groupedResults,
-                  filter,
-                );
-              } else {
-                resultsContainer.innerHTML = generateMultiRowTable(
-                  cancerTypeToShow,
-                  groupedResults,
-                  filter,
-                );
-              }
+              // TODO: remove table code if confirm replacement with eCharts table
+
+              // if (groupedResults.length === 1) {
+              //   resultsContainer.innerHTML = generateSingleRowTable(
+              //     cancerTypeToShow,
+              //     groupedResults[0],
+              //     filter,
+              //   );
+              // } else if (filter.sex.length > 1) {
+              //   resultsContainer.innerHTML = generateDichotomyMultiRowTable(
+              //     cancerTypeToShow,
+              //     groupedResults,
+              //     filter,
+              //   );
+              // } else {
+              //   resultsContainer.innerHTML = generateMultiRowTable(
+              //     cancerTypeToShow,
+              //     groupedResults,
+              //     filter,
+              //   );
+              // }
             }
           } catch (error) {
             console.error(error);
