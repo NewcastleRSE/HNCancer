@@ -116,7 +116,12 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
               // ---------------------------------------------------------
 
               clearMessageText(); // Remove search message text
-              renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+              renderLineChart(
+                cancerTypeToShow,
+                allChartSeries,
+                myChart,
+                filter,
+              );
               renderTableChart(
                 cancerTypeToShow,
                 allTableSeries,

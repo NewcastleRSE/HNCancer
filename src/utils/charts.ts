@@ -257,9 +257,17 @@ export function formatIncidenceFilterSubtitle(
   };
 }
 
+
+// Fixed chart sizes
+const CHART_GRID_TOP = 60;
+const CHART_GRID_BOTTOM = 100;
+const CHART_SUBTITLE_LINE = 16;
+const CHART_LEFT_MARGIN = 135;
+const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/legends with y-axis
+
 // Options for single or multi line chart
 // Also adds data to the chart
-function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
+function setLineChartOptions(allSeries: ChartSeries[], optionString: string, filter: IncidenceFilter){
 
 	// Get year range from data for the x-axis
 	const allYears = allSeries.flatMap(series => series.years);
@@ -270,6 +278,9 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 	// Will be length of longest label * 7, with min of 150 and max of 275
 	const rightMargin = computeLabelMargins(allSeries, 150, 275)
 
+	// Subtitle from search terms
+	const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150);
+
 	// Whether there are multiple series
 	const isMulti = allSeries.length > 1;
 
@@ -277,16 +288,43 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 	const cmap = getChartColorMapping(allSeries);
 	console.log("Chart cmap: ", cmap)
 
+	// Axis colour
+	const axisLabelColor = "#555";
+
 	// Options
     const option = {
-		title: {
-			text: optionString + ' Cancer Rates' 
-		},
+		title: [
+			{
+				text: optionString + ' Cancer Rates',
+				left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER,
+				top: 10
+			},
+			{
+				text: subtitle,
+				top: 15 + CHART_SUBTITLE_LINE,
+				left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER,
+
+				textStyle: {
+					fontSize: 12,
+					fontWeight: "normal",
+					lineHeight: CHART_SUBTITLE_LINE,
+
+				rich: {
+					key: {
+					fontWeight: "bold",
+					},
+				},
+				},
+			},
+		],
 		grid: {
+			left: CHART_LEFT_MARGIN,
         	right: rightMargin,
+			top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * nSubtitleLines),
 			// If legend, add extra white space between the legend and bottom of the chart
 			// Otherwise, use default (60)
-			bottom: isMulti? 100: 60, 
+			bottom: CHART_GRID_BOTTOM, 
+			containLabel: false
     	},
 		tooltip: {
 			trigger: 'axis',
@@ -306,25 +344,49 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string){
 			interval: 1,
 			name: 'Diagnosis year',
 			nameLocation: 'middle',
+		  	nameGap: 10, //distance from the axis
 			nameTextStyle: {
-				fontWeight: 'bold'
+				fontWeight: 'bold',
+			    color: axisLabelColor,
 			},
 			// Format years as strings to prevent commas from being inserted
 			axisLabel: {
 				formatter: (value: number) => value.toString()
 			}
 		},
+		graphic: [
+			{
+				type: "text",
+				left: 10,
+				top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * (nSubtitleLines - 0.5)),
+				style: {
+					text: 'Incidence\n(diagnoses per\n100,000 people)',
+					fontWeight: "bold",
+					textAlign: "right",
+					textVerticalAlign: "middle",
+					fill: axisLabelColor
+				},
+			},
+			],
 		yAxis: {
 			type: 'value',
-			name: 'Incidence\n(diagnoses per 100,000 people)',
-			nameTextStyle: {
-				fontWeight: 'bold'
-			}
+			// name: 'Incidence\n(diagnoses per 100,000 people)',
+			// nameLocation: 'top',
+			// nameTextStyle: {
+			// 	fontWeight: 'bold'
+			// }
 		},
 		legend: {
+			left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER, 
 			show: isMulti, // if multiple series, show legend
 			type: 'scroll',
-			orient: 'horizontal'
+			orient: 'horizontal',
+			padding: [
+				0,  // top
+				rightMargin, // right
+				10,  // bottom
+				0, // left
+			]
 		},
       	series: allSeries.map(series => ({
 			name: series.name,
@@ -419,7 +481,8 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 	);
 
 	// Compute left margin size based on labels
-	const leftMargin = computeLabelMargins(allSeries, 50, 275);
+	// Min set to match chart
+	const leftMargin = computeLabelMargins(allSeries, CHART_LEFT_MARGIN, 275);
 
 	// Subtitle from search terms
 	const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150);
@@ -435,7 +498,7 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 			},
 			{
 				text: subtitle,
-				top: 40,
+				top: 15 + CHART_SUBTITLE_LINE,
 				left: leftMargin,
 
 				textStyle: {
@@ -639,12 +702,17 @@ export function initChart(element: string, addResizeListener: boolean = true): e
 }
 
  // function to render a single- or multi-line chart
-export function renderLineChart(cancerType: string, allSeries: ChartSeries[], chartInstance: echarts.ECharts) {
+export function renderLineChart(
+	cancerType: string, 
+	allSeries: ChartSeries[], 
+	chartInstance: echarts.ECharts, 
+	filter: IncidenceFilter
+) {
 
 	console.log('in line chart render');
 	console.log("chart series: ", allSeries);
 	
-	const options = setLineChartOptions(allSeries, cancerType);
+	const options = setLineChartOptions(allSeries, cancerType, filter);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
@@ -676,8 +744,8 @@ export function renderLineChart(cancerType: string, allSeries: ChartSeries[], ch
 
 }
 
+
  // Function to render a table
- // TODO: add title with cancerType info
 export function renderTableChart(
 	cancerType: string, 
 	allSeries: TableSeries[], 
