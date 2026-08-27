@@ -13,8 +13,8 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
   <div class="dashboard-container">
     <!--- top left: panel area ---->
     <div id="panel">
-      <h1 class="is-size-3 mb-4 mr-2">Dev Search</h1>
-      <h2 class="is-size-5 mb-2">Select your search criteria</h2>
+      <h1 class="h1-search">Search cancer data:</h1>
+      <h2 class="query-section">Cancer</h2>
       <form id="inequalities-search-form">
         <CancerTypeSelect />
         <hr />
@@ -211,7 +211,13 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
   }
 
   #panel {
+    background-color: var(--color-surface);
     padding-left: 20px;
     padding-top: 20px;
+  }
+
+  .h1-search {
+    font-size: var(--font-size-h2);
+    font-weight: 300;
   }
 </style>

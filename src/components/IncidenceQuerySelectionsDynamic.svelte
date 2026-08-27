@@ -122,7 +122,7 @@
 </script>
 
 <div class="query-inputs">
-  <h3>Compare</h3>
+  <h2 class="query-section">Compare</h2>
   <div class="query-inputs-compare">
     <label class="compare-checkbox">
       <input
@@ -165,7 +165,7 @@
     {/if}
   </div>
   <hr />
-  <h3>Additional filters</h3>
+  <h2 class="query-section">Additional filters</h2>
   <div class="query-inputs-filter">
     <div class="single-select-filters">
       {#each singleSelectVariables as variable}
@@ -189,12 +189,6 @@
 <style>
   .query-inputs > * + * {
     margin-top: 1rem;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 1.2rem;
-    text-transform: capitalize;
   }
 
   label {

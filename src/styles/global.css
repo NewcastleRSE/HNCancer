@@ -1,7 +1,31 @@
 :root {
-    /* Overrides for Bulma variables */
-  --bulma-family-primary: Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
-  --bulma-family-secondary: "Lora", Georgia, "Times New Roman", serif;
+
+  /* Custom variables */ 
+
+  /* Font sizes */
+  --font-size-h1: 1.75rem;
+  --font-size-h2: 1.25rem;
+  --font-size-h3: 1rem;
+
+  /* Palette */
+  --color-burgundy: #6A1B1B;
+  --color-grey1: #fcfcfc;
+  --color-grey2: #F7F7F7;
+  --color-grey3: #E4E4E4;
+
+  /* Semantic colours */ 
+  --color-surface: var(--color-grey2);
+  --color-header: var(--color-burgundy);
+  --color-border-div: var(--color-grey3);
+  --color-text-light: var(--color-grey2);
+
+  /* Overrides for Bulma variables */
+  --bulma-family-primary: "Open Sans", Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
+  --bulma-family-secondary: "DM Sans", Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
+  /* --bulma-family-secondary: "Lora", Georgia, "Times New Roman", serif; */
+  --bulma-background-color: var(--color-grey1);
+  --bulma-hr-background-color: var(--color-grey3);
+
 }
 	
 html, body {
@@ -12,6 +36,26 @@ html, body {
     background-color: #f7fafc;
 }
 
-header, h1, h2, h3 {
+/* Headers*/
+header, h1 {
     font-family: var(--bulma-family-secondary);
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--bulma-weight-bold);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--bulma-weight-bold);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--bulma-weight-bold);
+}
+
+.query-section {
+text-transform: uppercase;
 }
