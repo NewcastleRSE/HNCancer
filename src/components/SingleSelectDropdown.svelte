@@ -18,7 +18,7 @@
 </script>
 
 <label>
-  {label}
+  {`${label}:`}
   <select bind:value={selectedValue} onchange={onChange}>
     {#each options as option}
       <option value={option.value}>{option.label}</option>

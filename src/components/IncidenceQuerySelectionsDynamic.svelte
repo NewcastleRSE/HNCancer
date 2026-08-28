@@ -130,7 +130,7 @@
         bind:checked={compareMaleFemale}
         onchange={handleCompareMaleFemaleChange}
       />
-      <span>Compare by sex (Male vs. Female)</span>
+      <span>Compare by Sex</span>
     </label>
     <div class="compare-dropdown">
       <label>
@@ -192,7 +192,7 @@
   }
 
   label {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 1rem;
   }
 
