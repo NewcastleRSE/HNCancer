@@ -135,20 +135,23 @@
     <div class="compare-dropdown">
       <label>
         <span>Compare by</span>
-        <select
-          bind:value={comparisonVariable}
-          onchange={handleComparisonChange}
-        >
-          <option value="">Select variable</option>
+        <div class="select select-compact">
+          <select
+            id="select-compare-variable"
+            bind:value={comparisonVariable}
+            onchange={handleComparisonChange}
+          >
+            <option value="">Select variable</option>
 
-          {#each INCIDENCE_FILTER_VARIABLES as variable}
-            {#if variable !== "sex"}
-              <option value={variable}>
-                {INCIDENCE_FILTER_LABELS[variable]}
-              </option>
-            {/if}
-          {/each}
-        </select>
+            {#each INCIDENCE_FILTER_VARIABLES as variable}
+              {#if variable !== "sex"}
+                <option value={variable}>
+                  {INCIDENCE_FILTER_LABELS[variable]}
+                </option>
+              {/if}
+            {/each}
+          </select>
+        </div>
       </label>
     </div>
   </div>
@@ -180,10 +183,14 @@
   </div>
 </div>
 <hr />
-<div class="mb-2">
-  <button type="button" class="button" onclick={submitQuery}> Search </button>
+<div class="button-container">
+  <button type="button" class="button is-primary" onclick={submitQuery}>
+    Search
+  </button>
 
-  <button type="button" class="button" onclick={resetQuery}> Reset </button>
+  <button type="button" class="button is-primary" onclick={resetQuery}>
+    Reset
+  </button>
 </div>
 
 <style>
@@ -209,6 +216,13 @@
   /* Min height for checkbox group so doesn't move components beneath when added dynamically */
   .compare-checkbox-group {
     min-height: 135px;
+  }
+
+  /* Buttons */
+  .button-container {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
   }
 
   /* Set up grid for compare components */

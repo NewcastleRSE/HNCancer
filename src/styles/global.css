@@ -8,7 +8,7 @@
   --font-size-h3: 1rem;
 
   /* Palette */
-  --color-burgundy: #6A1B1B;
+  --color-burgundy: #6A1B2F; /*#6A1B1B*/
   --color-grey1: #fcfcfc;
   --color-grey2: #F7F7F7;
   --color-grey3: #E4E4E4;
@@ -22,9 +22,18 @@
   /* Overrides for Bulma variables */
   --bulma-family-primary: "Open Sans", Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
   --bulma-family-secondary: "DM Sans", Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
-  /* --bulma-family-secondary: "Lora", Georgia, "Times New Roman", serif; */
   --bulma-background-color: var(--color-grey1);
   --bulma-hr-background-color: var(--color-grey3);
+  /* Primary colour (#619CBF) specified as H,S,L - other colour variables derived from these */
+  --bulma-primary-h: 202deg;
+  --bulma-primary-s: 55%;
+  --bulma-primary-l: 75%;
+
+  /* Focus colours and UI arrows (e.g., for dropdowns */
+  --bulma-focus-h: var(--bulma-primary-h);
+  --bulma-focus-s: var(--bulma-primary-s);
+  --bulma-focus-l: calc(var(--bulma-primary-l) - 15%);
+  --bulma-arrow-color: hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l));
 
 }
 	
@@ -36,7 +45,7 @@ html, body {
     background-color: #f7fafc;
 }
 
-/* Headers*/
+/* Headers/text*/
 header, h1 {
     font-family: var(--bulma-family-secondary);
 }
@@ -58,4 +67,22 @@ h3 {
 
 .query-section {
 text-transform: uppercase;
+}
+
+/* Compact select component */
+.select.select-compact {
+  height: 2rem;
+  font-size: 0.9rem;
+}
+
+.select.select-compact select {
+  height: 2rem;
+  line-height: 1.5;
+  padding-block: 0;
+  padding-inline: 0.6rem 2rem;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  accent-color: var(--bulma-primary-50)
 }
