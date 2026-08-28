@@ -1,3 +1,13 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { label: "Search", href: "/HNCancer/dev" },
+  { label: "Inequalities", href: "/HNCancer/inequalities" },
+  { label: "About", href: "/HNCancer/" },
+];
+---
+
 <div class="header-container">
   <div>
     <header>
@@ -21,11 +31,17 @@
       <span aria-hidden="true"></span>
     </a>
     <div id="nav-links" class="navbar-start">
-      <a class="navbar-item is-size-5" href="/HNCancer/dev">Search</a>
-      <a class="navbar-item is-size-5" href="/HNCancer/inequalities"
-        >Inequalities</a
-      >
-      <a class="navbar-item is-size-5" href="/HNCancer/">About</a>
+      {
+        navItems.map(({ label, href }) => (
+          <a
+            class="navbar-item is-size-5"
+            href={href}
+            aria-current={currentPath === href ? "page" : undefined}
+          >
+            {label}
+          </a>
+        ))
+      }
     </div>
   </nav>
 </div>
@@ -48,6 +64,18 @@
       });
     }
   });
+
+  // Add event listener to collapse expanded burger menu if window becomes larger
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 800) {
+      const burger = document.getElementById("nav-burger") as HTMLFormElement;
+      const menu = document.getElementById("nav-links") as HTMLFormElement;
+
+      burger.classList.remove("is-active");
+      menu.classList.remove("is-active");
+      burger.setAttribute("aria-expanded", "false");
+    }
+  });
 </script>
 
 <style>
@@ -58,41 +86,145 @@
     align-items: flex-end;
     color: var(--color-text-light);
     padding: 1rem 1.5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
+
+  /* Change flex alignemnt when burger menu is open */
+  .header-container:has(.navbar-burger.is-active) {
+    align-items: flex-start;
+  }
+
+  /* Navbar */
 
   nav {
     background-color: var(--color-header);
-    color: var(--color-text-light);
-  }
-
-  nav a {
-    color: var(--color-text-light);
-  }
-
-  nav :hover {
-    color: #2c3e50;
   }
 
   .navbar {
     flex-shrink: 0;
+    min-height: 0;
   }
 
   .navbar-start {
+    flex: 0 0 auto;
+  }
+
+  .navbar-item {
+    color: color-mix(in srgb, var(--color-text-light) 80%, transparent);
+    border-radius: 0.35rem;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  /* Navbar hover */
+  .navbar-item:hover {
     color: var(--color-text-light);
+    background-color: color-mix(
+      in srgb,
+      var(--color-text-light) 15%,
+      transparent
+    );
+  }
+
+  /* Navbar styling for current page */
+  .navbar-item[aria-current="page"] {
+    color: var(--color-text-light);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.5em;
+  }
+
+  /* Navbar - Keyboard focus */
+  .navbar-item:focus-visible,
+  .navbar-burger:focus-visible {
+    outline: 2px solid var(--color-text-light);
+    outline-offset: 2px;
+  }
+
+  /* Burger */
+  .navbar-burger {
+    color: var(--color-text-light);
+    border-radius: 0.35rem;
+  }
+
+  .navbar-burger:hover {
+    color: var(--color-text-light);
+    background-color: color-mix(
+      in srgb,
+      var(--color-text-light) 15%,
+      transparent
+    );
   }
 
   .navbar-start.is-active {
     display: block;
   }
 
-  @media (width <= 1024px) {
+  /* Overwrite Bulma breakpoints behaviour */
+  @media (min-width: 850px) {
+    .navbar-menu,
+    .navbar-start,
+    .navbar-end {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .navbar-burger {
+      display: none;
+    }
+  }
+
+  @media (width <= 850px) {
+    .navbar-burger {
+      display: block;
+    }
+
+    .navbar-menu,
+    .navbar-start,
+    .navbar-end {
+      display: none;
+    }
+
+    .navbar-start.is-active {
+      display: block;
+    }
+
     .navbar-start {
       background-color: var(--color-header);
       color: var(--color-text-light);
       display: none;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition:
+        max-height 0.25s ease,
+        opacity 0.15s ease;
+    }
+
+    .navbar-start.is-active {
+      max-height: 20rem;
+      opacity: 1;
     }
   }
+
+  /* When narrow window, force burger to beneath header text */
+  @media (max-width: 768px) {
+    .header-container {
+      flex-wrap: wrap;
+    }
+
+    .header-container > div:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .navbar {
+      flex-basis: 100%;
+    }
+  }
+
+  /* Header text */
 
   .header-text-small {
     font-size: 1.25rem;
