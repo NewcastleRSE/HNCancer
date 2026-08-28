@@ -12,15 +12,19 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
 
   <div class="dashboard-container">
     <!--- top left: panel area ---->
-    <div id="panel">
-      <h1 class="h1-search">Search cancer data:</h1>
-      <h2 class="query-section">Cancer</h2>
-      <form id="inequalities-search-form">
-        <CancerTypeSelect />
-        <hr />
-        <!-- <IncidenceQuerySelections client:load /> -->
-        <IncidenceQuerySelectionsDynamic client:load />
-      </form>
+    <div id="search-panel">
+      <h1 class="h1-search"><em>Search cancer data:</em></h1>
+      <div class="search-section">
+        <h2 class="query-section">Cancer</h2>
+        <div><CancerTypeSelect /></div>
+      </div>
+      <div class="search-section">
+        <h2 class="query-section">Statistic</h2>
+        <p>TBA</p>
+      </div>
+      <hr />
+      <!-- <IncidenceQuerySelections client:load /> -->
+      <IncidenceQuerySelectionsDynamic client:load />
     </div>
     <PagePanels />
   </div>
@@ -199,25 +203,33 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
     margin-top: 1.5rem;
   }
 
-  /* A responsive 2x2 grid container */
+  /* A responsive 1x2 grid container */
   .dashboard-container {
     display: grid;
     height: 100vh;
     width: 100vw;
-    /* splits screen horizontally, favoring left side a little */
-    grid-template-columns: 25fr 75fr;
-    /* splits screen vertically, favoring the top a little */
-    grid-template-rows: 65fr 35fr;
+    /* splits screen horizontally, with fixed left column */
+    grid-template-columns: 21rem 1fr;
   }
 
-  #panel {
+  #search-panel {
+    grid-column: 1;
+    grid-row: 1;
     background-color: var(--color-surface);
-    padding-left: 20px;
-    padding-top: 20px;
+    padding: 1rem 1.5rem;
+    border-right: 1px solid var(--color-border-div);
+  }
+
+  #search-panel > * + * {
+    margin-top: 1rem;
+  }
+
+  .search-section > * + * {
+    margin-top: 0.25rem;
   }
 
   .h1-search {
-    font-size: var(--font-size-h2);
-    font-weight: 300;
+    font-size: var(--font-size-h3);
+    font-weight: 400;
   }
 </style>

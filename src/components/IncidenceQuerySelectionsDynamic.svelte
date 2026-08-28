@@ -133,6 +133,8 @@
       <span>Compare by Sex</span>
     </label>
     <div class="compare-dropdown">
+      <span class="compare-bullet" aria-hidden="true">•</span>
+
       <label>
         <span>Compare by</span>
         <div class="select select-compact">
@@ -246,18 +248,25 @@
   .compare-checkbox span {
     grid-column: 2;
   }
-
   .compare-dropdown {
     grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1.25rem auto;
+    align-items: center;
+  }
+
+  .compare-bullet {
+    grid-column: 1;
+    font-size: 1.5rem;
+    line-height: 1;
+    justify-self: center;
+    align-self: center;
   }
 
   .compare-dropdown label {
+    grid-column: 2;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .compare-dropdown label > span {
-    margin-left: 1.25rem;
   }
 </style>
