@@ -1,4 +1,4 @@
-import { VARIABLE_ALL, VARIABLE_OPTIONS } from "./variables";
+import { INCIDENCE_VARIABLE_ALL, INCIDENCE_VARIABLE_OPTIONS } from "./variables";
 import type { IncidenceFilterVariable, IncidenceFilter, CSVRow, ProcessedRow } from "../types";
 
 /* Functions for querying incidence and survival spreadsheets */
@@ -168,7 +168,7 @@ function buildSelectionCombinations(
 
 /**
  * Creates a processed IncidenceFilter by:
- * - ordering selections according to VARIABLE_OPTIONS
+ * - ordering selections according to INCIDENCE_VARIABLE_OPTIONS
  * - replacing empty selections with the corresponding "all" value
  *
  * The original filter is not modified.
@@ -178,9 +178,9 @@ export function processIncidenceFilter(
 ): IncidenceFilter {
   const processedFilter = { ...filter };
 
-  // Sort selections according to VARIABLE_OPTIONS.
+  // Sort selections according to INCIDENCE_VARIABLE_OPTIONS.
   for (const variable of INCIDENCE_FILTER_VARIABLES) {
-    const optionOrder: string[] = VARIABLE_OPTIONS[variable].map(
+    const optionOrder: string[] = INCIDENCE_VARIABLE_OPTIONS[variable].map(
       (option) => option.value,
     );
 
@@ -192,7 +192,7 @@ export function processIncidenceFilter(
   // Replace empty selections with the corresponding "all" value.
   for (const variable of INCIDENCE_FILTER_VARIABLES) {
     if (processedFilter[variable].length === 0) {
-      processedFilter[variable] = [VARIABLE_ALL[variable].value];
+      processedFilter[variable] = [INCIDENCE_VARIABLE_ALL[variable].value];
     }
   }
 

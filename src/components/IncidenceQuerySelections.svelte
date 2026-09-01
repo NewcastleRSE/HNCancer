@@ -6,7 +6,7 @@
     initIncidenceFilter,
     processIncidenceFilter,
   } from "../utils/query";
-  import { VARIABLE_OPTIONS } from "../utils/variables";
+  import { INCIDENCE_VARIABLE_OPTIONS } from "../utils/variables";
   import type { IncidenceFilter } from "../types";
 
   // Initialise variable for storing filter state (updated using UI inputs)
@@ -33,7 +33,7 @@
   {#each INCIDENCE_FILTER_VARIABLES as variable}
     <CheckboxGroup
       label={INCIDENCE_FILTER_LABELS[variable]}
-      options={VARIABLE_OPTIONS[variable]}
+      options={INCIDENCE_VARIABLE_OPTIONS[variable]}
       bind:selectedValues={filter[variable]}
     />
   {/each}

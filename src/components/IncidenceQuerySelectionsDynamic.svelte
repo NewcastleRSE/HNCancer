@@ -7,7 +7,10 @@
     initIncidenceFilter,
     processIncidenceFilter,
   } from "../utils/query";
-  import { VARIABLE_OPTIONS, VARIABLE_ALL } from "../utils/variables";
+  import {
+    INCIDENCE_VARIABLE_OPTIONS,
+    INCIDENCE_VARIABLE_ALL,
+  } from "../utils/variables";
   import type { IncidenceFilter, IncidenceFilterVariable } from "../types";
 
   // Initialise variable for storing filter state (updated using UI inputs)
@@ -27,12 +30,12 @@
 
   // Single select options
   let singleSelections = $state<Record<IncidenceFilterVariable, string>>({
-    dep: VARIABLE_ALL.dep.value,
-    region: VARIABLE_ALL.region.value,
-    sex: VARIABLE_ALL.sex.value,
-    ageBand: VARIABLE_ALL.ageBand.value,
-    route: VARIABLE_ALL.route.value,
-    stage: VARIABLE_ALL.stage.value,
+    dep: INCIDENCE_VARIABLE_ALL.dep.value,
+    region: INCIDENCE_VARIABLE_ALL.region.value,
+    sex: INCIDENCE_VARIABLE_ALL.sex.value,
+    ageBand: INCIDENCE_VARIABLE_ALL.ageBand.value,
+    route: INCIDENCE_VARIABLE_ALL.route.value,
+    stage: INCIDENCE_VARIABLE_ALL.stage.value,
   });
 
   // --- Variables to show in filter section ---
@@ -47,7 +50,10 @@
 
   // --- Helpers for creating components ---
   function getSingleSelectOptions(variable: IncidenceFilterVariable) {
-    return [VARIABLE_ALL[variable], ...VARIABLE_OPTIONS[variable]];
+    return [
+      INCIDENCE_VARIABLE_ALL[variable],
+      ...INCIDENCE_VARIABLE_OPTIONS[variable],
+    ];
   }
 
   // ---  Functions for UI updates ---
@@ -68,7 +74,7 @@
     // Also reset dropdown value for the corresponding single-select dropdown
     if (comparisonVariable) {
       singleSelections[comparisonVariable] =
-        VARIABLE_ALL[comparisonVariable].value;
+        INCIDENCE_VARIABLE_ALL[comparisonVariable].value;
     }
 
     // Set new comparison variable
@@ -111,12 +117,12 @@
     previousComparisonVariable = "";
     compareMaleFemale = false;
     singleSelections = {
-      dep: VARIABLE_ALL.dep.value,
-      region: VARIABLE_ALL.region.value,
-      sex: VARIABLE_ALL.sex.value,
-      ageBand: VARIABLE_ALL.ageBand.value,
-      route: VARIABLE_ALL.route.value,
-      stage: VARIABLE_ALL.stage.value,
+      dep: INCIDENCE_VARIABLE_ALL.dep.value,
+      region: INCIDENCE_VARIABLE_ALL.region.value,
+      sex: INCIDENCE_VARIABLE_ALL.sex.value,
+      ageBand: INCIDENCE_VARIABLE_ALL.ageBand.value,
+      route: INCIDENCE_VARIABLE_ALL.route.value,
+      stage: INCIDENCE_VARIABLE_ALL.stage.value,
     };
   }
 </script>
@@ -164,7 +170,7 @@
         label={"Choose " +
           INCIDENCE_FILTER_LABELS[comparisonVariable].toLowerCase() +
           " values to compare"}
-        options={VARIABLE_OPTIONS[comparisonVariable]}
+        options={INCIDENCE_VARIABLE_OPTIONS[comparisonVariable]}
         bind:selectedValues={filter[comparisonVariable]}
       />
     {/if}

@@ -91,7 +91,7 @@ export type IncidenceFilterVariable =
     (typeof INCIDENCE_FILTER_VARIABLES)[number];
 
 // Object for filtering Incidence spreadsheet
-// TODO: Make the values more specific based on VARIABLE_OPTIONS and VARIABLE_ALL
+// TODO: Make the values more specific based on INCIDENCE_VARIABLE_OPTIONS and INCIDENCE_VARIABLE_ALL
 // spreadsheet values
 export type IncidenceFilter = {
     [K in IncidenceFilterVariable]: string[];

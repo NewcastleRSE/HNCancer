@@ -164,34 +164,6 @@ function computeLabelMargins(allSeries: ChartSeries[] | TableSeries[], minSize: 
 	return margin
 }
 
-// Helper for formatting chart subtitles from search terms
-// export function formatIncidenceFilterSubtitle(
-//   filter: IncidenceFilter
-// ): string {
-//   return Object.entries(filter)
-//     .filter(
-//       ([key, values]) =>
-//         values.length > 0 &&
-//         key in INCIDENCE_FILTER_LABELS
-//     )
-//     .map(([key, values]) => {
-//       const label =
-//         INCIDENCE_FILTER_LABELS[
-//           key as keyof typeof INCIDENCE_FILTER_LABELS
-//         ];
-
-//       // Convert filter values to their display labels
-//       const valueLabels = getVariableValueLabels(
-//         key as IncidenceFilterVariable,
-//         values
-//       );
-
-//       // Format the label and values for ECharts rich text
-//       return `{key|${label}}{value|: ${valueLabels.join(", ")}}`;
-//     })
-//     .join("   ");
-// }
-
 export function formatIncidenceFilterSubtitle(
   filter: IncidenceFilter,
   maxLength: number
@@ -211,7 +183,8 @@ export function formatIncidenceFilterSubtitle(
       // Convert filter values to their display labels
       const valueLabels = getVariableValueLabels(
         key as IncidenceFilterVariable,
-        values
+        values,
+		"incidence"
       );
 
       // Format the label and values for ECharts rich text

@@ -1,15 +1,22 @@
 /*
-Descriptions of the variables used to filter/compare cancer rates.
+Descriptions of the variables used to filter/compare cancer incidence and survival.
 
-Used for charts (could also be used for UI components).
+Used for charts/tables and generating UI components.
+
+Uses separate variables for different statistics (incidence and survival) for simplicity,
+although could potentially be refactored to reduce redundancy.
 */
+
 import type { IncidenceFilterVariable } from "../types";
 
+// -----------------
+// --- Incidence ---
+// -----------------
 
 // Options for each variable
 // Values must match possible values in CSV tables, but "all" values are excluded here -
 // these are the possible levels when a variable is used as a filter.
-export const VARIABLE_OPTIONS = {
+export const INCIDENCE_VARIABLE_OPTIONS = {
     dep: [
         { value: 'IMD1', label: 'IMD1 (most deprived)' },
         { value: 'IMD2', label: 'IMD2' },
@@ -67,7 +74,7 @@ export const VARIABLE_OPTIONS = {
 // unless spreadsheet format changes.
 // Labels can be used to label UI elements; updated these will only impact the displayed
 // text in the UI.
-export const VARIABLE_ALL = {
+export const INCIDENCE_VARIABLE_ALL = {
     dep: {value: "All IMD Quintiles", label: "All IMD Quintiles"},
     region: {value: "All Regions", label: "All Regions"},
     sex: {value: "All Persons", label: "All Persons"},
@@ -77,7 +84,12 @@ export const VARIABLE_ALL = {
 
 } as const;
 
+// ----------------------
+// --- All statistics ---
+// ----------------------
+
 // Type of each variable (continuous or categorical)
+// Used for both survival and incidence data
 export const VARIABLE_TYPE = {
     dep: "continuous",
     region: "categorical",
@@ -87,24 +99,49 @@ export const VARIABLE_TYPE = {
     stage: "categorical"
 } as const;
 
+// ----------------------------
+// --- STATISTICS CONSTANTS ---
+// ----------------------------
+
+/* Array of possible statistics */
+const CANCER_STATISTICS = ["incidence"] as const;
+
+/* Variables for each statistic */
+const STATISTIC_CONFIG = {
+  incidence: {
+    variableOptions: INCIDENCE_VARIABLE_OPTIONS,
+    variableAll: INCIDENCE_VARIABLE_ALL,
+  }
+} as const;
+
+// --- HELPER FUNCTIONS ---
+
 // Conversion function from values to labels
 export function getVariableValueLabels(
   key: IncidenceFilterVariable,
-  values: string[]
+  values: string[],
+  statistic: typeof CANCER_STATISTICS[number]
 ): string[] {
-  const options = VARIABLE_OPTIONS[key as keyof typeof VARIABLE_OPTIONS];
 
-  return values.map(value => {
-    // Check for an "all" value first
-    const allOption = VARIABLE_ALL[key as keyof typeof VARIABLE_ALL];
+    // Get variables for statistic
+    const { variableOptions, variableAll } = STATISTIC_CONFIG[statistic];
 
-    if (allOption?.value === value) {
-      return allOption.label;
-    }
+    // Get options for specified variable
+    const options = variableOptions[key as keyof typeof variableOptions];
 
-    // Otherwise find the matching variable option
-    const option = options?.find(option => option.value === value);
+    // Map values to options
+    return values.map(value => {
+        
+        // Check for an "all" value first
+        const allOption = variableAll[key as keyof typeof variableAll];
 
-    return option?.label ?? value;
-  });
+        if (allOption?.value === value) {
+        return allOption.label;
+        }
+
+        // Otherwise find the matching variable option
+        const option = options?.find(option => option.value === value);
+
+        return option?.label ?? value;
+    });
 }

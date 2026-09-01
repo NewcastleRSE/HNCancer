@@ -1,6 +1,6 @@
 import type { ChartSeries, ChartColorMapping } from "../types";
 import { CHART_LABEL_VARIABLES } from "./charts";
-import { VARIABLE_OPTIONS, VARIABLE_TYPE } from "./variables";
+import { INCIDENCE_VARIABLE_OPTIONS, VARIABLE_TYPE } from "./variables";
 import chroma from "chroma-js";
 
 // --- Helper functions ---
@@ -60,7 +60,7 @@ const CMAP_MF = [
 const CLR_SERIES_DEFAULT = '#384585';
 
 export const VARIABLE_CMAPS = Object.fromEntries(
-    Object.entries(VARIABLE_OPTIONS).map(([variable, options]) => {
+    Object.entries(INCIDENCE_VARIABLE_OPTIONS).map(([variable, options]) => {
 
         // Colormap depends on if continuous or categorical variables
         var colors: string[] = []
