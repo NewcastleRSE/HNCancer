@@ -1,25 +1,11 @@
 import * as echarts from 'echarts';
 import { getChartColorMapping } from './colors';
-import { getVariableValueLabels, INCIDENCE_FILTER_LABELS } from './variables';
+import { getVariableValueLabels, INCIDENCE_FILTER_LABELS, INCIDENCE_LABEL_VARIABLES } from './variables';
 import type { 
 	ProcessedRow, BaseSeries, ChartSeries, TableSeries, SeriesLabels, 
 	IncidenceFilter, IncidenceFilterVariable 
 } from "../types";
 
-// --- Constants --- 
-
-// Variables used to create series names/labels
-// Info from these variables is also used for symbol/colour encoding
-// Order determines order of labels and prioritisation for colour encoding 
-// (if multiple variables have different values across the series)
-export const CHART_LABEL_VARIABLES = [
-	'sex',
-    'ageBand',
-    'dep',
-    'region',
-    'route',
-    'stage'
-] as const;
 
 // --- Helper functions within module ---
 
@@ -35,7 +21,7 @@ function validateSeriesMetadata(series: ProcessedRow[]) {
   const first = series[0];
 
   // Loop through all fields used to create labels
-  for (const field of CHART_LABEL_VARIABLES) {
+  for (const field of INCIDENCE_LABEL_VARIABLES) {
     const expected = first[field];
 
     const consistent = series.every(row => row[field] === expected);
@@ -53,14 +39,14 @@ function validateSeriesMetadata(series: ProcessedRow[]) {
 // Use validateSeriesMetadata first to check that each row has same metadata
 function getSeriesLabels(row: ProcessedRow): SeriesLabels {
 	// Get values for each of the label variables
-    const variables = CHART_LABEL_VARIABLES
+    const variables = INCIDENCE_LABEL_VARIABLES
 		// Only keep values that don't start with "all" (case insensitive)
         .filter(field => !row[field].toLowerCase().startsWith('all'))
 		// Get the 
         .reduce((result, field) => {
             result[field] = row[field];
             return result;
-        }, {} as Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>);
+        }, {} as Partial<Record<typeof INCIDENCE_LABEL_VARIABLES[number], string>>);
 
     return {
         name: Object.values(variables).join(', '),

@@ -1,5 +1,4 @@
-import { CHART_LABEL_VARIABLES } from "./utils/charts"
-import { INCIDENCE_FILTER_VARIABLES } from "./utils/variables"
+import { INCIDENCE_FILTER_VARIABLES, INCIDENCE_LABEL_VARIABLES } from "./utils/variables"
 
 export interface CSVRow {
     diagnosisYear: string;
@@ -107,7 +106,7 @@ export interface BaseSeries<TYear> {
   ciLb: number[];
   ciUb: number[];
   count: string[];
-  variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
+  variables: Partial<Record<typeof INCIDENCE_LABEL_VARIABLES[number], string>>;
 }
 
 export type ChartSeries = BaseSeries<number>;
@@ -117,11 +116,11 @@ export type TableSeries = BaseSeries<string>;
 // "variables" are the variable: value pairs before they were concatenated into the series name
 export interface SeriesLabels {
     name: string; // full label
-    variables: Partial<Record<typeof CHART_LABEL_VARIABLES[number], string>>;
+    variables: Partial<Record<typeof INCIDENCE_LABEL_VARIABLES[number], string>>;
 }
 
 // Create colormapping for chart
 export interface ChartColorMapping {
-    key: typeof CHART_LABEL_VARIABLES[number] | null;
+    key: typeof INCIDENCE_LABEL_VARIABLES[number] | null;
     colors: Record<string, string>;
 }

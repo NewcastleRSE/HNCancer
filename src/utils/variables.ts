@@ -36,6 +36,19 @@ export const INCIDENCE_FILTER_LABELS: Record<
     stage: "Stage",
 } as const;
 
+// Variables used to create series names/labels
+// Info from these variables is also used for symbol/colour encoding
+// Order determines order of labels and prioritisation for colour encoding 
+// (if multiple variables have different values across the series)
+export const INCIDENCE_LABEL_VARIABLES = [
+    'sex',
+    'ageBand',
+    'dep',
+    'region',
+    'route',
+    'stage'
+] as const;
+
 // Options for each variable
 // Values must match possible values in CSV tables, but "all" values are excluded here -
 // these are the possible levels when a variable is used as a filter.
@@ -137,7 +150,9 @@ const STATISTIC_CONFIG = {
     variableAll: INCIDENCE_VARIABLE_ALL,
     // Variables used to filter data in query
     filterVariables: INCIDENCE_FILTER_VARIABLES,
-    filterLabels: INCIDENCE_FILTER_LABELS
+    filterLabels: INCIDENCE_FILTER_LABELS,
+    // Variables used to create chart labels
+    labelVariables: INCIDENCE_LABEL_VARIABLES
   }
 } as const;
 
