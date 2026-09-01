@@ -122,7 +122,7 @@
 </script>
 
 <div class="query-inputs">
-  <h3>Compare</h3>
+  <h2 class="query-section">Compare</h2>
   <div class="query-inputs-compare">
     <label class="compare-checkbox">
       <input
@@ -130,25 +130,30 @@
         bind:checked={compareMaleFemale}
         onchange={handleCompareMaleFemaleChange}
       />
-      <span>Compare by sex (Male vs. Female)</span>
+      <span>Compare by Sex</span>
     </label>
     <div class="compare-dropdown">
+      <span class="compare-bullet" aria-hidden="true">•</span>
+
       <label>
         <span>Compare by</span>
-        <select
-          bind:value={comparisonVariable}
-          onchange={handleComparisonChange}
-        >
-          <option value="">Select variable</option>
+        <div class="select select-compact">
+          <select
+            id="select-compare-variable"
+            bind:value={comparisonVariable}
+            onchange={handleComparisonChange}
+          >
+            <option value="">Select variable</option>
 
-          {#each INCIDENCE_FILTER_VARIABLES as variable}
-            {#if variable !== "sex"}
-              <option value={variable}>
-                {INCIDENCE_FILTER_LABELS[variable]}
-              </option>
-            {/if}
-          {/each}
-        </select>
+            {#each INCIDENCE_FILTER_VARIABLES as variable}
+              {#if variable !== "sex"}
+                <option value={variable}>
+                  {INCIDENCE_FILTER_LABELS[variable]}
+                </option>
+              {/if}
+            {/each}
+          </select>
+        </div>
       </label>
     </div>
   </div>
@@ -165,7 +170,7 @@
     {/if}
   </div>
   <hr />
-  <h3>Additional filters</h3>
+  <h2 class="query-section">Additional filters</h2>
   <div class="query-inputs-filter">
     <div class="single-select-filters">
       {#each singleSelectVariables as variable}
@@ -180,10 +185,14 @@
   </div>
 </div>
 <hr />
-<div class="mb-2">
-  <button type="button" class="button" onclick={submitQuery}> Search </button>
+<div class="button-container">
+  <button type="button" class="button is-primary" onclick={submitQuery}>
+    Search
+  </button>
 
-  <button type="button" class="button" onclick={resetQuery}> Reset </button>
+  <button type="button" class="button is-primary" onclick={resetQuery}>
+    Reset
+  </button>
 </div>
 
 <style>
@@ -191,14 +200,8 @@
     margin-top: 1rem;
   }
 
-  h3 {
-    font-weight: 600;
-    font-size: 1.2rem;
-    text-transform: capitalize;
-  }
-
   label {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 1rem;
   }
 
@@ -215,6 +218,13 @@
   /* Min height for checkbox group so doesn't move components beneath when added dynamically */
   .compare-checkbox-group {
     min-height: 135px;
+  }
+
+  /* Buttons */
+  .button-container {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
   }
 
   /* Set up grid for compare components */
@@ -238,18 +248,25 @@
   .compare-checkbox span {
     grid-column: 2;
   }
-
   .compare-dropdown {
     grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1.25rem auto;
+    align-items: center;
+  }
+
+  .compare-bullet {
+    grid-column: 1;
+    font-size: 1.5rem;
+    line-height: 1;
+    justify-self: center;
+    align-self: center;
   }
 
   .compare-dropdown label {
+    grid-column: 2;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .compare-dropdown label > span {
-    margin-left: 1.25rem;
   }
 </style>

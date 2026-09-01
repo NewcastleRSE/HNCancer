@@ -19,8 +19,8 @@
 <style>
   /* individual grid panels */
   .grid-panel {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background-color: var(--bulma-background-color);
+    border: 1px solid var(--color-border-div);
     box-sizing: border-box;
     overflow: auto;
     padding: 20px;
@@ -29,9 +29,8 @@
   /* right side goes from top to bottom, place for data? */
   #right-panel {
     grid-column: 2;
-    grid-row: 1 / span 2;
-    background: #fdfdfd;
-    border-left: 2px solid #cbd5e0;
+    grid-row: 1;
+    border-left: 2px solid var(--color-border-div);
   }
 
   /* responsiveness... */
@@ -55,14 +54,11 @@
       height: auto;
       width: 100%;
       border-left: none;
-      border-top: 1px solid #cbd5e0;
+      border-top: 1px solid var(--color-border-div);
     }
   }
 
   #container {
-    font-family:
-      Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
-      sans-serif;
     height: 100%;
   }
 

@@ -483,9 +483,8 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 		])
 	);
 
-	// Compute left margin size based on labels
-	// Min set to match chart
-	const leftMargin = computeLabelMargins(allSeries, CHART_LEFT_MARGIN, 275);
+	// Match left margin to chart; will wrap if value overflows
+	const leftMargin = CHART_LEFT_MARGIN;
 
 	// Subtitle from search terms
 	const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150);
