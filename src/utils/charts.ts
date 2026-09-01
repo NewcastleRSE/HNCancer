@@ -1,7 +1,6 @@
 import * as echarts from 'echarts';
 import { getChartColorMapping } from './colors';
-import { INCIDENCE_FILTER_LABELS } from "./query"
-import { getVariableValueLabels } from './variables';
+import { getVariableValueLabels, INCIDENCE_FILTER_LABELS } from './variables';
 import type { 
 	ProcessedRow, BaseSeries, ChartSeries, TableSeries, SeriesLabels, 
 	IncidenceFilter, IncidenceFilterVariable 

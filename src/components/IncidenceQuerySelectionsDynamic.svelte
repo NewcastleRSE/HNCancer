@@ -1,15 +1,12 @@
 <script lang="ts">
   import CheckboxGroup from "./CheckboxGroup.svelte";
   import SingleSelectDropdown from "./SingleSelectDropdown.svelte";
-  import {
-    INCIDENCE_FILTER_VARIABLES,
-    INCIDENCE_FILTER_LABELS,
-    initIncidenceFilter,
-    processIncidenceFilter,
-  } from "../utils/query";
+  import { initIncidenceFilter, processIncidenceFilter } from "../utils/query";
   import {
     INCIDENCE_VARIABLE_OPTIONS,
     INCIDENCE_VARIABLE_ALL,
+    INCIDENCE_FILTER_VARIABLES,
+    INCIDENCE_FILTER_LABELS,
   } from "../utils/variables";
   import type { IncidenceFilter, IncidenceFilterVariable } from "../types";
 

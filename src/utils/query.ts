@@ -1,32 +1,7 @@
-import { INCIDENCE_VARIABLE_ALL, INCIDENCE_VARIABLE_OPTIONS } from "./variables";
+import { INCIDENCE_VARIABLE_ALL, INCIDENCE_VARIABLE_OPTIONS, INCIDENCE_FILTER_VARIABLES } from "./variables";
 import type { IncidenceFilterVariable, IncidenceFilter, CSVRow, ProcessedRow } from "../types";
 
 /* Functions for querying incidence and survival spreadsheets */
-
-// --- Constants ---
-
-// Variables used to filter spreadsheet (use spreadsheet column names)
-export const INCIDENCE_FILTER_VARIABLES = [
-    "dep",
-    "region",
-    "sex",
-    "ageBand",
-    "route",
-    "stage",
-] as const;
-
-// Labels for each variable for the UI
-export const INCIDENCE_FILTER_LABELS: Record<
-  IncidenceFilterVariable,
-  string
-> = {
-    dep: "Deprivation",
-    region: "Region",
-    sex: "Sex",
-    ageBand: "Age",
-    route: "Route",
-    stage: "Stage",
-} as const;
 
 // --- Helper functions and types used locally ---
 

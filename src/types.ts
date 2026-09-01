@@ -1,5 +1,5 @@
 import { CHART_LABEL_VARIABLES } from "./utils/charts"
-import { INCIDENCE_FILTER_VARIABLES } from "./utils/query"
+import { INCIDENCE_FILTER_VARIABLES } from "./utils/variables"
 
 export interface CSVRow {
     diagnosisYear: string;

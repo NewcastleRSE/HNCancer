@@ -1,12 +1,11 @@
 <script lang="ts">
   import CheckboxGroup from "./CheckboxGroup.svelte";
+  import { initIncidenceFilter, processIncidenceFilter } from "../utils/query";
   import {
+    INCIDENCE_VARIABLE_OPTIONS,
     INCIDENCE_FILTER_VARIABLES,
     INCIDENCE_FILTER_LABELS,
-    initIncidenceFilter,
-    processIncidenceFilter,
-  } from "../utils/query";
-  import { INCIDENCE_VARIABLE_OPTIONS } from "../utils/variables";
+  } from "../utils/variables";
   import type { IncidenceFilter } from "../types";
 
   // Initialise variable for storing filter state (updated using UI inputs)

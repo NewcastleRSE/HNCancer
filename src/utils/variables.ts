@@ -13,6 +13,29 @@ import type { IncidenceFilterVariable } from "../types";
 // --- Incidence ---
 // -----------------
 
+// Variables used to filter spreadsheet (use spreadsheet column names)
+export const INCIDENCE_FILTER_VARIABLES = [
+    "dep",
+    "region",
+    "sex",
+    "ageBand",
+    "route",
+    "stage",
+] as const;
+
+// Labels for each variable for the UI
+export const INCIDENCE_FILTER_LABELS: Record<
+  IncidenceFilterVariable,
+  string
+> = {
+    dep: "Deprivation",
+    region: "Region",
+    sex: "Sex",
+    ageBand: "Age",
+    route: "Route",
+    stage: "Stage",
+} as const;
+
 // Options for each variable
 // Values must match possible values in CSV tables, but "all" values are excluded here -
 // these are the possible levels when a variable is used as a filter.
@@ -109,8 +132,12 @@ const CANCER_STATISTICS = ["incidence"] as const;
 /* Variables for each statistic */
 const STATISTIC_CONFIG = {
   incidence: {
+    // Values for variables in spreadsheet
     variableOptions: INCIDENCE_VARIABLE_OPTIONS,
     variableAll: INCIDENCE_VARIABLE_ALL,
+    // Variables used to filter data in query
+    filterVariables: INCIDENCE_FILTER_VARIABLES,
+    filterLabels: INCIDENCE_FILTER_LABELS
   }
 } as const;
 
@@ -131,7 +158,7 @@ export function getVariableValueLabels(
 
     // Map values to options
     return values.map(value => {
-        
+
         // Check for an "all" value first
         const allOption = variableAll[key as keyof typeof variableAll];
 
