@@ -140,10 +140,10 @@ export const VARIABLE_TYPE = {
 // ----------------------------
 
 /* Array of possible statistics */
-const CANCER_STATISTICS = ["incidence"] as const;
+export const CANCER_STATISTICS = ["incidence"] as const;
 
 /* Variables for each statistic */
-const STATISTIC_CONFIG = {
+export const STATISTICS_CONFIG = {
   incidence: {
     // Values for variables in spreadsheet
     variableOptions: INCIDENCE_VARIABLE_OPTIONS,
@@ -166,7 +166,7 @@ export function getVariableValueLabels(
 ): string[] {
 
     // Get variables for statistic
-    const { variableOptions, variableAll } = STATISTIC_CONFIG[statistic];
+    const { variableOptions, variableAll } = STATISTICS_CONFIG[statistic];
 
     // Get options for specified variable
     const options = variableOptions[key as keyof typeof variableOptions];

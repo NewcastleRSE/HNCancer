@@ -1,6 +1,6 @@
 import * as echarts from 'echarts';
 import { getChartColorMapping } from './colors';
-import { getVariableValueLabels, INCIDENCE_FILTER_LABELS, INCIDENCE_LABEL_VARIABLES } from './variables';
+import { getVariableValueLabels, CANCER_STATISTICS, STATISTICS_CONFIG } from './variables';
 import type { 
 	ProcessedRow, BaseSeries, ChartSeries, TableSeries, SeriesLabels, 
 	IncidenceFilter, IncidenceFilterVariable 
@@ -12,16 +12,19 @@ import type {
 // Validate processed data for one series (line)
 // Checks that ProcessedRow[] arrays (rates for different years, but same filters) 
 // have same metadata.
-function validateSeriesMetadata(series: ProcessedRow[]) {
+function validateSeriesMetadata(series: ProcessedRow[], statistic: typeof CANCER_STATISTICS[number]) {
   if (series.length === 0) {
     throw new Error('No data is available for this combination of filters.');
   }
+
+  // Get variables used for labels for statistic
+  const labelVariables = STATISTICS_CONFIG[statistic].labelVariables
 
   // Use first array as expected values
   const first = series[0];
 
   // Loop through all fields used to create labels
-  for (const field of INCIDENCE_LABEL_VARIABLES) {
+  for (const field of labelVariables) {
     const expected = first[field];
 
     const consistent = series.every(row => row[field] === expected);
@@ -37,16 +40,20 @@ function validateSeriesMetadata(series: ProcessedRow[]) {
 // Get the name of the series (i.e., the data in ProcessedRow[]) from one row (array)
 // Also stories the variables and variable values used to make the name
 // Use validateSeriesMetadata first to check that each row has same metadata
-function getSeriesLabels(row: ProcessedRow): SeriesLabels {
+function getSeriesLabels(row: ProcessedRow, statistic: typeof CANCER_STATISTICS[number]): SeriesLabels {
+	
+	// Get variables used for labels for statistic
+  	const labelVariables = STATISTICS_CONFIG[statistic].labelVariables
+
 	// Get values for each of the label variables
-    const variables = INCIDENCE_LABEL_VARIABLES
+    const variables = labelVariables
 		// Only keep values that don't start with "all" (case insensitive)
         .filter(field => !row[field].toLowerCase().startsWith('all'))
 		// Get the 
         .reduce((result, field) => {
             result[field] = row[field];
             return result;
-        }, {} as Partial<Record<typeof INCIDENCE_LABEL_VARIABLES[number], string>>);
+        }, {} as Partial<Record<typeof labelVariables[number], string>>);
 
     return {
         name: Object.values(variables).join(', '),
@@ -58,6 +65,7 @@ function getSeriesLabels(row: ProcessedRow): SeriesLabels {
 // removeAll Years: whether to remove "all years" values from series (keep for table, remove for chart)
 function returnAllSeries<T extends number | string>(
   allMatchedItems: ProcessedRow[] | ProcessedRow[][],
+  statistic: typeof CANCER_STATISTICS[number],
   yearConverter: (row: ProcessedRow) => T,
   removeAllYears = true,
 ): BaseSeries<T>[] {
@@ -76,7 +84,7 @@ function returnAllSeries<T extends number | string>(
 	if (seriesData){ 
 
 		// Validate metadata across different years within each series
-		seriesData.forEach(validateSeriesMetadata);
+		seriesData.forEach(series => validateSeriesMetadata(series, statistic));
 
 		// Create each chart series
 		// Here, 
@@ -93,7 +101,7 @@ function returnAllSeries<T extends number | string>(
 			} 
 
 			// Use first row to get label
-            const labels = getSeriesLabels(rows[0]);
+            const labels = getSeriesLabels(rows[0], statistic);
 
 			// Get years
 			if (removeAllYears) {
@@ -151,18 +159,23 @@ function computeLabelMargins(allSeries: ChartSeries[] | TableSeries[], minSize: 
 
 export function formatIncidenceFilterSubtitle(
   filter: IncidenceFilter,
-  maxLength: number
+  maxLength: number,
+  statistic: typeof CANCER_STATISTICS[number],
 ): { subtitle: string; lineCount: number } {
+
+  // Get labels for variables for this statistic
+  const filterLabels = STATISTICS_CONFIG[statistic].filterLabels;
+
   const fields = Object.entries(filter)
     .filter(
       ([key, values]) =>
         values.length > 0 &&
-        key in INCIDENCE_FILTER_LABELS
+        key in filterLabels
     )
     .map(([key, values]) => {
       const label =
-        INCIDENCE_FILTER_LABELS[
-          key as keyof typeof INCIDENCE_FILTER_LABELS
+        filterLabels[
+          key as keyof typeof filterLabels
         ];
 
       // Convert filter values to their display labels
@@ -225,7 +238,12 @@ const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/lege
 
 // Options for single or multi line chart
 // Also adds data to the chart
-function setLineChartOptions(allSeries: ChartSeries[], optionString: string, filter?: IncidenceFilter){
+function setLineChartOptions(
+	allSeries: ChartSeries[], 
+	optionString: string, 
+	statistic: typeof CANCER_STATISTICS[number], 
+	filter?: IncidenceFilter
+){
 
 	// Get year range from data for the x-axis
 	const allYears = allSeries.flatMap(series => series.years);
@@ -240,7 +258,7 @@ function setLineChartOptions(allSeries: ChartSeries[], optionString: string, fil
 	let subtitle = ""
 	let nSubtitleLines = 0
 	if (filter) {
-		({subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150));
+		({subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150, statistic));
 	}
 	// Whether there are multiple series
 	const isMulti = allSeries.length > 1;
@@ -412,7 +430,12 @@ function getTableChartHeight(numberOfSeries: number, nSubtitleLines: number): nu
 }
 
 // Create chart options for eCharts table
-function setTableChartOptions(allSeries: TableSeries[], optionString: string, filter: IncidenceFilter) {
+function setTableChartOptions(
+	allSeries: TableSeries[], 
+	optionString: string, 
+	statistic: typeof CANCER_STATISTICS[number],
+	filter: IncidenceFilter, 
+) {
 
 	// --- Data formatting ---
 
@@ -445,7 +468,7 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 	const leftMargin = CHART_LEFT_MARGIN;
 
 	// Subtitle from search terms
-	const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150);
+	const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150, statistic);
 
 	// Set chart options to create table
 	const options = {
@@ -612,10 +635,12 @@ function setTableChartOptions(allSeries: TableSeries[], optionString: string, fi
 
 // For chart series, want years to be a number array without "allyears"
 export function returnAllChartSeries(
-  allMatchedItems: ProcessedRow[] | ProcessedRow[][]
+  allMatchedItems: ProcessedRow[] | ProcessedRow[][],
+  statistic: typeof CANCER_STATISTICS[number],
 ): ChartSeries[] {
   return returnAllSeries(
     allMatchedItems,
+	statistic,
     row => Number(row.diagnosisYear),
     true,
   );
@@ -623,10 +648,12 @@ export function returnAllChartSeries(
 
 // For table series, want years to be a string array with "allyears"
 export function returnAllTableSeries(
-  allMatchedItems: ProcessedRow[] | ProcessedRow[][]
+  allMatchedItems: ProcessedRow[] | ProcessedRow[][],
+  statistic: typeof CANCER_STATISTICS[number],
 ): TableSeries[] {
 	let series = returnAllSeries(
 		allMatchedItems,
+		statistic,
 		row => String(row.diagnosisYear),
 		false,
 	);
@@ -666,13 +693,14 @@ export function renderLineChart(
 	cancerType: string, 
 	allSeries: ChartSeries[], 
 	chartInstance: echarts.ECharts, 
+	statistic: typeof CANCER_STATISTICS[number],
 	filter?: IncidenceFilter // option, for creating subtitle with filter options
 ) {
 
 	console.log('in line chart render');
 	console.log("chart series: ", allSeries);
 	
-	const options = setLineChartOptions(allSeries, cancerType, filter);
+	const options = setLineChartOptions(allSeries, cancerType, statistic, filter);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
@@ -710,6 +738,7 @@ export function renderTableChart(
 	cancerType: string, 
 	allSeries: TableSeries[], 
 	chartInstance: echarts.ECharts,
+	statistic: typeof CANCER_STATISTICS[number],
 	filter: IncidenceFilter
 ) {
 
@@ -717,7 +746,7 @@ export function renderTableChart(
 	console.log("chart series: ", allSeries);
 	
 	// Create options for table (matrix) chart for this data
-	const {options, nSubtitleLines} = setTableChartOptions(allSeries, cancerType, filter);
+	const {options, nSubtitleLines} = setTableChartOptions(allSeries, cancerType, statistic, filter);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)

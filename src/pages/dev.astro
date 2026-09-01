@@ -70,6 +70,9 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
     const CSV_file = cancerType(cancer_type.value);
     const cancerTypeToShow: string = cancer_type.value;
 
+    // Hard-coded statistic for now
+    const statistic = "incidence";
+
     try {
       const response = await fetch(CSV_file);
 
@@ -114,10 +117,16 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
               );
             } else {
               // Data for charts
-              const allChartSeries = returnAllChartSeries(groupedResults);
+              const allChartSeries = returnAllChartSeries(
+                groupedResults,
+                statistic,
+              );
 
               // Data for tables (includes "all years")
-              const allTableSeries = returnAllTableSeries(groupedResults);
+              const allTableSeries = returnAllTableSeries(
+                groupedResults,
+                statistic,
+              );
 
               // ---------------------------------------------------------
               // Update chart and eCharts table
@@ -128,12 +137,14 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
                 cancerTypeToShow,
                 allChartSeries,
                 myChart,
+                statistic,
                 filter,
               );
               renderTableChart(
                 cancerTypeToShow,
                 allTableSeries,
                 myTable,
+                statistic,
                 filter,
               );
 

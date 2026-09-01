@@ -109,6 +109,9 @@ import SexSelect from "../components/SexSelect.astro";
   // Initialise chart
   const myChart = initChart("csv-chart");
 
+  // Hard coded-statistic
+  const statistic = "incidence";
+
   const inequalities_form = document.getElementById(
     "inequalities-search-form",
   ) as HTMLFormElement;
@@ -435,8 +438,16 @@ import SexSelect from "../components/SexSelect.astro";
               });
             }
 
-            var allChartSeries = returnAllChartSeries(allMatchedItems);
-            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+            var allChartSeries = returnAllChartSeries(
+              allMatchedItems,
+              statistic,
+            );
+            renderLineChart(
+              cancerTypeToShow,
+              allChartSeries,
+              myChart,
+              statistic,
+            );
 
             if (allMatchedItems) {
               // call generateTable function in utils
@@ -591,8 +602,16 @@ import SexSelect from "../components/SexSelect.astro";
               });
             }
 
-            var allChartSeries = returnAllChartSeries(allMatchedItems);
-            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+            var allChartSeries = returnAllChartSeries(
+              allMatchedItems,
+              statistic,
+            );
+            renderLineChart(
+              cancerTypeToShow,
+              allChartSeries,
+              myChart,
+              statistic,
+            );
 
             if (allMatchedItems) {
               // call generateTable function in utils
@@ -740,8 +759,16 @@ import SexSelect from "../components/SexSelect.astro";
               });
             }
 
-            var allChartSeries = returnAllChartSeries(allMatchedItems);
-            renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+            var allChartSeries = returnAllChartSeries(
+              allMatchedItems,
+              statistic,
+            );
+            renderLineChart(
+              cancerTypeToShow,
+              allChartSeries,
+              myChart,
+              statistic,
+            );
 
             if (allMatchedItems) {
               // call generateTable function in utils
@@ -869,8 +896,16 @@ import SexSelect from "../components/SexSelect.astro";
                   allDownloadRates.push(downloadFormattedRates);
                 });
 
-                var allChartSeries = returnAllChartSeries(allMatchedItems);
-                renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+                var allChartSeries = returnAllChartSeries(
+                  allMatchedItems,
+                  statistic,
+                );
+                renderLineChart(
+                  cancerTypeToShow,
+                  allChartSeries,
+                  myChart,
+                  statistic,
+                );
 
                 // call generateTable function in utils
                 if (sex_input === "Male:Female") {
@@ -934,8 +969,16 @@ import SexSelect from "../components/SexSelect.astro";
               }
 
               // call function to render an echart
-              var allChartSeries = returnAllChartSeries(matchedItems);
-              renderLineChart(cancerTypeToShow, allChartSeries, myChart);
+              var allChartSeries = returnAllChartSeries(
+                matchedItems,
+                statistic,
+              );
+              renderLineChart(
+                cancerTypeToShow,
+                allChartSeries,
+                myChart,
+                statistic,
+              );
 
               if (matchedItems) {
                 // get the indicence rates
