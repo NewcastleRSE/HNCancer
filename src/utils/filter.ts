@@ -1,4 +1,4 @@
-import type { ProcessedRow } from '../types';
+import type { IncidenceProcessedRow } from '../types';
 import Papa from "papaparse";
 
 const BASE_URL = import.meta.env.BASE_URL;
@@ -87,12 +87,12 @@ export function cancerType(value: string){
 
 // Download function for tidy data format (one observation - year and filter options - per row)
 export function createTidyDownloadFile(
-  groupedResults: ProcessedRow[] | ProcessedRow[][]
+  groupedResults: IncidenceProcessedRow[] | IncidenceProcessedRow[][]
 ): string {
   // Flatten data
   const rows = Array.isArray(groupedResults[0])
-    ? (groupedResults as ProcessedRow[][]).flat()
-    : (groupedResults as ProcessedRow[]);
+    ? (groupedResults as IncidenceProcessedRow[][]).flat()
+    : (groupedResults as IncidenceProcessedRow[]);
 
   // Create csv format using Papaparse
   const csv = Papa.unparse(rows);
@@ -127,13 +127,13 @@ export function createDownloadFilename(name: string): string {
 /*
 export function getCSVData({yearQuery, keyQuery, keyQueryTwo, csvText}: CSVDataInput): CSVData {
 
-	var matchedItems: CSVRow[] = [];
+	var matchedItems: IncidenceCSVRow[] = [];
 	// declared in case a second query is needed (optional)
-	var matchedItemsSecond: CSVRow[] = [];
+	var matchedItemsSecond: IncidenceCSVRow[] = [];
 	var result: CSVData[] = []; 
 
 	// parse CSV text directly into JSON format
-	Papa.parse<CSVRow>(csvText, {
+	Papa.parse<IncidenceCSVRow>(csvText, {
 	header: true, // Uses row 1 keys mapping row values into key-value objects
 	skipEmptyLines: true,
 	complete: (results) => {

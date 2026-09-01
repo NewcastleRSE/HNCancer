@@ -54,7 +54,11 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
     initChart,
   } from "../utils/charts";
   import { queryIncidenceFilter } from "../utils/query";
-  import type { CSVRow, ProcessedRow, IncidenceFilter } from "../types";
+  import type {
+    IncidenceCSVRow,
+    IncidenceProcessedRow,
+    IncidenceFilter,
+  } from "../types";
 
   // Initialise chart
   const myChart = initChart("csv-chart");
@@ -82,7 +86,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
 
       const csvText = await response.text();
 
-      Papa.parse<CSVRow>(csvText, {
+      Papa.parse<IncidenceCSVRow>(csvText, {
         header: true,
         skipEmptyLines: true,
 
@@ -97,7 +101,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
           }
 
           try {
-            const rows = results.data as ProcessedRow[];
+            const rows = results.data as IncidenceProcessedRow[];
 
             // ---------------------------------------------
             // Query

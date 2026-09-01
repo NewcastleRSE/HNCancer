@@ -1,4 +1,4 @@
-import type { ChartSeries, ChartColorMapping } from "../types";
+import type { IncidenceChartSeries, ChartColorMapping } from "../types";
 import { INCIDENCE_VARIABLE_OPTIONS, INCIDENCE_LABEL_VARIABLES, VARIABLE_TYPE } from "./variables";
 import chroma from "chroma-js";
 
@@ -7,7 +7,7 @@ import chroma from "chroma-js";
 // Get which variables in set of chart series that have more than one value across the 
 // different series
 function getChartVariablesWithMultipleValues(
-    allSeries: ChartSeries[]
+    allSeries: IncidenceChartSeries[]
 ): typeof INCIDENCE_LABEL_VARIABLES[number][] {
 
     return INCIDENCE_LABEL_VARIABLES.filter(variable => {
@@ -91,7 +91,7 @@ export const VARIABLE_CMAPS = Object.fromEntries(
 // From chart series data, determine which variables to use for color encoding and
 // return color mapping
 export function getChartColorMapping(
-    allSeries: ChartSeries[]
+    allSeries: IncidenceChartSeries[]
 ): ChartColorMapping {
 
     // Which variables in the chart have multiple values

@@ -116,7 +116,7 @@ import PagePanels from "../components/PagePanels.astro";
     downloadLinkBtn,
     chart_area,
   } from "../types";
-  import type { CSVRow } from "../types";
+  import type { IncidenceCSVRow } from "../types";
   import {
     returnAllChartSeries,
     renderLineChart,
@@ -375,15 +375,15 @@ import PagePanels from "../components/PagePanels.astro";
       console.log(deprivation_input);
 
       // parse CSV text directly into JSON format
-      Papa.parse<CSVRow>(csvText, {
+      Papa.parse<IncidenceCSVRow>(csvText, {
         header: true, // ignore the first line
         skipEmptyLines: true,
         complete: (results) => {
           // console.log(results);
 
-          var tempTable: CSVRow[] = [];
-          var tempTableTwo: CSVRow[] = [];
-          var matchedItems: CSVRow[] = [];
+          var tempTable: IncidenceCSVRow[] = [];
+          var tempTableTwo: IncidenceCSVRow[] = [];
+          var matchedItems: IncidenceCSVRow[] = [];
 
           if (CSV_file === "") {
             renderBlankChart(cancerTypeToShow, myChart);

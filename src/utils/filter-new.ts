@@ -1,4 +1,4 @@
-import type { IncidenceFilter, ProcessedRow } from '../types';
+import type { IncidenceFilter, IncidenceProcessedRow } from '../types';
 import { messageContainer } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
@@ -78,7 +78,7 @@ function getSearchTerms(filter: IncidenceFilter): string {
     ].join(" : ");
 }
 
-function processedRowsToTableData(rows: ProcessedRow[]) {
+function processedRowsToTableData(rows: IncidenceProcessedRow[]) {
     const rates: number[] = [];
     const counts: (string | number)[] = [];
     const lowerBounds: number[] = [];
@@ -104,10 +104,10 @@ function processedRowsToTableData(rows: ProcessedRow[]) {
 // generates a table
 	export function generateSingleRowTable(
     cancerType: string,
-    rows: ProcessedRow[],
+    rows: IncidenceProcessedRow[],
     filter: IncidenceFilter
 ) {
-	// Get table data from ProcessedRow[] array
+	// Get table data from IncidenceProcessedRow[] array
     const {
         rates,
         counts,
@@ -169,13 +169,13 @@ function processedRowsToTableData(rows: ProcessedRow[]) {
   
 export function generateMultiRowTable(
     cancerType: string,
-    groupedResults: ProcessedRow[][],
+    groupedResults: IncidenceProcessedRow[][],
     filter: IncidenceFilter
 ) {
 	// Get search terms from filters used
     const searchTerms = getSearchTerms(filter);
 
-	// Get formatted data from ProcessedRow[][] arrays
+	// Get formatted data from IncidenceProcessedRow[][] arrays
     const allRates = groupedResults.map(rows => {
         const {
             rates,
@@ -256,7 +256,7 @@ export function generateMultiRowTable(
 
 export function generateDichotomyMultiRowTable(
     cancerType: string,
-    groupedResults: ProcessedRow[][],
+    groupedResults: IncidenceProcessedRow[][],
     filter: IncidenceFilter
 ) {
 	// Get search terms from filters used

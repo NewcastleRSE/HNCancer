@@ -2,7 +2,7 @@ import * as echarts from 'echarts';
 import { getChartColorMapping } from './colors';
 import { getVariableValueLabels, CANCER_STATISTICS, STATISTICS_CONFIG } from './variables';
 import type { 
-	ProcessedRow, BaseSeries, ChartSeries, TableSeries, SeriesLabels, 
+	IncidenceProcessedRow, IncidenceBaseSeries, IncidenceChartSeries, IncidenceTableSeries, IncidenceSeriesLabels, 
 	IncidenceFilter, IncidenceFilterVariable 
 } from "../types";
 
@@ -10,9 +10,9 @@ import type {
 // --- Helper functions within module ---
 
 // Validate processed data for one series (line)
-// Checks that ProcessedRow[] arrays (rates for different years, but same filters) 
+// Checks that IncidenceProcessedRow[] arrays (rates for different years, but same filters) 
 // have same metadata.
-function validateSeriesMetadata(series: ProcessedRow[], statistic: typeof CANCER_STATISTICS[number]) {
+function validateSeriesMetadata(series: IncidenceProcessedRow[], statistic: typeof CANCER_STATISTICS[number]) {
   if (series.length === 0) {
     throw new Error('No data is available for this combination of filters.');
   }
@@ -37,10 +37,10 @@ function validateSeriesMetadata(series: ProcessedRow[], statistic: typeof CANCER
   }
 }
 
-// Get the name of the series (i.e., the data in ProcessedRow[]) from one row (array)
+// Get the name of the series (i.e., the data in IncidenceProcessedRow[]) from one row (array)
 // Also stories the variables and variable values used to make the name
 // Use validateSeriesMetadata first to check that each row has same metadata
-function getSeriesLabels(row: ProcessedRow, statistic: typeof CANCER_STATISTICS[number]): SeriesLabels {
+function getSeriesLabels(row: IncidenceProcessedRow, statistic: typeof CANCER_STATISTICS[number]): IncidenceSeriesLabels {
 	
 	// Get variables used for labels for statistic
   	const labelVariables = STATISTICS_CONFIG[statistic].labelVariables
@@ -64,22 +64,22 @@ function getSeriesLabels(row: ProcessedRow, statistic: typeof CANCER_STATISTICS[
 // Base function for creating chart/table series - used by returnAllChartSeries and returnAllTableSeries
 // removeAll Years: whether to remove "all years" values from series (keep for table, remove for chart)
 function returnAllSeries<T extends number | string>(
-  allMatchedItems: ProcessedRow[] | ProcessedRow[][],
+  allMatchedItems: IncidenceProcessedRow[] | IncidenceProcessedRow[][],
   statistic: typeof CANCER_STATISTICS[number],
-  yearConverter: (row: ProcessedRow) => T,
+  yearConverter: (row: IncidenceProcessedRow) => T,
   removeAllYears = true,
-): BaseSeries<T>[] {
+): IncidenceBaseSeries<T>[] {
 	console.log("allMatchedItems: ", allMatchedItems)
 
-	// If input data is ProcessedRow[] (representing one series), convert to 
-	// ProcessedRow[][] by wrapping in outer array
-	const seriesData: ProcessedRow[][] =
+	// If input data is IncidenceProcessedRow[] (representing one series), convert to 
+	// IncidenceProcessedRow[][] by wrapping in outer array
+	const seriesData: IncidenceProcessedRow[][] =
     Array.isArray(allMatchedItems[0])
-        ? allMatchedItems as ProcessedRow[][]
-        : [allMatchedItems as ProcessedRow[]];
+        ? allMatchedItems as IncidenceProcessedRow[][]
+        : [allMatchedItems as IncidenceProcessedRow[]];
 
 	// Create chart data 
-	var allSeries: BaseSeries<T>[] = [];
+	var allSeries: IncidenceBaseSeries<T>[] = [];
 
 	if (seriesData){ 
 
@@ -144,7 +144,7 @@ function returnAllSeries<T extends number | string>(
 }
 
 // Helper for calculating margins
-function computeLabelMargins(allSeries: ChartSeries[] | TableSeries[], minSize: number, maxSize: number) {
+function computeLabelMargins(allSeries: IncidenceChartSeries[] | IncidenceTableSeries[], minSize: number, maxSize: number) {
 	// Calculate size of margin based on label lengths
 	// Will be length of longest label * 7, with min of 150 and max of 275
 	const longestNameLength = Math.max(
@@ -239,7 +239,7 @@ const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/lege
 // Options for single or multi line chart
 // Also adds data to the chart
 function setLineChartOptions(
-	allSeries: ChartSeries[], 
+	allSeries: IncidenceChartSeries[], 
 	optionString: string, 
 	statistic: typeof CANCER_STATISTICS[number], 
 	filter?: IncidenceFilter
@@ -431,7 +431,7 @@ function getTableChartHeight(numberOfSeries: number, nSubtitleLines: number): nu
 
 // Create chart options for eCharts table
 function setTableChartOptions(
-	allSeries: TableSeries[], 
+	allSeries: IncidenceTableSeries[], 
 	optionString: string, 
 	statistic: typeof CANCER_STATISTICS[number],
 	filter: IncidenceFilter, 
@@ -635,9 +635,9 @@ function setTableChartOptions(
 
 // For chart series, want years to be a number array without "allyears"
 export function returnAllChartSeries(
-  allMatchedItems: ProcessedRow[] | ProcessedRow[][],
+  allMatchedItems: IncidenceProcessedRow[] | IncidenceProcessedRow[][],
   statistic: typeof CANCER_STATISTICS[number],
-): ChartSeries[] {
+): IncidenceChartSeries[] {
   return returnAllSeries(
     allMatchedItems,
 	statistic,
@@ -648,9 +648,9 @@ export function returnAllChartSeries(
 
 // For table series, want years to be a string array with "allyears"
 export function returnAllTableSeries(
-  allMatchedItems: ProcessedRow[] | ProcessedRow[][],
+  allMatchedItems: IncidenceProcessedRow[] | IncidenceProcessedRow[][],
   statistic: typeof CANCER_STATISTICS[number],
-): TableSeries[] {
+): IncidenceTableSeries[] {
 	let series = returnAllSeries(
 		allMatchedItems,
 		statistic,
@@ -659,13 +659,13 @@ export function returnAllTableSeries(
 	);
 
 	// Convert "allyears" text to "All years"
-	series = series.map(tableSeries => ({
-		...tableSeries,
-		years: tableSeries.years.map(year =>
+	series = series.map(IncidenceTableSeries => ({
+		...IncidenceTableSeries,
+		years: IncidenceTableSeries.years.map(year =>
 		year.toLowerCase() === "allyears" ? "All years" : year
 		),
 	}));
-	console.log("tableSeries: ", series)
+	console.log("IncidenceTableSeries: ", series)
 
   	return series;
 
@@ -691,7 +691,7 @@ export function initChart(element: string, addResizeListener: boolean = true): e
  // function to render a single- or multi-line chart
 export function renderLineChart(
 	cancerType: string, 
-	allSeries: ChartSeries[], 
+	allSeries: IncidenceChartSeries[], 
 	chartInstance: echarts.ECharts, 
 	statistic: typeof CANCER_STATISTICS[number],
 	filter?: IncidenceFilter // option, for creating subtitle with filter options
@@ -736,7 +736,7 @@ export function renderLineChart(
  // Function to render a table
 export function renderTableChart(
 	cancerType: string, 
-	allSeries: TableSeries[], 
+	allSeries: IncidenceTableSeries[], 
 	chartInstance: echarts.ECharts,
 	statistic: typeof CANCER_STATISTICS[number],
 	filter: IncidenceFilter

@@ -1,5 +1,5 @@
 import { INCIDENCE_VARIABLE_ALL, INCIDENCE_VARIABLE_OPTIONS, INCIDENCE_FILTER_VARIABLES } from "./variables";
-import type { IncidenceFilterVariable, IncidenceFilter, CSVRow, ProcessedRow } from "../types";
+import type { IncidenceFilterVariable, IncidenceFilter, IncidenceCSVRow, IncidenceProcessedRow } from "../types";
 
 /* Functions for querying incidence and survival spreadsheets */
 
@@ -13,9 +13,9 @@ import type { IncidenceFilterVariable, IncidenceFilter, CSVRow, ProcessedRow } f
  * array use OR logic.
  */
 function queryIncidenceRows(
-    rows: CSVRow[],
+    rows: IncidenceCSVRow[],
     filter: Partial<IncidenceFilter> | FilterSelection,
-): ProcessedRow[] {
+): IncidenceProcessedRow[] {
     return rows.filter((row) =>
         INCIDENCE_FILTER_VARIABLES.every((variable) => {
             const filterValue = filter[variable];
@@ -177,7 +177,7 @@ export function processIncidenceFilter(
 /**
  * Run an IncidenceFilter against the CSV rows.
  *
- * Returns one ProcessedRow[] for every logical result/series.
+ * Returns one IncidenceProcessedRow[] for every logical result/series.
  *
  * A single-selection query therefore returns:
  *
@@ -194,9 +194,9 @@ export function processIncidenceFilter(
  * ]
  */
 export function queryIncidenceFilter(
-    rows: CSVRow[],
+    rows: IncidenceCSVRow[],
     filter: IncidenceFilter,
-): ProcessedRow[][] {
+): IncidenceProcessedRow[][] {
     validateIncidenceFilter(filter);
 
     const multiVariables = getMultiSelectVariables(filter);
@@ -247,7 +247,7 @@ export function queryIncidenceFilter(
     // Query the pre-query results for each combination.
     // ---------------------------------------------------------
 
-    const groupedResults: ProcessedRow[][] = [];
+    const groupedResults: IncidenceProcessedRow[][] = [];
 
     for (const combination of combinations) {
         const matchedRows = queryIncidenceRows(

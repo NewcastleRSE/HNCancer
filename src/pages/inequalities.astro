@@ -104,7 +104,7 @@ import SexSelect from "../components/SexSelect.astro";
     renderBlankChart,
     initChart,
   } from "../utils/charts";
-  import type { CSVRow } from "../types";
+  import type { IncidenceCSVRow } from "../types";
 
   // Initialise chart
   const myChart = initChart("csv-chart");
@@ -293,15 +293,15 @@ import SexSelect from "../components/SexSelect.astro";
       console.log(region_input);
 
       // parse CSV text directly into JSON format
-      Papa.parse<CSVRow>(csvText, {
+      Papa.parse<IncidenceCSVRow>(csvText, {
         header: true, // ignore the first line
         skipEmptyLines: true,
         complete: (results) => {
           // console.log(results);
 
-          var tempTable: CSVRow[] = [];
-          var tempTableTwo: CSVRow[] = [];
-          var matchedItems: CSVRow[] = [];
+          var tempTable: IncidenceCSVRow[] = [];
+          var tempTableTwo: IncidenceCSVRow[] = [];
+          var matchedItems: IncidenceCSVRow[] = [];
 
           if (CSV_file === "") {
             renderBlankChart(cancerTypeToShow, myChart);
