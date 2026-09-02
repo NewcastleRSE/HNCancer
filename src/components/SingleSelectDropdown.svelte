@@ -17,11 +17,25 @@
   } = $props();
 </script>
 
-<label>
-  {label}
-  <select bind:value={selectedValue} onchange={onChange}>
-    {#each options as option}
-      <option value={option.value}>{option.label}</option>
-    {/each}
-  </select>
+<label class="inline-select">
+  {`${label}:`}
+  <div class="select select-compact">
+    <select
+      id={`select-${label.toLowerCase()}`}
+      bind:value={selectedValue}
+      onchange={onChange}
+    >
+      {#each options as option}
+        <option value={option.value}>{option.label}</option>
+      {/each}
+    </select>
+  </div>
 </label>
+
+<style>
+  .inline-select {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+</style>
