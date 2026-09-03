@@ -1,34 +1,26 @@
+import { file } from 'astro:schema';
 import type { IncidenceProcessedRow } from '../types';
 import Papa from "papaparse";
 
 const BASE_URL = import.meta.env.BASE_URL;
 
+// Mapping from cancer type to filename
+const CANCER_FILENAME_PREFIX = { 
+	"Head and Neck": "HNC", 
+	"Laryngeal": "larynx", 
+	"Oral Cavity": "oral_cavity", 
+	"Oropharyngeal": "oropharynx", 
+	"Other": "other" 
+} as const;
+
 // determines which spreadsheet should be used
-export function cancerType(value: string){
+export function cancerType(value: keyof typeof CANCER_FILENAME_PREFIX){
 
-	var CSV_file = '';
+	const filenameSuffix = "_incidence_data_file.csv"
+	const csvFile = BASE_URL + "/" + CANCER_FILENAME_PREFIX[value] + filenameSuffix;
+	console.log("CSV file: ", csvFile)
 
-	switch (value) {
-		case "Head and Neck":
-			CSV_file = BASE_URL + '/Incidence-HNC.csv';
-			break;
-		case "Laryngeal":
-			CSV_file = BASE_URL + '/Incidence-Larynx.csv';
-			break;
-		case "Oral Cavity":
-			CSV_file = BASE_URL + '/Incidence-OralCavity.csv';
-			break;
-		case "Oropharyngeal":
-			CSV_file = BASE_URL + '/Incidence-Oropharynx.csv';
-			break;
-		case "Other":
-			CSV_file = BASE_URL + '/Incidence-Other.csv';
-			break;
-		default:
-			console.log(`Cancer type not recognised`);
-		}
-
-	return CSV_file;
+	return csvFile;
  }
 
   export function createDownloadFile(rates: string[], lowerBounds: number[], upperBounds: number[]){

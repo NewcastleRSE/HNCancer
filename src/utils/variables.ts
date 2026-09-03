@@ -54,11 +54,11 @@ export const INCIDENCE_LABEL_VARIABLES = [
 // these are the possible levels when a variable is used as a filter.
 export const INCIDENCE_VARIABLE_OPTIONS = {
     dep: [
-        { value: 'IMD1', label: 'IMD1 (most deprived)' },
-        { value: 'IMD2', label: 'IMD2' },
-        { value: 'IMD3', label: 'IMD3' },
-        { value: 'IMD4', label: 'IMD4' },
-        { value: 'IMD5', label: 'IMD5 (least deprived)' },
+        { value: 'IMD Q1', label: 'IMD Q1 (most deprived)' },
+        { value: 'IMD Q2', label: 'IMD Q2' },
+        { value: 'IMD Q3', label: 'IMD Q3' },
+        { value: 'IMD Q4', label: 'IMD Q4' },
+        { value: 'IMD Q5', label: 'IMD Q5 (least deprived)' },
     ],
 
     region: [
@@ -99,8 +99,8 @@ export const INCIDENCE_VARIABLE_OPTIONS = {
     ],
 
     stage: [
-        { value: "Early", label: "Early Stage"},
-        { value: "Advanced", label: "Advanced Stage"}
+        { value: "Early", label: "Early Stage (TNM I and II)"},
+        { value: "Advanced", label: "Advanced Stage (TNM III and IV)"}
     ],
 
 } as const;
