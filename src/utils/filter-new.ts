@@ -3,34 +3,6 @@ import { messageContainer } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
-// determines which spreadsheet should be used
-export function cancerType(value: string){
-
-	var CSV_file = '';
-
-	switch (value) {
-		case "Head and Neck":
-			CSV_file = BASE_URL + '/Incidence-HNC.csv';
-			break;
-		case "Laryngeal":
-			CSV_file = BASE_URL + '/Incidence-Larynx.csv';
-			break;
-		case "Oral Cavity":
-			CSV_file = BASE_URL + '/Incidence-OralCavity.csv';
-			break;
-		case "Oropharyngeal":
-			CSV_file = BASE_URL + '/Incidence-Oropharynx.csv';
-			break;
-		case "Other":
-			CSV_file = BASE_URL + '/Incidence-Other.csv';
-			break;
-			default:
-			console.log(`Cancer type not recognised`);
-		}
-
-	return CSV_file;
- }
-
 // -- Messages --
 
 
