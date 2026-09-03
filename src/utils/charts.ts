@@ -307,12 +307,12 @@ function setLineChartOptions(
     	},
 		tooltip: {
 			trigger: 'axis',
-			// To keep "year" as string in tooltip label
+			valueFormatter: (value: number) => value.toFixed(1),
 			axisPointer: {
 				label: {
-					formatter: (params: any) => params.value.toString()
+				formatter: (params: any) => String(params.value)
 				}
-    		}
+			}
 		},
 		xAxis: {
 			// Treat years as "value" to make more robust 
@@ -457,9 +457,9 @@ function setTableChartOptions(
 		series.years.map((year, yearIndex) => [
 			years.indexOf(year),
 			rowIndex,
-			series.rates[yearIndex],
-			series.ciLb[yearIndex],
-			series.ciUb[yearIndex],
+			series.rates[yearIndex].toFixed(1),
+			series.ciLb[yearIndex].toFixed(1),
+			series.ciUb[yearIndex].toFixed(1),
 			series.count[yearIndex],
 		])
 	);
