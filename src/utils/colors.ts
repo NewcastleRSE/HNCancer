@@ -46,11 +46,6 @@ const CMAP_CAT = [
 ];
 
 // Male/Female categorical
-// const CMAP_MF = [
-//     '#12a4ac',
-//     '#934fb5',
-// ]
-
 const CMAP_MF = [
     '#4c96c4',
     '#9b2643'

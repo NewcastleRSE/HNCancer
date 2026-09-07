@@ -4,7 +4,6 @@ import Header from "./header.astro";
 import CancerTypeSelect from "../components/CancerTypeSelect.astro";
 import PagePanels from "../components/PagePanels.astro";
 import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelectionsDynamic.svelte";
-// import IncidenceQuerySelections from "../components/IncidenceQuerySelections.svelte";
 ---
 
 <Layout>
@@ -38,11 +37,6 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
     createTidyDownloadFile,
     createDownloadFilename,
   } from "../utils/filter";
-  // import {
-  //   generateSingleRowTable,
-  //   generateMultiRowTable,
-  //   generateDichotomyMultiRowTable,
-  // } from "../utils/filter-new";
   import { setMessageText, clearMessageText } from "../utils/filter-new";
   import { cancer_type, downloadLinkBtn } from "../types";
   import {
@@ -165,27 +159,6 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
                     download="${filename}.csv">
                   Download CSV
                 </a>`;
-              // TODO: remove table code if confirm replacement with eCharts table
-
-              // if (groupedResults.length === 1) {
-              //   resultsContainer.innerHTML = generateSingleRowTable(
-              //     cancerTypeToShow,
-              //     groupedResults[0],
-              //     filter,
-              //   );
-              // } else if (filter.sex.length > 1) {
-              //   resultsContainer.innerHTML = generateDichotomyMultiRowTable(
-              //     cancerTypeToShow,
-              //     groupedResults,
-              //     filter,
-              //   );
-              // } else {
-              //   resultsContainer.innerHTML = generateMultiRowTable(
-              //     cancerTypeToShow,
-              //     groupedResults,
-              //     filter,
-              //   );
-              // }
             }
           } catch (error) {
             console.error(error);

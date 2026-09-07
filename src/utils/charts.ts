@@ -783,21 +783,3 @@ export function renderBlankChart(cancerType: string, chartInstance: echarts.ECha
 	chartInstance.clear();
 
 }
-
-
-// not currently used
-export function getRatesFromMatchedItems(allMatchedItems: any[]){
-
-	var allRates: string[] = [];
-
-		if (allMatchedItems){ 
-			// get the indicence rates
-			allMatchedItems.forEach(item => {
-			var temp = item.map((row: { rate: any; }) => row.rate).filter(Boolean);
-			allRates.push(temp);
-		});
-
-		return allRates;
-
-   	}
-};
