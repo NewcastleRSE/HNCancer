@@ -1,3 +1,7 @@
+/*
+Module with helpers for displaying UI messages.
+*/
+
 import { messageContainer } from '../types';
 
 const BASE_URL = import.meta.env.BASE_URL;
@@ -26,6 +30,7 @@ export function setMessageText(
   messageContainer.classList.remove("is-hidden");
 }
 
+// Clear message text in search results
 export function clearMessageText() {
   if (!messageContainer) return;
 
