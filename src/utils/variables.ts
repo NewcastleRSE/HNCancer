@@ -73,8 +73,6 @@ export const INCIDENCE_VARIABLE_OPTIONS = {
         { value: 'Yorkshire and The Humber', label: 'Yorkshire and the Humber' },
     ],
 
-    // Note - sex does not match current UI component since there is also a 
-    // "Male and Female" option
     sex: [
         { value: 'Male', label: 'Male' },
         { value: 'Female', label: 'Female' },
