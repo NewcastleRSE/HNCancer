@@ -156,7 +156,21 @@ export const STATISTICS_CONFIG = {
   }
 } as const;
 
+// --------------------
+// --- CANCER TYPES ---
+// --------------------
+
+export const CANCER_TYPES = [
+    "Head and Neck",
+    "Laryngeal",
+	"Oral Cavity", 
+	"Oropharyngeal",
+	"Other"
+] as const;
+
+// ------------------------
 // --- HELPER FUNCTIONS ---
+// ------------------------
 
 // Conversion function from values to labels
 export function getVariableValueLabels(

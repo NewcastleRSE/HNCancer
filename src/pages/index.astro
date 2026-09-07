@@ -33,7 +33,7 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
   // Import PapaParse directly into your client bundle
   import Papa from "papaparse";
   import {
-    cancerType,
+    getCancerCSVFilename,
     createTidyDownloadFile,
     createDownloadFilename,
   } from "../utils/files";
@@ -65,11 +65,11 @@ import IncidenceQuerySelectionsDynamic from "../components/IncidenceQuerySelecti
 
     console.log("Incidence filter:", filter);
 
-    const CSV_file = cancerType(cancer_type.value);
-    const cancerTypeToShow: string = cancer_type.value;
-
     // Hard-coded statistic for now
     const statistic = "incidence";
+
+    const CSV_file = getCancerCSVFilename(cancer_type.value, statistic);
+    const cancerTypeToShow: string = cancer_type.value;
 
     try {
       const response = await fetch(CSV_file);

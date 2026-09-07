@@ -3,12 +3,13 @@ Module for loading and saving data files.
 */
 
 import type { IncidenceProcessedRow } from '../types';
+import { CANCER_TYPES, CANCER_STATISTICS } from '../utils/variables';
 import Papa from "papaparse";
 
 const BASE_URL = import.meta.env.BASE_URL;
 
 // Mapping from cancer type to filename
-const CANCER_FILENAME_PREFIX = { 
+const CANCER_FILENAME_PREFIX: Record<typeof CANCER_TYPES[number], string> = { 
 	"Head and Neck": "HNC", 
 	"Laryngeal": "larynx", 
 	"Oral Cavity": "oral_cavity", 
@@ -16,11 +17,13 @@ const CANCER_FILENAME_PREFIX = {
 	"Other": "other" 
 } as const;
 
-// determines which spreadsheet should be used
-export function cancerType(value: keyof typeof CANCER_FILENAME_PREFIX){
+// Get the filename of the spreadsheet to load based on the type of cancer and statistic
+// Filenames must have the format 
+// <CANCER_FILENAME_PREFIX[cancerType]>_<statistic>_data_file.csv
+export function getCancerCSVFilename(cancerType: typeof CANCER_TYPES[number], statistic: typeof CANCER_STATISTICS[number]){
 
-	const filenameSuffix = "_incidence_data_file.csv"
-	const csvFile = BASE_URL + "/" + CANCER_FILENAME_PREFIX[value] + filenameSuffix;
+	const filenameSuffix = `_${statistic}_data_file.csv`
+	const csvFile = BASE_URL + "/" + CANCER_FILENAME_PREFIX[cancerType] + filenameSuffix;
 	console.log("CSV file: ", csvFile)
 
 	return csvFile;
