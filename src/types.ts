@@ -1,13 +1,25 @@
-import { INCIDENCE_FILTER_VARIABLES, INCIDENCE_LABEL_VARIABLES } from "./utils/variables"
+import { 
+    INCIDENCE_FILTER_VARIABLES, 
+    INCIDENCE_LABEL_VARIABLES, 
+    SURVIVAL_FILTER_VARIABLES,
+    SURVIVAL_LABEL_VARIABLES
+} from "./utils/variables"
 
+// ---------------------
 // --- UI components ---
+// ---------------------
+
 export const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
 export const messageContainer = document.getElementById('search-message') as HTMLInputElement;
 export const downloadLinkBtn = document.getElementById('download-link') as HTMLInputElement;	
 
+// ------------
 // --- Data ---
+// ------------
 
-// --- Raw incidence CSV data ---
+// --- Incidence ---
+
+// Raw incidence CSV data
 export interface IncidenceCSVRow {
     diagnosisYear: string;
     ageBand: string;
@@ -20,7 +32,8 @@ export interface IncidenceCSVRow {
     rate: number;
     ciLb: number;
     ciUb: number;
-}
+};
+
 // Object with data and metadata for one indicidence value (rate) 
 // Created by filtering/aggregating IncidenceCSVRow data
 // Unlike IncidenceCSVRow, ciLb, ciUb, and rate may be strings
@@ -36,20 +49,67 @@ export interface IncidenceProcessedRow {
   route: string,
   sex: string,
   stage: string
-}
+};
 
 // Possible keys for IncidenceFilter - must be in INCIDENCE_FILTER_VARIABLES
 export type IncidenceFilterVariable =
     (typeof INCIDENCE_FILTER_VARIABLES)[number];
 
 // Object for filtering Incidence spreadsheet
-// TODO: Make the values more specific based on INCIDENCE_VARIABLE_OPTIONS and INCIDENCE_VARIABLE_ALL
-// spreadsheet values
 export type IncidenceFilter = {
     [K in IncidenceFilterVariable]: string[];
 };
 
+// --- Survival ---
+
+// Raw survival CSV data
+// Unlike incidence CSV data, 
+// - has: quarterYear, survival
+// - does not have: count, rate
+export interface SurvivalCSVRow {
+    quarterYear: number,
+    survival: number,
+    diagnosisYear: string;
+    ageBand: string;
+    sex: string;
+    dep: string;
+    region: string;
+    stage: string;
+    route: string;
+    ciLb: number;
+    ciUb: number;
+};
+
+// Object with data and metadata for one survival row (quarterYear survival value) 
+// Created by filtering SurvivalCSVRow data
+export interface SurvivalProcessedRow {
+    quarterYear: number,
+    survival: number,
+    diagnosisYear: string;
+    ageBand: string;
+    sex: string;
+    dep: string;
+    region: string;
+    stage: string;
+    route: string;
+    ciLb: number;
+    ciUb: number;
+};
+
+// Possible keys for SurvivalFiler - must be in SURVIVAL_FILTER_VARIABLES
+export type SurvivalFilterVariable = 
+    (typeof SURVIVAL_FILTER_VARIABLES)[number];
+
+// Object for filtering Survival spreadsheet
+export type SurvivalFilter = {
+    [K in SurvivalFilterVariable]: string[];
+};
+
+// --------------
 // --- Charts ---
+// --------------
+
+// --- Incidence ---
 
 // Incidence data used for each series (line) in a chart or table
 export interface IncidenceBaseSeries<TYear> {
@@ -72,8 +132,29 @@ export interface IncidenceSeriesLabels {
     variables: Partial<Record<typeof INCIDENCE_LABEL_VARIABLES[number], string>>;
 }
 
+// --- Survival ---
+
+// Survival data used for each series (line) in a chart or table
+export interface SurvivalSeries {
+  name: string;
+  quarterYear: number[];
+  survival: number[];
+  ciLb: number[];
+  ciUb: number[];
+  variables: Partial<Record<typeof SURVIVAL_LABEL_VARIABLES[number], string>>;
+}
+
+// Chart labels info (for any variables that are not "all")
+// "variables" are the variable: value pairs before they were concatenated into the series name
+export interface SurvivalSeriesLabels {
+    name: string; // full label
+    variables: Partial<Record<typeof SURVIVAL_LABEL_VARIABLES[number], string>>;
+}
+
+// --- Colors ---
+
 // Create colormapping for chart
 export interface ChartColorMapping {
-    key: typeof INCIDENCE_LABEL_VARIABLES[number] | null;
+    key: typeof INCIDENCE_LABEL_VARIABLES[number] | typeof SURVIVAL_LABEL_VARIABLES[number] |  null;
     colors: Record<string, string>;
 }

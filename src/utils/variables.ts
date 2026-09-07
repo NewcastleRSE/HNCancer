@@ -7,7 +7,7 @@ Uses separate variables for different statistics (incidence and survival) for si
 although could potentially be refactored to reduce redundancy.
 */
 
-import type { IncidenceFilterVariable } from "../types";
+import type { IncidenceFilterVariable, SurvivalFilterVariable } from "../types";
 
 // -----------------
 // --- Incidence ---
@@ -49,9 +49,10 @@ export const INCIDENCE_LABEL_VARIABLES = [
     'stage'
 ] as const;
 
-// Options for each variable
+// Options for each variable that is used to filter the Indicence data 
 // Values must match possible values in CSV tables, but "all" values are excluded here -
 // these are the possible levels when a variable is used as a filter.
+// See INCIDENCE_VARIABLE_ALL for "all" values.
 export const INCIDENCE_VARIABLE_OPTIONS = {
     dep: [
         { value: 'IMD Q1', label: 'IMD Q1 (most deprived)' },
@@ -106,7 +107,7 @@ export const INCIDENCE_VARIABLE_OPTIONS = {
 // "All" options for each variable
 // Values correspond to spreadsheet values for each variable and should not be changed 
 // unless spreadsheet format changes.
-// Labels can be used to label UI elements; updated these will only impact the displayed
+// Labels can be used to label UI elements; updating these will only impact the displayed
 // text in the UI.
 export const INCIDENCE_VARIABLE_ALL = {
     dep: {value: "All IMD Quintiles", label: "All IMD Quintiles"},
@@ -115,6 +116,71 @@ export const INCIDENCE_VARIABLE_ALL = {
     ageBand: {value: "all ages", label: "All Ages"},
     route: {value: "All Routes", label: "All Routes"},
     stage: {value: "All Stages", label: "All Stages"}
+
+} as const;
+
+// ----------------
+// --- SURVIVAL ---
+// ----------------
+
+// Survival data has a similar format to Incidence data, but adds "diagnosisYear" as an
+// additional variable used to filter the data (x and y data are instead quarterYear and survival).
+// Most of these constants therefore build off of Incidence constants to add diagnosisYear information.
+
+// Variables used to filter spreadsheet (use spreadsheet column names)
+export const SURVIVAL_FILTER_VARIABLES = [
+    "diagnosisYear",
+    ...INCIDENCE_FILTER_VARIABLES
+] as const;
+
+// Labels for each variable for the UI
+export const SURVIVAL_FILTER_LABELS: Record<
+  SurvivalFilterVariable,
+  string
+> = {
+    diagnosisYear: "Year diagnosed",
+    ...INCIDENCE_FILTER_LABELS
+} as const;
+
+// Variables used to create series names/labels
+// Info from these variables is also used for symbol/colour encoding
+// Order determines order of labels and prioritisation for colour encoding 
+// (if multiple variables have different values across the series)
+export const SURVIVAL_LABEL_VARIABLES = [
+    'diagnosisYear',
+    ...INCIDENCE_LABEL_VARIABLES
+] as const;
+
+// Options for each variable that is used to filter the Survival data.
+// These are the same as for Indicence data, with the addition of the diagnosisYear
+// variable.
+// Values must match possible values in CSV tables, but "all" values are excluded here -
+// these are the possible levels when a variable is used as a filter.
+// See SURVIVAL_VARIABLE_ALL for "all" values.
+export const SURVIVAL_VARIABLE_OPTIONS = {
+
+    // Add incidence variables
+    ...INCIDENCE_VARIABLE_OPTIONS,
+
+    // Add diagnosisYear as additional variable
+    diagnosisYear: [
+        { value: '2016', label: '2016' },
+        { value: '2017', label: '2017' },
+        { value: '2018', label: '2018' },
+        { value: '2019', label: '2019' },
+        { value: '2020', label: '2020' },
+        { value: '2021', label: '2021' },
+    ],
+} as const;
+
+// "All" options for each variable
+// Values correspond to spreadsheet values for each variable and should not be changed 
+// unless spreadsheet format changes.
+// Labels can be used to label UI elements; updating these will only impact the displayed
+// text in the UI.
+export const SURVIVAL_VARIABLE_ALL = {
+    diagnosisYear: {value: "All Years", label: "All Years"},
+    ...INCIDENCE_VARIABLE_ALL
 
 } as const;
 
@@ -130,7 +196,8 @@ export const VARIABLE_TYPE = {
     sex: "categorical",
     ageBand: "continuous",
     route: "categorical",
-    stage: "categorical"
+    stage: "categorical",
+    diagnosisYear: "continuous",
 } as const;
 
 // ----------------------------
@@ -151,6 +218,16 @@ export const STATISTICS_CONFIG = {
     filterLabels: INCIDENCE_FILTER_LABELS,
     // Variables used to create chart labels
     labelVariables: INCIDENCE_LABEL_VARIABLES
+  },
+  survival: {
+    // Values for variables in spreadsheet
+    variableOptions: SURVIVAL_VARIABLE_OPTIONS,
+    variableAll: SURVIVAL_VARIABLE_ALL,
+    // Variables used to filter data in query
+    filterVariables: SURVIVAL_FILTER_VARIABLES,
+    filterLabels: SURVIVAL_FILTER_LABELS,
+    // Variables used to create chart labels
+    labelVariables: SURVIVAL_LABEL_VARIABLES
   }
 } as const;
 
