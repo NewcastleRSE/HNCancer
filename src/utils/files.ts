@@ -1,3 +1,7 @@
+/*
+Module for loading and saving data files.
+*/
+
 import type { IncidenceProcessedRow } from '../types';
 import Papa from "papaparse";
 
