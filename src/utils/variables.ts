@@ -204,8 +204,18 @@ export const VARIABLE_TYPE = {
 // --- STATISTICS CONSTANTS ---
 // ----------------------------
 
-/* Array of possible statistics */
-export const CANCER_STATISTICS = ["incidence"] as const;
+/* Possible statistics */
+export const CANCER_STATISTICS = ["incidence", "survival"] as const;
+export type Statistic = typeof CANCER_STATISTICS[number];
+
+/* Cancer statistics options, with labels */
+export const CANCER_STATISTICS_OPTIONS: {
+  value: Statistic,
+  label: string
+}[] = [
+    {value: "incidence", label: "Incidence"},
+    {value: "survival", label: "Survival"}
+]
 
 /* Variables for each statistic */
 export const STATISTICS_CONFIG = {
@@ -229,7 +239,7 @@ export const STATISTICS_CONFIG = {
     // Variables used to create chart labels
     labelVariables: SURVIVAL_LABEL_VARIABLES
   }
-} as const;
+} satisfies Record<Statistic, object>;
 
 // --------------------
 // --- CANCER TYPES ---
