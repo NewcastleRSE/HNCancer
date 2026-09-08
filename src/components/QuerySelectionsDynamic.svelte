@@ -1,44 +1,102 @@
 <script lang="ts">
+  // Component that generates the inputs for selecting the variables to use to filter
+  // the Incidence or Survival data
+  // Note - this was originally designed solely for Incidence data and has been generalised
+  // to handle Survival data as well, which has made the types much more complicated.
+  // We use type assertions here as a relatively simple fix, but typing could be improved
+  // if the statistics become more complicated.
+
+  // IMPORTANT: this component does not handle updating the UI if the input "statistic"
+  // is changed - it relies on being destroyed and recreated when the statistic is changed.
+
   import CheckboxGroup from "./CheckboxGroup.svelte";
   import SingleSelectDropdown from "./SingleSelectDropdown.svelte";
-  import { initIncidenceFilter, processIncidenceFilter } from "../utils/query";
-  import {
-    INCIDENCE_VARIABLE_OPTIONS,
-    INCIDENCE_VARIABLE_ALL,
-    INCIDENCE_FILTER_VARIABLES,
-    INCIDENCE_FILTER_LABELS,
-  } from "../utils/variables";
-  import type { IncidenceFilter, IncidenceFilterVariable } from "../types";
+  import { initFilter, processFilter } from "../utils/query";
+  import { STATISTICS_CONFIG } from "../utils/variables";
+  import type { Statistic } from "../utils/variables";
+  import type {
+    IncidenceFilter,
+    IncidenceFilterVariable,
+    SurvivalFilter,
+    SurvivalFilterVariable,
+  } from "../types";
+
+  // Props
+  let { statistic }: { statistic: Statistic } = $props();
+
+  // Helper functions to fix types - use assertions to tell Typescript which
+  // types are being used based on the statistic
+  function getVariableAll(variable: FilterVariable) {
+    if (statistic === "incidence") {
+      return STATISTICS_CONFIG.incidence.variableAll[
+        variable as IncidenceFilterVariable
+      ];
+    }
+
+    return STATISTICS_CONFIG.survival.variableAll[
+      variable as SurvivalFilterVariable
+    ];
+  }
+
+  function getVariableOptions(variable: FilterVariable) {
+    if (statistic === "incidence") {
+      return STATISTICS_CONFIG.incidence.variableOptions[
+        variable as IncidenceFilterVariable
+      ];
+    }
+
+    return STATISTICS_CONFIG.survival.variableOptions[
+      variable as SurvivalFilterVariable
+    ];
+  }
+
+  function getFilterLabel(variable: FilterVariable) {
+    if (statistic === "incidence") {
+      return STATISTICS_CONFIG.incidence.filterLabels[
+        variable as IncidenceFilterVariable
+      ];
+    }
+
+    return STATISTICS_CONFIG.survival.filterLabels[
+      variable as SurvivalFilterVariable
+    ];
+  }
+
+  // Get filter variables for the statistic
+  const filterVariables = STATISTICS_CONFIG[statistic].filterVariables;
+
+  type FilterVariable = IncidenceFilterVariable | SurvivalFilterVariable;
+  type Filter = IncidenceFilter | SurvivalFilter;
 
   // Initialise variable for storing filter state (updated using UI inputs)
-  let filter = $state<IncidenceFilter>(initIncidenceFilter());
+  let filter = $state<Filter>(initFilter(filterVariables));
 
   // --- Initial UI states ---
 
   // Variable selected for comparison using dropdown
   // Also keep track of previous selection so that those options can be cleared from the
   // filter variable when the comparison variable is changed
-  let comparisonVariable = $state<IncidenceFilterVariable | "">("");
-  let previousComparisonVariable: IncidenceFilterVariable | "" = "";
+  let comparisonVariable = $state<FilterVariable | "">("");
+  let previousComparisonVariable: FilterVariable | "" = "";
 
   // Whether to compare male and female
 
   let compareMaleFemale = $state(false);
 
-  // Single select options
-  let singleSelections = $state<Record<IncidenceFilterVariable, string>>({
-    dep: INCIDENCE_VARIABLE_ALL.dep.value,
-    region: INCIDENCE_VARIABLE_ALL.region.value,
-    sex: INCIDENCE_VARIABLE_ALL.sex.value,
-    ageBand: INCIDENCE_VARIABLE_ALL.ageBand.value,
-    route: INCIDENCE_VARIABLE_ALL.route.value,
-    stage: INCIDENCE_VARIABLE_ALL.stage.value,
-  });
+  // Single select options - set to "all" values by default
+  let singleSelections = $state(
+    Object.fromEntries(
+      filterVariables.map((variable) => [
+        variable,
+        getVariableAll(variable).value,
+      ]),
+    ),
+  );
 
   // --- Variables to show in filter section ---
 
   let singleSelectVariables = $derived(
-    INCIDENCE_FILTER_VARIABLES.filter(
+    filterVariables.filter(
       (variable) =>
         variable !== comparisonVariable &&
         !(variable === "sex" && compareMaleFemale),
@@ -46,11 +104,17 @@
   );
 
   // --- Helpers for creating components ---
-  function getSingleSelectOptions(variable: IncidenceFilterVariable) {
-    return [
-      INCIDENCE_VARIABLE_ALL[variable],
-      ...INCIDENCE_VARIABLE_OPTIONS[variable],
-    ];
+  function getSingleSelectOptions(variable: FilterVariable) {
+    return [getVariableAll(variable), ...getVariableOptions(variable)];
+  }
+
+  function setFilterValue(variable: FilterVariable, value: string[]) {
+    if (statistic === "incidence") {
+      (filter as IncidenceFilter)[variable as IncidenceFilterVariable] = value;
+      return;
+    }
+
+    (filter as SurvivalFilter)[variable as SurvivalFilterVariable] = value;
   }
 
   // ---  Functions for UI updates ---
@@ -59,19 +123,19 @@
   function handleComparisonChange() {
     // Clear the old comparison variable's comparison selections
     if (previousComparisonVariable) {
-      filter[previousComparisonVariable] = [];
+      setFilterValue(previousComparisonVariable, []);
     }
 
     // The newly selected comparison variable is no longer controlled
     // by its single-select dropdown - reset filter for that variable
     if (comparisonVariable) {
-      filter[comparisonVariable] = [];
+      setFilterValue(comparisonVariable, []);
     }
 
     // Also reset dropdown value for the corresponding single-select dropdown
     if (comparisonVariable) {
       singleSelections[comparisonVariable] =
-        INCIDENCE_VARIABLE_ALL[comparisonVariable].value;
+        getVariableAll(comparisonVariable).value;
     }
 
     // Set new comparison variable
@@ -87,40 +151,8 @@
     }
   }
 
-  function handleSingleSelectChange(variable: IncidenceFilterVariable) {
-    filter[variable] = [singleSelections[variable]];
-  }
-
-  // --- Functions for submit/reset ---
-
-  // Handle passing filter object to astro page for query
-  function submitQuery() {
-    const processedFilter = processIncidenceFilter(filter);
-
-    document.dispatchEvent(
-      new CustomEvent<IncidenceFilter>("incidence-query", {
-        detail: processedFilter,
-      }),
-    );
-  }
-
-  // Handle resetting the filter values and the UI state
-  function resetQuery() {
-    // Reset filter settings
-    filter = initIncidenceFilter();
-
-    // Update UI variables/state
-    comparisonVariable = "";
-    previousComparisonVariable = "";
-    compareMaleFemale = false;
-    singleSelections = {
-      dep: INCIDENCE_VARIABLE_ALL.dep.value,
-      region: INCIDENCE_VARIABLE_ALL.region.value,
-      sex: INCIDENCE_VARIABLE_ALL.sex.value,
-      ageBand: INCIDENCE_VARIABLE_ALL.ageBand.value,
-      route: INCIDENCE_VARIABLE_ALL.route.value,
-      stage: INCIDENCE_VARIABLE_ALL.stage.value,
-    };
+  function handleSingleSelectChange(variable: FilterVariable) {
+    setFilterValue(variable, [singleSelections[variable]]);
   }
 </script>
 
@@ -148,10 +180,10 @@
           >
             <option value="">Select variable</option>
 
-            {#each INCIDENCE_FILTER_VARIABLES as variable}
+            {#each filterVariables as variable}
               {#if variable !== "sex"}
                 <option value={variable}>
-                  {INCIDENCE_FILTER_LABELS[variable]}
+                  {getFilterLabel(variable)}
                 </option>
               {/if}
             {/each}
@@ -163,13 +195,28 @@
 
   <div class="compare-checkbox-group">
     {#if comparisonVariable}
-      <CheckboxGroup
-        label={"Choose " +
-          INCIDENCE_FILTER_LABELS[comparisonVariable].toLowerCase() +
-          " values to compare"}
-        options={INCIDENCE_VARIABLE_OPTIONS[comparisonVariable]}
-        bind:selectedValues={filter[comparisonVariable]}
-      />
+      <!-- branch to handle typing -->
+      {#if statistic === "incidence"}
+        <CheckboxGroup
+          label={getFilterLabel(comparisonVariable)}
+          options={getVariableOptions(comparisonVariable)}
+          bind:selectedValues={
+            (filter as IncidenceFilter)[
+              comparisonVariable as IncidenceFilterVariable
+            ]
+          }
+        />
+      {:else}
+        <CheckboxGroup
+          label={getFilterLabel(comparisonVariable)}
+          options={getVariableOptions(comparisonVariable)}
+          bind:selectedValues={
+            (filter as SurvivalFilter)[
+              comparisonVariable as SurvivalFilterVariable
+            ]
+          }
+        />
+      {/if}
     {/if}
   </div>
   <hr />
@@ -178,7 +225,7 @@
     <div class="single-select-filters">
       {#each singleSelectVariables as variable}
         <SingleSelectDropdown
-          label={INCIDENCE_FILTER_LABELS[variable]}
+          label={getFilterLabel(variable)}
           options={getSingleSelectOptions(variable)}
           bind:selectedValue={singleSelections[variable]}
           onChange={() => handleSingleSelectChange(variable)}
@@ -188,15 +235,6 @@
   </div>
 </div>
 <hr />
-<div class="button-container">
-  <button type="button" class="button is-primary" onclick={submitQuery}>
-    Search
-  </button>
-
-  <button type="button" class="button is-primary" onclick={resetQuery}>
-    Reset
-  </button>
-</div>
 
 <style>
   .query-inputs > * + * {
@@ -221,13 +259,6 @@
   /* Min height for checkbox group so doesn't move components beneath when added dynamically */
   .compare-checkbox-group {
     min-height: 135px;
-  }
-
-  /* Buttons */
-  .button-container {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
   }
 
   /* Set up grid for compare components */

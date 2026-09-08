@@ -158,3 +158,18 @@ export interface ChartColorMapping {
     key: typeof INCIDENCE_LABEL_VARIABLES[number] | typeof SURVIVAL_LABEL_VARIABLES[number] |  null;
     colors: Record<string, string>;
 }
+
+// -------------------------------------
+// --- Config for types by statistic ---
+// -------------------------------------
+
+export type StatisticTypes = {
+    incidence: {
+        filter: IncidenceFilter;
+        filterVariable: IncidenceFilterVariable;
+    };
+    survival: {
+        filter: SurvivalFilter;
+        filterVariable: SurvivalFilterVariable;
+    };
+};

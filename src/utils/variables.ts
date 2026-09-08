@@ -239,7 +239,7 @@ export const STATISTICS_CONFIG = {
     // Variables used to create chart labels
     labelVariables: SURVIVAL_LABEL_VARIABLES
   }
-} satisfies Record<Statistic, object>;
+} as const satisfies Record<Statistic, object>;
 
 // --------------------
 // --- CANCER TYPES ---

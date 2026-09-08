@@ -1,5 +1,6 @@
-import { INCIDENCE_VARIABLE_ALL, INCIDENCE_VARIABLE_OPTIONS, INCIDENCE_FILTER_VARIABLES } from "./variables";
-import type { IncidenceFilterVariable, IncidenceFilter, IncidenceCSVRow, IncidenceProcessedRow } from "../types";
+import { STATISTICS_CONFIG, INCIDENCE_FILTER_VARIABLES } from "./variables";
+import type {Statistic} from "./variables";
+import type { IncidenceFilterVariable, IncidenceFilter, SurvivalFilter, IncidenceCSVRow, IncidenceProcessedRow } from "../types";
 
 /* Functions for querying incidence and survival spreadsheets */
 
@@ -138,40 +139,103 @@ function buildSelectionCombinations(
     return combinations;
 }
 
-// --- Exported functions ---
-
-
 /**
- * Creates a processed IncidenceFilter by:
- * - ordering selections according to INCIDENCE_VARIABLE_OPTIONS
+ * Processes filter values by:
+ * - ordering selections according to the variable options
  * - replacing empty selections with the corresponding "all" value
  *
  * The original filter is not modified.
  */
-export function processIncidenceFilter(
-  filter: IncidenceFilter,
-): IncidenceFilter {
-  const processedFilter = { ...filter };
+function processFilterValues<T extends string>(
+    filter: Record<T, string[]>,
+    filterVariables: readonly T[],
+    variableOptions: {
+        readonly [K in T]: readonly { value: string }[];
+    },
+    variableAll: {
+        readonly [K in T]: { value: string };
+    },
+): Record<T, string[]> {
+    const processedFilter = { ...filter };
 
-  // Sort selections according to INCIDENCE_VARIABLE_OPTIONS.
-  for (const variable of INCIDENCE_FILTER_VARIABLES) {
-    const optionOrder: string[] = INCIDENCE_VARIABLE_OPTIONS[variable].map(
-      (option) => option.value,
-    );
+    for (const variable of filterVariables) {
+        const optionOrder = variableOptions[variable].map(
+            (option) => option.value,
+        );
 
-    processedFilter[variable] = [...processedFilter[variable]].sort(
-      (a, b) => optionOrder.indexOf(a) - optionOrder.indexOf(b),
-    );
-  }
-
-  // Replace empty selections with the corresponding "all" value.
-  for (const variable of INCIDENCE_FILTER_VARIABLES) {
-    if (processedFilter[variable].length === 0) {
-      processedFilter[variable] = [INCIDENCE_VARIABLE_ALL[variable].value];
+        processedFilter[variable] = [...processedFilter[variable]].sort(
+            (a, b) =>
+                optionOrder.indexOf(a) - optionOrder.indexOf(b),
+        );
     }
-  }
 
-  return processedFilter;
+    for (const variable of filterVariables) {
+        if (processedFilter[variable].length === 0) {
+            processedFilter[variable] = [
+                variableAll[variable].value,
+            ];
+        }
+    }
+
+    return processedFilter;
+}
+/**
+ * Processes an IncidenceFilter.
+ */
+function processIncidenceFilter(
+    filter: IncidenceFilter,
+): IncidenceFilter {
+    const config = STATISTICS_CONFIG.incidence;
+
+    return processFilterValues(
+        filter,
+        config.filterVariables,
+        config.variableOptions,
+        config.variableAll,
+    );
+}
+
+/**
+ * Processes a SurvivalFilter.
+ */
+function processSurvivalFilter(
+    filter: SurvivalFilter,
+): SurvivalFilter {
+    const config = STATISTICS_CONFIG.survival;
+
+    return processFilterValues(
+        filter,
+        config.filterVariables,
+        config.variableOptions,
+        config.variableAll,
+    );
+}
+
+// --- Exported functions ---
+
+/**
+ * Process a filter - see processFilterValues
+ */
+
+type ProcessFilterArgs =
+    | {
+        statistic: "incidence";
+        filter: IncidenceFilter;
+    }
+    | {
+        statistic: "survival";
+        filter: SurvivalFilter;
+    };
+
+
+export function processFilter(
+    args: ProcessFilterArgs,
+): IncidenceFilter | SurvivalFilter {
+    if (args.statistic === "incidence") {
+        return processIncidenceFilter(args.filter);
+    }
+
+    return processSurvivalFilter(args.filter);
 }
 
 /**
@@ -264,14 +328,17 @@ export function queryIncidenceFilter(
 }
 
 /**
- * Creates an empty IncidenceFilter with an empty selection for each variable.
+ * Creates an empty IncidenceFilter or SurvivalFilter with an empty selection for each 
+ * variable.
  */
-export function initIncidenceFilter(): IncidenceFilter {
-    return INCIDENCE_FILTER_VARIABLES.reduce(
+export function initFilter<T extends string>(
+    filterVariables: readonly T[],
+): Record<T, string[]> {
+    return filterVariables.reduce(
         (filter, variable) => {
             filter[variable] = [];
             return filter;
         },
-        {} as IncidenceFilter
+        {} as Record<T, string[]>,
     );
 }
