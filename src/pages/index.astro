@@ -26,7 +26,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     createDownloadFilename,
   } from "../utils/files";
   import { setMessageText, clearMessageText } from "../utils/messages";
-  import { cancer_type, downloadLinkBtn } from "../types";
+  import { downloadLinkBtn, SearchQuery } from "../types";
   import {
     returnAllChartSeries,
     returnAllTableSeries,
@@ -36,11 +36,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     initChart,
   } from "../utils/charts";
   import { queryIncidenceFilter } from "../utils/query";
-  import type {
-    IncidenceCSVRow,
-    IncidenceProcessedRow,
-    IncidenceFilter,
-  } from "../types";
+  import type { IncidenceCSVRow, IncidenceProcessedRow } from "../types";
 
   // Initialise chart
   const myChart = initChart("csv-chart");
@@ -48,16 +44,15 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
   // Initialise table
   const myTable = initChart("csv-table", false);
 
-  document.addEventListener("incidence-query", async (event) => {
-    const filter = (event as CustomEvent<IncidenceFilter>).detail;
+  document.addEventListener("cancer-query", async (event) => {
+    // Casting as searchQuery - we know that the relationship between types was maintained
+    // in the search component
+    const searchQuery = (event as CustomEvent<SearchQuery>).detail;
+    const { statistic, filter, cancer } = searchQuery; // unpack
 
-    console.log("Incidence filter:", filter);
+    console.log("Search filter:", filter);
 
-    // Hard-coded statistic for now
-    const statistic = "incidence";
-
-    const CSV_file = getCancerCSVFilename(cancer_type.value, statistic);
-    const cancerTypeToShow: string = cancer_type.value;
+    const CSV_file = getCancerCSVFilename(cancer, statistic);
 
     try {
       const response = await fetch(CSV_file);
@@ -74,7 +69,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
         complete: (results) => {
           if (CSV_file === "") {
-            renderBlankChart(cancerTypeToShow, myChart);
+            renderBlankChart(cancer, myChart);
             setMessageText("Please choose a cancer type.", "danger");
 
             downloadLinkBtn.innerHTML = "<p></p>";
@@ -95,8 +90,8 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
             console.log("groupedResults:", groupedResults);
 
             if (groupedResults.length < 1) {
-              renderBlankChart(cancerTypeToShow, myChart);
-              renderBlankChart(cancerTypeToShow, myTable);
+              renderBlankChart(cancer, myChart);
+              renderBlankChart(cancer, myTable);
               setMessageText(
                 "No data is available for these search filters.",
                 "danger",
@@ -120,14 +115,14 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
               clearMessageText(); // Remove search message text
               renderLineChart(
-                cancerTypeToShow,
+                cancer,
                 allChartSeries,
                 myChart,
                 statistic,
                 filter,
               );
               renderTableChart(
-                cancerTypeToShow,
+                cancer,
                 allTableSeries,
                 myTable,
                 statistic,
@@ -139,9 +134,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
               // ---------------------------------------------
 
               const encodedUri = createTidyDownloadFile(groupedResults);
-              const filename = createDownloadFilename(
-                cancerTypeToShow + "_incidence",
-              );
+              const filename = createDownloadFilename(cancer + "_incidence");
               downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
                     href="${encodedUri}"
                     download="${filename}.csv">

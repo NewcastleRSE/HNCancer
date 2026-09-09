@@ -11,7 +11,6 @@
 
   import CheckboxGroup from "./CheckboxGroup.svelte";
   import SingleSelectDropdown from "./SingleSelectDropdown.svelte";
-  import { initFilter, processFilter } from "../utils/query";
   import { STATISTICS_CONFIG } from "../utils/variables";
   import type { Statistic } from "../utils/variables";
   import type {
@@ -22,7 +21,13 @@
   } from "../types";
 
   // Props
-  let { statistic }: { statistic: Statistic } = $props();
+  let {
+    statistic,
+    filter = $bindable(),
+  }: {
+    statistic: Statistic;
+    filter: Filter;
+  } = $props();
 
   // Helper functions to fix types - use assertions to tell Typescript which
   // types are being used based on the statistic
@@ -67,9 +72,6 @@
 
   type FilterVariable = IncidenceFilterVariable | SurvivalFilterVariable;
   type Filter = IncidenceFilter | SurvivalFilter;
-
-  // Initialise variable for storing filter state (updated using UI inputs)
-  let filter = $state<Filter>(initFilter(filterVariables));
 
   // --- Initial UI states ---
 

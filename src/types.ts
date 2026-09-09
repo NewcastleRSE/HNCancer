@@ -2,7 +2,8 @@ import {
     INCIDENCE_FILTER_VARIABLES, 
     INCIDENCE_LABEL_VARIABLES, 
     SURVIVAL_FILTER_VARIABLES,
-    SURVIVAL_LABEL_VARIABLES
+    SURVIVAL_LABEL_VARIABLES,
+    CANCER_TYPES
 } from "./utils/variables"
 
 // ---------------------
@@ -159,10 +160,23 @@ export interface ChartColorMapping {
     colors: Record<string, string>;
 }
 
-// -------------------------------------
-// --- Config for types by statistic ---
-// -------------------------------------
+// ------------------------------------------------------------------------
+// --- Types to descript relationship between statistic and other types ---
+// ------------------------------------------------------------------------
 
+export type SearchQuery =
+    | {
+        statistic: "incidence";
+        cancer: typeof CANCER_TYPES[number];
+        filter: IncidenceFilter;
+    }
+    | {
+        statistic: "survival";
+        cancer: typeof CANCER_TYPES[number];
+        filter: SurvivalFilter;
+    };
+
+// Config for types by statistic
 export type StatisticTypes = {
     incidence: {
         filter: IncidenceFilter;

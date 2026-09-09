@@ -4,8 +4,13 @@
   import SingleSelectDropdownNoDefault from "./SingleSelectDropdownNoDefault.svelte";
   import QuerySelectionsDynamic from "./QuerySelectionsDynamic.svelte";
   import type { Statistic } from "../utils/variables";
-  import { CANCER_TYPES, CANCER_STATISTICS_OPTIONS } from "../utils/variables";
+  import {
+    CANCER_TYPES,
+    CANCER_STATISTICS_OPTIONS,
+    STATISTICS_CONFIG,
+  } from "../utils/variables";
   import type { IncidenceFilter, SurvivalFilter } from "../types";
+  import { initFilter, processFilter } from "../utils/query";
 
   // Turn cancer types into object with values/label fields for select components
   const cancerOptions = CANCER_TYPES.map((value) => ({
@@ -17,50 +22,70 @@
   let cancerSelection = $state("");
   let statisticSelection: Statistic | "" = $state("");
 
-  //   // Filter state
-  //   type Filter = IncidenceFilter | SurvivalFilter;
-  //   let filter = $state<Filter | null>(null);
+  // Filter state
+  type Filter = IncidenceFilter | SurvivalFilter;
+  let filter = $state<Filter | null>(null);
+
+  // Function for initialising filter when statistic changes
+  // Ensures creates filter with correct fields for that statistic
+  function handleStatisticChange() {
+    if (statisticSelection === "incidence") {
+      filter = initFilter(STATISTICS_CONFIG.incidence.filterVariables);
+    } else if (statisticSelection === "survival") {
+      filter = initFilter(STATISTICS_CONFIG.survival.filterVariables);
+    } else {
+      filter = null;
+    }
+  }
 
   // --- Functions for submit/reset ---
 
-  // Handle passing statistic and filter object to astro page for query
-  //   function submitQuery() {
-  //     if (statistic === "incidence") {
-  //       const processedFilter = processFilter({
-  //         statistic: "incidence",
-  //         filter: filter as IncidenceFilter,
-  //       });
+  //   Handle passing cancer, statistic, and filter object to astro page for query
+  function submitQuery() {
+    // Return early if missing inputs
+    if (!statisticSelection || !filter || !cancerSelection) {
+      return;
+    }
 
-  //       document.dispatchEvent(
-  //         new CustomEvent("cancer-query", {
-  //           detail: {
-  //             statistic: "incidence",
-  //             filter: processedFilter,
-  //           },
-  //         }),
-  //       );
-  //     } else {
-  //       const processedFilter = processFilter({
-  //         statistic: "survival",
-  //         filter: filter as SurvivalFilter,
-  //       });
+    // Create inputs for processing filter (need branch to handle typing)
+    let processArgs = null;
+    if (statisticSelection === "incidence") {
+      processArgs = {
+        statistic: statisticSelection,
+        filter: filter as IncidenceFilter,
+      };
+    } else if (statisticSelection === "survival") {
+      processArgs = {
+        statistic: statisticSelection,
+        filter: filter as SurvivalFilter,
+      };
+    }
 
-  //       document.dispatchEvent(
-  //         new CustomEvent("cancer-query", {
-  //           detail: {
-  //             statistic: "survival",
-  //             filter: processedFilter,
-  //           },
-  //         }),
-  //       );
-  //     }
-  //   }
+    // Pass inputs to page
+    if (processArgs) {
+      const processedFilter = processFilter(processArgs);
+
+      const searchQuery = {
+        statistic: statisticSelection, // Statistic to display (determines spreadsheet used)
+        filter: processedFilter, // Search filter (for querying spreadsheet using Papaparse)
+        cancer: cancerSelection, // Type of cancer (also determines spreadsheet used)
+      };
+
+      document.dispatchEvent(
+        new CustomEvent("cancer-query", {
+          detail: searchQuery,
+        }),
+      );
+    }
+  }
 
   // Handle resetting the filter values and the UI state
   function resetQuery() {
     // Reset dropdowns
     cancerSelection = "";
     statisticSelection = "";
+    // Reset filter
+    filter = null;
   }
 </script>
 
@@ -80,12 +105,15 @@
       defaultDisabledText="Select a statistic..."
       options={CANCER_STATISTICS_OPTIONS}
       bind:selectedValue={statisticSelection}
+      onChange={handleStatisticChange}
     />
     <hr />
-    {#if statisticSelection}
+    <!-- Create query components when statistic is selected -->
+    <!-- Also explicitly check for filter so typescript knows that filter is not null -->
+    {#if statisticSelection && filter}
       <!-- Recreate this component every time the statistic changes -->
       {#key statisticSelection}
-        <QuerySelectionsDynamic statistic={statisticSelection} />
+        <QuerySelectionsDynamic statistic={statisticSelection} bind:filter />
       {/key}
     {/if}
   </div>

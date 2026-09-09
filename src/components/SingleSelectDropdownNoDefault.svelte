@@ -12,16 +12,22 @@
     defaultDisabledText,
     options,
     selectedValue = $bindable(""),
+    onChange,
   }: {
     id: string;
     defaultDisabledText: string;
     options: readonly Option[];
     selectedValue: string;
+    onChange?: () => void;
   } = $props();
 </script>
 
 <div class="select select-compact">
-  <select id={`select-${id.toLowerCase()}`} bind:value={selectedValue}>
+  <select
+    id={`select-${id.toLowerCase()}`}
+    bind:value={selectedValue}
+    onchange={onChange}
+  >
     <!-- Initial default - will be disabled when changed -->
     <option value="" disabled>{defaultDisabledText}</option>
 
