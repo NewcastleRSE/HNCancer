@@ -98,8 +98,8 @@ export const INCIDENCE_VARIABLE_OPTIONS = {
     ],
 
     stage: [
-        { value: "Early", label: "Early Stage (TNM I and II)"},
-        { value: "Advanced", label: "Advanced Stage (TNM III and IV)"}
+        { value: "Early", label: "Early (TNM I and II)"},
+        { value: "Advanced", label: "Advanced (TNM III and IV)"}
     ],
 
 } as const;
