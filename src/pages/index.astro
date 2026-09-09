@@ -26,7 +26,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     createDownloadFilename,
   } from "../utils/files";
   import { setMessageText, clearMessageText } from "../utils/messages";
-  import { downloadLinkBtn, SearchQuery } from "../types";
+  import { downloadLinkBtn } from "../types";
   import {
     returnAllChartSeries,
     returnAllTableSeries,
@@ -36,7 +36,12 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     initChart,
   } from "../utils/charts";
   import { queryIncidenceFilter } from "../utils/query";
-  import type { IncidenceCSVRow, IncidenceProcessedRow } from "../types";
+  import type {
+    IncidenceCSVRow,
+    SurvivalCSVRow,
+    IncidenceProcessedRow,
+    SearchQuery,
+  } from "../types";
 
   // Initialise chart
   const myChart = initChart("csv-chart");
@@ -50,117 +55,126 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     const searchQuery = (event as CustomEvent<SearchQuery>).detail;
     const { statistic, filter, cancer } = searchQuery; // unpack
 
-    console.log("Search filter:", filter);
+    // Messages for if inputs are not provided; otherwise, run search
+    if (!cancer) {
+      setMessageText("Please choose a cancer type.", "danger");
+    } else if (!statistic) {
+      setMessageText("Please choose a statistic.", "danger");
+    } else {
+      console.log("Search filter:", filter);
+      const CSV_file = getCancerCSVFilename(cancer, statistic);
 
-    const CSV_file = getCancerCSVFilename(cancer, statistic);
+      try {
+        const response = await fetch(CSV_file);
 
-    try {
-      const response = await fetch(CSV_file);
+        if (!response.ok) {
+          throw new Error("Failed to retrieve data file.");
+        }
 
-      if (!response.ok) {
-        throw new Error("Failed to retrieve data file.");
-      }
+        const csvText = await response.text();
 
-      const csvText = await response.text();
+        Papa.parse<IncidenceCSVRow | SurvivalCSVRow>(csvText, {
+          header: true,
+          skipEmptyLines: true,
 
-      Papa.parse<IncidenceCSVRow>(csvText, {
-        header: true,
-        skipEmptyLines: true,
-
-        complete: (results) => {
-          if (CSV_file === "") {
-            renderBlankChart(cancer, myChart);
-            setMessageText("Please choose a cancer type.", "danger");
-
-            downloadLinkBtn.innerHTML = "<p></p>";
-
-            return;
-          }
-
-          try {
-            const rows = results.data as IncidenceProcessedRow[];
-
-            // ---------------------------------------------
-            // Query
-            // ---------------------------------------------
-
-            const groupedResults = queryIncidenceFilter(rows, filter);
-
-            console.log("filter:", filter);
-            console.log("groupedResults:", groupedResults);
-
-            if (groupedResults.length < 1) {
+          complete: (results) => {
+            if (CSV_file === "") {
               renderBlankChart(cancer, myChart);
-              renderBlankChart(cancer, myTable);
               setMessageText(
-                "No data is available for these search filters.",
+                "Please choose a cancer type and statistic.",
                 "danger",
               );
-            } else {
-              // Data for charts
-              const allChartSeries = returnAllChartSeries(
-                groupedResults,
-                statistic,
-              );
 
-              // Data for tables (includes "all years")
-              const allTableSeries = returnAllTableSeries(
-                groupedResults,
-                statistic,
-              );
+              downloadLinkBtn.innerHTML = "<p></p>";
 
-              // ---------------------------------------------------------
-              // Update chart and eCharts table
-              // ---------------------------------------------------------
+              return;
+            }
 
-              clearMessageText(); // Remove search message text
-              renderLineChart(
-                cancer,
-                allChartSeries,
-                myChart,
-                statistic,
-                filter,
-              );
-              renderTableChart(
-                cancer,
-                allTableSeries,
-                myTable,
-                statistic,
-                filter,
-              );
+            try {
+              const rows = results.data as IncidenceProcessedRow[];
 
               // ---------------------------------------------
-              // Download
+              // Query
               // ---------------------------------------------
 
-              const encodedUri = createTidyDownloadFile(groupedResults);
-              const filename = createDownloadFilename(cancer + "_incidence");
-              downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
+              const groupedResults = queryIncidenceFilter(rows, filter);
+
+              console.log("filter:", filter);
+              console.log("groupedResults:", groupedResults);
+
+              if (groupedResults.length < 1) {
+                renderBlankChart(cancer, myChart);
+                renderBlankChart(cancer, myTable);
+                setMessageText(
+                  "No data is available for these search filters.",
+                  "danger",
+                );
+              } else {
+                // Data for charts
+                const allChartSeries = returnAllChartSeries(
+                  groupedResults,
+                  statistic,
+                );
+
+                // Data for tables (includes "all years")
+                const allTableSeries = returnAllTableSeries(
+                  groupedResults,
+                  statistic,
+                );
+
+                // ---------------------------------------------------------
+                // Update chart and eCharts table
+                // ---------------------------------------------------------
+
+                clearMessageText(); // Remove search message text
+                renderLineChart(
+                  cancer,
+                  allChartSeries,
+                  myChart,
+                  statistic,
+                  filter,
+                );
+                renderTableChart(
+                  cancer,
+                  allTableSeries,
+                  myTable,
+                  statistic,
+                  filter,
+                );
+
+                // ---------------------------------------------
+                // Download
+                // ---------------------------------------------
+
+                const encodedUri = createTidyDownloadFile(groupedResults);
+                const filename = createDownloadFilename(cancer + "_incidence");
+                downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
                     href="${encodedUri}"
                     download="${filename}.csv">
                   Download CSV
                 </a>`;
+              }
+            } catch (error) {
+              console.error(error);
+              const msg =
+                error instanceof Error
+                  ? error.message
+                  : "Unable to process query.";
+              setMessageText(msg, "danger");
+
+              downloadLinkBtn.innerHTML = "<p></p>";
             }
-          } catch (error) {
-            console.error(error);
-            const msg =
-              error instanceof Error
-                ? error.message
-                : "Unable to process query.";
-            setMessageText(msg, "danger");
+          },
 
-            downloadLinkBtn.innerHTML = "<p></p>";
-          }
-        },
+          error: (error: Error) => {
+            setMessageText(`Parsing error: ${error.message}`, "danger");
+          },
+        });
+      } catch (err) {
+        setMessageText("Could not fetch CSV file with cancer data.", "danger");
 
-        error: (error: Error) => {
-          setMessageText(`Parsing error: ${error.message}`, "danger");
-        },
-      });
-    } catch (err) {
-      setMessageText("Could not fetch CSV file with cancer data.", "danger");
-
-      console.error(err);
+        console.error(err);
+      }
     }
   });
 </script>

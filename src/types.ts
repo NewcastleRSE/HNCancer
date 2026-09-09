@@ -165,6 +165,11 @@ export interface ChartColorMapping {
 
 export type SearchQuery =
     | {
+        statistic: "";
+        cancer: "";
+        filter: null;
+    }
+    | {
         statistic: "incidence";
         cancer: typeof CANCER_TYPES[number];
         filter: IncidenceFilter;

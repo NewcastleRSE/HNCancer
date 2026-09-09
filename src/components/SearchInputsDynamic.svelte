@@ -42,9 +42,19 @@
 
   //   Handle passing cancer, statistic, and filter object to astro page for query
   function submitQuery() {
-    // Return early if missing inputs
+    // Return early if missing inputs with null values so can display message to user
     if (!statisticSelection || !filter || !cancerSelection) {
-      return;
+      const searchQuery = {
+        statistic: statisticSelection,
+        filter: null,
+        cancer: cancerSelection,
+      };
+
+      document.dispatchEvent(
+        new CustomEvent("cancer-query", {
+          detail: searchQuery,
+        }),
+      );
     }
 
     // Create inputs for processing filter (need branch to handle typing)
