@@ -180,7 +180,12 @@ export const SURVIVAL_VARIABLE_OPTIONS = {
 // text in the UI.
 export const SURVIVAL_VARIABLE_ALL = {
     diagnosisYear: {value: "All Years", label: "All Years"},
-    ...INCIDENCE_VARIABLE_ALL
+    dep: {value: "All IMD Quintiles", label: "All IMD Quintiles"},
+    region: {value: "All Regions", label: "All Regions"},
+    sex: {value: "All Persons", label: "All Persons"},
+    ageBand: {value: "All Ages", label: "All Ages"}, // value is capitalised (unlike incidence spreadsheet)
+    route: {value: "All Routes", label: "All Routes"},
+    stage: {value: "All Stages", label: "All Stages"}
 
 } as const;
 

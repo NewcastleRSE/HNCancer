@@ -35,13 +35,8 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     renderBlankChart,
     initChart,
   } from "../utils/charts";
-  import { queryIncidenceFilter } from "../utils/query";
-  import type {
-    IncidenceCSVRow,
-    SurvivalCSVRow,
-    IncidenceProcessedRow,
-    SearchQuery,
-  } from "../types";
+  import { queryFilter } from "../utils/query";
+  import type { IncidenceCSVRow, SurvivalCSVRow, SearchQuery } from "../types";
 
   // Initialise chart
   const myChart = initChart("csv-chart");
@@ -91,13 +86,30 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
             }
 
             try {
-              const rows = results.data as IncidenceProcessedRow[];
+              const rows = results.data;
 
               // ---------------------------------------------
               // Query
               // ---------------------------------------------
 
-              const groupedResults = queryIncidenceFilter(rows, filter);
+              let groupedResults;
+
+              // Branch to handle types
+              if (statistic === "incidence") {
+                groupedResults = queryFilter({
+                  statistic,
+                  rows: rows as IncidenceCSVRow[],
+                  filter,
+                });
+              } else if (statistic === "survival") {
+                groupedResults = queryFilter({
+                  statistic,
+                  rows: rows as SurvivalCSVRow[],
+                  filter,
+                });
+              } else {
+                throw new Error(`Unsupported statistic: ${statistic}`);
+              }
 
               console.log("filter:", filter);
               console.log("groupedResults:", groupedResults);

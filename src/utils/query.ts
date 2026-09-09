@@ -1,24 +1,34 @@
-import { STATISTICS_CONFIG, INCIDENCE_FILTER_VARIABLES } from "./variables";
-import type {Statistic} from "./variables";
-import type { IncidenceFilterVariable, IncidenceFilter, SurvivalFilter, IncidenceCSVRow, IncidenceProcessedRow } from "../types";
+import { STATISTICS_CONFIG } from "./variables";
+import type { IncidenceFilter, SurvivalFilter, IncidenceCSVRow, SurvivalCSVRow } from "../types";
 
 /* Functions for querying incidence and survival spreadsheets */
 
 // --- Helper functions and types used locally ---
 
+type FilterSelection<T extends string> = Partial<
+    Record<T, string>
+>;
+
+
 /**
- * Apply an IncidenceFilter to a set of rows.
+ * Apply a Filter to a set of rows.
  *
  * Every filter variable is an AND constraint.
  * If a variable contains an array, the values within that
  * array use OR logic.
  */
-function queryIncidenceRows(
-    rows: IncidenceCSVRow[],
-    filter: Partial<IncidenceFilter> | FilterSelection,
-): IncidenceProcessedRow[] {
+function queryRows<
+    TFilterVariable extends string,
+    TRow extends Record<TFilterVariable, string | undefined>,
+>(
+    rows: TRow[],
+    filter:
+        | Partial<Record<TFilterVariable, string[]>>
+        | FilterSelection<TFilterVariable>,
+    filterVariables: readonly TFilterVariable[],
+): TRow[] {
     return rows.filter((row) =>
-        INCIDENCE_FILTER_VARIABLES.every((variable) => {
+        filterVariables.every((variable) => {
             const filterValue = filter[variable];
 
             if (filterValue === undefined) {
@@ -33,30 +43,40 @@ function queryIncidenceRows(
 /**
  * Return the variables which have multiple selected values.
  */
-function getMultiSelectVariables(
-  filter: IncidenceFilter,
-): IncidenceFilterVariable[] {
-  return INCIDENCE_FILTER_VARIABLES.filter(
-    (variable) => filter[variable].length > 1,
-  );
+function getMultiSelectVariables<T extends string>(
+    filter: Record<T, string[]>,
+    filterVariables: readonly T[],
+): T[] {
+    return filterVariables.filter(
+        (variable) => filter[variable].length > 1,
+    );
 }
 
 /**
- * Validate incidence filter.
+ * Validate Filter.
  * 
  * Current restriction:
  * - Normally only one variable can contain multiple values.
  * - sex may also contain multiple values at the same time as
  *   one other variable.
  */
-function validateIncidenceFilter(filter: IncidenceFilter): void {
-    const multiVariables = getMultiSelectVariables(filter);
+function validateFilter<T extends string>(
+    filter: Record<T, string[]>,
+    filterVariables: readonly T[],
+): void {
+    const multiVariables = getMultiSelectVariables(
+        filter,
+        filterVariables,
+    );
 
     if (multiVariables.length <= 1) {
         return;
     }
 
-    if (multiVariables.length === 2 && multiVariables.includes("sex")) {
+    if (
+        multiVariables.length === 2 &&
+        multiVariables.includes("sex" as T)
+    ) {
         return;
     }
 
@@ -71,13 +91,14 @@ function validateIncidenceFilter(filter: IncidenceFilter): void {
  * Multi-select variables are removed because they will be
  * applied separately when the individual result groups are built.
  */
-function buildPreQueryFilter(
-    filter: IncidenceFilter,
-    multiVariables: IncidenceFilterVariable[],
-): Partial<IncidenceFilter> {
-    const preQueryFilter: Partial<IncidenceFilter> = {};
+function buildPreQueryFilter<T extends string>(
+    filter: Record<T, string[]>,
+    multiVariables: T[],
+    filterVariables: readonly T[],
+): Partial<Record<T, string[]>> {
+    const preQueryFilter: Partial<Record<T, string[]>> = {};
 
-    for (const variable of INCIDENCE_FILTER_VARIABLES) {
+    for (const variable of filterVariables) {
         if (multiVariables.includes(variable)) {
             continue;
         }
@@ -88,9 +109,6 @@ function buildPreQueryFilter(
     return preQueryFilter;
 }
 
-type FilterSelection = Partial<
-    Record<IncidenceFilterVariable, string>
->;
 /**
  * Generate all combinations of the selected values in the
  * multi-select variables.
@@ -109,20 +127,20 @@ type FilterSelection = Partial<
  *   { dep: "IMD2", sex: "Female" }
  * ]
  */
-function buildSelectionCombinations(
-    filter: IncidenceFilter,
-    multiVariables: IncidenceFilterVariable[],
-): FilterSelection[] {
+function buildSelectionCombinations<T extends string>(
+    filter: Record<T, string[]>,
+    multiVariables: T[],
+): FilterSelection<T>[] {
     if (multiVariables.length === 0) {
         return [{}];
     }
 
-    let combinations: FilterSelection[] = [{}];
+    let combinations: FilterSelection<T>[] = [{}];
 
     for (const variable of multiVariables) {
         const values = filter[variable];
 
-        const nextCombinations: FilterSelection[] = [];
+        const nextCombinations: FilterSelection<T>[] = [];
 
         for (const combination of combinations) {
             for (const value of values) {
@@ -211,6 +229,106 @@ function processSurvivalFilter(
     );
 }
 
+
+/**
+ * Run a Filter against the CSV rows.
+ *
+ * Returns one IncidenceProcessedRow[] or one SurvivalProcessedRow[] for every logical 
+ * result/series.
+ *
+ * A single-selection query therefore returns:
+ *
+ * [
+ *   [row1, row2, row3, ...]
+ * ]
+ *
+ * A multi-selection query (for example, for IMD1, IMD2, and IMD3) returns:
+ *
+ * [
+ *   [IMD1 rows...],
+ *   [IMD2 rows...],
+ *   [IMD3 rows...]
+ * ]
+ */
+function queryFilterRows<T extends string>(
+    rows: Record<T, string | undefined>[],
+    filter: Record<T, string[]>,
+    filterVariables: readonly T[],
+): Record<T, string | undefined>[][] {
+    const multiVariables = getMultiSelectVariables(
+        filter,
+        filterVariables,
+    );
+
+    // ---------------------------------------------------------
+    // No multi-selection:
+    //
+    // Just perform one query.
+    // ---------------------------------------------------------
+
+    if (multiVariables.length === 0) {
+        const matchedRows = queryRows(
+            rows,
+            filter,
+            filterVariables,
+        );
+
+        return matchedRows.length > 0 ? [matchedRows] : [];
+    }
+
+    // ---------------------------------------------------------
+    // Pre-query:
+    //
+    // Apply all fixed/scalar constraints first.
+    // ---------------------------------------------------------
+
+    const preQueryFilter = buildPreQueryFilter(
+        filter,
+        multiVariables,
+        filterVariables,
+    );
+
+    const preQueryRows = queryRows(
+        rows,
+        preQueryFilter,
+        filterVariables,
+    );
+
+    // Nothing survived the fixed constraints.
+    if (preQueryRows.length === 0) {
+        return [];
+    }
+
+    // ---------------------------------------------------------
+    // Generate one filter combination for every logical result.
+    // ---------------------------------------------------------
+
+    const combinations = buildSelectionCombinations(
+        filter,
+        multiVariables,
+    );
+
+    // ---------------------------------------------------------
+    // Query the pre-query results for each combination.
+    // ---------------------------------------------------------
+
+    const groupedResults: Record<T, string | undefined>[][] = [];
+
+    for (const combination of combinations) {
+        const matchedRows = queryRows(
+            preQueryRows,
+            combination,
+            filterVariables,
+        );
+
+        if (matchedRows.length > 0) {
+            groupedResults.push(matchedRows);
+        }
+    }
+
+    return groupedResults;
+}
+
 // --- Exported functions ---
 
 /**
@@ -238,93 +356,35 @@ export function processFilter(
     return processSurvivalFilter(args.filter);
 }
 
-/**
- * Run an IncidenceFilter against the CSV rows.
- *
- * Returns one IncidenceProcessedRow[] for every logical result/series.
- *
- * A single-selection query therefore returns:
- *
- * [
- *   [row1, row2, row3, ...]
- * ]
- *
- * A multi-selection query (for example, for IMD1, IMD2, and IMD3) returns:
- *
- * [
- *   [IMD1 rows...],
- *   [IMD2 rows...],
- *   [IMD3 rows...]
- * ]
- */
-export function queryIncidenceFilter(
-    rows: IncidenceCSVRow[],
-    filter: IncidenceFilter,
-): IncidenceProcessedRow[][] {
-    validateIncidenceFilter(filter);
 
-    const multiVariables = getMultiSelectVariables(filter);
-
-    // ---------------------------------------------------------
-    // No multi-selection:
-    //
-    // Just perform one query.
-    // ---------------------------------------------------------
-
-    if (multiVariables.length === 0) {
-        const matchedRows = queryIncidenceRows(rows, filter);
-
-        return matchedRows.length > 0 ? [matchedRows] : [];
+type QueryFilterArgs =
+    | {
+        statistic: "incidence";
+        rows: IncidenceCSVRow[];
+        filter: IncidenceFilter;
     }
+    | {
+        statistic: "survival";
+        rows: SurvivalCSVRow[];
+        filter: SurvivalFilter;
+    };
 
-    // ---------------------------------------------------------
-    // Pre-query:
-    //
-    // Apply all fixed/scalar constraints first.
-    // ---------------------------------------------------------
-
-    const preQueryFilter = buildPreQueryFilter(
-        filter,
-        multiVariables,
-    );
-
-    const preQueryRows = queryIncidenceRows(
-        rows,
-        preQueryFilter,
-    );
-
-    // Nothing survived the fixed constraints.
-    if (preQueryRows.length === 0) {
-        return [];
-    }
-
-    // ---------------------------------------------------------
-    // Generate one filter combination for every logical result.
-    // ---------------------------------------------------------
-
-    const combinations = buildSelectionCombinations(
-        filter,
-        multiVariables,
-    );
-
-    // ---------------------------------------------------------
-    // Query the pre-query results for each combination.
-    // ---------------------------------------------------------
-
-    const groupedResults: IncidenceProcessedRow[][] = [];
-
-    for (const combination of combinations) {
-        const matchedRows = queryIncidenceRows(
-            preQueryRows,
-            combination,
+export function queryFilter(args: QueryFilterArgs) {
+    if (args.statistic === "incidence") {
+        return queryFilterRows(
+            args.rows,
+            args.filter,
+            STATISTICS_CONFIG.incidence.filterVariables,
         );
-
-        if (matchedRows.length > 0) {
-            groupedResults.push(matchedRows);
-        }
+    } else if (args.statistic === "survival") {
+        return queryFilterRows(
+            args.rows,
+            args.filter,
+            STATISTICS_CONFIG.survival.filterVariables,
+        );
+    } else {
+        throw new Error("Unsupported statistic.");
     }
-
-    return groupedResults;
 }
 
 /**
