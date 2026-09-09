@@ -10,7 +10,6 @@ import {
 // --- UI components ---
 // ---------------------
 
-export const cancer_type = document.getElementById('cancer-type') as HTMLInputElement;
 export const messageContainer = document.getElementById('search-message') as HTMLInputElement;
 export const downloadLinkBtn = document.getElementById('download-link') as HTMLInputElement;	
 
