@@ -99,32 +99,41 @@
   }
 </script>
 
+<!-- Note - Svelte components need to be wrapped in divs for * + * layout spacing to work -->
 <div class="search-inputs">
   <h1 class="h1-search"><em>Search cancer data:</em></h1>
   <div class="search-section">
     <h2 class="query-section">Cancer</h2>
-    <SingleSelectDropdownNoDefault
-      id="cancertype"
-      defaultDisabledText="Select a type of cancer..."
-      options={cancerOptions}
-      bind:selectedValue={cancerSelection}
-    />
+    <div>
+      <SingleSelectDropdownNoDefault
+        id="cancertype"
+        defaultDisabledText="Select a type of cancer..."
+        options={cancerOptions}
+        bind:selectedValue={cancerSelection}
+      />
+    </div>
+  </div>
+  <div class="search-section">
     <h2 class="query-section">Statistic</h2>
-    <SingleSelectDropdownNoDefault
-      id="statistic"
-      defaultDisabledText="Select a statistic..."
-      options={CANCER_STATISTICS_OPTIONS}
-      bind:selectedValue={statisticSelection}
-      onChange={handleStatisticChange}
-    />
-    <hr />
+    <div>
+      <SingleSelectDropdownNoDefault
+        id="statistic"
+        defaultDisabledText="Select a statistic..."
+        options={CANCER_STATISTICS_OPTIONS}
+        bind:selectedValue={statisticSelection}
+        onChange={handleStatisticChange}
+      />
+      <hr />
+    </div>
     <!-- Create query components when statistic is selected -->
     <!-- Also explicitly check for filter so typescript knows that filter is not null -->
     {#if statisticSelection && filter}
       <!-- Recreate this component every time the statistic changes -->
-      {#key statisticSelection}
-        <QuerySelectionsDynamic statistic={statisticSelection} bind:filter />
-      {/key}
+      <div>
+        {#key statisticSelection}
+          <QuerySelectionsDynamic statistic={statisticSelection} bind:filter />
+        {/key}
+      </div>
     {/if}
   </div>
   <div class="button-container">
@@ -149,5 +158,15 @@
     display: flex;
     gap: 1.5rem;
     align-items: center;
+  }
+
+  /* layout */
+
+  .search-inputs > * + * {
+    margin-top: 1rem;
+  }
+
+  .search-section > * + * {
+    margin-top: 0.25rem;
   }
 </style>
