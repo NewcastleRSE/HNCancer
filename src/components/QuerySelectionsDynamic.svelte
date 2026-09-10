@@ -220,7 +220,7 @@
     {/if}
   </div>
   <hr />
-  <h2 class="query-section">Additional filters</h2>
+  <h2 class="query-section">Filter</h2>
   <div class="query-inputs-filter">
     <div class="single-select-filters">
       {#each singleSelectVariables as variable}
