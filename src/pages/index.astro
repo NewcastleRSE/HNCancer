@@ -52,7 +52,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
     // Messages for if inputs are not provided; otherwise, run search
     if (!cancer) {
-      setMessageText("Please choose a cancer type.", "danger");
+      setMessageText("Please choose a HNC subsite.", "danger");
     } else if (!statistic) {
       setMessageText("Please choose a statistic.", "danger");
     } else {
@@ -76,7 +76,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
             if (CSV_file === "") {
               renderBlankChart(cancer, myChart);
               setMessageText(
-                "Please choose a cancer type and statistic.",
+                "Please choose a HNC subsite and statistic.",
                 "danger",
               );
 
