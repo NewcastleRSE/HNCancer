@@ -114,7 +114,7 @@ export const INCIDENCE_VARIABLE_ALL = {
     region: {value: "All Regions", label: "All Regions"},
     sex: {value: "All Persons", label: "All Persons"},
     ageBand: {value: "all ages", label: "All Ages"},
-    route: {value: "All Routes", label: "All Routes"},
+    route: {value: "All Routes", label: "Both Routes"},
     stage: {value: "All Stages", label: "All Stages"}
 
 } as const;
@@ -184,7 +184,7 @@ export const SURVIVAL_VARIABLE_ALL = {
     region: {value: "All Regions", label: "All Regions"},
     sex: {value: "All Persons", label: "All Persons"},
     ageBand: {value: "All Ages", label: "All Ages"}, // value is capitalised (unlike incidence spreadsheet)
-    route: {value: "All Routes", label: "All Routes"},
+    route: {value: "All Routes", label: "Both Routes"},
     stage: {value: "All Stages", label: "All Stages"}
 
 } as const;
