@@ -2,8 +2,16 @@ import * as echarts from 'echarts';
 import { getChartColorMapping } from './colors';
 import { getVariableValueLabels, CANCER_STATISTICS, STATISTICS_CONFIG } from './variables';
 import type { 
-	IncidenceProcessedRow, IncidenceBaseSeries, IncidenceChartSeries, IncidenceTableSeries, IncidenceSeriesLabels, 
-	IncidenceFilter, IncidenceFilterVariable 
+	IncidenceProcessedRow, 
+	IncidenceBaseSeries, 
+	IncidenceChartSeries, 
+	IncidenceTableSeries, 
+	IncidenceSeriesLabels, 
+	IncidenceFilter, 
+	IncidenceFilterVariable, 
+	SurvivalProcessedRow,
+	SurvivalSeries,
+	ChartArgs
 } from "../types";
 
 
@@ -61,15 +69,17 @@ function getSeriesLabels(row: IncidenceProcessedRow, statistic: typeof CANCER_ST
     };
 }
 
-// Base function for creating chart/table series - used by returnAllChartSeries and returnAllTableSeries
+// Base function for creating chart/table Incidence series - 
+// used by returnAllIncidenceChartSeries and returnAllIncidenceTableSeries
 // removeAll Years: whether to remove "all years" values from series (keep for table, remove for chart)
-function returnAllSeries<T extends number | string>(
+function returnAllIncidenceSeries<T extends number | string>(
   allMatchedItems: IncidenceProcessedRow[] | IncidenceProcessedRow[][],
-  statistic: typeof CANCER_STATISTICS[number],
   yearConverter: (row: IncidenceProcessedRow) => T,
   removeAllYears = true,
 ): IncidenceBaseSeries<T>[] {
 	console.log("allMatchedItems: ", allMatchedItems)
+
+	const statistic = "incidence";
 
 	// If input data is IncidenceProcessedRow[] (representing one series), convert to 
 	// IncidenceProcessedRow[][] by wrapping in outer array
@@ -142,6 +152,8 @@ function returnAllSeries<T extends number | string>(
 	return allSeries;
 
 }
+
+
 
 // Helper for calculating margins
 function computeLabelMargins(allSeries: IncidenceChartSeries[] | IncidenceTableSeries[], minSize: number, maxSize: number) {
@@ -239,42 +251,105 @@ const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/lege
 // Options for single or multi line chart
 // Also adds data to the chart
 function setLineChartOptions(
-	allSeries: IncidenceChartSeries[], 
-	optionString: string, 
-	statistic: typeof CANCER_STATISTICS[number], 
-	filter?: IncidenceFilter
+	chartArgs: ChartArgs
 ){
-
-	// Get year range from data for the x-axis
-	const allYears = allSeries.flatMap(series => series.years);
-	const minYear = Math.min(...allYears);
-	const maxYear = Math.max(...allYears);
-
-	// Calculate size of right margin based on label lengths
-	// Will be length of longest label * 7, with min of 150 and max of 275
-	const rightMargin = computeLabelMargins(allSeries, 150, 275)
-
-	// Subtitle from search terms
-	let subtitle = ""
-	let nSubtitleLines = 0
-	if (filter) {
-		({subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150, statistic));
-	}
-	// Whether there are multiple series
-	const isMulti = allSeries.length > 1;
-
-	// Get colormapping
-	const cmap = getChartColorMapping(allSeries);
-	console.log("Chart cmap: ", cmap)
 
 	// Axis colour
 	const axisLabelColor = "#555";
+
+	// Initialise options/settings/text for
+	// - x-axis
+	// - y-axis label (implemented as graphic to have control over location), and 
+	// - data 
+	let xOpt = {};
+	let yLabText = ""; // text only - label settings are the same for both statistics
+	let seriesData: [number, number][][];
+
+	// Subtitle from search terms
+	let {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(chartArgs.filter, 150, chartArgs.statistic);
+
+	// Statistic-specific logic to create data and labels
+	if (chartArgs.statistic === "incidence") {
+		// Get year range from data for the x-axis
+		const allYears = chartArgs.allSeries.flatMap(series => series.years);
+		const minYear = Math.min(...allYears);
+		const maxYear = Math.max(...allYears);
+
+		// x-axis settings
+		xOpt = {
+			// Treat years as "value" to make more robust 
+			// (e.g., to nonchronological orders or missing years)
+			type: 'value',
+			min: minYear,
+			max: maxYear,
+			interval: 1,
+			name: 'Year of diagnosis',
+			nameLocation: 'middle',
+		  	nameGap: 10, //distance from the axis
+			nameTextStyle: {
+				fontWeight: 'bold',
+			    color: axisLabelColor,
+			},
+			// Format years as strings to prevent commas from being inserted
+			axisLabel: {
+				formatter: (value: number) => value.toString()
+			}
+		}
+
+		// custom y-axis label 
+		yLabText = 'Incidence\n(diagnoses per\n100,000 people)'
+
+		// Series data
+		seriesData = chartArgs.allSeries.map(series =>
+			series.years.map((year, i) => [
+				year,
+				series.rates[i]
+			])
+		);
+	} else if (chartArgs.statistic === "survival") {
+		seriesData = chartArgs.allSeries.map(series =>
+			series.quarterYear.map((quarterYear, i) => [
+				quarterYear,
+				series.survival[i]
+			])
+		);
+	} else {
+		throw new Error("Unsupported statistic");
+	}
+
+	let yLab = {
+		type: "text",
+		left: 10,
+		top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * (nSubtitleLines - 0.5)),
+		style: {
+			text: yLabText,
+			fontWeight: "bold",
+			textAlign: "right",
+			textVerticalAlign: "middle",
+			fill: axisLabelColor
+		},
+	}
+
+	// Calculate size of right margin based on label lengths
+	// Will be length of longest label * 7, with min of 150 and max of 275
+	const rightMargin = computeLabelMargins(chartArgs.allSeries, 150, 275)
+
+
+
+	// Whether there are multiple series
+	const isMulti = chartArgs.allSeries.length > 1;
+
+	// Get colormapping
+	const cmap = getChartColorMapping(chartArgs.allSeries);
+	console.log("Chart cmap: ", cmap)
+
+
 
 	// Options
     const option = {
 		title: [
 			{
-				text: optionString + ' Cancer Rates',
+				text: chartArgs.cancer + ' Cancer Rates',
 				left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER,
 				top: 10
 			},
@@ -314,47 +389,9 @@ function setLineChartOptions(
 				}
 			}
 		},
-		xAxis: {
-			// Treat years as "value" to make more robust 
-			// (e.g., to nonchronological orders or missing years)
-			type: 'value',
-			min: minYear,
-			max: maxYear,
-			interval: 1,
-			name: 'Year of diagnosis',
-			nameLocation: 'middle',
-		  	nameGap: 10, //distance from the axis
-			nameTextStyle: {
-				fontWeight: 'bold',
-			    color: axisLabelColor,
-			},
-			// Format years as strings to prevent commas from being inserted
-			axisLabel: {
-				formatter: (value: number) => value.toString()
-			}
-		},
-		graphic: [
-			{
-				type: "text",
-				left: 10,
-				top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * (nSubtitleLines - 0.5)),
-				style: {
-					text: 'Incidence\n(diagnoses per\n100,000 people)',
-					fontWeight: "bold",
-					textAlign: "right",
-					textVerticalAlign: "middle",
-					fill: axisLabelColor
-				},
-			},
-			],
-		yAxis: {
-			type: 'value',
-			// name: 'Incidence\n(diagnoses per 100,000 people)',
-			// nameLocation: 'top',
-			// nameTextStyle: {
-			// 	fontWeight: 'bold'
-			// }
-		},
+		xAxis: xOpt,
+		graphic: [yLab],
+		yAxis: {type: 'value'},
 		legend: {
 			left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER, 
 			show: isMulti, // if multiple series, show legend
@@ -367,7 +404,7 @@ function setLineChartOptions(
 				0, // left
 			]
 		},
-      	series: allSeries.map(series => ({
+      	series: chartArgs.allSeries.map((series, i) => ({
 			name: series.name,
 			type: 'line',
 			smooth: false,
@@ -401,11 +438,8 @@ function setLineChartOptions(
                 ]
             },
 
-			// Create year, rate data pairs
-			data: series.years.map((year, i) => [
-				year,
-				series.rates[i]
-			])
+			// x,y pairs
+			data: seriesData[i]
 		}))
     };
 
@@ -634,26 +668,22 @@ function setTableChartOptions(
 // --- Exported functions ---
 
 // For chart series, want years to be a number array without "allyears"
-export function returnAllChartSeries(
+export function returnAllIncidenceChartSeries(
   allMatchedItems: IncidenceProcessedRow[] | IncidenceProcessedRow[][],
-  statistic: typeof CANCER_STATISTICS[number],
 ): IncidenceChartSeries[] {
-  return returnAllSeries(
+  return returnAllIncidenceSeries(
     allMatchedItems,
-	statistic,
     row => Number(row.diagnosisYear),
     true,
   );
 }
 
 // For table series, want years to be a string array with "allyears"
-export function returnAllTableSeries(
+export function returnAllIncidenceTableSeries(
   allMatchedItems: IncidenceProcessedRow[] | IncidenceProcessedRow[][],
-  statistic: typeof CANCER_STATISTICS[number],
 ): IncidenceTableSeries[] {
-	let series = returnAllSeries(
+	let series = returnAllIncidenceSeries(
 		allMatchedItems,
-		statistic,
 		row => String(row.diagnosisYear),
 		false,
 	);
@@ -671,8 +701,66 @@ export function returnAllTableSeries(
 
 }
 
+// Base function for creating chart/table Survival series
+// Can use same function for charts and tables since do not have values that need to remove for chart
+// (unlike incidence data)
+export function returnAllSurvivalSeries(
+  allMatchedItems: SurvivalProcessedRow[] | SurvivalProcessedRow[][],
+): SurvivalSeries[] {
+	console.log("allMatchedItems: ", allMatchedItems)
 
-// Function in initialise an eCharts chart
+	const statistic = "survival";
+
+	// If input data is IncidenceProcessedRow[] (representing one series), convert to 
+	// IncidenceProcessedRow[][] by wrapping in outer array
+	const seriesData: SurvivalProcessedRow[][] =
+    Array.isArray(allMatchedItems[0])
+        ? allMatchedItems as SurvivalProcessedRow[][]
+        : [allMatchedItems as SurvivalProcessedRow[]];
+
+	// Create chart data 
+	var allSeries: SurvivalSeries[] = [];
+
+	if (seriesData){ 
+
+		// Validate metadata across different years within each series
+		seriesData.forEach(series => validateSeriesMetadata(series, statistic));
+
+		// Create each chart series
+		// Here, 
+		// 		series = survival rates for one set of filters, across all quarter years
+		// 		row = data for one survival rate
+        seriesData.forEach(series => {
+
+			let rows = series;
+
+			// Use first row to get label
+            const labels = getSeriesLabels(rows[0], statistic);
+
+			// Get survival data and ensure numeric
+            const quarterYear = rows.map(row => Number(row.quarterYear))
+			const survival = rows.map(row => Number(row.survival))
+			const ciLb = rows.map(row => Number(row.ciLb))
+			const ciUb = rows.map(row => Number(row.ciUb))
+
+            allSeries.push({
+                name: labels.name,
+                quarterYear: quarterYear,
+                survival: survival,
+				ciLb: ciLb,
+				ciUb: ciUb,
+				variables: labels.variables
+            });
+        });
+    }
+
+	console.log("allSeries: ", allSeries)
+
+	return allSeries;
+
+}
+
+// Function to initialise an eCharts chart
 // "element" is the id of the DOM element where the chart will be added
 export function initChart(element: string, addResizeListener: boolean = true): echarts.ECharts {
 	const chartDom = document.getElementById(element);
@@ -690,17 +778,14 @@ export function initChart(element: string, addResizeListener: boolean = true): e
 
  // function to render a single- or multi-line chart
 export function renderLineChart(
-	cancerType: string, 
-	allSeries: IncidenceChartSeries[], 
 	chartInstance: echarts.ECharts, 
-	statistic: typeof CANCER_STATISTICS[number],
-	filter?: IncidenceFilter // option, for creating subtitle with filter options
+	chartArgs: ChartArgs
 ) {
 
 	console.log('in line chart render');
-	console.log("chart series: ", allSeries);
+	console.log("chart series: ", chartArgs.allSeries);
 	
-	const options = setLineChartOptions(allSeries, cancerType, statistic, filter);
+	const options = setLineChartOptions(chartArgs);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
@@ -716,7 +801,7 @@ export function renderLineChart(
 			    // Turn off future animations (e.g., for legend toggling)
 				animation: false,
 			    // Show end label when animation finishes
-				series: allSeries.map(() => ({
+				series: chartArgs.allSeries.map(() => ({
 					endLabel: {
 						show: true
 					}

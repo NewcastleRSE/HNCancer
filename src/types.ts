@@ -191,3 +191,19 @@ export type StatisticTypes = {
         filterVariable: SurvivalFilterVariable;
     };
 };
+
+// Arguments for chart/table functions
+
+export type ChartArgs =
+    | {
+        statistic: "incidence";
+        allSeries: IncidenceChartSeries[];
+        cancer: typeof CANCER_TYPES[number];
+        filter: IncidenceFilter;
+    }
+    | {
+        statistic: "survival";
+        allSeries: SurvivalSeries[];
+        cancer: typeof CANCER_TYPES[number];
+        filter: SurvivalFilter;
+    }
