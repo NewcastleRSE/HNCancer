@@ -24,6 +24,8 @@
   --bulma-family-secondary: "DM Sans", Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
   --bulma-background-color: var(--color-grey1);
   --bulma-hr-background-color: var(--color-grey3);
+  --bulma-hr-margin: 0; /* control margins with layout instead */
+  
   /* Primary colour (#619CBF) specified as H,S,L - other colour variables derived from these */
   --bulma-primary-h: 202deg;
   --bulma-primary-s: 55%;
@@ -34,6 +36,7 @@
   --bulma-focus-s: var(--bulma-primary-s);
   --bulma-focus-l: calc(var(--bulma-primary-l) - 15%);
   --bulma-arrow-color: hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l));
+
 
 }
 	

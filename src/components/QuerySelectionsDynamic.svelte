@@ -234,7 +234,6 @@
     </div>
   </div>
 </div>
-<hr />
 
 <style>
   .query-inputs > * + * {

@@ -124,23 +124,21 @@
           bind:selectedValue={statisticSelection}
           onChange={handleStatisticChange}
         />
-        <hr />
       </div>
-      <!-- Create query components when statistic is selected -->
-      <!-- Also explicitly check for filter so typescript knows that filter is not null -->
-      {#if statisticSelection && filter}
-        <!-- Recreate this component every time the statistic changes -->
-        <div>
-          {#key statisticSelection}
-            <QuerySelectionsDynamic
-              statistic={statisticSelection}
-              bind:filter
-            />
-          {/key}
-        </div>
-      {/if}
     </div>
+    <!-- Create query components when statistic is selected -->
+    <!-- Also explicitly check for filter so typescript knows that filter is not null -->
+    {#if statisticSelection && filter}
+      <hr />
+      <div>
+        <!-- Recreate this component every time the statistic changes -->
+        {#key statisticSelection}
+          <QuerySelectionsDynamic statistic={statisticSelection} bind:filter />
+        {/key}
+      </div>
+    {/if}
   </div>
+  <hr />
   <div class="button-container">
     <button type="button" class="button is-primary" onclick={submitQuery}>
       Search
@@ -185,11 +183,11 @@
   }
 
   .search-scroll > * + * {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   .search-section > * + * {
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
   }
 
   .button-container {
