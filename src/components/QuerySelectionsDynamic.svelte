@@ -256,11 +256,6 @@
     gap: 0.25rem;
   }
 
-  /* Min height for checkbox group so doesn't move components beneath when added dynamically */
-  .compare-checkbox-group {
-    min-height: 135px;
-  }
-
   /* Set up grid for compare components */
 
   .query-inputs-compare {
