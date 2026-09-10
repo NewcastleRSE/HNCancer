@@ -80,16 +80,16 @@ export const INCIDENCE_VARIABLE_OPTIONS = {
     ],
 
     ageBand: [
-        { value: '0-49', label: '0-49' },
-        { value: '50-54', label: '50-54' },
-        { value: '55-59', label: '55-59' },
-        { value: '60-64', label: '60-64' },
-        { value: '65-69', label: '65-69' },
-        { value: '70-74', label: '70-74' },
-        { value: '75-79', label: '75-79' },
-        { value: '80-84', label: '80-84' },
-        { value: '85-89', label: '85-89' },
-        { value: '90+', label: '90+' },
+        { value: '0-49', label: '0-49 years' },
+        { value: '50-54', label: '50-54 years' },
+        { value: '55-59', label: '55-59 years' },
+        { value: '60-64', label: '60-64 years' },
+        { value: '65-69', label: '65-69 years' },
+        { value: '70-74', label: '70-74 years' },
+        { value: '75-79', label: '75-79 years' },
+        { value: '80-84', label: '80-84 years' },
+        { value: '85-89', label: '85-89 years' },
+        { value: '90+', label: '90+ years'},
     ],
 
     route: [
