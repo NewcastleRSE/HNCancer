@@ -321,7 +321,7 @@ function setLineChartOptions(
 			min: minYear,
 			max: maxYear,
 			interval: 1,
-			name: 'Diagnosis year',
+			name: 'Year of diagnosis',
 			nameLocation: 'middle',
 		  	nameGap: 10, //distance from the axis
 			nameTextStyle: {

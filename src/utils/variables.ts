@@ -138,7 +138,7 @@ export const SURVIVAL_FILTER_LABELS: Record<
   SurvivalFilterVariable,
   string
 > = {
-    diagnosisYear: "Year diagnosed",
+    diagnosisYear: "Year of diagnosis",
     ...INCIDENCE_FILTER_LABELS
 } as const;
 
