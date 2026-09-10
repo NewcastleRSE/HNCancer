@@ -201,17 +201,22 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
   /* A responsive 1x2 grid container */
   .dashboard-container {
     display: grid;
-    height: 100vh;
+    flex: 1;
+    min-height: 0;
     width: 100vw;
     /* splits screen horizontally, with fixed left column */
-    grid-template-columns: 21rem 1fr;
+    grid-template-columns: 26rem 1fr;
   }
 
   #search-panel {
     grid-column: 1;
     grid-row: 1;
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
     background-color: var(--color-surface);
     padding: 1rem 1.5rem;
     border-right: 1px solid var(--color-border-div);
+    overflow: hidden;
   }
 </style>

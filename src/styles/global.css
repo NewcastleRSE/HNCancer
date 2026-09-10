@@ -46,6 +46,11 @@ html, body {
     overflow-y: scroll;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 /* Headers/text*/
 header, h1 {
     font-family: var(--bulma-family-secondary);
