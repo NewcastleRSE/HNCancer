@@ -103,7 +103,7 @@
 <div class="search-inputs">
   <h1 class="h1-search"><em>Search cancer data:</em></h1>
   <div class="search-section">
-    <h2 class="query-section">Cancer</h2>
+    <h2 class="query-section">HNC Subsite</h2>
     <div>
       <SingleSelectDropdownNoDefault
         id="cancertype"
