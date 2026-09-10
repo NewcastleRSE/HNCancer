@@ -55,11 +55,11 @@ export const INCIDENCE_LABEL_VARIABLES = [
 // See INCIDENCE_VARIABLE_ALL for "all" values.
 export const INCIDENCE_VARIABLE_OPTIONS = {
     dep: [
-        { value: 'IMD Q1', label: 'IMD Q1 (most deprived)' },
+        { value: 'IMD Q1', label: 'IMD Q1 (most deprived quintile)' },
         { value: 'IMD Q2', label: 'IMD Q2' },
         { value: 'IMD Q3', label: 'IMD Q3' },
         { value: 'IMD Q4', label: 'IMD Q4' },
-        { value: 'IMD Q5', label: 'IMD Q5 (least deprived)' },
+        { value: 'IMD Q5', label: 'IMD Q5 (least deprived quintile)' },
     ],
 
     region: [
