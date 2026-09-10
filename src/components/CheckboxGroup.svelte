@@ -40,14 +40,10 @@
 </fieldset>
 
 <style>
-  legend {
-    font-weight: 600;
-  }
-
   .checkbox-group {
     display: flex;
-    column-gap: 1rem;
+    flex-direction: column;
     row-gap: 0.25rem;
-    flex-wrap: wrap;
+    margin-left: 3rem;
   }
 </style>
