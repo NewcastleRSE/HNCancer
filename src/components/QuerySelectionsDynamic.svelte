@@ -167,20 +167,20 @@
         bind:checked={compareMaleFemale}
         onchange={handleCompareMaleFemaleChange}
       />
-      <span>Compare by Sex</span>
+      <span>by sex</span>
     </label>
     <div class="compare-dropdown">
       <span class="compare-bullet" aria-hidden="true">•</span>
 
       <label>
-        <span>Compare by</span>
+        <span>by </span>
         <div class="select select-compact">
           <select
             id="select-compare-variable"
             bind:value={comparisonVariable}
             onchange={handleComparisonChange}
           >
-            <option value="">Select variable</option>
+            <option value="">Select variable (optional)</option>
 
             {#each filterVariables as variable}
               {#if variable !== "sex"}
@@ -200,7 +200,6 @@
       <!-- branch to handle typing -->
       {#if statistic === "incidence"}
         <CheckboxGroup
-          label={getFilterLabel(comparisonVariable)}
           options={getVariableOptions(comparisonVariable)}
           bind:selectedValues={
             (filter as IncidenceFilter)[
@@ -210,7 +209,6 @@
         />
       {:else}
         <CheckboxGroup
-          label={getFilterLabel(comparisonVariable)}
           options={getVariableOptions(comparisonVariable)}
           bind:selectedValues={
             (filter as SurvivalFilter)[
