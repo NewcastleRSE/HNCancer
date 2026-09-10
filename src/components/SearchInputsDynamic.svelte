@@ -107,7 +107,7 @@
     <div>
       <SingleSelectDropdownNoDefault
         id="cancertype"
-        defaultDisabledText="Select a type of cancer..."
+        defaultDisabledText="Select a subsite..."
         options={cancerOptions}
         bind:selectedValue={cancerSelection}
       />
