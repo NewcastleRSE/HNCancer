@@ -1,6 +1,7 @@
 import * as echarts from 'echarts';
 import { getChartColorMapping } from './colors';
 import { getVariableValueLabels, CANCER_STATISTICS, STATISTICS_CONFIG } from './variables';
+import type { Statistic } from './variables';
 import type { 
 	IncidenceProcessedRow, 
 	IncidenceBaseSeries, 
@@ -11,8 +12,9 @@ import type {
 	IncidenceFilterVariable, 
 	SurvivalProcessedRow,
 	SurvivalSeries,
+	SurvivalFilter,
 	ChartArgs,
-	SurvivalFilter
+	TableArgs,
 } from "../types";
 
 
@@ -154,8 +156,6 @@ function returnAllIncidenceSeries<T extends number | string>(
 
 }
 
-
-
 // Helper for calculating margins, depending on amount of space needed for labels
 function computeLabelMargins(
 	allSeries: { name: string }[], minSize: number, maxSize: number
@@ -244,35 +244,41 @@ export function formatFilterSubtitle(
 }
 
 // Get chart/table title and location from top of chart
-function getTitle(chartArgs: ChartArgs) {
+function getTitle(args: ChartArgs | TableArgs) {
 	let titleText = "";
-	let titleTop = 0;
 
-	if (chartArgs.statistic === "incidence") {
+	if (args.statistic === "incidence") {
 
 		// Get year range from data
-		const allYears = chartArgs.allSeries.flatMap(series => series.years);
+		// Need to remove "all years" from table version first
+		const allYears = args.allSeries
+			.flatMap((series) =>
+				series.years
+					.filter(
+						(year) =>
+							String(year).toLowerCase() !== "all years",
+					)
+					.map(Number),
+			);
+
 		const minYear = Math.min(...allYears);
 		const maxYear = Math.max(...allYears);
 
 		// Need to add "age-standardised" if all ages is filter
 		let ageText = ""; 
-		if (chartArgs.filter.ageBand[0] === String(STATISTICS_CONFIG[chartArgs.statistic].variableAll.ageBand.value)) {
+		if (args.filter.ageBand[0] === String(STATISTICS_CONFIG[args.statistic].variableAll.ageBand.value)) {
 			ageText = "age-standardised "; // include trailing space in string
 		}
-		titleText = `Trends in ${ageText}incidence of ${chartArgs.cancer.toLowerCase()} cancer: England ${minYear}-${maxYear}`
-		titleTop = 10;
-	} else if (chartArgs.statistic === "survival") {
-		titleText = `Net survival of ${chartArgs.cancer.toLowerCase()} cancer: England`;
-		titleTop = 10;
+		titleText = `Trends in ${ageText}incidence of ${args.cancer.toLowerCase()} cancer: England ${minYear}-${maxYear}`
+	} else if (args.statistic === "survival") {
+		titleText = `Net survival of ${args.cancer.toLowerCase()} cancer: England`;
 
 	} else {
 		throw new Error("Unsupported statistic");
 	}
 
-	return {titleText, titleTop}
+	return titleText
 }
-
 
 // Fixed chart sizes
 const CHART_GRID_TOP = 60;
@@ -291,15 +297,13 @@ function setLineChartOptions(
 	chartArgs: ChartArgs
 ){
 	// Initialise options/settings/text for
-	// - title text and location
 	// - x-axis
 	// - y-axis label (implemented as graphic to have control over location) and location
 	// - data 
-	let titleText = "";
-	let titleTop = 0;
 	let xOpt = {};
 	let yLabText = ""; // text only - label settings are the same for both statistics
 	let yLabLeft = 0; // Controls horizontal location for y-axis label
+	let yNDec = 0; // How many decimal places values should have
 	let seriesData: [number, number][][];
 
 	// Subtitle from search terms
@@ -314,9 +318,6 @@ function setLineChartOptions(
 		const allYears = chartArgs.allSeries.flatMap(series => series.years);
 		const minYear = Math.min(...allYears);
 		const maxYear = Math.max(...allYears);
-
-		// Title
-		({titleText, titleTop} = getTitle(chartArgs));
 
 		// x-axis settings
 		xOpt = {
@@ -350,6 +351,8 @@ function setLineChartOptions(
 		  (chartArgs.filter.ageBand[0] === String(STATISTICS_CONFIG[chartArgs.statistic].variableAll.ageBand.value))?
 		  4: 26 // need more space for "standardised" case 
 		)
+		yNDec = 1;
+
 		// Series data
 		seriesData = chartArgs.allSeries.map(series =>
 			series.years.map((year, i) => [
@@ -358,9 +361,6 @@ function setLineChartOptions(
 			])
 		);
 	} else if (chartArgs.statistic === "survival") {
-
-		// Title
-		({titleText, titleTop} = getTitle(chartArgs));
 
 		// Get quarterYear range from data for the x-axis
 		const allQYears = chartArgs.allSeries.flatMap(series => series.quarterYear);
@@ -386,6 +386,7 @@ function setLineChartOptions(
 		// custom y-axis label and location
 		yLabText = "Net survival";
 		yLabLeft = 25;
+		yNDec = 0;
 
 		// Series data
 		seriesData = chartArgs.allSeries.map(series =>
@@ -398,6 +399,10 @@ function setLineChartOptions(
 		throw new Error("Unsupported statistic");
 	}
 
+	// Title
+	let titleText = getTitle(chartArgs);
+
+	// Create ylabel object
 	let yLab = {
 		type: "text",
 		left: yLabLeft,
@@ -444,7 +449,7 @@ function setLineChartOptions(
 			{
 				text: titleText,
 				left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER,
-				top: titleTop
+				top: 10
 			},
 			{
 				text: subtitle,
@@ -475,7 +480,7 @@ function setLineChartOptions(
     	},
 		tooltip: {
 			trigger: 'axis',
-			valueFormatter: (value: number) => value.toFixed(1),
+			valueFormatter: (value: number) => value.toFixed(yNDec),
 			axisPointer: {
 				label: {
 				formatter: (params: any) => String(params.value)
@@ -539,63 +544,132 @@ function setLineChartOptions(
 }
 
 // Table sizes
-const TABLE_ROW_HEIGHT = 70;
-const TABLE_COL_WIDTH = 90;
+// Cell sizes depend on statistic - incidence needs more space
+const TABLE_ROW_HEIGHT = {
+	"incidence": 70,
+	"survival": 50
+}
+const TABLE_COL_WIDTH = {
+	"incidence": 90,
+	"survival": 80
+}
 const TABLE_GRID_TOP = 90;
 const TABLE_GRID_BOTTOM = 20;
 const TABLE_SUBTITLE_LINE = 16;
 
 // Helper function for calculating height of table
-function getTableChartHeight(numberOfSeries: number, nSubtitleLines: number): number {
+function getTableChartHeight(numberOfSeries: number, nSubtitleLines: number, statistic: Statistic): number {
   return (
     TABLE_GRID_TOP +
     TABLE_GRID_BOTTOM +
 	(nSubtitleLines * TABLE_SUBTITLE_LINE) + 
-    (numberOfSeries * TABLE_ROW_HEIGHT)
+    (numberOfSeries * TABLE_ROW_HEIGHT[statistic])
   );
 }
 
 // Create chart options for eCharts table
 function setTableChartOptions(
-	allSeries: IncidenceTableSeries[], 
-	optionString: string, 
-	statistic: typeof CANCER_STATISTICS[number],
-	filter: IncidenceFilter, 
+	tableArgs: TableArgs,
 ) {
 
-	// --- Data formatting ---
+	// Statistic-specific logic for generating data and text
+	let tableData;
+	let xData;
+	let cMin = 0;
+	let cMax = 0;
+	let cellFormatter: (params: any) => string;
 
-	// Get set of ordered years across all series
-	const years = [...new Set(
-		allSeries.flatMap(series => series.years)
-	)].sort((a, b) => {
-		if (a.toLowerCase() === "all years") return 1;
-		if (b.toLowerCase() === "all years") return -1;
+	if (tableArgs.statistic === "incidence") {
 
-		return Number(a) - Number(b);
-	});
+		// Get set of ordered years across all series
+		const years = [...new Set(
+			tableArgs.allSeries.flatMap(series => series.years)
+		)].sort((a, b) => {
+			if (a.toLowerCase() === "all years") return 1;
+			if (b.toLowerCase() === "all years") return -1;
+
+			return Number(a) - Number(b);
+		});
+
+		// Get column index, row index, and data for each cell
+		tableData = tableArgs.allSeries.flatMap((series, rowIndex) =>
+			series.years.map((year, yearIndex) => [
+				years.indexOf(year),
+				rowIndex,
+				series.rates[yearIndex].toFixed(1),
+				series.ciLb[yearIndex].toFixed(1),
+				series.ciUb[yearIndex].toFixed(1),
+				series.count[yearIndex],
+			])
+		);
+		xData = years;
+		cMin = Math.min(...tableArgs.allSeries.flatMap(series => series.rates));
+		cMax = Math.max(...tableArgs.allSeries.flatMap(series => series.rates));
+
+		// Formatter for displaying data in each cell
+		// First line: rate
+		// Second line: (ciLb, ciUb)
+		// Third line: n = count
+		cellFormatter = (params: any) => {
+			const [, , rate, ciLb, ciUb, count] = params.value;
+
+			return [
+				`{main|${rate}}`,
+				`{details|(${ciLb}, ${ciUb})}`,
+				`{details|n = ${count}}`,
+			].join("\n");
+		};
+
+	} else if (tableArgs.statistic === "survival") {
+		// Get set of ordered quarter years across all series
+		const quarterYear = [...new Set(
+			tableArgs.allSeries.flatMap(series => series.quarterYear)
+		)].sort((a, b) => {
+			return a - b;
+		});
+
+		// Get column index, row index, and data for each cell
+		tableData = tableArgs.allSeries.flatMap((series, rowIndex) =>
+			series.quarterYear.map((year, yearIndex) => [
+				quarterYear.indexOf(year),
+				rowIndex,
+				series.survival[yearIndex].toFixed(0),
+				series.ciLb[yearIndex].toFixed(0),
+				series.ciUb[yearIndex].toFixed(0),
+			])
+		);
+		xData = quarterYear.map(year => `${year} yrs`);
+
+		cMin = Math.min(...tableArgs.allSeries.flatMap(series => series.survival));
+		cMax = Math.max(...tableArgs.allSeries.flatMap(series => series.survival));
+
+		// Formatter for displaying data in each cell
+		// First line: surival, as percentage
+		// Second line: (ciLb, ciUb)
+		cellFormatter = (params: any) => {
+			const [, , survival, ciLb, ciUb] = params.value;
+
+			return [
+				`{main|${survival}%}`,
+				`{details|(${ciLb}%, ${ciUb}%)}`
+			].join("\n");
+		};
+	} else {
+    	throw new Error("Unsupported statistic.");
+	}
+
+	// Title
+	let titleText = getTitle(tableArgs);
 
 	// Get labels (names) for each series
-	const names = allSeries.map(series => series.name);
-
-	// Get column index, row index, and data for each cell
-	const tableData = allSeries.flatMap((series, rowIndex) =>
-		series.years.map((year, yearIndex) => [
-			years.indexOf(year),
-			rowIndex,
-			series.rates[yearIndex].toFixed(1),
-			series.ciLb[yearIndex].toFixed(1),
-			series.ciUb[yearIndex].toFixed(1),
-			series.count[yearIndex],
-		])
-	);
+	const names = tableArgs.allSeries.map(series => series.name);
 
 	// Match left margin to chart; will wrap if value overflows
 	const leftMargin = CHART_LEFT_MARGIN;
 
 	// Subtitle from search terms
 	const {subtitle, lineCount: nSubtitleLines} = formatFilterSubtitle(
-		filter, CHART_MAX_SUBTITLE_LENGTH, statistic
+		tableArgs.filter, CHART_MAX_SUBTITLE_LENGTH, tableArgs.statistic
 	);
 
 	// Set chart options to create table
@@ -603,7 +677,7 @@ function setTableChartOptions(
 
 		title: [
 			{
-				text: optionString + ' Cancer Rates',
+				text: titleText,
 				left: leftMargin,
 				top: 10			
 			},
@@ -636,7 +710,7 @@ function setTableChartOptions(
 
 		xAxis: {
 			type: "category",
-			data: years,
+			data: xData,
 			position: "top",
 
 			axisLabel: {
@@ -688,8 +762,8 @@ function setTableChartOptions(
 		// Create heatmap using rates values
 		visualMap: {
 			dimension: 2,
-			min: Math.min(...allSeries.flatMap(series => series.rates)),
-			max: Math.max(...allSeries.flatMap(series => series.rates)),
+			min: cMin,
+			max: cMax,
 			calculable: false,
 			show: false, // don't show colourbar
 
@@ -724,23 +798,12 @@ function setTableChartOptions(
 
 				label: {
 					show: true,
-
-					// First line: rate
-					// Second line: (ciLb, ciUb)
-					// Third line: n = count
-					formatter: (params: any) => {
-						const [, , rate, ciLb, ciUb, count] = params.value;
-
-						return [
-							`{rate|${rate}}`,
-							`{details|(${ciLb}, ${ciUb})}`,
-							`{details|n = ${count}}`,
-						].join("\n");
-					},
+					// How to display text in cell
+					formatter: cellFormatter,
 
 					// Format cell text - rate is larger and heavier weight
 					rich: {
-					rate: {
+					main: {
 						fontSize: 14,
 						fontWeight: "400",
 						lineHeight: 18,
@@ -795,7 +858,7 @@ export function returnAllIncidenceTableSeries(
 
 }
 
-// Base function for creating chart/table Survival series
+// Function for creating chart/table Survival series
 // Can use same function for charts and tables since do not have values that need to remove for chart
 // (unlike incidence data)
 export function returnAllSurvivalSeries(
@@ -832,11 +895,11 @@ export function returnAllSurvivalSeries(
             const labels = getSeriesLabels(rows[0], statistic);
 
 			// Get survival data and ensure numeric
-			// Also multiply survival by 100 to transform to percentaage
+			// Also multiply survival and CIs by 100 to transform to percentaage
             const quarterYear = rows.map(row => Number(row.quarterYear))
 			const survival = rows.map(row => Number(row.survival) * 100)
-			const ciLb = rows.map(row => Number(row.ciLb))
-			const ciUb = rows.map(row => Number(row.ciUb))
+			const ciLb = rows.map(row => Number(row.ciLb) * 100)
+			const ciUb = rows.map(row => Number(row.ciUb) * 100)
 
             allSeries.push({
                 name: labels.name,
@@ -912,21 +975,17 @@ export function renderLineChart(
 
 }
 
-
  // Function to render a table
 export function renderTableChart(
-	cancerType: string, 
-	allSeries: IncidenceTableSeries[], 
-	chartInstance: echarts.ECharts,
-	statistic: typeof CANCER_STATISTICS[number],
-	filter: IncidenceFilter
+	chartInstance: echarts.ECharts, 
+	tableArgs: TableArgs
 ) {
 
 	console.log('in table render');
-	console.log("chart series: ", allSeries);
+	console.log("chart series: ", tableArgs.allSeries);
 	
 	// Create options for table (matrix) chart for this data
-	const {options, nSubtitleLines} = setTableChartOptions(allSeries, cancerType, statistic, filter);
+	const {options, nSubtitleLines} = setTableChartOptions(tableArgs);
 
 	// Clear previous chart/options
 	// Otherwise, options will add new data to existing data (instead of replacing existing data)
@@ -934,8 +993,7 @@ export function renderTableChart(
 
 	// Resize table element to match number of rows in table
 	const tableElement = chartInstance.getDom();
-	const height = getTableChartHeight(allSeries.length, nSubtitleLines);
-	console.log("table height: ", height)
+	const height = getTableChartHeight(tableArgs.allSeries.length, nSubtitleLines, tableArgs.statistic);
 	tableElement.style.height = `${height}px`;
 
 	// Resize table element to fix cell width across different plots (with different label lengths)
@@ -943,7 +1001,7 @@ export function renderTableChart(
 
 	const width =
 		options.grid.left +
-		numberOfColumns * TABLE_COL_WIDTH +
+		numberOfColumns * TABLE_COL_WIDTH[tableArgs.statistic] +
 		options.grid.right;
 	tableElement.style.width = `${width}px`;
 
@@ -957,7 +1015,7 @@ export function renderTableChart(
 
 // creates a blank chart with null values and wipes out any previous chart 
 // Could potentially update to instead only clear series data (keeping labels etc.)
-export function renderBlankChart(cancerType: string, chartInstance: echarts.ECharts){
+export function renderBlankChart(chartInstance: echarts.ECharts){
 
 	// Clear previous chart/options
 	chartInstance.clear();

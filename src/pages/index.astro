@@ -81,7 +81,8 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
           complete: (results) => {
             if (CSV_file === "") {
-              renderBlankChart(cancer, myChart);
+              renderBlankChart(myChart);
+              renderBlankChart(myTable);
               setMessageText(
                 "Please choose a HNC subsite and statistic.",
                 "danger",
@@ -122,8 +123,8 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
               console.log("groupedResults:", groupedResults);
 
               if (groupedResults.length < 1) {
-                renderBlankChart(cancer, myChart);
-                renderBlankChart(cancer, myTable);
+                renderBlankChart(myChart);
+                renderBlankChart(myTable);
                 setMessageText(
                   "No data is available for these search filters.",
                   "danger",
@@ -154,15 +155,16 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                     cancer: cancer,
                     filter: filter,
                   };
-                  renderLineChart(myChart, chartArgs);
 
-                  renderTableChart(
-                    cancer,
-                    allTableSeries,
-                    myTable,
-                    statistic,
-                    filter,
-                  );
+                  const tableArgs = {
+                    statistic: statistic,
+                    allSeries: allTableSeries,
+                    cancer: cancer,
+                    filter: filter,
+                  };
+
+                  renderLineChart(myChart, chartArgs);
+                  renderTableChart(myTable, tableArgs);
                 } else if (statistic === "survival") {
                   // Data for charts and tables
                   const allSeries = returnAllSurvivalSeries(
@@ -176,6 +178,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                     filter: filter,
                   };
                   renderLineChart(myChart, chartArgs);
+                  renderTableChart(myTable, chartArgs); // can use same args for table for survival
                 }
 
                 // ---------------------------------------------
@@ -183,7 +186,9 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 // ---------------------------------------------
 
                 const encodedUri = createTidyDownloadFile(groupedResults);
-                const filename = createDownloadFilename(cancer + "_incidence");
+                const filename = createDownloadFilename(
+                  cancer + "_" + statistic,
+                );
                 downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
                     href="${encodedUri}"
                     download="${filename}.csv">

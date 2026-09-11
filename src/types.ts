@@ -207,3 +207,17 @@ export type ChartArgs =
         cancer: typeof CANCER_TYPES[number];
         filter: SurvivalFilter;
     }
+
+export type TableArgs =
+    | {
+        statistic: "incidence";
+        allSeries: IncidenceTableSeries[];
+        cancer: typeof CANCER_TYPES[number];
+        filter: IncidenceFilter;
+    }
+    | {
+        statistic: "survival";
+        allSeries: SurvivalSeries[];
+        cancer: typeof CANCER_TYPES[number];
+        filter: SurvivalFilter;
+    }
