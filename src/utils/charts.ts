@@ -622,8 +622,11 @@ function setTableChartOptions(
 			return [
 				`{main|${rate}}`,
 				`{details|(${ciLb}, ${ciUb})}`,
-				`{details|n = ${count}}`,
-			].join("\n");
+				// If count is SUPPRESSED, display n < 10; otherwise, n = count
+				String(count).includes("SUPPRESSED")
+					? "{details|n < 10}"
+					: `{details|n = ${count}}`,
+						].join("\n");
 		};
 
 	} else if (tableArgs.statistic === "survival") {
