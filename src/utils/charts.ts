@@ -603,8 +603,14 @@ function setTableChartOptions(
 			])
 		);
 		xData = years;
-		cMin = Math.min(...tableArgs.allSeries.flatMap(series => series.rates));
-		cMax = Math.max(...tableArgs.allSeries.flatMap(series => series.rates));
+
+		// Colormap min/max - remove any undefined values first
+		const allRates = tableArgs.allSeries
+			.flatMap((series) => series.rates)
+			.filter(Number.isFinite);
+
+		cMin = Math.min(...allRates);
+		cMax = Math.max(...allRates);
 
 		// Formatter for displaying data in each cell
 		// First line: rate
@@ -640,8 +646,13 @@ function setTableChartOptions(
 		);
 		xData = quarterYear.map(year => `${year} yrs`);
 
-		cMin = Math.min(...tableArgs.allSeries.flatMap(series => series.survival));
-		cMax = Math.max(...tableArgs.allSeries.flatMap(series => series.survival));
+		// Colormap min/max - remove any undefined values first
+		const allSurvivalValues = tableArgs.allSeries
+			.flatMap((series) => series.survival)
+			.filter(Number.isFinite);
+
+		cMin = Math.min(...allSurvivalValues);
+		cMax = Math.max(...allSurvivalValues);
 
 		// Formatter for displaying data in each cell
 		// First line: surival, as percentage
@@ -725,7 +736,7 @@ function setTableChartOptions(
 				show: true,
 				lineStyle: {
 					color: "#666",
-					width: 2,
+					width: 1,
 				},
 			},
 
@@ -754,7 +765,7 @@ function setTableChartOptions(
 			splitLine: {
 				show: true,
 				lineStyle: {
-				width: 3,
+				width: 1,
 				},
 			}
 		},
