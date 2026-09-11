@@ -281,6 +281,7 @@ const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/lege
 const CHART_AXIS_LABEL_SIZE = 14;
 const CHART_AXIS_LABEL_WEIGHT = "normal";
 const CHART_AXIS_LABEL_COLOR = "#555"
+const CHART_MAX_SUBTITLE_LENGTH = 140;
 
 // Options for single or multi line chart
 // Also adds data to the chart
@@ -300,7 +301,9 @@ function setLineChartOptions(
 	let seriesData: [number, number][][];
 
 	// Subtitle from search terms
-	let {subtitle, lineCount: nSubtitleLines} = formatFilterSubtitle(chartArgs.filter, 150, chartArgs.statistic);
+	let {subtitle, lineCount: nSubtitleLines} = formatFilterSubtitle(
+		chartArgs.filter, CHART_MAX_SUBTITLE_LENGTH, chartArgs.statistic
+	);
 
 	// Statistic-specific logic to create data and labels
 	if (chartArgs.statistic === "incidence") {
@@ -583,7 +586,9 @@ function setTableChartOptions(
 	const leftMargin = CHART_LEFT_MARGIN;
 
 	// Subtitle from search terms
-	const {subtitle, lineCount: nSubtitleLines} = formatFilterSubtitle(filter, 150, statistic);
+	const {subtitle, lineCount: nSubtitleLines} = formatFilterSubtitle(
+		filter, CHART_MAX_SUBTITLE_LENGTH, statistic
+	);
 
 	// Set chart options to create table
 	const options = {
