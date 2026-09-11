@@ -21,7 +21,7 @@ import type {
 // Validate processed data for one series (line)
 // Checks that IncidenceProcessedRow[] arrays (rates for different years, but same filters) 
 // have same metadata.
-function validateSeriesMetadata(series: IncidenceProcessedRow[], statistic: typeof CANCER_STATISTICS[number]) {
+function validateSeriesMetadata(series: IncidenceProcessedRow[] | SurvivalProcessedRow[], statistic: typeof CANCER_STATISTICS[number]) {
   if (series.length === 0) {
     throw new Error('No data is available for this combination of filters.');
   }
@@ -49,7 +49,7 @@ function validateSeriesMetadata(series: IncidenceProcessedRow[], statistic: type
 // Get the name of the series (i.e., the data in IncidenceProcessedRow[]) from one row (array)
 // Also stories the variables and variable values used to make the name
 // Use validateSeriesMetadata first to check that each row has same metadata
-function getSeriesLabels(row: IncidenceProcessedRow, statistic: typeof CANCER_STATISTICS[number]): IncidenceSeriesLabels {
+function getSeriesLabels(row: IncidenceProcessedRow | SurvivalProcessedRow, statistic: typeof CANCER_STATISTICS[number]): IncidenceSeriesLabels {
 	
 	// Get variables used for labels for statistic
   	const labelVariables = STATISTICS_CONFIG[statistic].labelVariables
@@ -437,7 +437,7 @@ function setLineChartOptions(
 		// Fall back to the series name if the variable isn't present.
 		return cmap.colors[colorValue ?? series.name];
 	});
-	
+
 	// Options
     const option = {
 		title: [
