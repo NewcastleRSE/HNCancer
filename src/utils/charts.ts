@@ -240,29 +240,62 @@ export function formatIncidenceFilterSubtitle(
   };
 }
 
+// Get chart/table title and location from top of chart
+function getTitle(chartArgs: ChartArgs) {
+	let titleText = "";
+	let titleTop = 0;
+
+	if (chartArgs.statistic === "incidence") {
+
+		// Get year range from data
+		const allYears = chartArgs.allSeries.flatMap(series => series.years);
+		const minYear = Math.min(...allYears);
+		const maxYear = Math.max(...allYears);
+
+		// Need to add "age-standardised" if all ages is filter
+		let ageText = ""; 
+		if (chartArgs.filter.ageBand[0] === String(STATISTICS_CONFIG[chartArgs.statistic].variableAll.ageBand.value)) {
+			ageText = "age-standardised "; // include trailing space in string
+		}
+		titleText = `Trends in ${ageText}incidence of ${chartArgs.cancer.toLowerCase()} cancer: England ${minYear}-${maxYear}`
+		titleTop = 10;
+	} else if (chartArgs.statistic === "survival") {
+		titleText = `Net survival of ${chartArgs.cancer.toLowerCase()} cancer: England`;
+		titleTop = 10;
+
+	} else {
+		throw new Error("Unsupported statistic");
+	}
+
+	return {titleText, titleTop}
+}
+
 
 // Fixed chart sizes
 const CHART_GRID_TOP = 60;
 const CHART_GRID_BOTTOM = 100;
 const CHART_SUBTITLE_LINE = 16;
-const CHART_LEFT_MARGIN = 135;
+const CHART_LEFT_MARGIN = 150;
 const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/legends with y-axis
+const CHART_AXIS_LABEL_SIZE = 14;
+const CHART_AXIS_LABEL_WEIGHT = "normal";
+const CHART_AXIS_LABEL_COLOR = "#555"
 
 // Options for single or multi line chart
 // Also adds data to the chart
 function setLineChartOptions(
 	chartArgs: ChartArgs
 ){
-
-	// Axis colour
-	const axisLabelColor = "#555";
-
 	// Initialise options/settings/text for
+	// - title text and location
 	// - x-axis
-	// - y-axis label (implemented as graphic to have control over location), and 
+	// - y-axis label (implemented as graphic to have control over location) and location
 	// - data 
+	let titleText = "";
+	let titleTop = 0;
 	let xOpt = {};
 	let yLabText = ""; // text only - label settings are the same for both statistics
+	let yLabLeft = 0; // Controls horizontal location for y-axis label
 	let seriesData: [number, number][][];
 
 	// Subtitle from search terms
@@ -270,10 +303,14 @@ function setLineChartOptions(
 
 	// Statistic-specific logic to create data and labels
 	if (chartArgs.statistic === "incidence") {
+
 		// Get year range from data for the x-axis
 		const allYears = chartArgs.allSeries.flatMap(series => series.years);
 		const minYear = Math.min(...allYears);
 		const maxYear = Math.max(...allYears);
+
+		// Title
+		({titleText, titleTop} = getTitle(chartArgs));
 
 		// x-axis settings
 		xOpt = {
@@ -285,10 +322,11 @@ function setLineChartOptions(
 			interval: 1,
 			name: 'Year of diagnosis',
 			nameLocation: 'middle',
-		  	nameGap: 10, //distance from the axis
+		  	nameGap: 25, //distance from the axis
 			nameTextStyle: {
-				fontWeight: 'bold',
-			    color: axisLabelColor,
+				fontWeight: CHART_AXIS_LABEL_WEIGHT,
+			    color: CHART_AXIS_LABEL_COLOR,
+				fontSize: CHART_AXIS_LABEL_SIZE,
 			},
 			// Format years as strings to prevent commas from being inserted
 			axisLabel: {
@@ -296,9 +334,16 @@ function setLineChartOptions(
 			}
 		}
 
-		// custom y-axis label 
-		yLabText = 'Incidence\n(diagnoses per\n100,000 people)'
-
+		// custom y-axis label - depends on if data is filtered to all ages
+		let ageText = (
+		  (chartArgs.filter.ageBand[0] === String(STATISTICS_CONFIG[chartArgs.statistic].variableAll.ageBand.value))?
+		  "standardised": "specific" 
+		)
+		yLabText = `Age-${ageText}\nincidence\n(per 100,000\nperson-years)`
+		yLabLeft = (
+		  (chartArgs.filter.ageBand[0] === String(STATISTICS_CONFIG[chartArgs.statistic].variableAll.ageBand.value))?
+		  4: 26 // need more space for "standardised" case 
+		)
 		// Series data
 		seriesData = chartArgs.allSeries.map(series =>
 			series.years.map((year, i) => [
@@ -307,6 +352,36 @@ function setLineChartOptions(
 			])
 		);
 	} else if (chartArgs.statistic === "survival") {
+
+		// Title
+		({titleText, titleTop} = getTitle(chartArgs));
+
+		// Get quarterYear range from data for the x-axis
+		const allQYears = chartArgs.allSeries.flatMap(series => series.quarterYear);
+		const minQYear = Math.min(...allQYears);
+		const maxQYear = Math.max(...allQYears);
+
+		// x-axis settings
+		xOpt = {
+			type: 'value',
+			min: minQYear,
+			max: maxQYear,
+			interval: 1, // to label whole years only
+			name: 'Years since diagnosis',
+			nameLocation: 'middle',
+		  	nameGap: 25, //distance from the axis
+			nameTextStyle: {
+				fontWeight: CHART_AXIS_LABEL_WEIGHT,
+			    color: CHART_AXIS_LABEL_COLOR,
+				fontSize: CHART_AXIS_LABEL_SIZE,
+			}
+		}
+
+		// custom y-axis label and location
+		yLabText = "Net survival";
+		yLabLeft = 25;
+
+		// Series data
 		seriesData = chartArgs.allSeries.map(series =>
 			series.quarterYear.map((quarterYear, i) => [
 				quarterYear,
@@ -319,22 +394,22 @@ function setLineChartOptions(
 
 	let yLab = {
 		type: "text",
-		left: 10,
-		top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * (nSubtitleLines - 0.5)),
+		left: yLabLeft,
+		top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * (nSubtitleLines - 0.5)) + 2,
 		style: {
 			text: yLabText,
-			fontWeight: "bold",
+			fontWeight: CHART_AXIS_LABEL_WEIGHT,
 			textAlign: "right",
 			textVerticalAlign: "middle",
-			fill: axisLabelColor
+			fill: CHART_AXIS_LABEL_COLOR,
+			lineHeight: CHART_AXIS_LABEL_SIZE,
+			fontSize: CHART_AXIS_LABEL_SIZE
 		},
 	}
 
 	// Calculate size of right margin based on label lengths
 	// Will be length of longest label * 7, with min of 150 and max of 275
 	const rightMargin = computeLabelMargins(chartArgs.allSeries, 150, 275)
-
-
 
 	// Whether there are multiple series
 	const isMulti = chartArgs.allSeries.length > 1;
@@ -343,15 +418,13 @@ function setLineChartOptions(
 	const cmap = getChartColorMapping(chartArgs.allSeries);
 	console.log("Chart cmap: ", cmap)
 
-
-
 	// Options
     const option = {
 		title: [
 			{
-				text: chartArgs.cancer + ' Cancer Rates',
+				text: titleText,
 				left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER,
-				top: 10
+				top: titleTop
 			},
 			{
 				text: subtitle,
@@ -391,7 +464,14 @@ function setLineChartOptions(
 		},
 		xAxis: xOpt,
 		graphic: [yLab],
-		yAxis: {type: 'value'},
+		yAxis: {
+			type: 'value',
+			axisLabel: {
+				formatter: (value: number) => {
+					return chartArgs.statistic === "survival"? `${value}%`: value;
+				}
+			}
+		},
 		legend: {
 			left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER, 
 			show: isMulti, // if multiple series, show legend
@@ -738,8 +818,9 @@ export function returnAllSurvivalSeries(
             const labels = getSeriesLabels(rows[0], statistic);
 
 			// Get survival data and ensure numeric
+			// Also multiply survival by 100 to transform to percentaage
             const quarterYear = rows.map(row => Number(row.quarterYear))
-			const survival = rows.map(row => Number(row.survival))
+			const survival = rows.map(row => Number(row.survival) * 100)
 			const ciLb = rows.map(row => Number(row.ciLb))
 			const ciUb = rows.map(row => Number(row.ciUb))
 
