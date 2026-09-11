@@ -5,16 +5,14 @@
   };
 
   interface Props {
-    label: string;
     options: readonly Option[];
     selectedValues?: string[];
   }
 
-  let { label, options, selectedValues = $bindable([]) }: Props = $props();
+  let { options, selectedValues = $bindable([]) }: Props = $props();
 </script>
 
 <fieldset class="checkbox-group">
-  <legend>{label}</legend>
   {#each options as option}
     <label class="checkbox-option">
       <input
@@ -42,14 +40,10 @@
 </fieldset>
 
 <style>
-  legend {
-    font-weight: 600;
-  }
-
   .checkbox-group {
     display: flex;
-    column-gap: 1rem;
+    flex-direction: column;
     row-gap: 0.25rem;
-    flex-wrap: wrap;
+    margin-left: 3rem;
   }
 </style>
