@@ -1,4 +1,7 @@
 <script lang="ts">
+  // Single-select dropdown, with inline label and no disabled default option.
+  // Also provides input for callback if changing selection needs to trigger additional
+  // effects.
   type Option = {
     value: string;
     label: string;

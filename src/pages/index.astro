@@ -1,45 +1,251 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from './header.astro';
+import Layout from "../layouts/Layout.astro";
+import Header from "./header.astro";
+import PagePanels from "../components/PagePanels.astro";
+import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 ---
+
 <Layout>
   <Header />
 
-    <div class="dashboard-container">
-        <div class="columns">
-            <div class="column is-half">
-                <div class="content p-4">
-                    <h1>How to use the Atlas of Health Variation</h1>
-
-                    <h2>Searches</h2>
-                    <p>The Atlas allows the exploration of datasets from 2016 to 2023. It allows searching on the following criteria:</p>
-
-                    <ul class="has-text-weight-bold">
-                        <li>Region</li>
-                        <li>Sex</li>
-                        <li>Deprivation Level</li>
-                        <li>Stage of diagnosis</li>
-                        <li>Route (Emergency or non-emergency)</li>
-                    </ul>
-
-                    <p>Some factors can be combined to give a finer-grained search. e.g. <span class="is-italic">region, deprivation and sex</span>.</p>
-                    <p>The nine English regions are shown opposite.</p>
-                    <p>For each search, the cancer type must be selected first, options are:   
-                    </p>
-                    <ul class="has-text-weight-bold">
-                        <li>Head and neck </li>
-                        <li>Laryngeal</li>
-                        <li>Oral cavity</li>
-                        <li>Oropharyngeal</li>
-                    </ul>
-                    <p>Once the cancer type is chosen, further selections are provided for each main criteria.</p>
-        </div>
-            </div>
-            <div class="column is-half p-4">
-                <img src="/HNCancer/images/English_regions.svg.png" width="60%" alt="Map showing the nine English regions"/><br />
-                <citation class="is-size-7"> Image source (modified) : Nilfanion and Dr Greg, CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0>, via Wikimedia Commons</citation>
-            </div>
-        </div>
-       
+  <div class="dashboard-container">
+    <!--- top left: panel area ---->
+    <div id="search-panel">
+      <SearchInputsDynamic client:load />
     </div>
+    <PagePanels />
+  </div>
 </Layout>
+
+<script>
+  // Import PapaParse directly into your client bundle
+  import Papa from "papaparse";
+  import {
+    getCancerCSVFilename,
+    createTidyDownloadFile,
+    createDownloadFilename,
+  } from "../utils/files";
+  import { setMessageText, clearMessageText } from "../utils/messages";
+  import { downloadLinkBtn } from "../types";
+  import {
+    returnAllIncidenceChartSeries,
+    returnAllIncidenceTableSeries,
+    returnAllSurvivalSeries,
+    renderLineChart,
+    renderTableChart,
+    renderBlankChart,
+    initChart,
+  } from "../utils/charts";
+  import { queryFilter } from "../utils/query";
+  import type {
+    IncidenceCSVRow,
+    SurvivalCSVRow,
+    SearchQuery,
+    IncidenceProcessedRow,
+    SurvivalProcessedRow,
+  } from "../types";
+
+  // Initialise chart
+  const myChart = initChart("csv-chart");
+
+  // Initialise table
+  const myTable = initChart("csv-table", false);
+
+  document.addEventListener("cancer-query", async (event) => {
+    // Casting as searchQuery - we know that the relationship between types was maintained
+    // in the search component
+    const searchQuery = (event as CustomEvent<SearchQuery>).detail;
+    const { statistic, filter, cancer } = searchQuery; // unpack
+
+    // Messages for if inputs are not provided; otherwise, run search
+    if (!cancer) {
+      setMessageText("Please choose a HNC subsite.", "danger");
+    } else if (!statistic) {
+      setMessageText("Please choose a statistic.", "danger");
+    } else {
+      console.log("Search filter:", filter);
+      const CSV_file = getCancerCSVFilename(cancer, statistic);
+
+      try {
+        const response = await fetch(CSV_file);
+
+        if (!response.ok) {
+          throw new Error("Failed to retrieve data file.");
+        }
+
+        const csvText = await response.text();
+
+        Papa.parse<IncidenceCSVRow | SurvivalCSVRow>(csvText, {
+          header: true,
+          skipEmptyLines: true,
+
+          complete: (results) => {
+            if (CSV_file === "") {
+              renderBlankChart(myChart);
+              renderBlankChart(myTable);
+              setMessageText(
+                "Please choose a HNC subsite and statistic.",
+                "danger",
+              );
+
+              downloadLinkBtn.innerHTML = "<p></p>";
+
+              return;
+            }
+
+            try {
+              const rows = results.data;
+
+              // ---------------------------------------------
+              // Query
+              // ---------------------------------------------
+
+              let groupedResults;
+
+              // Branch to handle types
+              if (statistic === "incidence") {
+                groupedResults = queryFilter({
+                  statistic,
+                  rows: rows as IncidenceCSVRow[],
+                  filter,
+                });
+              } else if (statistic === "survival") {
+                groupedResults = queryFilter({
+                  statistic,
+                  rows: rows as SurvivalCSVRow[],
+                  filter,
+                });
+              } else {
+                throw new Error(`Unsupported statistic: ${statistic}`);
+              }
+
+              console.log("filter:", filter);
+              console.log("groupedResults:", groupedResults);
+
+              if (groupedResults.length < 1) {
+                renderBlankChart(myChart);
+                renderBlankChart(myTable);
+                setMessageText(
+                  "No data is available for these search filters.",
+                  "danger",
+                );
+              } else {
+                // ---------------------------------------------------------
+                // Update chart and eCharts table
+                // ---------------------------------------------------------
+
+                clearMessageText(); // Remove search message text
+
+                // Branch to handle types - asserting types since know each statistic
+                // will return processed rows with a matching type
+                if (statistic === "incidence") {
+                  // Data for charts
+                  const allChartSeries = returnAllIncidenceChartSeries(
+                    groupedResults as IncidenceProcessedRow[][],
+                  );
+
+                  // Data for tables (includes "all years")
+                  const allTableSeries = returnAllIncidenceTableSeries(
+                    groupedResults as IncidenceProcessedRow[][],
+                  );
+
+                  const chartArgs = {
+                    statistic: statistic,
+                    allSeries: allChartSeries,
+                    cancer: cancer,
+                    filter: filter,
+                  };
+
+                  const tableArgs = {
+                    statistic: statistic,
+                    allSeries: allTableSeries,
+                    cancer: cancer,
+                    filter: filter,
+                  };
+
+                  renderLineChart(myChart, chartArgs);
+                  renderTableChart(myTable, tableArgs);
+                } else if (statistic === "survival") {
+                  // Data for charts and tables
+                  const allSeries = returnAllSurvivalSeries(
+                    groupedResults as SurvivalProcessedRow[][],
+                  );
+
+                  const chartArgs = {
+                    statistic: statistic,
+                    allSeries: allSeries,
+                    cancer: cancer,
+                    filter: filter,
+                  };
+                  renderLineChart(myChart, chartArgs);
+                  renderTableChart(myTable, chartArgs); // can use same args for table for survival
+                }
+
+                // ---------------------------------------------
+                // Download
+                // ---------------------------------------------
+
+                const encodedUri = createTidyDownloadFile(groupedResults);
+                const filename = createDownloadFilename(
+                  cancer + "_" + statistic,
+                );
+                downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
+                    href="${encodedUri}"
+                    download="${filename}.csv">
+                  Download CSV
+                </a>`;
+              }
+            } catch (error) {
+              console.error(error);
+              const msg =
+                error instanceof Error
+                  ? error.message
+                  : "Unable to process query.";
+              setMessageText(msg, "danger");
+
+              downloadLinkBtn.innerHTML = "<p></p>";
+            }
+          },
+
+          error: (error: Error) => {
+            setMessageText(`Parsing error: ${error.message}`, "danger");
+          },
+        });
+      } catch (err) {
+        setMessageText("Could not fetch CSV file with cancer data.", "danger");
+
+        console.error(err);
+      }
+    }
+  });
+</script>
+
+<style>
+  #csv-search-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  /* A responsive 1x2 grid container */
+  .dashboard-container {
+    display: grid;
+    flex: 1;
+    min-height: 0;
+    width: 100vw;
+    /* splits screen horizontally, with fixed left column */
+    grid-template-columns: 26rem 1fr;
+  }
+
+  #search-panel {
+    grid-column: 1;
+    grid-row: 1;
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    background-color: var(--color-surface);
+    padding: 1rem 1.5rem;
+    border-right: 1px solid var(--color-border-div);
+    overflow: hidden;
+  }
+</style>
