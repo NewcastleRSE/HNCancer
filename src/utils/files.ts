@@ -2,7 +2,7 @@
 Module for loading and saving data files.
 */
 
-import type { IncidenceProcessedRow } from '../types';
+import type { IncidenceProcessedRow, SurvivalProcessedRow } from '../types';
 import { CANCER_TYPES, CANCER_STATISTICS } from '../utils/variables';
 import Papa from "papaparse";
 
@@ -29,23 +29,38 @@ export function getCancerCSVFilename(cancerType: typeof CANCER_TYPES[number], st
 	return csvFile;
  }
 
-// Download function for tidy data format (one observation - year and filter options - per row)
+
+// Download function and helpers for tidy data format
+// (one observation - year and filter options - per row)
+type DownloadRow = Record<string, string | undefined>;
+
+function isGroupedRows(
+    rows: DownloadRow[] | DownloadRow[][],
+): rows is DownloadRow[][] {
+    return Array.isArray(rows[0]);
+}
+
+// Download function for tidy data format
+// (one observation - year and filter options - per row)
 export function createTidyDownloadFile(
-  groupedResults: IncidenceProcessedRow[] | IncidenceProcessedRow[][]
+    groupedResults: DownloadRow[] | DownloadRow[][],
 ): string {
-  // Flatten data
-  const rows = Array.isArray(groupedResults[0])
-    ? (groupedResults as IncidenceProcessedRow[][]).flat()
-    : (groupedResults as IncidenceProcessedRow[]);
+    let rows: DownloadRow[];
 
-  // Create csv format using Papaparse
-  const csv = Papa.unparse(rows);
+    if (isGroupedRows(groupedResults)) {
+        rows = groupedResults.flat();
+    } else {
+        rows = groupedResults;
+    }
 
-  // Format for download
-  return (
-    "data:text/csv;charset=utf-8," +
-    encodeURIComponent(csv)
-  );
+    // Create CSV format using PapaParse
+    const csv = Papa.unparse(rows);
+
+    // Format for download
+    return (
+        "data:text/csv;charset=utf-8," +
+        encodeURIComponent(csv)
+    );
 }
 
 // Filename for download
