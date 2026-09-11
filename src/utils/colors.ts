@@ -1,5 +1,5 @@
 import type { ChartColorMapping, ChartArgs } from "../types";
-import { INCIDENCE_LABEL_VARIABLES, VARIABLE_TYPE, SURVIVAL_VARIABLE_OPTIONS, STATISTICS_CONFIG } from "./variables";
+import { SURVIVAL_LABEL_VARIABLES, VARIABLE_TYPE, SURVIVAL_VARIABLE_OPTIONS, STATISTICS_CONFIG } from "./variables";
 import chroma from "chroma-js";
 
 // --- Helper functions ---
@@ -149,29 +149,35 @@ export function getChartColorMapping(
 
     // ---- Single series ----
 
+    // Note: using survival variables since includes all incidence variables;
+    // will need to create new type as union of all variables if statistics
+    // change in the future
     const variables = Object.keys(chartArgs.allSeries[0].variables) as
-        typeof INCIDENCE_LABEL_VARIABLES[number][];
+        typeof SURVIVAL_LABEL_VARIABLES[number][];
 
-    // Only one variable
+    console.log("Variables for cmap: ", variables)
+    // Only one variable --> use that variable
     if (
         variables.length === 1
     ) {
         return {
-            key: 'sex',
+            key: variables[0],
             colors: VARIABLE_CMAPS[variables[0]]
         };
     }
 
     // Sex + another variable -> use the other variable
-    const nonSexVariable = variables.find(
-        variable => variable !== 'sex'
-    );
+    if (variables.length === 2 && variables.includes("sex")) {
+        const nonSexVariable = variables.find(
+            variable => variable !== 'sex'
+        );
 
-    if (nonSexVariable) {
-        return {
-            key: nonSexVariable,
-            colors: VARIABLE_CMAPS[nonSexVariable]
-        };
+        if (nonSexVariable) {
+            return {
+                key: nonSexVariable,
+                colors: VARIABLE_CMAPS[nonSexVariable]
+            };
+        }
     }
 
     // Nothing suitable for color encoding -> use default color (don't use variables for encoding)

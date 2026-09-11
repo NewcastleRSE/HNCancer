@@ -156,10 +156,12 @@ function returnAllIncidenceSeries<T extends number | string>(
 
 
 
-// Helper for calculating margins
-function computeLabelMargins(allSeries: IncidenceChartSeries[] | IncidenceTableSeries[], minSize: number, maxSize: number) {
+// Helper for calculating margins, depending on amount of space needed for labels
+function computeLabelMargins(
+	allSeries: { name: string }[], minSize: number, maxSize: number
+) {
 	// Calculate size of margin based on label lengths
-	// Will be length of longest label * 7, with min of 150 and max of 275
+	// Will be length of longest label * 7, with min of minSize and max of maxSize
 	const longestNameLength = Math.max(
     ...allSeries.map(series => series.name.length)
 	);
@@ -418,10 +420,24 @@ function setLineChartOptions(
 	// Whether there are multiple series
 	const isMulti = chartArgs.allSeries.length > 1;
 
-	// Get colormapping
+	// Colours
 	const cmap = getChartColorMapping(chartArgs);
-	console.log("Chart cmap: ", cmap)
+	const seriesColors = chartArgs.allSeries.map((series) => {
+		// If no colour variable, use the series name.
+		if (!cmap.key) {
+			return cmap.colors[series.name];
+		}
 
+		// It there is a colour variable, get the variable's value for this series from 
+		// series.variables.
+		const colorValue =
+			(series.variables as Record<string, string>)[cmap.key];
+
+		// Look up the colour for that value.
+		// Fall back to the series name if the variable isn't present.
+		return cmap.colors[colorValue ?? series.name];
+	});
+	
 	// Options
     const option = {
 		title: [
@@ -507,19 +523,11 @@ function setLineChartOptions(
 			// Colors - depends on specific variable (cmap.key) if present; otherwise
 			// full label is used
 			itemStyle: {
-                color: cmap.colors[
-                    cmap.key
-                        ? series.variables[cmap.key]!
-                        : series.name
-                ]
+                color: seriesColors[i]
             },
 
             lineStyle: {
-                color: cmap.colors[
-                    cmap.key
-                        ? series.variables[cmap.key]!
-                        : series.name
-                ]
+                color: seriesColors[i]
             },
 
 			// x,y pairs
