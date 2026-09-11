@@ -11,7 +11,8 @@ import type {
 	IncidenceFilterVariable, 
 	SurvivalProcessedRow,
 	SurvivalSeries,
-	ChartArgs
+	ChartArgs,
+	SurvivalFilter
 } from "../types";
 
 
@@ -169,8 +170,8 @@ function computeLabelMargins(allSeries: IncidenceChartSeries[] | IncidenceTableS
 	return margin
 }
 
-export function formatIncidenceFilterSubtitle(
-  filter: IncidenceFilter,
+export function formatFilterSubtitle(
+  filter: IncidenceFilter | SurvivalFilter,
   maxLength: number,
   statistic: typeof CANCER_STATISTICS[number],
 ): { subtitle: string; lineCount: number } {
@@ -299,7 +300,7 @@ function setLineChartOptions(
 	let seriesData: [number, number][][];
 
 	// Subtitle from search terms
-	let {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(chartArgs.filter, 150, chartArgs.statistic);
+	let {subtitle, lineCount: nSubtitleLines} = formatFilterSubtitle(chartArgs.filter, 150, chartArgs.statistic);
 
 	// Statistic-specific logic to create data and labels
 	if (chartArgs.statistic === "incidence") {
@@ -415,7 +416,7 @@ function setLineChartOptions(
 	const isMulti = chartArgs.allSeries.length > 1;
 
 	// Get colormapping
-	const cmap = getChartColorMapping(chartArgs.allSeries);
+	const cmap = getChartColorMapping(chartArgs);
 	console.log("Chart cmap: ", cmap)
 
 	// Options
@@ -582,7 +583,7 @@ function setTableChartOptions(
 	const leftMargin = CHART_LEFT_MARGIN;
 
 	// Subtitle from search terms
-	const {subtitle, lineCount: nSubtitleLines} = formatIncidenceFilterSubtitle(filter, 150, statistic);
+	const {subtitle, lineCount: nSubtitleLines} = formatFilterSubtitle(filter, 150, statistic);
 
 	// Set chart options to create table
 	const options = {
