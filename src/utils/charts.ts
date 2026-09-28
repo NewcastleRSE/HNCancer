@@ -247,6 +247,9 @@ export function formatFilterSubtitle(
 function getTitle(args: ChartArgs | TableArgs) {
 	let titleText = "";
 
+	// Need to add "head and neck cancers" rather than "cancer" if subsite is "other"
+	let cancerText = args.cancer.toLowerCase() === "other" ? "head and neck cancers" : "cancer";
+
 	if (args.statistic === "incidence") {
 
 		// Get year range from data
@@ -269,9 +272,12 @@ function getTitle(args: ChartArgs | TableArgs) {
 		if (args.filter.ageBand[0] === String(STATISTICS_CONFIG[args.statistic].variableAll.ageBand.value)) {
 			ageText = "age-standardised "; // include trailing space in string
 		}
-		titleText = `Trends in ${ageText}incidence of ${args.cancer.toLowerCase()} cancer: England ${minYear}-${maxYear}`
+
+		// Title
+		titleText = `Trends in ${ageText}incidence of ${args.cancer.toLowerCase()} ${cancerText}: England ${minYear}-${maxYear}`
+	
 	} else if (args.statistic === "survival") {
-		titleText = `Net survival of ${args.cancer.toLowerCase()} cancer: England`;
+		titleText = `Net survival of ${args.cancer.toLowerCase()} ${cancerText}: England`;
 
 	} else {
 		throw new Error("Unsupported statistic");
