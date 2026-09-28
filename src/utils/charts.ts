@@ -243,7 +243,7 @@ export function formatFilterSubtitle(
   };
 }
 
-// Get chart/table title and location from top of chart
+// Get chart/table title
 function getTitle(args: ChartArgs | TableArgs) {
 	let titleText = "";
 
@@ -270,7 +270,7 @@ function getTitle(args: ChartArgs | TableArgs) {
 		// Need to add "age-standardised" if all ages is filter
 		let ageText = ""; 
 		if (args.filter.ageBand[0] === String(STATISTICS_CONFIG[args.statistic].variableAll.ageBand.value)) {
-			ageText = "age-standardised "; // include trailing space in string
+			ageText = "age-standardised{sup|+} "; // include trailing space in string
 		}
 
 		// Title
@@ -283,12 +283,40 @@ function getTitle(args: ChartArgs | TableArgs) {
 		throw new Error("Unsupported statistic");
 	}
 
-	return titleText
+	return titleText;
 }
 
+// Get chart/table footnote
+// Uses echarts formatting to format {sup|...} text 
+function getFootnote(args: ChartArgs | TableArgs) {
+	let footnoteText = "";
+
+	if (args.statistic === "incidence") {
+
+		// Need to add "age-standardised" footnote text if all ages is filter
+		let ageText = ""; 
+		if (args.filter.ageBand[0] === String(STATISTICS_CONFIG[args.statistic].variableAll.ageBand.value)) {
+			ageText = "\n\n\n{sup|+}Age-standardised rates were estimated using mid-year population estimates published by ONS";
+		}
+
+		footnoteText = "*Data for years up to 2021 have been estimated from the National Cancer Registry Dataset. "
+			+ "For 2022 and 2023 rates have been estimated using the automatically generated Rapid Registration Database "
+			+ "and may be subject to change as registrations are validated." + ageText;
+
+	} else if (args.statistic === "survival") {
+		footnoteText = `Footnote survival`;
+
+	} else {
+		throw new Error("Unsupported statistic");
+	}
+	return footnoteText;
+}
+
+
 // Fixed chart sizes
+const CHART_HEIGHT = 550;
 const CHART_GRID_TOP = 60;
-const CHART_GRID_BOTTOM = 100;
+const CHART_GRID_BOTTOM = 165; // amount of space beneath plot
 const CHART_SUBTITLE_LINE = 16;
 const CHART_LEFT_MARGIN = 150;
 const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/legends with y-axis
@@ -296,6 +324,8 @@ const CHART_AXIS_LABEL_SIZE = 14;
 const CHART_AXIS_LABEL_WEIGHT = "normal";
 const CHART_AXIS_LABEL_COLOR = "#555"
 const CHART_MAX_SUBTITLE_LENGTH = 140;
+const CHART_RESPONSIVE_PX = 812;
+const CHART_FOOTNOTE_COLOR = "#777"
 
 // Options for single or multi line chart
 // Also adds data to the chart
@@ -335,15 +365,19 @@ function setLineChartOptions(
 			interval: 1,
 			name: 'Year of diagnosis',
 			nameLocation: 'middle',
-		  	nameGap: 25, //distance from the axis
+		  	nameGap: 30, //distance from the axis
 			nameTextStyle: {
 				fontWeight: CHART_AXIS_LABEL_WEIGHT,
 			    color: CHART_AXIS_LABEL_COLOR,
 				fontSize: CHART_AXIS_LABEL_SIZE,
 			},
 			// Format years as strings to prevent commas from being inserted
+			// Also add asterics to 2022 and 2023 for footnote
 			axisLabel: {
-				formatter: (value: number) => value.toString()
+				formatter: (value: number) => {
+					let fval = value === 2022 || value === 2023? `${value}*`: value.toString();
+					return fval;
+				}
 			}
 		}
 
@@ -408,6 +442,9 @@ function setLineChartOptions(
 	// Title
 	let titleText = getTitle(chartArgs);
 
+	// Footnote
+	let footnoteText = getFootnote(chartArgs);
+
 	// Create ylabel object
 	let yLab = {
 		type: "text",
@@ -420,9 +457,29 @@ function setLineChartOptions(
 			textVerticalAlign: "middle",
 			fill: CHART_AXIS_LABEL_COLOR,
 			lineHeight: CHART_AXIS_LABEL_SIZE,
-			fontSize: CHART_AXIS_LABEL_SIZE
+			fontSize: CHART_AXIS_LABEL_SIZE,
 		},
-	}
+	};
+
+	// Create footnote object
+	let footnote = {
+      type: 'text',
+      left: CHART_LEFT_MARGIN,
+      top: CHART_HEIGHT - 75,
+      style: {
+        text: footnoteText,
+        font: `italic ${CHART_AXIS_LABEL_SIZE - 2}px sans-serif`,
+        fill: CHART_FOOTNOTE_COLOR,
+        width: CHART_RESPONSIVE_PX - CHART_LEFT_MARGIN,
+        overflow: 'break',
+		rich: {
+			sup: {
+				fontSize: CHART_AXIS_LABEL_SIZE - 6,
+				verticalAlign: "top",
+			},
+	  	}
+	  }
+	};
 
 	// Calculate size of right margin based on label lengths
 	// Will be length of longest label * 7, with min of 150 and max of 275
@@ -455,7 +512,15 @@ function setLineChartOptions(
 			{
 				text: titleText,
 				left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER,
-				top: 10
+				top: 10,
+				textStyle: {
+					rich: {
+						sup: {
+							fontSize: CHART_AXIS_LABEL_SIZE - 4,
+							verticalAlign: "top",
+						},
+					}
+				}
 			},
 			{
 				text: subtitle,
@@ -479,8 +544,6 @@ function setLineChartOptions(
 			left: CHART_LEFT_MARGIN,
         	right: rightMargin,
 			top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * nSubtitleLines),
-			// If legend, add extra white space between the legend and bottom of the chart
-			// Otherwise, use default (60)
 			bottom: CHART_GRID_BOTTOM, 
 			containLabel: false
     	},
@@ -494,7 +557,7 @@ function setLineChartOptions(
 			}
 		},
 		xAxis: xOpt,
-		graphic: [yLab],
+		graphic: [yLab, footnote],
 		yAxis: {
 			type: 'value',
 			axisLabel: {
@@ -511,7 +574,7 @@ function setLineChartOptions(
 			padding: [
 				0,  // top
 				rightMargin, // right
-				10,  // bottom
+				CHART_GRID_BOTTOM - 90,  // bottom
 				0, // left
 			]
 		},
@@ -560,7 +623,7 @@ const TABLE_COL_WIDTH = {
 	"survival": 80
 }
 const TABLE_GRID_TOP = 90;
-const TABLE_GRID_BOTTOM = 20;
+const TABLE_GRID_BOTTOM = 100;
 const TABLE_SUBTITLE_LINE = 16;
 
 // Helper function for calculating height of table
@@ -692,6 +755,32 @@ function setTableChartOptions(
 		tableArgs.filter, CHART_MAX_SUBTITLE_LENGTH, tableArgs.statistic
 	);
 
+		// Footnote
+	let footnoteText = getFootnote(tableArgs);
+
+	// Get height so know where to place footnote
+	const height = getTableChartHeight(tableArgs.allSeries.length, nSubtitleLines, tableArgs.statistic);
+
+	// Create footnote object
+	let footnote = {
+      type: 'text',
+      left: leftMargin,
+      top: height - 75,
+      style: {
+        text: footnoteText,
+        font: `italic ${CHART_AXIS_LABEL_SIZE - 2}px sans-serif`,
+        fill: CHART_FOOTNOTE_COLOR,
+        width: CHART_RESPONSIVE_PX - leftMargin,
+        overflow: 'break',
+		rich: {
+			sup: {
+				fontSize: CHART_AXIS_LABEL_SIZE - 6,
+				verticalAlign: "top",
+			},
+	  	}
+	  }
+	};
+
 	// Set chart options to create table
 	const options = {
 
@@ -699,7 +788,15 @@ function setTableChartOptions(
 			{
 				text: titleText,
 				left: leftMargin,
-				top: 10			
+				top: 10,
+				textStyle: {
+					rich: {
+						sup: {
+							fontSize: CHART_AXIS_LABEL_SIZE - 4,
+							verticalAlign: "top",
+						},
+					}
+				}			
 			},
 			{
 				text: subtitle,
@@ -735,6 +832,11 @@ function setTableChartOptions(
 
 			axisLabel: {
 			  	fontWeight: "bold",
+				// Add asterics to 2022 and 2023 for footnote
+				formatter: (value: string) => {
+					let fval = value === "2022" || value === "2023"? `${value}*`: value;
+					return fval;
+				}
 			},
 
 			axisTick: {
@@ -778,6 +880,9 @@ function setTableChartOptions(
 				},
 			}
 		},
+
+		// Footnotes
+		graphic: [footnote],
 
 		// Create heatmap using rates values
 		visualMap: {
