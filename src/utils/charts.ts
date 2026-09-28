@@ -323,7 +323,7 @@ const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/lege
 const CHART_AXIS_LABEL_SIZE = 14;
 const CHART_AXIS_LABEL_WEIGHT = "normal";
 const CHART_AXIS_LABEL_COLOR = "#555"
-const CHART_MAX_SUBTITLE_LENGTH = 140;
+const CHART_MAX_SUBTITLE_LENGTH = 125;
 const CHART_RESPONSIVE_PX = 812;
 const CHART_FOOTNOTE_COLOR = "#777"
 
@@ -470,7 +470,7 @@ function setLineChartOptions(
         text: footnoteText,
         font: `italic ${CHART_AXIS_LABEL_SIZE - 2}px sans-serif`,
         fill: CHART_FOOTNOTE_COLOR,
-        width: CHART_RESPONSIVE_PX - CHART_LEFT_MARGIN,
+        width: CHART_RESPONSIVE_PX - CHART_LEFT_MARGIN - 50,
         overflow: 'break',
 		rich: {
 			sup: {
@@ -482,8 +482,7 @@ function setLineChartOptions(
 	};
 
 	// Calculate size of right margin based on label lengths
-	// Will be length of longest label * 7, with min of 150 and max of 275
-	const rightMargin = computeLabelMargins(chartArgs.allSeries, 150, 275)
+	const rightMargin = computeLabelMargins(chartArgs.allSeries, 50, 275)
 
 	// Whether there are multiple series
 	const isMulti = chartArgs.allSeries.length > 1;
@@ -619,12 +618,13 @@ const TABLE_ROW_HEIGHT = {
 	"survival": 50
 }
 const TABLE_COL_WIDTH = {
-	"incidence": 90,
-	"survival": 80
+	"incidence": 80,
+	"survival": 75
 }
 const TABLE_GRID_TOP = 90;
 const TABLE_GRID_BOTTOM = 100;
 const TABLE_SUBTITLE_LINE = 16;
+const TABLE_RIGHT_MARGIN = 50;
 
 // Helper function for calculating height of table
 function getTableChartHeight(numberOfSeries: number, nSubtitleLines: number, statistic: Statistic): number {
@@ -770,7 +770,7 @@ function setTableChartOptions(
         text: footnoteText,
         font: `italic ${CHART_AXIS_LABEL_SIZE - 2}px sans-serif`,
         fill: CHART_FOOTNOTE_COLOR,
-        width: CHART_RESPONSIVE_PX - leftMargin,
+        width: CHART_RESPONSIVE_PX - leftMargin - TABLE_RIGHT_MARGIN,
         overflow: 'break',
 		rich: {
 			sup: {
@@ -819,7 +819,7 @@ function setTableChartOptions(
 
 		grid: {
 			left: leftMargin,
-			right: 50,
+			right: TABLE_RIGHT_MARGIN,
 			top: TABLE_GRID_TOP + (TABLE_SUBTITLE_LINE * nSubtitleLines),
 			bottom: TABLE_GRID_BOTTOM,
 			containLabel: false,
@@ -935,7 +935,7 @@ function setTableChartOptions(
 					},
 
 					details: {
-						fontSize: 12,
+						fontSize: 11,
 						fontWeight: "200",
 						lineHeight: 16,
 					},
