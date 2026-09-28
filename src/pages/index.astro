@@ -45,6 +45,13 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     SurvivalProcessedRow,
   } from "../types";
 
+  // Reset results helper
+  function resetResults(messageText: string, messageType: "normal" | "danger") {
+    renderBlankChart(myChart);
+    renderBlankChart(myTable);
+    setMessageText(messageText, messageType);
+  }
+
   // Initialise chart
   const myChart = initChart("csv-chart");
 
@@ -59,9 +66,9 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
     // Messages for if inputs are not provided; otherwise, run search
     if (!cancer) {
-      setMessageText("Please choose a HNC subsite.", "danger");
+      resetResults("Please choose a HNC subsite.", "danger");
     } else if (!statistic) {
-      setMessageText("Please choose a statistic.", "danger");
+      resetResults("Please choose a statistic.", "danger");
     } else {
       console.log("Search filter:", filter);
       const CSV_file = getCancerCSVFilename(cancer, statistic);
@@ -81,9 +88,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
           complete: (results) => {
             if (CSV_file === "") {
-              renderBlankChart(myChart);
-              renderBlankChart(myTable);
-              setMessageText(
+              resetResults(
                 "Please choose a HNC subsite and statistic.",
                 "danger",
               );
@@ -123,9 +128,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
               console.log("groupedResults:", groupedResults);
 
               if (groupedResults.length < 1) {
-                renderBlankChart(myChart);
-                renderBlankChart(myTable);
-                setMessageText(
+                resetResults(
                   "No data is available for these search filters.",
                   "danger",
                 );
@@ -201,18 +204,18 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 error instanceof Error
                   ? error.message
                   : "Unable to process query.";
-              setMessageText(msg, "danger");
+              resetResults(msg, "danger");
 
               downloadLinkBtn.innerHTML = "<p></p>";
             }
           },
 
           error: (error: Error) => {
-            setMessageText(`Parsing error: ${error.message}`, "danger");
+            resetResults(`Parsing error: ${error.message}`, "danger");
           },
         });
       } catch (err) {
-        setMessageText("Could not fetch CSV file with cancer data.", "danger");
+        resetResults("Could not fetch CSV file with cancer data.", "danger");
 
         console.error(err);
       }
