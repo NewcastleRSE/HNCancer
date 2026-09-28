@@ -336,11 +336,14 @@ function setLineChartOptions(
 	// - x-axis
 	// - y-axis label (implemented as graphic to have control over location) and location
 	// - data 
+	// - tooltip formatters
 	let xOpt = {};
 	let yLabText = ""; // text only - label settings are the same for both statistics
 	let yLabLeft = 0; // Controls horizontal location for y-axis label
 	let yNDec = 0; // How many decimal places values should have
 	let seriesData: [number, number][][];
+	let tooltipValueFormatter: (value: number) => string;
+	let axisPointerFormatter: (params: any) => string;
 
 	// Subtitle from search terms
 	let {subtitle, lineCount: nSubtitleLines} = formatFilterSubtitle(
@@ -400,6 +403,10 @@ function setLineChartOptions(
 				series.rates[i]
 			])
 		);
+
+		// tooltip format
+    	tooltipValueFormatter = (value) => value.toFixed(yNDec);
+    	axisPointerFormatter = (params) => String(params.value);
 	} else if (chartArgs.statistic === "survival") {
 
 		// Get quarterYear range from data for the x-axis
@@ -435,6 +442,14 @@ function setLineChartOptions(
 				series.survival[i]
 			])
 		);
+
+		// Tooltip formatter
+		tooltipValueFormatter = (value) => `${value.toFixed(yNDec)}%`;
+		axisPointerFormatter = (params) => {
+			const value = Number(params.value);
+			return `${value} ${value === 1 ? 'year' : 'years'}`;
+		};
+
 	} else {
 		throw new Error("Unsupported statistic");
 	}
@@ -548,10 +563,10 @@ function setLineChartOptions(
     	},
 		tooltip: {
 			trigger: 'axis',
-			valueFormatter: (value: number) => value.toFixed(yNDec),
+			valueFormatter: tooltipValueFormatter,
 			axisPointer: {
 				label: {
-				formatter: (params: any) => String(params.value)
+					formatter: axisPointerFormatter
 				}
 			}
 		},
@@ -716,8 +731,9 @@ function setTableChartOptions(
 				series.ciUb[yearIndex].toFixed(0),
 			])
 		);
-		xData = quarterYear.map(year => `${year} yrs`);
-
+		xData = quarterYear.map(year =>
+			`${year} ${year === 1 ? 'yr' : 'yrs'}`
+		);
 		// Colormap min/max - remove any undefined values first
 		const allSurvivalValues = tableArgs.allSeries
 			.flatMap((series) => series.survival)
