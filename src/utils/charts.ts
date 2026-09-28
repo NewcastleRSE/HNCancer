@@ -296,7 +296,7 @@ function getFootnote(args: ChartArgs | TableArgs) {
 		// Need to add "age-standardised" footnote text if all ages is filter
 		let ageText = ""; 
 		if (args.filter.ageBand[0] === String(STATISTICS_CONFIG[args.statistic].variableAll.ageBand.value)) {
-			ageText = "\n\n\n{sup|+}Age-standardised rates were estimated using mid-year population estimates published by ONS";
+			ageText = "\n\n\n{sup|+}Age-standardised rates were estimated using mid-year population estimates published by ONS.";
 		}
 
 		footnoteText = "*Data for years up to 2021 have been estimated from the National Cancer Registry Dataset. "
