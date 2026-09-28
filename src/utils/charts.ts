@@ -277,7 +277,7 @@ function getTitle(args: ChartArgs | TableArgs) {
 		titleText = `Trends in ${ageText}incidence of ${args.cancer.toLowerCase()} ${cancerText}: England ${minYear}-${maxYear}`
 	
 	} else if (args.statistic === "survival") {
-		titleText = `Net survival of ${args.cancer.toLowerCase()} ${cancerText}: England`;
+		titleText = `Net survival* of ${args.cancer.toLowerCase()} ${cancerText}: England`;
 
 	} else {
 		throw new Error("Unsupported statistic");
@@ -304,7 +304,7 @@ function getFootnote(args: ChartArgs | TableArgs) {
 			+ "and may be subject to change as registrations are validated." + ageText;
 
 	} else if (args.statistic === "survival") {
-		footnoteText = `Footnote survival`;
+		footnoteText = "*Net survival allows the estimation of survival of the patient cohort in the absence of deaths from other causes.";
 
 	} else {
 		throw new Error("Unsupported statistic");
