@@ -146,27 +146,27 @@ quarterYear,survival,ciLb,ciUb,sex,dep,region,route,stage,ageBand,diagnosisYear
 4.5,.57999998,.55000001,.60000002,All Persons,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
 4.75,.56999999,.54000002,.58999997,All Persons,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
 5,.55000001,.51999998,.57999998,All Persons,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
-0,1,1,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.25,.93000001,.92000002,.94999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.5,.88999999,.88,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.75,.86000001,.85000002,.88,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1,.82999998,.81,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.25,.81,.79000002,.82999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.5,.77999997,.75999999,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.75,.75999999,.74000001,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2,.74000001,.72000003,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.25,.70999998,.69,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.5,.69,.67000002,.72000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.75,.67000002,.64999998,.69999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3,.66000003,.63,.68000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.25,.63999999,.62,.67000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.5,.63,.60000002,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.75,.62,.58999997,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4,.60000002,.57999998,.63,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.25,.58999997,.56,.62,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.5,.57999998,.55000001,.61000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.75,.57999998,.55000001,.61000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-5,.56,.52999997,.60000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
+0,1,1,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.25,.93000001,.92000002,.94999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.5,.88999999,.88,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.75,.86000001,.85000002,.88,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1,.82999998,.81,.85000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.25,.81,.79000002,.82999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.5,.77999997,.75999999,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.75,.75999999,.74000001,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2,.74000001,.72000003,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.25,.70999998,.69,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.5,.69,.67000002,.72000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.75,.67000002,.64999998,.69999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3,.66000003,.63,.68000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.25,.63999999,.62,.67000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.5,.63,.60000002,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.75,.62,.58999997,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4,.60000002,.57999998,.63,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.25,.58999997,.56,.62,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.5,.57999998,.55000001,.61000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.75,.57999998,.55000001,.61000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+5,.56,.52999997,.60000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
 0,1,1,1,All Persons,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
 .25,.89999998,.88999999,.92000002,All Persons,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
 .5,.87,.83999997,.88999999,All Persons,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
@@ -842,27 +842,27 @@ quarterYear,survival,ciLb,ciUb,sex,dep,region,route,stage,ageBand,diagnosisYear
 4.5,.58999997,.56,.62,Male,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
 4.75,.57999998,.55000001,.61000001,Male,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
 5,.56,.52999997,.58999997,Male,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
-0,1,1,1,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.25,.93000001,.92000002,.94999999,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.5,.89999998,.88,.92000002,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.75,.87,.85000002,.88999999,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1,.83999997,.81999999,.86000001,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.25,.81,.79000002,.83999997,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.5,.79000002,.75999999,.81,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.75,.76999998,.74000001,.79000002,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2,.74000001,.72000003,.76999998,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.25,.72000003,.69,.74000001,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.5,.69,.66000003,.72000003,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.75,.68000001,.64999998,.70999998,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3,.66000003,.63999999,.69,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.25,.64999998,.62,.68000001,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.5,.63999999,.61000001,.67000002,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.75,.62,.58999997,.64999998,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4,.61000001,.57999998,.63999999,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.25,.60000002,.56999999,.63,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.5,.58999997,.55000001,.62,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.75,.57999998,.55000001,.62,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-5,.56999999,.54000002,.61000001,Male,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
+0,1,1,1,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.25,.93000001,.92000002,.94999999,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.5,.89999998,.88,.92000002,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.75,.87,.85000002,.88999999,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1,.83999997,.81999999,.86000001,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.25,.81,.79000002,.83999997,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.5,.79000002,.75999999,.81,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.75,.76999998,.74000001,.79000002,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2,.74000001,.72000003,.76999998,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.25,.72000003,.69,.74000001,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.5,.69,.66000003,.72000003,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.75,.68000001,.64999998,.70999998,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3,.66000003,.63999999,.69,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.25,.64999998,.62,.68000001,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.5,.63999999,.61000001,.67000002,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.75,.62,.58999997,.64999998,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4,.61000001,.57999998,.63999999,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.25,.60000002,.56999999,.63,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.5,.58999997,.55000001,.62,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.75,.57999998,.55000001,.62,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+5,.56999999,.54000002,.61000001,Male,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
 0,1,1,1,Male,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
 .25,.89999998,.88,.92000002,Male,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
 .5,.86000001,.83999997,.88999999,Male,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
@@ -1536,27 +1536,27 @@ quarterYear,survival,ciLb,ciUb,sex,dep,region,route,stage,ageBand,diagnosisYear
 4.5,.5,.43000001,.56999999,Female,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
 4.75,.49000001,.41999999,.56,Female,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
 5,.47999999,.41,.55000001,Female,IMD Q4,All Regions,All Routes,All Stages,All Ages,All Years
-0,1,.99000001,1,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.25,.92000002,.88999999,.95999998,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.5,.86000001,.81,.91000003,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-.75,.83999997,.79000002,.88999999,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1,.79000002,.73000002,.83999997,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.25,.77999997,.72000003,.82999998,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.5,.75999999,.69999999,.81999999,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-1.75,.74000001,.67000002,.80000001,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2,.72000003,.66000003,.77999997,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.25,.69,.63,.75999999,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.5,.68000001,.61000001,.75,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-2.75,.63999999,.56999999,.70999998,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3,.62,.54000002,.69,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.25,.58999997,.51999998,.67000002,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.5,.56999999,.5,.64999998,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-3.75,.56,.49000001,.63999999,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4,.55000001,.47,.62,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.25,.55000001,.47,.62,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.5,.55000001,.47,.62,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-4.75,.55000001,.47,.62,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
-5,.50999999,.43000001,.60000002,Female,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,All Years
+0,1,.99000001,1,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.25,.92000002,.88999999,.95999998,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.5,.86000001,.81,.91000003,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+.75,.83999997,.79000002,.88999999,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1,.79000002,.73000002,.83999997,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.25,.77999997,.72000003,.82999998,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.5,.75999999,.69999999,.81999999,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+1.75,.74000001,.67000002,.80000001,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2,.72000003,.66000003,.77999997,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.25,.69,.63,.75999999,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.5,.68000001,.61000001,.75,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+2.75,.63999999,.56999999,.70999998,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3,.62,.54000002,.69,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.25,.58999997,.51999998,.67000002,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.5,.56999999,.5,.64999998,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+3.75,.56,.49000001,.63999999,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4,.55000001,.47,.62,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.25,.55000001,.47,.62,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.5,.55000001,.47,.62,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+4.75,.55000001,.47,.62,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
+5,.50999999,.43000001,.60000002,Female,IMD Q5,All Regions,All Routes,All Stages,All Ages,All Years
 0,.99000001,.98000002,1.01,Female,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
 .25,.91000003,.87,.94999999,Female,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
 .5,.87,.81999999,.92000002,Female,All IMD Quintiles,East Midlands,All Routes,All Stages,All Ages,All Years
@@ -4405,567 +4405,567 @@ quarterYear,survival,ciLb,ciUb,sex,dep,region,route,stage,ageBand,diagnosisYear
 1.5,.72000003,.67000002,.76999998,All Persons,IMD Q4,All Regions,All Routes,All Stages,All Ages,2021
 1.75,.72000003,.67000002,.76999998,All Persons,IMD Q4,All Regions,All Routes,All Stages,All Ages,2021
 2,.69999999,.63999999,.76999998,All Persons,IMD Q4,All Regions,All Routes,All Stages,All Ages,2021
-0,.99000001,.98000002,1.01,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-.25,.89999998,.85000002,.94999999,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-.5,.86000001,.80000001,.92000002,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-.75,.82999998,.76999998,.88999999,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-1,.79000002,.72000003,.85000002,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-1.25,.77999997,.70999998,.85000002,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-1.5,.75999999,.69,.82999998,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-1.75,.70999998,.63,.77999997,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-2,.69,.61000001,.76999998,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-2.25,.66000003,.57999998,.73000002,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-2.5,.63,.55000001,.70999998,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-2.75,.62,.54000002,.69999999,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-3,.62,.54000002,.69999999,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-3.25,.58999997,.5,.67000002,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-3.5,.56999999,.49000001,.66000003,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-3.75,.56,.47,.64999998,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-4,.55000001,.46000001,.63999999,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-4.25,.55000001,.46000001,.63999999,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-4.5,.55000001,.46000001,.63999999,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-4.75,.55000001,.46000001,.63999999,All Persons,IMD 5 - least deprived,East Midlands,All Routes,All Stages,All Ages,All Years
-0,.99000001,.98000002,1.01,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-.25,.95999998,.93000001,.99000001,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-.5,.89999998,.85000002,.94,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-.75,.87,.81999999,.92000002,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-1,.81999999,.75999999,.87,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-1.25,.80000001,.75,.86000001,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-1.5,.77999997,.72000003,.83999997,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-1.75,.75999999,.69999999,.82999998,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-2,.74000001,.68000001,.80000001,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-2.25,.70999998,.63999999,.76999998,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-2.5,.69,.62,.75999999,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-2.75,.67000002,.60000002,.74000001,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-3,.66000003,.58999997,.73000002,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-3.25,.64999998,.57999998,.72000003,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-3.5,.64999998,.57999998,.72000003,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-3.75,.63,.56,.70999998,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-4,.62,.55000001,.69999999,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-4.25,.61000001,.52999997,.68000001,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-4.5,.56999999,.49000001,.64999998,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-4.75,.56999999,.49000001,.64999998,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-5,.56999999,.49000001,.64999998,All Persons,IMD 5 - least deprived,East of England,All Routes,All Stages,All Ages,All Years
-0,.99000001,.97000003,1.01,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-.25,.93000001,.88,.98000002,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-.5,.92000002,.87,.97000003,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-.75,.88,.81999999,.94,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-1,.85000002,.77999997,.92000002,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-1.25,.81,.74000001,.88999999,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-1.5,.79000002,.70999998,.87,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-1.75,.77999997,.69999999,.86000001,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-2,.77999997,.69999999,.86000001,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-2.25,.75999999,.67000002,.83999997,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-2.5,.73000002,.63999999,.81999999,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-2.75,.73000002,.63999999,.81999999,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-3,.67000002,.56999999,.75999999,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-3.25,.64999998,.55000001,.75,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-3.5,.63999999,.54000002,.74000001,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-3.75,.61000001,.5,.70999998,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-4,.58999997,.47999999,.69999999,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-4.25,.56999999,.46000001,.68000001,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-4.5,.55000001,.44,.66000003,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-4.75,.55000001,.44,.66000003,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-5,.55000001,.44,.66000003,All Persons,IMD 5 - least deprived,London,All Routes,All Stages,All Ages,All Years
-0,.98000002,.94999999,1.02,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-.25,.92000002,.85000002,.99000001,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-.5,.82999998,.74000001,.93000001,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-.75,.81999999,.72000003,.91000003,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-1,.80000001,.69999999,.89999998,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-1.25,.77999997,.68000001,.88999999,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-1.5,.77999997,.68000001,.88999999,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-1.75,.75999999,.66000003,.87,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-2,.75999999,.66000003,.87,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-2.25,.75999999,.66000003,.87,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-2.5,.74000001,.63,.85000002,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-2.75,.69999999,.57999998,.81999999,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-3,.64999998,.51999998,.77999997,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-3.25,.64999998,.51999998,.77999997,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-3.75,.62,.49000001,.75999999,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-4,.62,.49000001,.75999999,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-4.25,.62,.49000001,.75999999,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-4.5,.62,.49000001,.75999999,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-4.75,.62,.49000001,.75999999,All Persons,IMD 5 - least deprived,North East,All Routes,All Stages,All Ages,All Years
-0,.99000001,.98000002,1.01,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-.25,.95999998,.92000002,.99000001,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-.5,.94999999,.91000003,.99000001,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-.75,.92000002,.88,.97000003,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-1,.89999998,.85000002,.94999999,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-1.25,.86000001,.81,.92000002,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-1.5,.83999997,.77999997,.89999998,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-1.75,.82999998,.76999998,.89999998,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-2,.79000002,.72000003,.86000001,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-2.25,.76999998,.69999999,.83999997,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-2.5,.75,.68000001,.82999998,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-2.75,.74000001,.67000002,.81999999,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-3,.72000003,.63999999,.80000001,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-3.25,.70999998,.63,.79000002,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-3.5,.69999999,.62,.77999997,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-3.75,.69,.61000001,.76999998,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-4,.66000003,.57999998,.75,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-4.25,.64999998,.56,.74000001,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-4.5,.63,.54000002,.73000002,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-4.75,.63,.54000002,.73000002,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-5,.58999997,.49000001,.69999999,All Persons,IMD 5 - least deprived,North West,All Routes,All Stages,All Ages,All Years
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-.25,.93000001,.89999998,.94999999,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-.5,.88999999,.86000001,.93000001,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-.75,.86000001,.81999999,.88999999,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-1,.82999998,.79000002,.87,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-1.25,.80000001,.75999999,.83999997,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-1.5,.75999999,.70999998,.80000001,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-1.75,.73000002,.69,.77999997,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-2,.70999998,.66000003,.75999999,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-2.25,.69,.63999999,.74000001,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-2.5,.68000001,.63,.73000002,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-2.75,.66000003,.61000001,.70999998,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-3,.66000003,.60000002,.70999998,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-3.25,.63999999,.58999997,.69999999,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-3.5,.62,.56,.67000002,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-3.75,.61000001,.56,.67000002,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-4,.61000001,.55000001,.66000003,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-4.25,.60000002,.54000002,.64999998,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-4.5,.60000002,.54000002,.64999998,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-4.75,.60000002,.54000002,.64999998,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-5,.58999997,.52999997,.64999998,All Persons,IMD 5 - least deprived,South East,All Routes,All Stages,All Ages,All Years
-0,.99000001,.97000003,1.01,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-.25,.94999999,.91000003,.99000001,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-.5,.92000002,.88,.97000003,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-.75,.88,.82999998,.94,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-1,.87,.81,.93000001,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-1.25,.85000002,.80000001,.91000003,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-1.5,.85000002,.79000002,.91000003,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-1.75,.81999999,.75999999,.88999999,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-2,.77999997,.69999999,.85000002,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-2.25,.75,.67000002,.82999998,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-2.5,.73000002,.64999998,.81,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-2.75,.72000003,.63999999,.80000001,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-3,.70999998,.63,.79000002,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-3.25,.68000001,.58999997,.75999999,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-3.5,.67000002,.57999998,.75,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-3.75,.64999998,.56,.74000001,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-4,.63999999,.55000001,.73000002,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-4.25,.63999999,.55000001,.73000002,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-4.5,.62,.52999997,.72000003,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-4.75,.62,.52999997,.72000003,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-5,.60000002,.5,.69999999,All Persons,IMD 5 - least deprived,South West,All Routes,All Stages,All Ages,All Years
-0,.99000001,.98000002,1.01,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-.25,.91000003,.85000002,.95999998,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-.5,.86000001,.80000001,.92000002,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-.75,.82999998,.75999999,.88999999,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-1,.79000002,.72000003,.86000001,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-1.25,.75,.67000002,.81999999,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-1.5,.72000003,.63999999,.80000001,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-1.75,.69999999,.62,.77999997,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-2,.67000002,.58999997,.75,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-2.25,.66000003,.56999999,.75,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-2.5,.61000001,.51999998,.69999999,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-2.75,.58999997,.5,.68000001,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-3,.56,.47,.66000003,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-3.25,.56,.47,.66000003,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-3.5,.56,.47,.66000003,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-3.75,.5,.38999999,.61000001,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-4,.46000001,.34999999,.56999999,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-4.5,.44,.31999999,.55000001,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-5,.44,.31999999,.55000001,All Persons,IMD 5 - least deprived,West Midlands,All Routes,All Stages,All Ages,All Years
-0,.99000001,.98000002,1.01,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-.25,.94,.89999998,.98000002,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-.5,.86000001,.80000001,.91000003,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-.75,.83999997,.77999997,.89999998,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-1,.81999999,.75999999,.88,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-1.25,.81999999,.75999999,.88,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-1.5,.80000001,.73000002,.87,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-1.75,.77999997,.70999998,.85000002,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-2,.76999998,.69999999,.83999997,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-2.25,.73000002,.64999998,.80000001,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-2.5,.69999999,.62,.77999997,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-2.75,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-3,.63999999,.55000001,.72000003,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-3.25,.62,.54000002,.70999998,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-3.5,.62,.54000002,.70999998,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-3.75,.62,.54000002,.70999998,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-4,.62,.54000002,.70999998,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-4.25,.62,.54000002,.70999998,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-4.5,.61000001,.50999999,.69999999,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-4.75,.58999997,.49000001,.68000001,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-5,.56,.46000001,.67000002,All Persons,IMD 5 - least deprived,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
-0,.98000002,.94,1.02,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-.25,.63,.49000001,.75999999,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-.5,.5,.36000001,.63999999,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-.75,.47999999,.34,.62,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-1,.46000001,.31999999,.60000002,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-1.25,.44,.30000001,.57999998,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-1.75,.41999999,.28,.55000001,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-2,.40000001,.25999999,.52999997,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-2.25,.33000001,.2,.46000001,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-2.75,.28999999,.17,.41999999,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-3,.27000001,.15000001,.38999999,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-3.5,.20999999,.1,.31999999,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-4.25,.20999999,.1,.31999999,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-4.75,.20999999,.1,.31999999,All Persons,IMD 5 - least deprived,All Regions,Emergency,All Stages,All Ages,All Years
-0,1,1,1,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-.25,.94999999,.94,.97000003,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-.5,.91000003,.88999999,.93000001,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-.75,.88999999,.87,.91000003,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-1,.85000002,.81999999,.88,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-1.25,.82999998,.80000001,.86000001,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-1.5,.81,.77999997,.83999997,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-1.75,.77999997,.75,.81999999,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-2,.75999999,.73000002,.79000002,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-2.25,.73000002,.69,.75999999,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-2.5,.69999999,.67000002,.74000001,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-2.75,.69,.64999998,.72000003,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-3,.67000002,.63,.70999998,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-3.25,.66000003,.62,.69,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-3.5,.64999998,.61000001,.68000001,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-3.75,.63,.58999997,.67000002,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-4,.62,.57999998,.66000003,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-4.25,.61000001,.56999999,.63999999,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-4.5,.58999997,.56,.63,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-4.75,.58999997,.56,.63,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-5,.57999998,.54000002,.62,All Persons,IMD 5 - least deprived,All Regions,Non-emergency,All Stages,All Ages,All Years
-0,1,1,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-.25,.99000001,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-.5,.98000002,.97000003,.99000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-.75,.95999998,.94999999,.98000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-1,.94,.93000001,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-1.25,.93000001,.91000003,.94999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-1.5,.91000003,.88999999,.93000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-1.75,.88999999,.87,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-2,.88,.85000002,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-2.25,.85000002,.82999998,.88,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-2.5,.82999998,.81,.86000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-2.75,.82999998,.80000001,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-3,.81999999,.79000002,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-3.25,.81,.77999997,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-3.5,.79000002,.75999999,.82999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-3.75,.77999997,.75,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-4,.76999998,.74000001,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-4.25,.75,.72000003,.79000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-4.5,.74000001,.69999999,.76999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-4.75,.73000002,.69,.76999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-5,.70999998,.67000002,.75,All Persons,IMD 5 - least deprived,All Regions,All Routes,Early,All Ages,All Years
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-.25,.88,.85000002,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-.5,.81,.76999998,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-.75,.74000001,.70999998,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-1,.69,.64999998,.73000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-1.25,.63999999,.60000002,.68000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-1.5,.61000001,.56,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-1.75,.57999998,.52999997,.62,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-2,.55000001,.5,.58999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-2.25,.50999999,.46000001,.55000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-2.5,.47999999,.44,.52999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-2.75,.46000001,.41,.5,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-3,.43000001,.38,.47999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-3.25,.40000001,.36000001,.44999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-3.5,.40000001,.34999999,.44999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-3.75,.38,.33000001,.43000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-4,.36000001,.31,.41,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-4.25,.34999999,.30000001,.40000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-4.5,.34999999,.30000001,.40000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-4.75,.34999999,.30000001,.40000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-5,.34999999,.30000001,.40000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,Advanced,All Ages,All Years
-0,.99000001,.95999998,1.01,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-.25,.95999998,.91000003,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-.5,.92000002,.85000002,.98000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-.75,.89999998,.82999998,.97000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-1,.85000002,.75999999,.93000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-1.25,.82999998,.74000001,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-1.5,.82999998,.74000001,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-1.75,.82999998,.74000001,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-2,.81,.72000003,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-2.25,.79000002,.69999999,.88999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-2.5,.75,.64999998,.86000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-2.75,.73000002,.62,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-3,.73000002,.62,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-3.25,.73000002,.62,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-3.5,.73000002,.62,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-3.75,.70999998,.58999997,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-4,.70999998,.58999997,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-4.25,.70999998,.58999997,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-4.5,.70999998,.58999997,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-4.75,.70999998,.58999997,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-5,.70999998,.58999997,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,0-49,All Years
-.25,.99000001,.95999998,1.01,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-.5,.91000003,.85000002,.98000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-.75,.89999998,.82999998,.97000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-1,.88999999,.81,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-1.25,.87,.79000002,.94999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-1.5,.87,.79000002,.94999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-1.75,.85000002,.76999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-2,.85000002,.76999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-2.25,.85000002,.76999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-2.5,.85000002,.76999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-2.75,.85000002,.76999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-3,.85000002,.76999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-3.25,.85000002,.76999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-3.5,.85000002,.76999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-3.75,.82999998,.74000001,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-4,.80000001,.69999999,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-4.25,.80000001,.69999999,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-4.5,.80000001,.69999999,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-4.75,.80000001,.69999999,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-5,.80000001,.69999999,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,50-54,All Years
-0,.99000001,.98000002,1.01,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-.25,.95999998,.93000001,.99000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-.5,.94,.89999998,.98000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-.75,.93000001,.88999999,.97000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-1,.91000003,.86000001,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-1.25,.88,.82999998,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-1.5,.86000001,.80000001,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-1.75,.85000002,.79000002,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-2,.82999998,.75999999,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-2.25,.76999998,.69999999,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-2.5,.76999998,.69999999,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-2.75,.75,.67000002,.82999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-3,.73000002,.64999998,.81,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-3.25,.70999998,.63,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-3.5,.69999999,.61000001,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-3.75,.69,.60000002,.76999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-4,.69,.60000002,.76999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-4.25,.67000002,.57999998,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-4.5,.64999998,.56,.75,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-4.75,.64999998,.56,.75,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-5,.64999998,.56,.75,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,55-59,All Years
-0,.99000001,.98000002,1.01,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-.25,.95999998,.93000001,.99000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-.5,.91000003,.87,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-.75,.86000001,.81,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-1,.83999997,.79000002,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-1.25,.81999999,.75999999,.88,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-1.5,.80000001,.74000001,.87,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-1.75,.79000002,.73000002,.86000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-2,.75,.68000001,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-2.25,.72000003,.63999999,.79000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-2.5,.69,.61000001,.76999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-2.75,.69,.61000001,.76999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-3,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-3.25,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-3.5,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-3.75,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-4,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-4.25,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-4.5,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-5,.66000003,.56999999,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,60-64,All Years
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-.25,.94999999,.92000002,.98000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-.5,.93000001,.89999998,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-.75,.91000003,.87,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-1,.88,.83999997,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-1.25,.87,.82999998,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-1.5,.85000002,.80000001,.88999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-1.75,.81,.75999999,.86000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-2,.79000002,.74000001,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-2.25,.77999997,.73000002,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-2.5,.74000001,.68000001,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-2.75,.72000003,.66000003,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-3,.72000003,.66000003,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-3.25,.69999999,.63999999,.76999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-3.5,.69999999,.63,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-3.75,.69999999,.63,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-4,.69999999,.63,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-4.25,.68000001,.61000001,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-4.5,.68000001,.61000001,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-4.75,.68000001,.61000001,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-5,.64999998,.57999998,.73000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,65-69,All Years
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-.25,.92000002,.88999999,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-.5,.89999998,.86000001,.93000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-.75,.86000001,.81999999,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-1,.83999997,.79000002,.88,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-1.25,.79000002,.74000001,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-1.5,.76999998,.72000003,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-1.75,.74000001,.69,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-2,.73000002,.68000001,.79000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-2.25,.70999998,.64999998,.76999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-2.5,.69999999,.63999999,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-2.75,.68000001,.62,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-3,.64999998,.58999997,.70999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-3.25,.63,.56,.69,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-3.5,.62,.56,.68000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-3.75,.61000001,.54000002,.67000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-4,.58999997,.52999997,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-4.25,.58999997,.52999997,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-4.5,.58999997,.52999997,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-4.75,.57999998,.51999998,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-5,.56999999,.5,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,70-74,All Years
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-.25,.95999998,.93000001,.99000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-.5,.93000001,.88999999,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-.75,.88,.83999997,.93000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-1,.85000002,.80000001,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-1.25,.81999999,.76999998,.87,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-1.5,.80000001,.74000001,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-1.75,.77999997,.72000003,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-2,.75999999,.69999999,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-2.25,.72000003,.64999998,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-2.5,.70999998,.63999999,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-2.75,.69,.63,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-3,.69,.62,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-3.25,.67000002,.58999997,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-3.5,.67000002,.58999997,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-3.75,.66000003,.57999998,.73000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-4,.63,.56,.70999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-4.25,.60000002,.51999998,.68000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-4.5,.56999999,.47999999,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-4.75,.56999999,.47999999,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-5,.55000001,.46000001,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,75-79,All Years
-0,.99000001,.98000002,1.01,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-.25,.89999998,.85000002,.94999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-.5,.85000002,.79000002,.91000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-.75,.81999999,.75,.88,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-1,.79000002,.73000002,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-1.25,.75999999,.69,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-1.5,.73000002,.66000003,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-1.75,.69999999,.63,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-2,.67000002,.60000002,.75,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-2.25,.63999999,.56,.72000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-2.5,.60000002,.51999998,.69,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-2.75,.58999997,.5,.67000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-3,.56,.47,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-3.25,.55000001,.46000001,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-3.5,.51999998,.43000001,.61000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-3.75,.49000001,.40000001,.56999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-4,.46000001,.37,.55000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-4.25,.44999999,.36000001,.54000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-4.5,.44,.34,.52999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-4.75,.44,.34,.52999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-5,.41999999,.31999999,.50999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,80-84,All Years
-0,.99000001,.97000003,1.01,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-.25,.85000002,.77999997,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-.5,.79000002,.70999998,.87,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-.75,.75999999,.68000001,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-1,.70999998,.62,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-1.25,.69,.60000002,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-1.5,.63,.54000002,.73000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-1.75,.60000002,.5,.69999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-2,.56,.47,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-2.25,.54000002,.44,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-2.5,.5,.40000001,.60000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-3,.47999999,.37,.57999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-3.25,.44999999,.34999999,.55000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-3.5,.41999999,.31999999,.52999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-3.75,.38,.27000001,.47999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-4.25,.36000001,.25999999,.47,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-4.5,.33000001,.22,.43000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-4.75,.31,.2,.41,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,85-89,All Years
-0,.98000002,.93000001,1.02,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-.25,.69999999,.56999999,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-.5,.61000001,.47,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-.75,.55000001,.40000001,.69,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-1,.5,.36000001,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-1.25,.5,.36000001,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-1.5,.44999999,.31,.60000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-1.75,.43000001,.28,.56999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-2,.34999999,.20999999,.49000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-2.75,.33000001,.19,.47,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-3,.30000001,.16,.44,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-3.25,.30000001,.16,.44,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-3.5,.27000001,.13,.40000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-3.75,.23,.1,.36000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-4.25,.23,.1,.36000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-4.5,.18000001,.059999999,.31,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,90+,All Years
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-.25,.93000001,.89999998,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-.5,.91000003,.88,.94999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-.75,.88999999,.85000002,.93000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-1,.86000001,.81,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-1.25,.83999997,.79000002,.88,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-1.5,.81,.75999999,.86000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-1.75,.79000002,.73000002,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-2,.75999999,.69999999,.81,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-2.25,.72000003,.66000003,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-2.5,.69,.63,.75,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-2.75,.67000002,.61000001,.73000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-3,.66000003,.60000002,.72000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-3.5,.63,.56999999,.69,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-3.75,.61000001,.55000001,.67000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-4,.60000002,.54000002,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-4.25,.57999998,.51999998,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-4.5,.56999999,.50999999,.63,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-4.75,.56999999,.5,.63,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-5,.54000002,.47999999,.61000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2016
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-.25,.92000002,.88999999,.94999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-.5,.88,.83999997,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-.75,.86000001,.81,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-1,.81,.75999999,.86000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-1.25,.79000002,.74000001,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-1.5,.75999999,.69999999,.81,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-1.75,.74000001,.69,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-2,.73000002,.67000002,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-2.25,.72000003,.66000003,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-2.5,.69999999,.63999999,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-2.75,.69,.63,.75,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-3,.66000003,.60000002,.72000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-3.25,.63999999,.57999998,.69999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-3.5,.63,.56999999,.69,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-3.75,.62,.55000001,.68000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-4,.60000002,.54000002,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-4.25,.58999997,.51999998,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-4.5,.57999998,.51999998,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-5,.56999999,.50999999,.63999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2017
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-.25,.94,.89999998,.97000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-.5,.85000002,.81,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-.75,.85000002,.80000001,.88999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-1,.81,.75999999,.86000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-1.25,.79000002,.74000001,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-1.5,.77999997,.73000002,.82999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-1.75,.75999999,.69999999,.81,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-2,.73000002,.67000002,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-2.25,.68000001,.62,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-2.5,.64999998,.58999997,.70999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-2.75,.63999999,.57999998,.69999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-3,.62,.56,.69,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-3.5,.61000001,.54000002,.67000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-3.75,.60000002,.54000002,.66000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-4,.58999997,.52999997,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-4.25,.57999998,.51999998,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-4.5,.57999998,.51999998,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-4.75,.57999998,.51999998,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-5,.57999998,.51999998,.64999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2018
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-.25,.93000001,.89999998,.95999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-.5,.88999999,.85000002,.93000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-.75,.83999997,.79000002,.88999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-1,.82999998,.77999997,.88,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-1.25,.80000001,.74000001,.85000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-1.5,.76999998,.70999998,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-1.75,.75,.69,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-2,.74000001,.68000001,.80000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-2.25,.72000003,.66000003,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-2.5,.69999999,.63999999,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-2.75,.68000001,.62,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-3,.67000002,.61000001,.73000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-3.25,.64999998,.58999997,.72000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-3.5,.63999999,.57999998,.69999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-3.75,.63999999,.57999998,.69999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-4,.60000002,.51999998,.68000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2019
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-.25,.93000001,.89999998,.97000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-.5,.89999998,.86000001,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-.75,.85000002,.81,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-1,.81999999,.76999998,.87,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-1.25,.77999997,.73000002,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-1.5,.75999999,.69999999,.81,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-1.75,.74000001,.68000001,.79000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-2,.72000003,.66000003,.77999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-2.25,.69999999,.63999999,.75999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-2.5,.69,.62,.75,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-2.75,.67000002,.61000001,.74000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-3,.63999999,.55000001,.73000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2020
-0,1,.99000001,1,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-.25,.93000001,.89999998,.97000003,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-.5,.91000003,.87,.94,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-.75,.88,.83999997,.92000002,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-1,.86000001,.81,.89999998,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-1.25,.82999998,.77999997,.88,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-1.5,.81,.75999999,.86000001,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-1.75,.76999998,.69999999,.83999997,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-2,.75,.68000001,.81999999,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
-4.75,0,0,0,All Persons,IMD 5 - least deprived,All Regions,All Routes,All Stages,All Ages,2021
+0,.99000001,.98000002,1.01,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+.25,.89999998,.85000002,.94999999,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+.5,.86000001,.80000001,.92000002,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+.75,.82999998,.76999998,.88999999,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+1,.79000002,.72000003,.85000002,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+1.25,.77999997,.70999998,.85000002,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+1.5,.75999999,.69,.82999998,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+1.75,.70999998,.63,.77999997,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+2,.69,.61000001,.76999998,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+2.25,.66000003,.57999998,.73000002,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+2.5,.63,.55000001,.70999998,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+2.75,.62,.54000002,.69999999,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+3,.62,.54000002,.69999999,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+3.25,.58999997,.5,.67000002,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+3.5,.56999999,.49000001,.66000003,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+3.75,.56,.47,.64999998,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+4,.55000001,.46000001,.63999999,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+4.25,.55000001,.46000001,.63999999,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+4.5,.55000001,.46000001,.63999999,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+4.75,.55000001,.46000001,.63999999,All Persons,IMD Q5,East Midlands,All Routes,All Stages,All Ages,All Years
+0,.99000001,.98000002,1.01,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+.25,.95999998,.93000001,.99000001,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+.5,.89999998,.85000002,.94,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+.75,.87,.81999999,.92000002,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+1,.81999999,.75999999,.87,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+1.25,.80000001,.75,.86000001,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+1.5,.77999997,.72000003,.83999997,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+1.75,.75999999,.69999999,.82999998,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+2,.74000001,.68000001,.80000001,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+2.25,.70999998,.63999999,.76999998,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+2.5,.69,.62,.75999999,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+2.75,.67000002,.60000002,.74000001,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+3,.66000003,.58999997,.73000002,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+3.25,.64999998,.57999998,.72000003,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+3.5,.64999998,.57999998,.72000003,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+3.75,.63,.56,.70999998,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+4,.62,.55000001,.69999999,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+4.25,.61000001,.52999997,.68000001,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+4.5,.56999999,.49000001,.64999998,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+4.75,.56999999,.49000001,.64999998,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+5,.56999999,.49000001,.64999998,All Persons,IMD Q5,East of England,All Routes,All Stages,All Ages,All Years
+0,.99000001,.97000003,1.01,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+.25,.93000001,.88,.98000002,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+.5,.92000002,.87,.97000003,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+.75,.88,.81999999,.94,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+1,.85000002,.77999997,.92000002,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+1.25,.81,.74000001,.88999999,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+1.5,.79000002,.70999998,.87,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+1.75,.77999997,.69999999,.86000001,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+2,.77999997,.69999999,.86000001,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+2.25,.75999999,.67000002,.83999997,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+2.5,.73000002,.63999999,.81999999,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+2.75,.73000002,.63999999,.81999999,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+3,.67000002,.56999999,.75999999,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+3.25,.64999998,.55000001,.75,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+3.5,.63999999,.54000002,.74000001,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+3.75,.61000001,.5,.70999998,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+4,.58999997,.47999999,.69999999,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+4.25,.56999999,.46000001,.68000001,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+4.5,.55000001,.44,.66000003,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+4.75,.55000001,.44,.66000003,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+5,.55000001,.44,.66000003,All Persons,IMD Q5,London,All Routes,All Stages,All Ages,All Years
+0,.98000002,.94999999,1.02,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+.25,.92000002,.85000002,.99000001,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+.5,.82999998,.74000001,.93000001,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+.75,.81999999,.72000003,.91000003,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+1,.80000001,.69999999,.89999998,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+1.25,.77999997,.68000001,.88999999,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+1.5,.77999997,.68000001,.88999999,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+1.75,.75999999,.66000003,.87,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+2,.75999999,.66000003,.87,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+2.25,.75999999,.66000003,.87,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+2.5,.74000001,.63,.85000002,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+2.75,.69999999,.57999998,.81999999,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+3,.64999998,.51999998,.77999997,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+3.25,.64999998,.51999998,.77999997,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+3.75,.62,.49000001,.75999999,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+4,.62,.49000001,.75999999,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+4.25,.62,.49000001,.75999999,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+4.5,.62,.49000001,.75999999,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+4.75,.62,.49000001,.75999999,All Persons,IMD Q5,North East,All Routes,All Stages,All Ages,All Years
+0,.99000001,.98000002,1.01,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+.25,.95999998,.92000002,.99000001,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+.5,.94999999,.91000003,.99000001,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+.75,.92000002,.88,.97000003,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+1,.89999998,.85000002,.94999999,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+1.25,.86000001,.81,.92000002,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+1.5,.83999997,.77999997,.89999998,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+1.75,.82999998,.76999998,.89999998,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+2,.79000002,.72000003,.86000001,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+2.25,.76999998,.69999999,.83999997,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+2.5,.75,.68000001,.82999998,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+2.75,.74000001,.67000002,.81999999,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+3,.72000003,.63999999,.80000001,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+3.25,.70999998,.63,.79000002,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+3.5,.69999999,.62,.77999997,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+3.75,.69,.61000001,.76999998,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+4,.66000003,.57999998,.75,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+4.25,.64999998,.56,.74000001,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+4.5,.63,.54000002,.73000002,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+4.75,.63,.54000002,.73000002,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+5,.58999997,.49000001,.69999999,All Persons,IMD Q5,North West,All Routes,All Stages,All Ages,All Years
+0,1,.99000001,1,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+.25,.93000001,.89999998,.94999999,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+.5,.88999999,.86000001,.93000001,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+.75,.86000001,.81999999,.88999999,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+1,.82999998,.79000002,.87,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+1.25,.80000001,.75999999,.83999997,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+1.5,.75999999,.70999998,.80000001,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+1.75,.73000002,.69,.77999997,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+2,.70999998,.66000003,.75999999,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+2.25,.69,.63999999,.74000001,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+2.5,.68000001,.63,.73000002,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+2.75,.66000003,.61000001,.70999998,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+3,.66000003,.60000002,.70999998,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+3.25,.63999999,.58999997,.69999999,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+3.5,.62,.56,.67000002,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+3.75,.61000001,.56,.67000002,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+4,.61000001,.55000001,.66000003,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+4.25,.60000002,.54000002,.64999998,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+4.5,.60000002,.54000002,.64999998,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+4.75,.60000002,.54000002,.64999998,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+5,.58999997,.52999997,.64999998,All Persons,IMD Q5,South East,All Routes,All Stages,All Ages,All Years
+0,.99000001,.97000003,1.01,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+.25,.94999999,.91000003,.99000001,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+.5,.92000002,.88,.97000003,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+.75,.88,.82999998,.94,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+1,.87,.81,.93000001,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+1.25,.85000002,.80000001,.91000003,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+1.5,.85000002,.79000002,.91000003,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+1.75,.81999999,.75999999,.88999999,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+2,.77999997,.69999999,.85000002,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+2.25,.75,.67000002,.82999998,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+2.5,.73000002,.64999998,.81,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+2.75,.72000003,.63999999,.80000001,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+3,.70999998,.63,.79000002,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+3.25,.68000001,.58999997,.75999999,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+3.5,.67000002,.57999998,.75,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+3.75,.64999998,.56,.74000001,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+4,.63999999,.55000001,.73000002,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+4.25,.63999999,.55000001,.73000002,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+4.5,.62,.52999997,.72000003,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+4.75,.62,.52999997,.72000003,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+5,.60000002,.5,.69999999,All Persons,IMD Q5,South West,All Routes,All Stages,All Ages,All Years
+0,.99000001,.98000002,1.01,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+.25,.91000003,.85000002,.95999998,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+.5,.86000001,.80000001,.92000002,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+.75,.82999998,.75999999,.88999999,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+1,.79000002,.72000003,.86000001,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+1.25,.75,.67000002,.81999999,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+1.5,.72000003,.63999999,.80000001,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+1.75,.69999999,.62,.77999997,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+2,.67000002,.58999997,.75,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+2.25,.66000003,.56999999,.75,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+2.5,.61000001,.51999998,.69999999,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+2.75,.58999997,.5,.68000001,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+3,.56,.47,.66000003,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+3.25,.56,.47,.66000003,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+3.5,.56,.47,.66000003,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+3.75,.5,.38999999,.61000001,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+4,.46000001,.34999999,.56999999,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+4.5,.44,.31999999,.55000001,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+5,.44,.31999999,.55000001,All Persons,IMD Q5,West Midlands,All Routes,All Stages,All Ages,All Years
+0,.99000001,.98000002,1.01,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+.25,.94,.89999998,.98000002,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+.5,.86000001,.80000001,.91000003,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+.75,.83999997,.77999997,.89999998,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+1,.81999999,.75999999,.88,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+1.25,.81999999,.75999999,.88,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+1.5,.80000001,.73000002,.87,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+1.75,.77999997,.70999998,.85000002,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+2,.76999998,.69999999,.83999997,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+2.25,.73000002,.64999998,.80000001,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+2.5,.69999999,.62,.77999997,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+2.75,.66000003,.56999999,.74000001,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+3,.63999999,.55000001,.72000003,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+3.25,.62,.54000002,.70999998,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+3.5,.62,.54000002,.70999998,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+3.75,.62,.54000002,.70999998,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+4,.62,.54000002,.70999998,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+4.25,.62,.54000002,.70999998,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+4.5,.61000001,.50999999,.69999999,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+4.75,.58999997,.49000001,.68000001,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+5,.56,.46000001,.67000002,All Persons,IMD Q5,Yorkshire and The Humber,All Routes,All Stages,All Ages,All Years
+0,.98000002,.94,1.02,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+.25,.63,.49000001,.75999999,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+.5,.5,.36000001,.63999999,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+.75,.47999999,.34,.62,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+1,.46000001,.31999999,.60000002,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+1.25,.44,.30000001,.57999998,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+1.75,.41999999,.28,.55000001,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+2,.40000001,.25999999,.52999997,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+2.25,.33000001,.2,.46000001,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+2.75,.28999999,.17,.41999999,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+3,.27000001,.15000001,.38999999,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+3.5,.20999999,.1,.31999999,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+4.25,.20999999,.1,.31999999,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+4.75,.20999999,.1,.31999999,All Persons,IMD Q5,All Regions,Emergency,All Stages,All Ages,All Years
+0,1,1,1,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+.25,.94999999,.94,.97000003,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+.5,.91000003,.88999999,.93000001,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+.75,.88999999,.87,.91000003,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+1,.85000002,.81999999,.88,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+1.25,.82999998,.80000001,.86000001,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+1.5,.81,.77999997,.83999997,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+1.75,.77999997,.75,.81999999,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+2,.75999999,.73000002,.79000002,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+2.25,.73000002,.69,.75999999,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+2.5,.69999999,.67000002,.74000001,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+2.75,.69,.64999998,.72000003,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+3,.67000002,.63,.70999998,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+3.25,.66000003,.62,.69,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+3.5,.64999998,.61000001,.68000001,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+3.75,.63,.58999997,.67000002,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+4,.62,.57999998,.66000003,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+4.25,.61000001,.56999999,.63999999,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+4.5,.58999997,.56,.63,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+4.75,.58999997,.56,.63,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+5,.57999998,.54000002,.62,All Persons,IMD Q5,All Regions,Non-emergency,All Stages,All Ages,All Years
+0,1,1,1,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+.25,.99000001,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+.5,.98000002,.97000003,.99000001,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+.75,.95999998,.94999999,.98000002,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+1,.94,.93000001,.95999998,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+1.25,.93000001,.91000003,.94999999,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+1.5,.91000003,.88999999,.93000001,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+1.75,.88999999,.87,.92000002,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+2,.88,.85000002,.89999998,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+2.25,.85000002,.82999998,.88,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+2.5,.82999998,.81,.86000001,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+2.75,.82999998,.80000001,.85000002,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+3,.81999999,.79000002,.85000002,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+3.25,.81,.77999997,.83999997,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+3.5,.79000002,.75999999,.82999998,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+3.75,.77999997,.75,.81999999,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+4,.76999998,.74000001,.80000001,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+4.25,.75,.72000003,.79000002,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+4.5,.74000001,.69999999,.76999998,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+4.75,.73000002,.69,.76999998,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+5,.70999998,.67000002,.75,All Persons,IMD Q5,All Regions,All Routes,Early,All Ages,All Years
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+.25,.88,.85000002,.89999998,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+.5,.81,.76999998,.83999997,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+.75,.74000001,.70999998,.77999997,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+1,.69,.64999998,.73000002,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+1.25,.63999999,.60000002,.68000001,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+1.5,.61000001,.56,.64999998,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+1.75,.57999998,.52999997,.62,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+2,.55000001,.5,.58999997,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+2.25,.50999999,.46000001,.55000001,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+2.5,.47999999,.44,.52999997,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+2.75,.46000001,.41,.5,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+3,.43000001,.38,.47999999,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+3.25,.40000001,.36000001,.44999999,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+3.5,.40000001,.34999999,.44999999,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+3.75,.38,.33000001,.43000001,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+4,.36000001,.31,.41,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+4.25,.34999999,.30000001,.40000001,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+4.5,.34999999,.30000001,.40000001,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+4.75,.34999999,.30000001,.40000001,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+5,.34999999,.30000001,.40000001,All Persons,IMD Q5,All Regions,All Routes,Advanced,All Ages,All Years
+0,.99000001,.95999998,1.01,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+.25,.95999998,.91000003,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+.5,.92000002,.85000002,.98000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+.75,.89999998,.82999998,.97000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+1,.85000002,.75999999,.93000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+1.25,.82999998,.74000001,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+1.5,.82999998,.74000001,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+1.75,.82999998,.74000001,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+2,.81,.72000003,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+2.25,.79000002,.69999999,.88999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+2.5,.75,.64999998,.86000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+2.75,.73000002,.62,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+3,.73000002,.62,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+3.25,.73000002,.62,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+3.5,.73000002,.62,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+3.75,.70999998,.58999997,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+4,.70999998,.58999997,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+4.25,.70999998,.58999997,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+4.5,.70999998,.58999997,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+4.75,.70999998,.58999997,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+5,.70999998,.58999997,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,0-49,All Years
+.25,.99000001,.95999998,1.01,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+.5,.91000003,.85000002,.98000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+.75,.89999998,.82999998,.97000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+1,.88999999,.81,.95999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+1.25,.87,.79000002,.94999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+1.5,.87,.79000002,.94999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+1.75,.85000002,.76999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+2,.85000002,.76999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+2.25,.85000002,.76999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+2.5,.85000002,.76999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+2.75,.85000002,.76999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+3,.85000002,.76999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+3.25,.85000002,.76999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+3.5,.85000002,.76999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+3.75,.82999998,.74000001,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+4,.80000001,.69999999,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+4.25,.80000001,.69999999,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+4.5,.80000001,.69999999,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+4.75,.80000001,.69999999,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+5,.80000001,.69999999,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,50-54,All Years
+0,.99000001,.98000002,1.01,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+.25,.95999998,.93000001,.99000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+.5,.94,.89999998,.98000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+.75,.93000001,.88999999,.97000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+1,.91000003,.86000001,.95999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+1.25,.88,.82999998,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+1.5,.86000001,.80000001,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+1.75,.85000002,.79000002,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+2,.82999998,.75999999,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+2.25,.76999998,.69999999,.85000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+2.5,.76999998,.69999999,.85000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+2.75,.75,.67000002,.82999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+3,.73000002,.64999998,.81,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+3.25,.70999998,.63,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+3.5,.69999999,.61000001,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+3.75,.69,.60000002,.76999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+4,.69,.60000002,.76999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+4.25,.67000002,.57999998,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+4.5,.64999998,.56,.75,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+4.75,.64999998,.56,.75,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+5,.64999998,.56,.75,All Persons,IMD Q5,All Regions,All Routes,All Stages,55-59,All Years
+0,.99000001,.98000002,1.01,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+.25,.95999998,.93000001,.99000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+.5,.91000003,.87,.95999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+.75,.86000001,.81,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+1,.83999997,.79000002,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+1.25,.81999999,.75999999,.88,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+1.5,.80000001,.74000001,.87,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+1.75,.79000002,.73000002,.86000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+2,.75,.68000001,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+2.25,.72000003,.63999999,.79000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+2.5,.69,.61000001,.76999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+2.75,.69,.61000001,.76999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+3,.66000003,.56999999,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+3.25,.66000003,.56999999,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+3.5,.66000003,.56999999,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+3.75,.66000003,.56999999,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+4,.66000003,.56999999,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+4.25,.66000003,.56999999,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+4.5,.66000003,.56999999,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+5,.66000003,.56999999,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,60-64,All Years
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+.25,.94999999,.92000002,.98000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+.5,.93000001,.89999998,.95999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+.75,.91000003,.87,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+1,.88,.83999997,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+1.25,.87,.82999998,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+1.5,.85000002,.80000001,.88999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+1.75,.81,.75999999,.86000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+2,.79000002,.74000001,.85000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+2.25,.77999997,.73000002,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+2.5,.74000001,.68000001,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+2.75,.72000003,.66000003,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+3,.72000003,.66000003,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+3.25,.69999999,.63999999,.76999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+3.5,.69999999,.63,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+3.75,.69999999,.63,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+4,.69999999,.63,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+4.25,.68000001,.61000001,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+4.5,.68000001,.61000001,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+4.75,.68000001,.61000001,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+5,.64999998,.57999998,.73000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,65-69,All Years
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+.25,.92000002,.88999999,.95999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+.5,.89999998,.86000001,.93000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+.75,.86000001,.81999999,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+1,.83999997,.79000002,.88,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+1.25,.79000002,.74000001,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+1.5,.76999998,.72000003,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+1.75,.74000001,.69,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+2,.73000002,.68000001,.79000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+2.25,.70999998,.64999998,.76999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+2.5,.69999999,.63999999,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+2.75,.68000001,.62,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+3,.64999998,.58999997,.70999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+3.25,.63,.56,.69,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+3.5,.62,.56,.68000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+3.75,.61000001,.54000002,.67000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+4,.58999997,.52999997,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+4.25,.58999997,.52999997,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+4.5,.58999997,.52999997,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+4.75,.57999998,.51999998,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+5,.56999999,.5,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,70-74,All Years
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+.25,.95999998,.93000001,.99000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+.5,.93000001,.88999999,.95999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+.75,.88,.83999997,.93000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+1,.85000002,.80000001,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+1.25,.81999999,.76999998,.87,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+1.5,.80000001,.74000001,.85000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+1.75,.77999997,.72000003,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+2,.75999999,.69999999,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+2.25,.72000003,.64999998,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+2.5,.70999998,.63999999,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+2.75,.69,.63,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+3,.69,.62,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+3.25,.67000002,.58999997,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+3.5,.67000002,.58999997,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+3.75,.66000003,.57999998,.73000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+4,.63,.56,.70999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+4.25,.60000002,.51999998,.68000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+4.5,.56999999,.47999999,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+4.75,.56999999,.47999999,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+5,.55000001,.46000001,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,75-79,All Years
+0,.99000001,.98000002,1.01,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+.25,.89999998,.85000002,.94999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+.5,.85000002,.79000002,.91000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+.75,.81999999,.75,.88,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+1,.79000002,.73000002,.85000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+1.25,.75999999,.69,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+1.5,.73000002,.66000003,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+1.75,.69999999,.63,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+2,.67000002,.60000002,.75,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+2.25,.63999999,.56,.72000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+2.5,.60000002,.51999998,.69,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+2.75,.58999997,.5,.67000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+3,.56,.47,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+3.25,.55000001,.46000001,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+3.5,.51999998,.43000001,.61000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+3.75,.49000001,.40000001,.56999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+4,.46000001,.37,.55000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+4.25,.44999999,.36000001,.54000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+4.5,.44,.34,.52999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+4.75,.44,.34,.52999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+5,.41999999,.31999999,.50999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,80-84,All Years
+0,.99000001,.97000003,1.01,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+.25,.85000002,.77999997,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+.5,.79000002,.70999998,.87,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+.75,.75999999,.68000001,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+1,.70999998,.62,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+1.25,.69,.60000002,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+1.5,.63,.54000002,.73000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+1.75,.60000002,.5,.69999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+2,.56,.47,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+2.25,.54000002,.44,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+2.5,.5,.40000001,.60000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+3,.47999999,.37,.57999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+3.25,.44999999,.34999999,.55000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+3.5,.41999999,.31999999,.52999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+3.75,.38,.27000001,.47999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+4.25,.36000001,.25999999,.47,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+4.5,.33000001,.22,.43000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+4.75,.31,.2,.41,All Persons,IMD Q5,All Regions,All Routes,All Stages,85-89,All Years
+0,.98000002,.93000001,1.02,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+.25,.69999999,.56999999,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+.5,.61000001,.47,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+.75,.55000001,.40000001,.69,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+1,.5,.36000001,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+1.25,.5,.36000001,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+1.5,.44999999,.31,.60000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+1.75,.43000001,.28,.56999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+2,.34999999,.20999999,.49000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+2.75,.33000001,.19,.47,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+3,.30000001,.16,.44,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+3.25,.30000001,.16,.44,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+3.5,.27000001,.13,.40000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+3.75,.23,.1,.36000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+4.25,.23,.1,.36000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+4.5,.18000001,.059999999,.31,All Persons,IMD Q5,All Regions,All Routes,All Stages,90+,All Years
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+.25,.93000001,.89999998,.95999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+.5,.91000003,.88,.94999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+.75,.88999999,.85000002,.93000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+1,.86000001,.81,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+1.25,.83999997,.79000002,.88,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+1.5,.81,.75999999,.86000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+1.75,.79000002,.73000002,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+2,.75999999,.69999999,.81,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+2.25,.72000003,.66000003,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+2.5,.69,.63,.75,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+2.75,.67000002,.61000001,.73000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+3,.66000003,.60000002,.72000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+3.5,.63,.56999999,.69,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+3.75,.61000001,.55000001,.67000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+4,.60000002,.54000002,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+4.25,.57999998,.51999998,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+4.5,.56999999,.50999999,.63,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+4.75,.56999999,.5,.63,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+5,.54000002,.47999999,.61000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2016
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+.25,.92000002,.88999999,.94999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+.5,.88,.83999997,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+.75,.86000001,.81,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+1,.81,.75999999,.86000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+1.25,.79000002,.74000001,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+1.5,.75999999,.69999999,.81,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+1.75,.74000001,.69,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+2,.73000002,.67000002,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+2.25,.72000003,.66000003,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+2.5,.69999999,.63999999,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+2.75,.69,.63,.75,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+3,.66000003,.60000002,.72000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+3.25,.63999999,.57999998,.69999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+3.5,.63,.56999999,.69,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+3.75,.62,.55000001,.68000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+4,.60000002,.54000002,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+4.25,.58999997,.51999998,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+4.5,.57999998,.51999998,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+5,.56999999,.50999999,.63999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2017
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+.25,.94,.89999998,.97000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+.5,.85000002,.81,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+.75,.85000002,.80000001,.88999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+1,.81,.75999999,.86000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+1.25,.79000002,.74000001,.85000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+1.5,.77999997,.73000002,.82999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+1.75,.75999999,.69999999,.81,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+2,.73000002,.67000002,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+2.25,.68000001,.62,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+2.5,.64999998,.58999997,.70999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+2.75,.63999999,.57999998,.69999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+3,.62,.56,.69,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+3.5,.61000001,.54000002,.67000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+3.75,.60000002,.54000002,.66000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+4,.58999997,.52999997,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+4.25,.57999998,.51999998,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+4.5,.57999998,.51999998,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+4.75,.57999998,.51999998,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+5,.57999998,.51999998,.64999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2018
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+.25,.93000001,.89999998,.95999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+.5,.88999999,.85000002,.93000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+.75,.83999997,.79000002,.88999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+1,.82999998,.77999997,.88,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+1.25,.80000001,.74000001,.85000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+1.5,.76999998,.70999998,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+1.75,.75,.69,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+2,.74000001,.68000001,.80000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+2.25,.72000003,.66000003,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+2.5,.69999999,.63999999,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+2.75,.68000001,.62,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+3,.67000002,.61000001,.73000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+3.25,.64999998,.58999997,.72000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+3.5,.63999999,.57999998,.69999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+3.75,.63999999,.57999998,.69999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+4,.60000002,.51999998,.68000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2019
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+.25,.93000001,.89999998,.97000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+.5,.89999998,.86000001,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+.75,.85000002,.81,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+1,.81999999,.76999998,.87,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+1.25,.77999997,.73000002,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+1.5,.75999999,.69999999,.81,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+1.75,.74000001,.68000001,.79000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+2,.72000003,.66000003,.77999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+2.25,.69999999,.63999999,.75999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+2.5,.69,.62,.75,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+2.75,.67000002,.61000001,.74000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+3,.63999999,.55000001,.73000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2020
+0,1,.99000001,1,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+.25,.93000001,.89999998,.97000003,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+.5,.91000003,.87,.94,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+.75,.88,.83999997,.92000002,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+1,.86000001,.81,.89999998,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+1.25,.82999998,.77999997,.88,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+1.5,.81,.75999999,.86000001,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+1.75,.76999998,.69999999,.83999997,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+2,.75,.68000001,.81999999,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
+4.75,0,0,0,All Persons,IMD Q5,All Regions,All Routes,All Stages,All Ages,2021
 0,.98000002,.94,1.02,All Persons,All IMD Quintiles,East Midlands,Emergency,All Stages,All Ages,All Years
 .25,.56999999,.44,.70999998,All Persons,All IMD Quintiles,East Midlands,Emergency,All Stages,All Ages,All Years
 .5,.49000001,.34999999,.63,All Persons,All IMD Quintiles,East Midlands,Emergency,All Stages,All Ages,All Years

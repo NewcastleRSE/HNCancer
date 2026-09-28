@@ -113,7 +113,7 @@ export const INCIDENCE_VARIABLE_ALL = {
     dep: {value: "All IMD Quintiles", label: "All IMD Quintiles"},
     region: {value: "All Regions", label: "All Regions"},
     sex: {value: "All Persons", label: "All Persons"},
-    ageBand: {value: "all ages", label: "All Ages"},
+    ageBand: {value: "All Ages", label: "All Ages"},
     route: {value: "All Routes", label: "Both Routes"},
     stage: {value: "All Stages", label: "All Stages"}
 
@@ -179,14 +179,11 @@ export const SURVIVAL_VARIABLE_OPTIONS = {
 // Labels can be used to label UI elements; updating these will only impact the displayed
 // text in the UI.
 export const SURVIVAL_VARIABLE_ALL = {
-    diagnosisYear: {value: "All Years", label: "All Years"},
-    dep: {value: "All IMD Quintiles", label: "All IMD Quintiles"},
-    region: {value: "All Regions", label: "All Regions"},
-    sex: {value: "All Persons", label: "All Persons"},
-    ageBand: {value: "All Ages", label: "All Ages"}, // value is capitalised (unlike incidence spreadsheet)
-    route: {value: "All Routes", label: "Both Routes"},
-    stage: {value: "All Stages", label: "All Stages"}
+    // Add incidence variables
+    ...INCIDENCE_VARIABLE_ALL,
 
+    // Add diagnosisYear as additional variable
+    diagnosisYear: {value: "All Years", label: "All Years"}
 } as const;
 
 // ----------------------
