@@ -39,12 +39,19 @@
       <ul>
         <!-- Chart tab -->
         <li class="is-active">
-          <a data-tab="chart">Chart</a>
+          <a data-tab="chart">
+            <span class="material-symbols-outlined tab-icon">bid_landscape</span
+            >
+            <span>Chart</span>
+          </a>
         </li>
 
         <!-- Table tab -->
         <li>
-          <a data-tab="table">Table</a>
+          <a data-tab="table">
+            <span class="material-symbols-outlined tab-icon">table</span>
+            <span>Table</span>
+          </a>
         </li>
       </ul>
     </div>
@@ -154,5 +161,23 @@
   .search-message.is-hidden {
     min-height: 0;
     height: 0;
+  }
+
+  /* Icons */
+
+  .tab-icon {
+    font-family: "Material Symbols Outlined";
+    font-size: 1.15rem;
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 0;
+  }
+
+  /* Tabs spacing */
+  .tabs li a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 </style>
