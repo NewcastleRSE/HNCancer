@@ -10,9 +10,44 @@
   }
 
   let { options, selectedValues = $bindable([]) }: Props = $props();
+
+  // State for select all/none
+
+  const allSelected = $derived(
+    options.length > 0 && selectedValues.length === options.length,
+  );
+
+  const someSelected = $derived(
+    selectedValues.length > 0 && selectedValues.length < options.length,
+  );
+
+  function indeterminate(element: HTMLInputElement, value: boolean) {
+    element.indeterminate = value;
+
+    return {
+      update(value: boolean) {
+        element.indeterminate = value;
+      },
+    };
+  }
 </script>
 
 <fieldset class="checkbox-group">
+  <label class="checkbox-option select-all">
+    <input
+      type="checkbox"
+      use:indeterminate={someSelected}
+      checked={allSelected}
+      onchange={() => {
+        selectedValues = allSelected
+          ? []
+          : options.map((option) => option.value);
+      }}
+    />
+
+    Select all
+  </label>
+
   {#each options as option}
     <label class="checkbox-option">
       <input
@@ -45,5 +80,15 @@
     flex-direction: column;
     row-gap: 0.25rem;
     margin-left: 3rem;
+  }
+
+  .select-all {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.25rem;
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--bulma-border);
   }
 </style>
