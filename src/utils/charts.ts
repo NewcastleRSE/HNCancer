@@ -1061,9 +1061,9 @@ export function returnAllSurvivalSeries(
 
 // Function to initialise an eCharts chart
 // "element" is the id of the DOM element where the chart will be added
-export function initChart(element: string, addResizeListener: boolean = true): echarts.ECharts {
+export function initChart(element: string, addResizeListener: boolean = true, renderer: "svg" | "canvas" = "svg"): echarts.ECharts {
 	const chartDom = document.getElementById(element);
-  	const chartInstance = echarts.init(chartDom);
+  	const chartInstance = echarts.init(chartDom, null, {renderer});
 
 	// Event listener for window resizing
 	if (addResizeListener) {
