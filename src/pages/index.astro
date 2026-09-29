@@ -24,9 +24,14 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     getCancerCSVFilename,
     createTidyDownloadFile,
     createDownloadFilename,
+    getChartDataUrl,
   } from "../utils/files";
   import { setMessageText, clearMessageText } from "../utils/messages";
-  import { downloadDataElement } from "../types";
+  import {
+    downloadDataElement,
+    downloadChartSvg,
+    downloadTableSvg,
+  } from "../types";
   import {
     returnAllIncidenceChartSeries,
     returnAllIncidenceTableSeries,
@@ -201,8 +206,31 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 const filename = createDownloadFilename(
                   cancer + "_" + statistic,
                 );
+
+                // Data
                 downloadDataElement.href = encodedUri;
-                downloadDataElement.download = filename;
+                downloadDataElement.download = `${filename}_data.csv`;
+
+                // Charts/tables - get image when clicked so updates depending on user's current view
+                const downloads = [
+                  {
+                    element: downloadChartSvg,
+                    chart: myChart,
+                    suffix: "chart",
+                  },
+                  {
+                    element: downloadTableSvg,
+                    chart: myTable,
+                    suffix: "table",
+                  },
+                ];
+
+                for (const { element, chart, suffix } of downloads) {
+                  element.addEventListener("click", () => {
+                    element.href = getChartDataUrl(chart);
+                    element.download = `${filename}_${suffix}.svg`;
+                  });
+                }
               }
             } catch (error) {
               console.error(error);

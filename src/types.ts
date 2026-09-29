@@ -10,8 +10,14 @@ import {
 // --- UI components ---
 // ---------------------
 
-export const messageContainer = document.getElementById('search-message') as HTMLInputElement;
-export const downloadDataElement = document.getElementById("download-data") as HTMLAnchorElement;
+export const messageContainer = 
+  document.getElementById('search-message') as HTMLInputElement;
+export const downloadDataElement = 
+  document.getElementById("download-data") as HTMLAnchorElement;
+export const downloadChartSvg =
+  document.getElementById("download-chart-svg") as HTMLAnchorElement;
+export const downloadTableSvg =
+  document.getElementById("download-table-svg") as HTMLAnchorElement;
 // ------------
 // --- Data ---
 // ------------
