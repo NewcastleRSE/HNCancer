@@ -45,15 +45,18 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     SurvivalProcessedRow,
   } from "../types";
 
-  // Element with output tabs - will need to remove hidden attribute
-  const outputTabs = document.getElementById("output-tabs");
+  // Tabs - will need to remove hidden attribute when search results are shown
+  const tabButtons = document.getElementById("tab-buttons");
 
   // Reset results helper
   function resetResults(messageText: string, messageType: "normal" | "danger") {
     renderBlankChart(myChart);
     renderBlankChart(myTable);
     setMessageText(messageText, messageType);
-    outputTabs?.classList.add("is-hidden"); // rehide tabs
+    tabButtons?.classList.add("is-hidden"); // rehide tab buttons
+
+    // Chart tab will be active on next successful search
+    document.querySelector<HTMLAnchorElement>('[data-tab="chart"]')?.click();
   }
 
   // Initialise chart
@@ -142,7 +145,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 // ---------------------------------------------------------
 
                 clearMessageText(); // Remove search message text
-                outputTabs?.classList.remove("is-hidden"); // Show output tabs
+                tabButtons?.classList.remove("is-hidden"); // Show output tabs
 
                 // Branch to handle types - asserting types since know each statistic
                 // will return processed rows with a matching type
