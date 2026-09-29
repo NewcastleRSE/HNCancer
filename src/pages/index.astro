@@ -26,7 +26,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     createDownloadFilename,
   } from "../utils/files";
   import { setMessageText, clearMessageText } from "../utils/messages";
-  import { downloadLinkBtn } from "../types";
+  import { downloadDataElement } from "../types";
   import {
     returnAllIncidenceChartSeries,
     returnAllIncidenceTableSeries,
@@ -45,8 +45,9 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     SurvivalProcessedRow,
   } from "../types";
 
-  // Tabs - will need to remove hidden attribute when search results are shown
+  // Tabs and download menu - will need to remove hidden attribute when search results are shown
   const tabButtons = document.getElementById("tab-buttons");
+  const downloadDropdown = document.getElementById("download-dropdown");
 
   // Reset results helper
   function resetResults(messageText: string, messageType: "normal" | "danger") {
@@ -54,6 +55,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     renderBlankChart(myTable);
     setMessageText(messageText, messageType);
     tabButtons?.classList.add("is-hidden"); // rehide tab buttons
+    downloadDropdown?.classList.add("is-hidden"); // rehide download button
 
     // Chart tab will be active on next successful search
     document.querySelector<HTMLAnchorElement>('[data-tab="chart"]')?.click();
@@ -100,8 +102,6 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 "danger",
               );
 
-              downloadLinkBtn.innerHTML = "<p></p>";
-
               return;
             }
 
@@ -146,6 +146,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
                 clearMessageText(); // Remove search message text
                 tabButtons?.classList.remove("is-hidden"); // Show output tabs
+                downloadDropdown?.classList.remove("is-hidden"); // Show download menu
 
                 // Branch to handle types - asserting types since know each statistic
                 // will return processed rows with a matching type
@@ -196,15 +197,12 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 // Download
                 // ---------------------------------------------
 
-                // const encodedUri = createTidyDownloadFile(groupedResults);
-                // const filename = createDownloadFilename(
-                //   cancer + "_" + statistic,
-                // );
-                // downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
-                //     href="${encodedUri}"
-                //     download="${filename}.csv">
-                //   Download CSV
-                // </a>`;
+                const encodedUri = createTidyDownloadFile(groupedResults);
+                const filename = createDownloadFilename(
+                  cancer + "_" + statistic,
+                );
+                downloadDataElement.href = encodedUri;
+                downloadDataElement.download = filename;
               }
             } catch (error) {
               console.error(error);
@@ -213,8 +211,6 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                   ? error.message
                   : "Unable to process query.";
               resetResults(msg, "danger");
-
-              downloadLinkBtn.innerHTML = "<p></p>";
             }
           },
 

@@ -11,8 +11,7 @@ import {
 // ---------------------
 
 export const messageContainer = document.getElementById('search-message') as HTMLInputElement;
-export const downloadLinkBtn = document.getElementById('download-link') as HTMLInputElement;	
-
+export const downloadDataElement = document.getElementById("download-data") as HTMLAnchorElement;
 // ------------
 // --- Data ---
 // ------------

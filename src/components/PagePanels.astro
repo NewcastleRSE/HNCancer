@@ -7,6 +7,23 @@
 
   const chartTab = document.getElementById("chart-tab");
   const tableTab = document.getElementById("table-tab");
+  let activeTab: "chart" | "table" = "chart";
+
+  // Drowpdown for download
+  const downloadDropdown = document.getElementById("download-dropdown");
+  const downloadButton =
+    downloadDropdown?.querySelector<HTMLButtonElement>("button");
+
+  downloadButton?.addEventListener("click", () => {
+    downloadDropdown?.classList.toggle("is-active");
+  });
+
+  // close dropdown if click elsewhere
+  document.addEventListener("click", (event) => {
+    if (downloadDropdown && !downloadDropdown.contains(event.target as Node)) {
+      downloadDropdown.classList.remove("is-active");
+    }
+  });
 
   // Update tabs when clicked
   tabLinks.forEach((tabLink) => {
@@ -15,6 +32,8 @@
 
       if (tab !== "chart" && tab !== "table") {
         return;
+      } else {
+        activeTab = tab;
       }
 
       tabLinks.forEach((link) => {
@@ -56,17 +75,41 @@
       </ul>
     </div>
 
+    <!-- Download menu -->
+    <div class="dropdown is-hidden" id="download-dropdown">
+      <div class="dropdown-trigger">
+        <button
+          class="button is-primary is-light"
+          aria-haspopup="true"
+          aria-controls="download-menu"
+        >
+          <span class="material-symbols-outlined button-icon"> download </span>
+          <!-- <span>Download</span> -->
+        </button>
+      </div>
+
+      <div class="dropdown-menu" id="download-menu">
+        <div class="dropdown-content">
+          <a id="download-png" class="dropdown-item" href="#"> Download PNG </a>
+
+          <a id="download-svg" class="dropdown-item" href="#"> Download SVG </a>
+
+          <a id="download-data" class="dropdown-item" href="#">
+            Download data (CSV)
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Tab contents -->
     <div id="tab-contents">
       <!-- Chart tab content -->
       <div id="chart-tab" class="tab-content is-active">
-        <div id="chart-toolbar" class="chart-toolbar"></div>
         <div id="csv-chart"></div>
       </div>
 
       <!-- Table tab content -->
       <div id="table-tab" class="tab-content">
-        <div id="table-toolbar" class="chart-toolbar"></div>
         <div id="csv-table"></div>
       </div>
     </div>
@@ -168,5 +211,11 @@
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
+  }
+
+  /* Download dropdown */
+  #download-dropdown {
+    display: flex;
+    justify-content: flex-end;
   }
 </style>

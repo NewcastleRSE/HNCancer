@@ -274,7 +274,8 @@ function getTitle(args: ChartArgs | TableArgs) {
 		}
 
 		// Title
-		titleText = `Trends in ${ageText}incidence of ${args.cancer.toLowerCase()} ${cancerText}: England ${minYear}-${maxYear}`
+		titleText = `${ageText}incidence of ${args.cancer.toLowerCase()} ${cancerText}: England ${minYear}-${maxYear}`
+		titleText = titleText.charAt(0).toUpperCase() + titleText.slice(1); // capitalise first letter
 	
 	} else if (args.statistic === "survival") {
 		titleText = `Net survival* of ${args.cancer.toLowerCase()} ${cancerText}: England`;
