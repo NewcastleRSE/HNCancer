@@ -161,13 +161,13 @@ function computeLabelMargins(
 	allSeries: { name: string }[], minSize: number, maxSize: number
 ) {
 	// Calculate size of margin based on label lengths
-	// Will be length of longest label * 7, with min of minSize and max of maxSize
+	// Will be length of longest label * 7 + 10, with min of minSize and max of maxSize
 	const longestNameLength = Math.max(
     ...allSeries.map(series => series.name.length)
 	);
 	const margin = Math.min(
 		maxSize,
-		Math.max(minSize, longestNameLength * 7)
+		Math.max(minSize, longestNameLength * 7 + 10)
 	);
 	return margin
 }
