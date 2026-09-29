@@ -141,11 +141,13 @@
   <hr />
   <div class="button-container">
     <button type="button" class="button is-primary" onclick={submitQuery}>
-      Search
+      <span class="material-symbols-outlined button-icon">search</span>
+      <span>Search</span>
     </button>
 
     <button type="button" class="button is-primary" onclick={resetQuery}>
-      Reset
+      <span class="material-symbols-outlined button-icon">refresh</span>
+      <span>Reset</span>
     </button>
   </div>
 </div>
@@ -195,5 +197,10 @@
     display: flex;
     gap: 1.5rem;
     align-items: center;
+  }
+
+  /* Buttons internal spacing */
+  .button {
+    gap: 0.3rem;
   }
 </style>

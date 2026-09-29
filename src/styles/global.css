@@ -95,3 +95,20 @@ text-transform: uppercase;
 input[type="checkbox"] {
   accent-color: var(--bulma-primary-50)
 }
+
+/* Icons */
+ .material-symbol-outlined{
+  font-family: "Material Symbols Outlined";
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0;
+}
+
+.tab-icon {
+  font-size: 1.15rem
+}
+
+.button-icon {
+  font-size: 1.25rem
+}
