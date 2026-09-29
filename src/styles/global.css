@@ -20,7 +20,7 @@
   --color-text-light: var(--color-grey2);
 
   /* Overrides for Bulma variables */
-  --bulma-family-primary: "Open Sans", Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
+  --bulma-family-primary: Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
   --bulma-family-secondary: "DM Sans", Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue, Helvetica, Arial, sans-serif;
   --bulma-background-color: var(--color-grey1);
   --bulma-hr-background-color: var(--color-grey3);
