@@ -45,11 +45,15 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     SurvivalProcessedRow,
   } from "../types";
 
+  // Element with output tabs - will need to remove hidden attribute
+  const outputTabs = document.getElementById("output-tabs");
+
   // Reset results helper
   function resetResults(messageText: string, messageType: "normal" | "danger") {
     renderBlankChart(myChart);
     renderBlankChart(myTable);
     setMessageText(messageText, messageType);
+    outputTabs?.classList.add("is-hidden"); // rehide tabs
   }
 
   // Initialise chart
@@ -138,6 +142,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 // ---------------------------------------------------------
 
                 clearMessageText(); // Remove search message text
+                outputTabs?.classList.remove("is-hidden"); // Show output tabs
 
                 // Branch to handle types - asserting types since know each statistic
                 // will return processed rows with a matching type
@@ -188,15 +193,15 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 // Download
                 // ---------------------------------------------
 
-                const encodedUri = createTidyDownloadFile(groupedResults);
-                const filename = createDownloadFilename(
-                  cancer + "_" + statistic,
-                );
-                downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
-                    href="${encodedUri}"
-                    download="${filename}.csv">
-                  Download CSV
-                </a>`;
+                // const encodedUri = createTidyDownloadFile(groupedResults);
+                // const filename = createDownloadFilename(
+                //   cancer + "_" + statistic,
+                // );
+                // downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
+                //     href="${encodedUri}"
+                //     download="${filename}.csv">
+                //   Download CSV
+                // </a>`;
               }
             } catch (error) {
               console.error(error);

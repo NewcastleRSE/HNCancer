@@ -2,17 +2,68 @@
 
 ---
 
+<script>
+  const tabLinks = document.querySelectorAll<HTMLAnchorElement>("[data-tab]");
+
+  const chartTab = document.getElementById("chart-tab");
+  const tableTab = document.getElementById("table-tab");
+
+  // Update tabs when clicked
+  tabLinks.forEach((tabLink) => {
+    tabLink.addEventListener("click", () => {
+      const tab = tabLink.dataset.tab;
+
+      if (tab !== "chart" && tab !== "table") {
+        return;
+      }
+
+      tabLinks.forEach((link) => {
+        link.parentElement?.classList.toggle("is-active", link === tabLink);
+      });
+
+      chartTab?.classList.toggle("is-active", tab === "chart");
+
+      tableTab?.classList.toggle("is-active", tab === "table");
+    });
+  });
+</script>
+
 <!-- right side, stretches full height -->
 <div id="right-panel" class="grid-panel">
-  <!-- Output container for messages -->
+  <!-- Div for any messages for user after attempted search -->
   <div id="search-message"></div>
 
-  <!-- Output target container for chart -->
-  <div id="csv-chart"></div>
+  <!-- Tabbed results -->
+  <div id="output-tabs">
+    <div class="tabs is-boxed">
+      <ul>
+        <!-- Chart tab -->
+        <li class="is-active">
+          <a data-tab="chart">Chart</a>
+        </li>
 
-  <!-- Output target containers for tables -->
-  <div id="csv-table"></div>
-  <div id="download-link"></div>
+        <!-- Table tab -->
+        <li>
+          <a data-tab="table">Table</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab contents -->
+    <div id="tab-contents">
+      <!-- Chart tab content -->
+      <div id="chart-tab" class="tab-content is-active">
+        <div id="chart-toolbar" class="chart-toolbar"></div>
+        <div id="csv-chart"></div>
+      </div>
+
+      <!-- Table tab content -->
+      <div id="table-tab" class="tab-content">
+        <div id="table-toolbar" class="chart-toolbar"></div>
+        <div id="csv-table"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -32,6 +83,24 @@
     border-left: 2px solid var(--color-border-div);
   }
 
+  #tab-contents {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Hide tab content when not active - use this approach so can still initialise charts
+  before search results returned */
+  .tab-content {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+  }
+
+  .tab-content.is-active {
+    visibility: visible;
+  }
+
   /* responsiveness... */
   @media (max-width: 768px) {
     .dashboard-container {
@@ -40,14 +109,17 @@
       height: auto;
       overflow-y: auto;
     }
+
     html,
     body {
       overflow: auto;
       height: auto;
     }
+
     #map {
       height: 400px;
     }
+
     #bottom-panel,
     #right-panel {
       height: auto;
