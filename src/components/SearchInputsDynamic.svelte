@@ -199,8 +199,9 @@
     align-items: center;
   }
 
-  /* Buttons internal spacing */
+  /* Button styling */
   .button {
     gap: 0.3rem;
+    text-transform: uppercase;
   }
 </style>
