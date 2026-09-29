@@ -54,49 +54,58 @@
 
   <!-- Tabbed results -->
   <div id="output-tabs">
-    <div id="tab-buttons" class="tabs is-boxed is-hidden">
-      <ul>
-        <!-- Chart tab -->
-        <li class="is-active">
-          <a data-tab="chart">
-            <span class="material-symbols-outlined tab-icon">bid_landscape</span
-            >
-            <span>Chart</span>
-          </a>
-        </li>
+    <div class="output-tab-header">
+      <div id="tab-buttons" class="tabs is-boxed is-hidden">
+        <ul>
+          <!-- Chart tab -->
+          <li class="is-active">
+            <a data-tab="chart">
+              <span class="material-symbols-outlined tab-icon"
+                >bid_landscape</span
+              >
+              <span>Chart</span>
+            </a>
+          </li>
 
-        <!-- Table tab -->
-        <li>
-          <a data-tab="table">
-            <span class="material-symbols-outlined tab-icon">table</span>
-            <span>Table</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Download menu -->
-    <div class="dropdown is-hidden" id="download-dropdown">
-      <div class="dropdown-trigger">
-        <button
-          class="button is-primary is-light"
-          aria-haspopup="true"
-          aria-controls="download-menu"
-        >
-          <span class="material-symbols-outlined button-icon"> download </span>
-          <!-- <span>Download</span> -->
-        </button>
+          <!-- Table tab -->
+          <li>
+            <a data-tab="table">
+              <span class="material-symbols-outlined tab-icon">table</span>
+              <span>Table</span>
+            </a>
+          </li>
+        </ul>
       </div>
 
-      <div class="dropdown-menu" id="download-menu">
-        <div class="dropdown-content">
-          <a id="download-png" class="dropdown-item" href="#"> Download PNG </a>
+      <!-- Download menu -->
+      <div class="dropdown is-hidden is-right" id="download-dropdown">
+        <div class="dropdown-trigger">
+          <button
+            class="button is-primary is-light"
+            aria-haspopup="true"
+            aria-controls="download-menu"
+          >
+            <span class="material-symbols-outlined button-icon">
+              download
+            </span>
+            <!-- <span>Download</span> -->
+          </button>
+        </div>
 
-          <a id="download-svg" class="dropdown-item" href="#"> Download SVG </a>
+        <div class="dropdown-menu" id="download-menu">
+          <div class="dropdown-content">
+            <a id="download-png" class="dropdown-item" href="#">
+              Download PNG
+            </a>
 
-          <a id="download-data" class="dropdown-item" href="#">
-            Download data (CSV)
-          </a>
+            <a id="download-svg" class="dropdown-item" href="#">
+              Download SVG
+            </a>
+
+            <a id="download-data" class="dropdown-item" href="#">
+              Download data (CSV)
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -217,5 +226,16 @@
   #download-dropdown {
     display: flex;
     justify-content: flex-end;
+  }
+
+  .output-tab-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 2rem;
+  }
+
+  .output-tab-header .tabs {
+    margin-bottom: 0;
+    flex: 1;
   }
 </style>

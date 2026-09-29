@@ -25,7 +25,7 @@
   --bulma-background-color: var(--color-grey1);
   --bulma-hr-background-color: var(--color-grey3);
   --bulma-hr-margin: 0; /* control margins with layout instead */
-  
+
   /* Primary colour (#619CBF) specified as H,S,L - other colour variables derived from these */
   --bulma-primary-h: 202deg;
   --bulma-primary-s: 55%;
@@ -94,6 +94,12 @@ text-transform: uppercase;
 /* Checkbox */
 input[type="checkbox"] {
   accent-color: var(--bulma-primary-50)
+}
+
+/* Tabs */
+
+.tabs li.is-active a {
+  color: var(--bulma-primary-40);
 }
 
 /* Icons */
