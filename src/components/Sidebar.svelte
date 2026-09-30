@@ -4,23 +4,39 @@
   import SearchInputsDynamic from "./SearchInputsDynamic.svelte";
 
   let sidebarCollapsed = $state(false);
+  let showSidebarContent = $state(true);
+
+  function toggleSidebar() {
+    if (sidebarCollapsed) {
+      // Start expanding immediately
+      sidebarCollapsed = false;
+
+      // Reveal content after the width transition
+      setTimeout(() => {
+        showSidebarContent = true;
+      }, 200);
+    } else {
+      // Hide content immediately
+      showSidebarContent = false;
+      sidebarCollapsed = true;
+    }
+  }
 </script>
 
 <aside id="search-panel" class:sidebar-collapsed={sidebarCollapsed}>
   <div class="sidebar-header">
-    {#if !sidebarCollapsed}
+    {#if showSidebarContent}
       <h1 class="h1-search"><em>Search cancer data:</em></h1>
     {/if}
     <button
       id="sidebar-toggle"
+      class="button is-secondary"
       type="button"
       aria-label={sidebarCollapsed
         ? "Expand search panel"
         : "Collapse search panel"}
       aria-expanded={!sidebarCollapsed}
-      onclick={() => {
-        sidebarCollapsed = !sidebarCollapsed;
-      }}
+      onclick={toggleSidebar}
     >
       <span class="material-symbols-outlined">
         {sidebarCollapsed ? "chevron_right" : "chevron_left"}
@@ -28,7 +44,7 @@
     </button>
   </div>
 
-  {#if !sidebarCollapsed}
+  {#if showSidebarContent}
     <SearchInputsDynamic />
   {/if}
 </aside>
@@ -55,7 +71,6 @@
     padding: 0;
     margin-left: auto;
     border: 0;
-    background: transparent;
     cursor: pointer;
   }
 
