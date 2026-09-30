@@ -101,7 +101,6 @@
 
 <!-- Note - Svelte components need to be wrapped in divs for * + * layout spacing to work -->
 <div class="search-inputs">
-  <h1 class="h1-search"><em>Search cancer data:</em></h1>
   <div class="search-scroll">
     <div class="search-section">
       <h2 class="query-section">HNC Subsite</h2>
@@ -153,11 +152,6 @@
 </div>
 
 <style>
-  .h1-search {
-    font-size: var(--font-size-h3);
-    font-weight: 400;
-  }
-
   /* Buttons */
   .button-container {
     display: flex;

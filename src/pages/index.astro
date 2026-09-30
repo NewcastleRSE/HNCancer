@@ -2,17 +2,13 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "./header.astro";
 import PagePanels from "../components/PagePanels.astro";
-import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
+import Sidebar from "../components/Sidebar.svelte";
 ---
 
 <Layout>
   <Header />
-
   <div class="dashboard-container">
-    <!--- top left: panel area ---->
-    <div id="search-panel">
-      <SearchInputsDynamic client:load />
-    </div>
+    <Sidebar client:load />
     <PagePanels />
   </div>
 </Layout>
@@ -272,15 +268,8 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     grid-template-columns: 23.5rem 1fr;
   }
 
-  #search-panel {
-    grid-column: 1;
-    grid-row: 1;
-    height: 100%;
-    min-height: 0;
-    box-sizing: border-box;
-    background-color: var(--color-surface);
-    padding: 1rem 1.5rem;
-    border-right: 1px solid var(--color-border-div);
-    overflow: hidden;
+  /* When sidebar is collapsed */
+  .dashboard-container:has(#search-panel.sidebar-collapsed) {
+    grid-template-columns: 3rem 1fr;
   }
 </style>

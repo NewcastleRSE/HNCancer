@@ -1,0 +1,86 @@
+<script lang="ts">
+  // Sidebar for search page, containing search inputs
+  // Can collapse using button on top right
+  import SearchInputsDynamic from "./SearchInputsDynamic.svelte";
+
+  let sidebarCollapsed = $state(false);
+</script>
+
+<aside id="search-panel" class:sidebar-collapsed={sidebarCollapsed}>
+  <div class="sidebar-header">
+    {#if !sidebarCollapsed}
+      <h1 class="h1-search"><em>Search cancer data:</em></h1>
+    {/if}
+    <button
+      id="sidebar-toggle"
+      type="button"
+      aria-label={sidebarCollapsed
+        ? "Expand search panel"
+        : "Collapse search panel"}
+      aria-expanded={!sidebarCollapsed}
+      onclick={() => {
+        sidebarCollapsed = !sidebarCollapsed;
+      }}
+    >
+      <span class="material-symbols-outlined">
+        {sidebarCollapsed ? "chevron_right" : "chevron_left"}
+      </span>
+    </button>
+  </div>
+
+  {#if !sidebarCollapsed}
+    <SearchInputsDynamic />
+  {/if}
+</aside>
+
+<style>
+  #search-panel {
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-surface);
+    padding: 1rem 1.5rem;
+    border-right: 1px solid var(--color-border-div);
+    overflow: hidden;
+  }
+
+  #sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    margin-left: auto;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  #search-panel.sidebar-collapsed {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  #search-panel.sidebar-collapsed #sidebar-toggle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Header styling */
+
+  .h1-search {
+    font-size: var(--font-size-h3);
+    font-weight: 400;
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+</style>
