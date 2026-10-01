@@ -61,8 +61,8 @@
     background-color: var(--color-surface);
     padding: 0.75rem 1rem 1rem 1rem;
 
-    border-right: 1px solid var(--color-border-div);
-    border-bottom: 1px solid var(--color-border-div);
+    border-right: 1.5px solid var(--color-border-div);
+    border-bottom: 1.5px solid var(--color-border-div);
     border-bottom-right-radius: 0.75rem;
 
     transition: flex-basis 0.4s ease;
@@ -104,6 +104,7 @@
     justify-content: space-between;
     gap: 0.5rem;
     margin-bottom: 1rem;
+    padding-left: var(--search-padding-left);
   }
 
   /* responsiveness */

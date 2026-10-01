@@ -36,6 +36,9 @@
   --bulma-focus-s: var(--bulma-primary-s);
   --bulma-focus-l: calc(var(--bulma-primary-l) - 15%);
   --bulma-arrow-color: hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l));
+
+  /* Misc variables */
+  --search-padding-left: 0.25rem; /* provides padding to avoid clipping focus shadows in scroll area */
 }
 	
 html, body {

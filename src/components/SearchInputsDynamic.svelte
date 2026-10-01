@@ -157,6 +157,8 @@
     display: flex;
     gap: 1.5rem;
     align-items: center;
+    justify-content: center;
+    padding-right: 0.5rem; /* visual adjustment */
   }
 
   /* layout */
@@ -176,6 +178,7 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    padding-left: var(--search-padding-left);
   }
 
   .search-scroll > * + * {
