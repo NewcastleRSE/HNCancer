@@ -9,6 +9,7 @@
   // IMPORTANT: this component does not handle updating the UI if the input "statistic"
   // is changed - it relies on being destroyed and recreated when the statistic is changed.
 
+  import QuerySectionHeader from "./QuerySectionHeader.svelte";
   import CheckboxGroup from "./CheckboxGroup.svelte";
   import SingleSelectDropdown from "./SingleSelectDropdown.svelte";
   import { STATISTICS_CONFIG } from "../utils/variables";
@@ -159,7 +160,31 @@
 </script>
 
 <div class="query-inputs">
-  <h2 class="query-section">Compare</h2>
+  <div>
+    <QuerySectionHeader title="Compare">
+      <p><b>OPTIONAL:</b> Compare multiple values of the selected variables.</p>
+      <p>
+        If <b>by sex</b> is selected, the statistic is compared between males and
+        females.
+      </p>
+      <p>
+        Alteratively, select a different variable from the dropdown (e.g., <b
+          >Region</b
+        > to compare across different regions).
+      </p>
+      <p>
+        Selecting both sex <em>and</em> another variable will show all combinations
+        of the selected values; e.g., for sex and region:
+      </p>
+      <ul class="tooltip-list">
+        <li>Males, East Midlands</li>
+        <li>Females, East Midlands</li>
+        <li>Males, East of England</li>
+        <li>Females, East of England</li>
+        <li>etc.</li>
+      </ul>
+    </QuerySectionHeader>
+  </div>
   <div class="query-inputs-compare">
     <label class="compare-checkbox">
       <input
@@ -220,7 +245,22 @@
     {/if}
   </div>
   <hr />
-  <h2 class="query-section">Filter</h2>
+  <div>
+    <QuerySectionHeader title="Filter">
+      <p>
+        <b>OPTIONAL:</b> Choose a value for a variable to further restrict the data
+        to that value (e.g., "Sex: Male" to only show data for male patients.)
+      </p>
+      <p>
+        A variable selected in the <b>COMPARE</b> section cannot be used as an additional
+        filter.
+      </p>
+      <p>
+        Note that data is not available for some combinations of filters (in
+        particular, _TBA_).
+      </p>
+    </QuerySectionHeader>
+  </div>
   <div class="query-inputs-filter">
     <div class="single-select-filters">
       {#each singleSelectVariables as variable}

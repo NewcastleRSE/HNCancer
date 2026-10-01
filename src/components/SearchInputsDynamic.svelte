@@ -121,7 +121,15 @@
       </div>
     </div>
     <div class="search-section">
-      <h2 class="query-section">Statistic</h2>
+      <div>
+        <QuerySectionHeader title="Statistic">
+          <p>Select the <b>statistic</b> to display:</p>
+          <ul class="tooltip-list">
+            <li><b>Incidence:</b> _definition TBA_</li>
+            <li><b>Survival:</b> _definition TBA_</li>
+          </ul>
+        </QuerySectionHeader>
+      </div>
       <div>
         <SingleSelectDropdownNoDefault
           id="statistic"

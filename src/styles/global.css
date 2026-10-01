@@ -139,5 +139,9 @@ input[type="checkbox"] {
 
 }
 
-/* Tabs */
+/* Lists in tooltip */
+.tooltip-list{
+  padding: 0rem 1rem;
+  list-style-type: disc;
+}
 

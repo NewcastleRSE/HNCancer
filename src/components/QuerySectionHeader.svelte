@@ -8,27 +8,38 @@
   let { title, children }: Props = $props();
   let isOpen = $state(false);
 
-  let container: HTMLDivElement | null = null;
+  // To close pop-up if click outside
+  let popup: HTMLDivElement | null = null;
+  function handleDocumentClick(event: PointerEvent) {
+    const target = event.target as Node;
 
-  function handleDocumentClick(event: MouseEvent) {
-    if (isOpen && container && !container.contains(event.target as Node)) {
+    if (
+      isOpen &&
+      popup &&
+      !popup.contains(target) &&
+      !(
+        target instanceof Element &&
+        target.closest("#query-section-info-button")
+      )
+    ) {
       isOpen = false;
     }
   }
 
   $effect(() => {
-    document.addEventListener("click", handleDocumentClick);
+    document.addEventListener("pointerdown", handleDocumentClick, true);
 
     return () => {
-      document.removeEventListener("click", handleDocumentClick);
+      document.removeEventListener("pointerdown", handleDocumentClick, true);
     };
   });
 </script>
 
-<div class="query-section-header" bind:this={container}>
+<div class="query-section-header">
   <h2 class="query-section">{title}</h2>
 
   <button
+    id="query-section-info-button"
     type="button"
     class="button is-primary icon-button"
     aria-label={`More information about ${title}`}
@@ -43,7 +54,7 @@
   </button>
 
   {#if isOpen}
-    <div class="query-section-info">
+    <div class="query-section-info" bind:this={popup}>
       {@render children()}
     </div>
   {/if}
@@ -63,7 +74,7 @@
 
   .query-section-info {
     position: absolute;
-    top: 100%;
+    top: calc(100%);
     left: 0;
     z-index: 20;
 
@@ -77,8 +88,9 @@
     border-radius: 4px;
     box-shadow: 0.15rem 0.2rem 0.4rem rgb(10 10 10 / 12%);
 
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--bulma-body-color);
+    line-height: 1.3;
   }
 
   .icon-button {
@@ -88,5 +100,9 @@
 
   .button.icon-button .button-icon {
     font-size: 1.3rem;
+  }
+
+  .query-section-info :global(> * + *) {
+    margin-top: 1rem;
   }
 </style>
