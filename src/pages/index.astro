@@ -258,19 +258,25 @@ import Sidebar from "../components/Sidebar.svelte";
     margin-top: 1.5rem;
   }
 
-  /* A responsive 1x2 grid container */
   .dashboard-container {
-    display: grid;
+    display: flex;
     flex: 1;
     min-height: 0;
     width: 100vw;
-    /* splits screen horizontally, with fixed left column */
-    grid-template-columns: 23.5rem 1fr;
-    transition: grid-template-columns 0.4s ease;
+    gap: 0rem;
   }
 
-  /* When sidebar is collapsed */
-  .dashboard-container:has(#search-panel.sidebar-collapsed) {
-    grid-template-columns: 3rem 1fr;
+  /* responsiveness */
+  @media (max-width: 768px) {
+    .dashboard-container {
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    html,
+    body {
+      height: auto;
+      overflow: auto;
+    }
   }
 </style>

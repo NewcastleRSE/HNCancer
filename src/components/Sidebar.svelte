@@ -51,15 +51,21 @@
 
 <style>
   #search-panel {
+    flex: 0 0 22.5rem;
     height: 100%;
     min-height: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+
     background-color: var(--color-surface);
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1rem 1rem 1rem;
+
     border-right: 1px solid var(--color-border-div);
-    overflow: hidden;
+    border-bottom: 1px solid var(--color-border-div);
+    border-bottom-right-radius: 0.75rem;
+
+    transition: flex-basis 0.4s ease;
   }
 
   #sidebar-toggle {
@@ -77,6 +83,7 @@
   #search-panel.sidebar-collapsed {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    flex-basis: 3rem;
   }
 
   #search-panel.sidebar-collapsed #sidebar-toggle {
@@ -97,5 +104,12 @@
     justify-content: space-between;
     gap: 0.5rem;
     margin-bottom: 1rem;
+  }
+
+  /* responsiveness */
+  @media (max-width: 768px) {
+    #search-panel {
+      border-bottom-right-radius: 0rem;
+    }
   }
 </style>

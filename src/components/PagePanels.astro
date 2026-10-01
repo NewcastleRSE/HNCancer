@@ -48,7 +48,7 @@
 </script>
 
 <!-- right side, stretches full height -->
-<div id="right-panel" class="grid-panel">
+<div id="right-panel">
   <!-- Div for any messages for user after attempted search -->
   <div id="search-message"></div>
 
@@ -126,26 +126,33 @@
 </div>
 
 <style>
-  /* individual grid panels */
-  .grid-panel {
-    background-color: var(--bulma-background-color);
-    border: 1px solid var(--color-border-div);
+  #right-panel {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
     box-sizing: border-box;
-    overflow: auto;
+    background-color: var(--bulma-background-color);
     padding: 20px;
+
+    overflow: hidden;
   }
 
-  /* right side goes from top to bottom, place for data? */
-  #right-panel {
-    grid-column: 2;
-    grid-row: 1;
-    border-left: 2px solid var(--color-border-div);
+  #output-tabs {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
   }
 
   #tab-contents {
     position: relative;
     flex: 1;
     min-height: 0;
+    overflow: auto;
   }
 
   /* Hide tab content when not active - use this approach so can still initialise charts
@@ -160,36 +167,13 @@
     visibility: visible;
   }
 
-  /* responsiveness... */
+  /* responsiveness */
   @media (max-width: 768px) {
-    .dashboard-container {
-      display: flex;
-      flex-direction: column;
-      height: auto;
-      overflow-y: auto;
-    }
-
-    html,
-    body {
-      overflow: auto;
-      height: auto;
-    }
-
-    #map {
-      height: 400px;
-    }
-
-    #bottom-panel,
     #right-panel {
-      height: auto;
       width: 100%;
-      border-left: none;
-      border-top: 1px solid var(--color-border-div);
+      flex: 1 1 auto;
+      min-height: 600px;
     }
-  }
-
-  #container {
-    height: 100%;
   }
 
   /* Chart/table styling - needs global selector so not locally scoped so eCharts can access */
@@ -229,7 +213,7 @@
 
   .output-tab-header {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: 2rem;
   }
 
