@@ -3,6 +3,7 @@
   // Used in sidebar.
   import SingleSelectDropdownNoDefault from "./SingleSelectDropdownNoDefault.svelte";
   import QuerySelectionsDynamic from "./QuerySelectionsDynamic.svelte";
+  import QuerySectionHeader from "./QuerySectionHeader.svelte";
   import type { Statistic } from "../utils/variables";
   import {
     CANCER_TYPES,
@@ -103,7 +104,13 @@
 <div class="search-inputs">
   <div class="search-scroll">
     <div class="search-section">
-      <h2 class="query-section">HNC Subsite</h2>
+      <div>
+        <QuerySectionHeader title="HNC Subsite">
+          <p>
+            Select the <b>head and neck cancer subsite</b> to search.
+          </p>
+        </QuerySectionHeader>
+      </div>
       <div>
         <SingleSelectDropdownNoDefault
           id="cancertype"
