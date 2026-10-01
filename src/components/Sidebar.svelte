@@ -33,7 +33,7 @@
     </h1>
     <button
       id="sidebar-toggle"
-      class="button is-secondary"
+      class="button icon-button is-primary"
       type="button"
       aria-label={sidebarCollapsed
         ? "Expand search panel"
@@ -42,12 +42,14 @@
       onclick={toggleSidebar}
     >
       <!-- Icons for desktop (opens from left to right)-->
-      <span class="material-symbols-outlined sidebar-toggle-desktop">
+      <span
+        class="material-symbols-outlined sidebar-toggle-desktop button-icon"
+      >
         {sidebarCollapsed ? "left_panel_open" : "left_panel_close"}
       </span>
 
       <!-- Icons for mobile (opens from top to bottom) -->
-      <span class="material-symbols-outlined sidebar-toggle-mobile">
+      <span class="material-symbols-outlined sidebar-toggle-mobile button-icon">
         {sidebarCollapsed ? "top_panel_open" : "top_panel_close"}
       </span>
     </button>
@@ -169,5 +171,10 @@
     .sidebar-toggle-mobile {
       display: inline;
     }
+  }
+
+  /* No light background on button since insufficient contrast with sidebar */
+  .icon-button {
+    background-color: transparent;
   }
 </style>

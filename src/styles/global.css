@@ -25,8 +25,9 @@
   --bulma-background-color: var(--color-grey1);
   --bulma-hr-background-color: var(--color-grey3);
   --bulma-hr-margin: 0; /* control margins with layout instead */
+  --bulma-border: var(--color-border-div);
 
-  /* Primary colour (#619CBF) specified as H,S,L - other colour variables derived from these */
+ /* Primary colour (#619CBF) specified as H,S,L - other colour variables derived from these */
   --bulma-primary-h: 202deg;
   --bulma-primary-s: 55%;
   --bulma-primary-l: 75%;
@@ -119,3 +120,24 @@ input[type="checkbox"] {
 .button-icon {
   font-size: 1.25rem
 }
+
+/* Buttons with icons */
+
+.button.icon-button {
+  color: var(--bulma-primary-40); 
+  background-color: var(--bulma-primary-95);
+  padding: 0.5rem 0.5rem;
+}
+
+.button.icon-button .button-icon{
+  font-size: 1.5rem;
+}
+
+.button.icon-button:hover {
+    background-color: var(--bulma-primary-90);
+    color: var(--bulma-primary-30); 
+
+}
+
+/* Tabs */
+
