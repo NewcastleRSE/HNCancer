@@ -152,7 +152,14 @@
     position: relative;
     flex: 1;
     min-height: 0;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Horizontal scroll is determined by active tab */
+  .tab-content.is-active {
+    visibility: visible;
+    overflow-x: auto;
   }
 
   /* Hide tab content when not active - use this approach so can still initialise charts
