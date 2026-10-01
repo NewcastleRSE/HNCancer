@@ -5,6 +5,7 @@
 
   let sidebarCollapsed = $state(false);
   let showSidebarContent = $state(true);
+  let showSidebarHeader = $state(true);
 
   function toggleSidebar() {
     if (sidebarCollapsed) {
@@ -13,10 +14,12 @@
 
       // Reveal content after the width transition
       setTimeout(() => {
+        showSidebarHeader = true;
         showSidebarContent = true;
       }, 200);
     } else {
       // Hide content immediately
+      showSidebarHeader = false;
       showSidebarContent = false;
       sidebarCollapsed = true;
     }
@@ -25,7 +28,9 @@
 
 <aside id="search-panel" class:sidebar-collapsed={sidebarCollapsed}>
   <div class="sidebar-header">
-    <h1 class="h1-search"><em>Search cancer data:</em></h1>
+    <h1 class="h1-search" class:sidebar-header-hidden={!showSidebarHeader}>
+      <em>Search cancer data:</em>
+    </h1>
     <button
       id="sidebar-toggle"
       class="button is-secondary"
@@ -96,7 +101,7 @@
   }
 
   /* Hide header when collapsed on desktop */
-  #search-panel.sidebar-collapsed .h1-search {
+  .sidebar-header-hidden {
     display: none;
   }
 
@@ -139,10 +144,9 @@
     }
 
     /* Keep header visible when collapsed */
-    #search-panel.sidebar-collapsed .h1-search {
+    .sidebar-header-hidden {
       display: block;
     }
-
     /* Switch icons */
     .sidebar-toggle-desktop {
       display: none;
