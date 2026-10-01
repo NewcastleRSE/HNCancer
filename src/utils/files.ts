@@ -2,7 +2,7 @@
 Module for loading and saving data files.
 */
 
-import type { IncidenceProcessedRow, SurvivalProcessedRow } from '../types';
+import type { ECharts } from 'echarts';
 import { CANCER_TYPES, CANCER_STATISTICS } from '../utils/variables';
 import Papa from "papaparse";
 
@@ -63,8 +63,9 @@ export function createTidyDownloadFile(
     );
 }
 
-// Filename for download
+// Filename for downloads
 // Timestamp + string (local time)
+// Excludes extension so can be added depending on file type
 export function createDownloadFilename(name: string): string {
   const now = new Date();
 
@@ -80,7 +81,18 @@ export function createDownloadFilename(name: string): string {
     .trim()
     .replace(/\s+/g, "_");
 
-  return `${timestamp}_${suffix}.csv`;
+  return `${timestamp}_${suffix}`;
 }
 		
+// Helper for getting echart to download
+export function getChartDataUrl(
+    chart: ECharts,
+): string {
 
+    const type = "svg" as const;
+    return chart.getDataURL({
+        type,
+        pixelRatio: 1,
+        backgroundColor: "#fff",
+    });
+}

@@ -2,17 +2,13 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "./header.astro";
 import PagePanels from "../components/PagePanels.astro";
-import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
+import Sidebar from "../components/Sidebar.svelte";
 ---
 
 <Layout>
   <Header />
-
   <div class="dashboard-container">
-    <!--- top left: panel area ---->
-    <div id="search-panel">
-      <SearchInputsDynamic client:load />
-    </div>
+    <Sidebar client:load />
     <PagePanels />
   </div>
 </Layout>
@@ -24,9 +20,14 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     getCancerCSVFilename,
     createTidyDownloadFile,
     createDownloadFilename,
+    getChartDataUrl,
   } from "../utils/files";
   import { setMessageText, clearMessageText } from "../utils/messages";
-  import { downloadLinkBtn } from "../types";
+  import {
+    downloadDataElement,
+    downloadChartSvg,
+    downloadTableSvg,
+  } from "../types";
   import {
     returnAllIncidenceChartSeries,
     returnAllIncidenceTableSeries,
@@ -45,6 +46,22 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     SurvivalProcessedRow,
   } from "../types";
 
+  // Tabs and download menu - will need to remove hidden attribute when search results are shown
+  const tabButtons = document.getElementById("tab-buttons");
+  const downloadDropdown = document.getElementById("download-dropdown");
+
+  // Reset results helper
+  function resetResults(messageText: string, messageType: "normal" | "danger") {
+    renderBlankChart(myChart);
+    renderBlankChart(myTable);
+    setMessageText(messageText, messageType);
+    tabButtons?.classList.add("is-hidden"); // rehide tab buttons
+    downloadDropdown?.classList.add("is-hidden"); // rehide download button
+
+    // Chart tab will be active on next successful search
+    document.querySelector<HTMLAnchorElement>('[data-tab="chart"]')?.click();
+  }
+
   // Initialise chart
   const myChart = initChart("csv-chart");
 
@@ -59,9 +76,9 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
     // Messages for if inputs are not provided; otherwise, run search
     if (!cancer) {
-      setMessageText("Please choose a HNC subsite.", "danger");
+      resetResults("Please choose a HNC subsite.", "danger");
     } else if (!statistic) {
-      setMessageText("Please choose a statistic.", "danger");
+      resetResults("Please choose a statistic.", "danger");
     } else {
       console.log("Search filter:", filter);
       const CSV_file = getCancerCSVFilename(cancer, statistic);
@@ -81,14 +98,10 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
 
           complete: (results) => {
             if (CSV_file === "") {
-              renderBlankChart(myChart);
-              renderBlankChart(myTable);
-              setMessageText(
+              resetResults(
                 "Please choose a HNC subsite and statistic.",
                 "danger",
               );
-
-              downloadLinkBtn.innerHTML = "<p></p>";
 
               return;
             }
@@ -123,9 +136,7 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
               console.log("groupedResults:", groupedResults);
 
               if (groupedResults.length < 1) {
-                renderBlankChart(myChart);
-                renderBlankChart(myTable);
-                setMessageText(
+                resetResults(
                   "No data is available for these search filters.",
                   "danger",
                 );
@@ -135,6 +146,8 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 // ---------------------------------------------------------
 
                 clearMessageText(); // Remove search message text
+                tabButtons?.classList.remove("is-hidden"); // Show output tabs
+                downloadDropdown?.classList.remove("is-hidden"); // Show download menu
 
                 // Branch to handle types - asserting types since know each statistic
                 // will return processed rows with a matching type
@@ -189,11 +202,31 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 const filename = createDownloadFilename(
                   cancer + "_" + statistic,
                 );
-                downloadLinkBtn.innerHTML = `<a class="button is-link is-light mb-4"
-                    href="${encodedUri}"
-                    download="${filename}.csv">
-                  Download CSV
-                </a>`;
+
+                // Data
+                downloadDataElement.href = encodedUri;
+                downloadDataElement.download = `${filename}_data.csv`;
+
+                // Charts/tables - get image when clicked so updates depending on user's current view
+                const downloads = [
+                  {
+                    element: downloadChartSvg,
+                    chart: myChart,
+                    suffix: "chart",
+                  },
+                  {
+                    element: downloadTableSvg,
+                    chart: myTable,
+                    suffix: "table",
+                  },
+                ];
+
+                for (const { element, chart, suffix } of downloads) {
+                  element.addEventListener("click", () => {
+                    element.href = getChartDataUrl(chart);
+                    element.download = `${filename}_${suffix}.svg`;
+                  });
+                }
               }
             } catch (error) {
               console.error(error);
@@ -201,18 +234,16 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
                 error instanceof Error
                   ? error.message
                   : "Unable to process query.";
-              setMessageText(msg, "danger");
-
-              downloadLinkBtn.innerHTML = "<p></p>";
+              resetResults(msg, "danger");
             }
           },
 
           error: (error: Error) => {
-            setMessageText(`Parsing error: ${error.message}`, "danger");
+            resetResults(`Parsing error: ${error.message}`, "danger");
           },
         });
       } catch (err) {
-        setMessageText("Could not fetch CSV file with cancer data.", "danger");
+        resetResults("Could not fetch CSV file with cancer data.", "danger");
 
         console.error(err);
       }
@@ -227,25 +258,30 @@ import SearchInputsDynamic from "../components/SearchInputsDynamic.svelte";
     margin-top: 1.5rem;
   }
 
-  /* A responsive 1x2 grid container */
   .dashboard-container {
-    display: grid;
+    display: flex;
     flex: 1;
     min-height: 0;
     width: 100vw;
-    /* splits screen horizontally, with fixed left column */
-    grid-template-columns: 26rem 1fr;
+    gap: 0rem;
   }
 
-  #search-panel {
-    grid-column: 1;
-    grid-row: 1;
-    height: 100%;
-    min-height: 0;
-    box-sizing: border-box;
-    background-color: var(--color-surface);
-    padding: 1rem 1.5rem;
-    border-right: 1px solid var(--color-border-div);
-    overflow: hidden;
+  /* responsiveness */
+  @media (max-width: 768px) {
+    .dashboard-container {
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    #right-panel {
+      min-height: 800px;
+      height: auto;
+    }
+
+    html,
+    body {
+      height: auto;
+      overflow: auto;
+    }
   }
 </style>

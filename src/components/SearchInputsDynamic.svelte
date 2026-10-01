@@ -3,6 +3,7 @@
   // Used in sidebar.
   import SingleSelectDropdownNoDefault from "./SingleSelectDropdownNoDefault.svelte";
   import QuerySelectionsDynamic from "./QuerySelectionsDynamic.svelte";
+  import QuerySectionHeader from "./QuerySectionHeader.svelte";
   import type { Statistic } from "../utils/variables";
   import {
     CANCER_TYPES,
@@ -101,10 +102,15 @@
 
 <!-- Note - Svelte components need to be wrapped in divs for * + * layout spacing to work -->
 <div class="search-inputs">
-  <h1 class="h1-search"><em>Search cancer data:</em></h1>
   <div class="search-scroll">
     <div class="search-section">
-      <h2 class="query-section">HNC Subsite</h2>
+      <div>
+        <QuerySectionHeader title="HNC Subsite">
+          <p>
+            Select the <b>head and neck cancer subsite</b> to search.
+          </p>
+        </QuerySectionHeader>
+      </div>
       <div>
         <SingleSelectDropdownNoDefault
           id="cancertype"
@@ -115,7 +121,15 @@
       </div>
     </div>
     <div class="search-section">
-      <h2 class="query-section">Statistic</h2>
+      <div>
+        <QuerySectionHeader title="Statistic">
+          <p>Select the <b>statistic</b> to display:</p>
+          <ul class="tooltip-list">
+            <li><b>Incidence:</b> _definition TBA_</li>
+            <li><b>Survival:</b> _definition TBA_</li>
+          </ul>
+        </QuerySectionHeader>
+      </div>
       <div>
         <SingleSelectDropdownNoDefault
           id="statistic"
@@ -141,26 +155,25 @@
   <hr />
   <div class="button-container">
     <button type="button" class="button is-primary" onclick={submitQuery}>
-      Search
+      <span class="material-symbols-outlined button-icon">search</span>
+      <span>Search</span>
     </button>
 
     <button type="button" class="button is-primary" onclick={resetQuery}>
-      Reset
+      <span class="material-symbols-outlined button-icon">refresh</span>
+      <span>Reset</span>
     </button>
   </div>
 </div>
 
 <style>
-  .h1-search {
-    font-size: var(--font-size-h3);
-    font-weight: 400;
-  }
-
   /* Buttons */
   .button-container {
     display: flex;
     gap: 1.5rem;
     align-items: center;
+    justify-content: center;
+    padding-right: 0.5rem; /* visual adjustment */
   }
 
   /* layout */
@@ -180,6 +193,7 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    padding-left: var(--search-padding-left);
   }
 
   .search-scroll > * + * {
@@ -195,5 +209,11 @@
     display: flex;
     gap: 1.5rem;
     align-items: center;
+  }
+
+  /* Button styling */
+  .button {
+    gap: 0.3rem;
+    text-transform: uppercase;
   }
 </style>

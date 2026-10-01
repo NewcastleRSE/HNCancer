@@ -2,75 +2,196 @@
 
 ---
 
+<script>
+  const tabLinks = document.querySelectorAll<HTMLAnchorElement>("[data-tab]");
+
+  const chartTab = document.getElementById("chart-tab");
+  const tableTab = document.getElementById("table-tab");
+  let activeTab: "chart" | "table" = "chart";
+
+  // Drowpdown for download
+  const downloadDropdown = document.getElementById("download-dropdown");
+  const downloadButton =
+    downloadDropdown?.querySelector<HTMLButtonElement>("button");
+
+  downloadButton?.addEventListener("click", () => {
+    downloadDropdown?.classList.toggle("is-active");
+  });
+
+  // close dropdown if click elsewhere
+  document.addEventListener("click", (event) => {
+    if (downloadDropdown && !downloadDropdown.contains(event.target as Node)) {
+      downloadDropdown.classList.remove("is-active");
+    }
+  });
+
+  // Update tabs when clicked
+  tabLinks.forEach((tabLink) => {
+    tabLink.addEventListener("click", () => {
+      const tab = tabLink.dataset.tab;
+
+      if (tab !== "chart" && tab !== "table") {
+        return;
+      } else {
+        activeTab = tab;
+      }
+
+      tabLinks.forEach((link) => {
+        link.parentElement?.classList.toggle("is-active", link === tabLink);
+      });
+
+      chartTab?.classList.toggle("is-active", tab === "chart");
+
+      tableTab?.classList.toggle("is-active", tab === "table");
+    });
+  });
+</script>
+
 <!-- right side, stretches full height -->
-<div id="right-panel" class="grid-panel">
-  <!-- Output container for messages -->
+<div id="right-panel">
+  <!-- Div for any messages for user after attempted search -->
   <div id="search-message"></div>
 
-  <!-- Output target container for chart -->
-  <div id="csv-chart"></div>
+  <!-- Tabbed results -->
+  <div id="output-tabs">
+    <div class="output-tab-header">
+      <div id="tab-buttons" class="tabs is-boxed is-hidden">
+        <ul>
+          <!-- Chart tab -->
+          <li class="is-active">
+            <a data-tab="chart">
+              <span class="material-symbols-outlined tab-icon"
+                >bid_landscape</span
+              >
+              <span>Chart</span>
+            </a>
+          </li>
 
-  <!-- Output target containers for tables -->
-  <div id="csv-table"></div>
-  <div id="search-results" style="width: 100%;"></div>
-  <div id="download-link"></div>
+          <!-- Table tab -->
+          <li>
+            <a data-tab="table">
+              <span class="material-symbols-outlined tab-icon">table</span>
+              <span>Table</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Download menu -->
+      <div class="dropdown is-hidden is-right" id="download-dropdown">
+        <div class="dropdown-trigger">
+          <button
+            class="button icon-button is-primary"
+            aria-haspopup="true"
+            aria-controls="download-menu"
+          >
+            <span class="material-symbols-outlined button-icon">
+              download
+            </span>
+            <!-- <span>Download</span> -->
+          </button>
+        </div>
+
+        <div class="dropdown-menu" id="download-menu">
+          <div class="dropdown-content">
+            <a id="download-data" class="dropdown-item" href="#">
+              Download data (CSV)
+            </a>
+
+            <a id="download-chart-svg" class="dropdown-item" href="#">
+              Download chart (SVG)
+            </a>
+
+            <a id="download-table-svg" class="dropdown-item" href="#">
+              Download table (SVG)
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab contents -->
+    <div id="tab-contents">
+      <!-- Chart tab content -->
+      <div id="chart-tab" class="tab-content is-active">
+        <div id="csv-chart"></div>
+      </div>
+
+      <!-- Table tab content -->
+      <div id="table-tab" class="tab-content">
+        <div id="csv-table"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
-  /* individual grid panels */
-  .grid-panel {
-    background-color: var(--bulma-background-color);
-    border: 1px solid var(--color-border-div);
-    box-sizing: border-box;
-    overflow: auto;
-    padding: 20px;
-  }
-
-  /* right side goes from top to bottom, place for data? */
   #right-panel {
-    grid-column: 2;
-    grid-row: 1;
-    border-left: 2px solid var(--color-border-div);
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    background-color: var(--bulma-background-color);
+    padding: 20px;
+
+    overflow: hidden;
   }
 
-  /* responsiveness... */
+  #output-tabs {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  #tab-contents {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 1rem;
+  }
+
+  /* Horizontal scroll is determined by active tab */
+  .tab-content.is-active {
+    visibility: visible;
+    overflow-x: auto;
+  }
+
+  /* Hide tab content when not active - use this approach so can still initialise charts
+  before search results returned */
+  .tab-content {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+  }
+
+  .tab-content.is-active {
+    visibility: visible;
+  }
+
+  /* responsiveness */
   @media (max-width: 768px) {
-    .dashboard-container {
-      display: flex;
-      flex-direction: column;
-      height: auto;
-      overflow-y: auto;
-    }
-    html,
-    body {
-      overflow: auto;
-      height: auto;
-    }
-    #map {
-      height: 400px;
-    }
-    #bottom-panel,
     #right-panel {
-      height: auto;
       width: 100%;
-      border-left: none;
-      border-top: 1px solid var(--color-border-div);
+      flex: 1 1 auto;
+      min-height: 600px;
     }
-  }
-
-  #container {
-    height: 100%;
   }
 
   /* Chart/table styling - needs global selector so not locally scoped so eCharts can access */
   :global(#csv-chart) {
-    width: max(100%, 600px);
-    height: 450px;
-    min-width: 1000px;
+    width: max(100%, 812px);
+    height: 550px;
   }
 
   :global(#csv-table) {
-    width: 1000px;
+    width: 812px;
     height: 10px;
   }
 
@@ -83,5 +204,30 @@
   .search-message.is-hidden {
     min-height: 0;
     height: 0;
+  }
+
+  /* Tabs spacing */
+  .tabs li a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+  }
+
+  /* Download dropdown */
+  #download-dropdown {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .output-tab-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .output-tab-header .tabs {
+    margin-bottom: 0;
+    flex: 1;
   }
 </style>
