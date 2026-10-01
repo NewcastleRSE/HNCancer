@@ -52,10 +52,12 @@
       </span>
     </button>
   </div>
-
-  {#if showSidebarContent}
+  <div
+    class="search-inputs-wrapper"
+    class:search-inputs-hidden={!showSidebarContent}
+  >
     <SearchInputsDynamic />
-  {/if}
+  </div>
 </aside>
 
 <style>
@@ -100,8 +102,20 @@
     margin-right: auto;
   }
 
-  /* Hide header when collapsed on desktop */
+  /* Needed to keep scroll working in search inputs while controlling visibility*/
+  .search-inputs-wrapper {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Hide header and inputs when collapsed */
   .sidebar-header-hidden {
+    display: none;
+  }
+
+  .search-inputs-hidden {
     display: none;
   }
 
