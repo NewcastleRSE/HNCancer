@@ -25,9 +25,7 @@
 
 <aside id="search-panel" class:sidebar-collapsed={sidebarCollapsed}>
   <div class="sidebar-header">
-    {#if showSidebarContent}
-      <h1 class="h1-search"><em>Search cancer data:</em></h1>
-    {/if}
+    <h1 class="h1-search"><em>Search cancer data:</em></h1>
     <button
       id="sidebar-toggle"
       class="button is-secondary"
@@ -38,8 +36,14 @@
       aria-expanded={!sidebarCollapsed}
       onclick={toggleSidebar}
     >
-      <span class="material-symbols-outlined">
-        {sidebarCollapsed ? "chevron_right" : "chevron_left"}
+      <!-- Icons for desktop (opens from left to right)-->
+      <span class="material-symbols-outlined sidebar-toggle-desktop">
+        {sidebarCollapsed ? "left_panel_open" : "left_panel_close"}
+      </span>
+
+      <!-- Icons for mobile (opens from top to bottom) -->
+      <span class="material-symbols-outlined sidebar-toggle-mobile">
+        {sidebarCollapsed ? "top_panel_open" : "top_panel_close"}
       </span>
     </button>
   </div>
@@ -91,6 +95,16 @@
     margin-right: auto;
   }
 
+  /* Hide header when collapsed on desktop */
+  #search-panel.sidebar-collapsed .h1-search {
+    display: none;
+  }
+
+  /* Hide mobile icons */
+  .sidebar-toggle-mobile {
+    display: none;
+  }
+
   /* Header styling */
 
   .h1-search {
@@ -101,7 +115,6 @@
   .sidebar-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 0.5rem;
     margin-bottom: 1rem;
     padding-left: var(--search-padding-left);
@@ -112,6 +125,31 @@
     #search-panel {
       flex: 0 0 25rem;
       border-bottom-right-radius: 0rem;
+    }
+
+    #search-panel.sidebar-collapsed {
+      flex-basis: 3.5rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    #search-panel.sidebar-collapsed #sidebar-toggle {
+      margin-left: auto;
+      margin-right: 0;
+    }
+
+    /* Keep header visible when collapsed */
+    #search-panel.sidebar-collapsed .h1-search {
+      display: block;
+    }
+
+    /* Switch icons */
+    .sidebar-toggle-desktop {
+      display: none;
+    }
+
+    .sidebar-toggle-mobile {
+      display: inline;
     }
   }
 </style>
