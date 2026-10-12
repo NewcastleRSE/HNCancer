@@ -1,0 +1,71 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "./header.astro";
+---
+
+<Layout>
+  <Header />
+
+  <main class="home-page">
+    <div class="home-content">
+      <img
+        class="home-logo"
+        src="/public/images/UNEQUAL-HNC_logo.png"
+        alt="Logo for Unequal-HNC: Unravelling Inequalities in Head and Neck Cancer. The Q in unequal is a magnifying glass containing the silhouette of a head."
+        width="500"
+      />
+
+      <section class="introduction" aria-labelledby="home-title">
+        <!-- <h1 id="home-title">Welcome</h1> -->
+        <p>
+          The UNEQUAL-HNC study investigated patterns, trends and inequalities
+          in Head and Neck Cancer (HNC) incidence and survival in England during
+          the period 2016-2023.
+        </p>
+        <p>
+          The EXPLORE tab allows you to examine and download data tables and
+          graphics for all HNC, or for different subsites according to
+          combinations of patient demographics and diagnostic variables.
+        </p>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .home-page {
+    padding: clamp(2rem, 6vw, 5rem) 1.25rem;
+  }
+
+  .home-content {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    width: 100%;
+    max-width: 52rem;
+    margin-inline: auto;
+  }
+
+  .home-logo {
+    display: block;
+    width: 100%;
+    max-width: 42rem;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .introduction {
+    width: 100%;
+    max-width: 38rem;
+    margin-inline: auto;
+  }
+
+  .introduction > * + * {
+    margin-top: 1rem;
+  }
+
+  .introduction p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
+</style>

@@ -1,0 +1,225 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "./header.astro";
+---
+
+<Layout>
+  <Header />
+
+  <main class="methods-page">
+    <div class="methods-content">
+      <header class="page-intro">
+        <h1>Methods</h1>
+        <p>[Overview]</p>
+      </header>
+
+      <section class="method-section" aria-labelledby="method-1">
+        <h2 id="method-1">Data</h2>
+
+        <div class="method-row">
+          <div class="method-main">
+            <h3>Population</h3>
+            <p>
+              Information on patients diagnosed with primary malignant HNC
+              cancer in England from 1 January 2016 to 31 December 2021 from
+              National Cancer Registration Dataset (NCRD)<sup
+                ><a href="#ref-1" aria-label="1">1</a></sup
+              > and from 1 January 2022 - 31 December 2023 from the Rapid Cancer Registration
+              Database (RCRD).
+            </p>
+            <h3>Access</h3>
+            <p>
+              The NHS England Secure Data Environment (SDE) was used to access
+              the cancer data. In line with the SDE disclosure policy, counts
+              are rounded to the nearest five and those below 10 are suppressed.
+              Analyses were carried out in STATA version 18.
+            </p>
+          </div>
+
+          <aside class="method-extra" aria-label="Additional information">
+            <h3>[Definition or additional detail]</h3>
+            <p>[Placeholder]</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="method-section" aria-labelledby="method-2">
+        <h2 id="method-2">Approach</h2>
+
+        <div class="method-row">
+          <div class="method-main">
+            <h3>Incidence</h3>
+            <p>
+              Incidence rates per 100,000 person-years were derived using Office
+              for National Statistics (ONS) mid-year population estimates for
+              the years 2016-2022 by age, sex and Lower-level Super Output Area
+              (LSOA). Incidence for 2023 was derived using 2022 population
+              denominators.
+            </p>
+            <h3>Survival</h3>
+            <p>
+              Estimates of one- and five-year net survival estimates were
+              derived using the most up-to-date methodology.
+            </p>
+          </div>
+
+          <aside class="method-extra" aria-label="Additional information">
+            <h3>[Definition or additional detail]</h3>
+            <p>[Placeholder]</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="method-section" aria-labelledby="method-3">
+        <h2 id="method-3">Covariables</h2>
+
+        <div class="method-row">
+          <div class="method-main">
+            <h3>Deprivation</h3>
+            <p>
+              Patients' deprivation was classified according to quintiles of
+              Index of Multiple Deprivation 2019 at LSOA level.
+            </p>
+            <h3>Region</h3>
+            <p>Government Office Region of residence at cancer diagnosis.</p>
+            <h3>Stage</h3>
+            <p>
+              Information on how advanced the cancer was at diagnosis was
+              recorded in the NCRD for diagnoses up to 2021. Stage was
+              unavailable for 2022-2023. Tumours were grouped into early (TNM I
+              and II), advanced (III and IV), or unknown.
+            </p>
+            <h3>Route to diagnosis</h3>
+            <p>
+              The pathway taken by patients through the health service to cancer
+              diagnosis was available for NCRD data up to 2018. The Rapid Cancer
+              Registration Database (RCRD) includes unvalidated estimates for
+              2022-2023. Patient pathways were categorised into Emergency or
+              Non-Emergency routes.
+            </p>
+          </div>
+
+          <aside class="img-extra" aria-label="Additional information">
+            <img
+              src="/HNCancer/images/English_regions.svg.png"
+              style="width: 100%; max-width: 500px;"
+              alt="Map showing the nine English regions"
+            />
+          </aside>
+        </div>
+      </section>
+
+      <section class="references" aria-labelledby="references-title">
+        <h2 id="references-title">References</h2>
+        <ol>
+          <li id="ref-1">
+            Henson KE, Elliss-Brookes L, Coupland VH, et al. Data Resource
+            Profile: National Cancer Registration Dataset in England.
+            International Journal of Epidemiology 2019;49(1):16-16h. doi:
+            <a href="https://academic.oup.com/ije/article/49/1/16/5476570"
+              >10.1093/ije/dyz076</a
+            >
+          </li>
+          <li>[Author or organisation. (Year). Title of source.]</li>
+        </ol>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .methods-page {
+    padding: clamp(2rem, 5vw, 4rem) 1.25rem;
+  }
+
+  .methods-content {
+    width: 100%;
+    max-width: 68rem;
+    margin-inline: auto;
+  }
+
+  .methods-content > * + * {
+    margin-block-start: 3rem;
+  }
+
+  .page-intro > * + *,
+  .method-section > * + *,
+  .method-main > * + *,
+  .method-extra > * + *,
+  .img-extra > * + * {
+    margin-block-start: 1rem;
+  }
+
+  .method-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .method-main {
+    flex: 2 1 30rem;
+    min-width: 0;
+  }
+
+  .method-extra,
+  .img-extra {
+    flex: 1 1 14rem;
+    min-width: 0;
+  }
+
+  .method-extra {
+    background: var(--bulma-background);
+    border-left: 3px solid var(--bulma-border);
+    padding: 1.25rem;
+  }
+
+  .references {
+    padding-block-start: 1.5rem;
+    border-top: 1px solid var(--bulma-border);
+  }
+
+  .references > * + * {
+    margin-block-start: 1rem;
+  }
+
+  .references ol {
+    padding-inline-start: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .references li + li {
+    margin-block-start: 0.75rem;
+  }
+
+  .method-main sup {
+    font-size: 0.75em;
+    vertical-align: super;
+    line-height: 0;
+  }
+
+  .method-main sup a {
+    text-decoration: none;
+    padding-inline: 0.1em;
+  }
+
+  .method-main sup a:hover {
+    text-decoration: underline;
+  }
+
+  img {
+    display: block;
+    margin-inline: auto;
+  }
+
+  @media (max-width: 480px) {
+    .methods-page {
+      padding-inline: 1rem;
+    }
+
+    .method-row {
+      gap: 1.25rem;
+    }
+  }
+</style>

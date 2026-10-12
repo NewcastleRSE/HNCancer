@@ -105,4 +105,8 @@
   .query-section-info :global(> * + *) {
     margin-top: 1rem;
   }
+
+  h2 {
+    font-size: 1.125rem;
+  }
 </style>
