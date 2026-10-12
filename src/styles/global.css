@@ -14,8 +14,9 @@
   --color-grey3: #E4E4E4;
 
   /* Semantic colours */ 
+  --color-accent: var(--color-burgundy);
   --color-surface: var(--color-grey2);
-  --color-header: var(--color-burgundy);
+  --color-header: var(--color-surface);
   --color-border-div: var(--color-grey3);
   --color-text-light: var(--color-grey2);
 

@@ -84,9 +84,10 @@ const navItems = [
     background-color: var(--color-header);
     justify-content: space-between;
     align-items: flex-start;
-    color: var(--color-text-light);
+    color: var(--color-accent);
     padding: 1rem 1.5rem;
     flex-wrap: nowrap;
+    border-bottom: 2px solid var(--bulma-border);
   }
 
   /* Change flex alignemnt when burger menu is open */
@@ -110,8 +111,9 @@ const navItems = [
   }
 
   .navbar-item {
-    color: color-mix(in srgb, var(--color-text-light) 80%, transparent);
+    color: color-mix(in srgb, var(--bulma-primary-30) 80%, transparent);
     border-radius: 0.35rem;
+    font-weight: 600;
     transition:
       background-color 0.15s ease,
       color 0.15s ease;
@@ -119,19 +121,15 @@ const navItems = [
 
   /* Navbar hover */
   .navbar-item:hover {
-    color: var(--color-text-light);
-    background-color: color-mix(
-      in srgb,
-      var(--color-text-light) 15%,
-      transparent
-    );
+    color: var(--bulma-primary-25);
+    background-color: color-mix(in srgb, var(--bulma-primary) 20%, transparent);
   }
 
   /* Navbar styling for current page */
   .navbar-item[aria-current="page"] {
-    color: var(--color-text-light);
+    color: var(--bulma-primary-25);
     text-decoration: underline;
-    text-decoration-thickness: 1px;
+    text-decoration-thickness: 2px;
     text-underline-offset: 0.5em;
   }
 
@@ -228,6 +226,6 @@ const navItems = [
 
   .header-text-large {
     font-size: 1.75rem;
-    font-weight: 500;
+    font-weight: 800;
   }
 </style>
