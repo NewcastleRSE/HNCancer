@@ -87,9 +87,11 @@ const navItems = [
     color: var(--color-accent);
     padding: 1rem 1.5rem;
     flex-wrap: nowrap;
-    border-bottom: 2px solid var(--bulma-border);
+    border-bottom: 2px solid color-mix(in srgb, var(--bulma-border), black 10%);
+    /* box-shadow:
+      inset 0 -3px 0 var(--color-header),
+      inset 0 -5px 0 color-mix(in srgb, var(--bulma-border), black 10%); */
   }
-
   /* Change flex alignemnt when burger menu is open */
   .header-container:has(.navbar-burger.is-active) {
     align-items: flex-start;
@@ -136,23 +138,19 @@ const navItems = [
   /* Navbar - Keyboard focus */
   .navbar-item:focus-visible,
   .navbar-burger:focus-visible {
-    outline: 2px solid var(--color-text-light);
+    outline: 2px solid var(--bulma-primary-25);
     outline-offset: 2px;
   }
 
   /* Burger */
   .navbar-burger {
-    color: var(--color-text-light);
+    color: var(--bulma-primary-30);
     border-radius: 0.35rem;
   }
 
   .navbar-burger:hover {
-    color: var(--color-text-light);
-    background-color: color-mix(
-      in srgb,
-      var(--color-text-light) 15%,
-      transparent
-    );
+    color: var(--bulma-primary-25);
+    background-color: color-mix(in srgb, var(--bulma-primary) 20%, transparent);
   }
 
   .navbar-start.is-active {
@@ -190,7 +188,7 @@ const navItems = [
 
     .navbar-start {
       background-color: var(--color-header);
-      color: var(--color-text-light);
+      color: var(--bulma-primary-30);
       display: none;
       max-height: 0;
       opacity: 0;
