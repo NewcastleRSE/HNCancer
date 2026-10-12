@@ -22,10 +22,11 @@ import Header from "./header.astro";
             <p>
               Information on patients diagnosed with primary malignant HNC
               cancer in England from 1 January 2016 to 31 December 2021 from
-              National Cancer Registration Dataset (NCRD)<sup
-                ><a href="#ref-1" aria-label="1">1</a></sup
-              > and from 1 January 2022 - 31 December 2023 from the Rapid Cancer Registration
-              Database (RCRD).
+              <span class="accent-text"
+                >National Cancer Registration Dataset (NCRD)</span
+              ><sup><a href="#ref-1" aria-label="1">1</a></sup> and from 1 January
+              2022 - 31 December 2023 from the Rapid Cancer Registration Database
+              (RCRD).
             </p>
             <h3>Access</h3>
             <p>
@@ -211,6 +212,11 @@ import Header from "./header.astro";
   img {
     display: block;
     margin-inline: auto;
+  }
+
+  .accent-text {
+    color: var(--color-accent);
+    font-weight: 600;
   }
 
   @media (max-width: 480px) {
