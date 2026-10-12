@@ -711,7 +711,7 @@ function setTableChartOptions(
 				// If count is SUPPRESSED, display n < 10; otherwise, n = count
 				String(count).includes("SUPPRESSED")
 					? "{details|n < 10}"
-					: `{details|n = ${count}}`,
+					: `{details|n = ${new Intl.NumberFormat().format(count)}}`,
 						].join("\n");
 		};
 
