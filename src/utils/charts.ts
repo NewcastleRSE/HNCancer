@@ -270,12 +270,13 @@ function getTitle(args: ChartArgs | TableArgs) {
 		// Need to add "age-standardised" if all ages is filter
 		let ageText = ""; 
 		if (args.filter.ageBand[0] === String(STATISTICS_CONFIG[args.statistic].variableAll.ageBand.value)) {
-			ageText = "age-standardised{sup|+} "; // include trailing space in string
+			ageText = "standardised{sup|+}";
+		} else {
+			ageText = "specific"
 		}
 
 		// Title
-		titleText = `${ageText}incidence of ${args.cancer.toLowerCase()} ${cancerText}: England ${minYear}-${maxYear}`
-		titleText = titleText.charAt(0).toUpperCase() + titleText.slice(1); // capitalise first letter
+		titleText = `Age-${ageText} incidence of ${args.cancer.toLowerCase()} ${cancerText}: England ${minYear}-${maxYear}`
 	
 	} else if (args.statistic === "survival") {
 		titleText = `Net survival* of ${args.cancer.toLowerCase()} ${cancerText}: England`;
