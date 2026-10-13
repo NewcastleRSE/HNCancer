@@ -8,15 +8,17 @@
   --font-size-h3: 1rem;
 
   /* Palette */
-  --color-burgundy: #78081E; /*#6A1B2F; logo colour: #810B09 */
+  --color-logo: #810B09;
+  --color-burgundy: #B5110E; 
   --color-grey1: #fcfcfc;
   --color-grey2: #F7F7F7;
   --color-grey3: #E4E4E4;
+  --color-slate: #191919;
 
   /* Semantic colours */ 
   --color-accent: var(--color-burgundy);
   --color-surface: var(--color-grey2);
-  --color-header: var(--color-grey2);
+  --color-header: var(--bulma-background-color);
   --color-border-div: var(--color-grey3);
   --color-text-light: var(--color-grey2);
 
@@ -28,19 +30,20 @@
   --bulma-hr-margin: 0; /* control margins with layout instead */
   --bulma-border: var(--color-border-div);
 
- /* Primary colour (#619CBF) specified as H,S,L - other colour variables derived from these */
-  --bulma-primary-h: 202deg;
-  --bulma-primary-s: 55%;
-  --bulma-primary-l: 75%;
+ /* Primary colour (#B5110E) specified as H,S,L - other colour variables derived from these */
+  --bulma-primary-h: 0deg;
+  --bulma-primary-s: 86%;
+  --bulma-primary-l: 38%;
 
   /* Focus colours and UI arrows (e.g., for dropdowns */
   --bulma-focus-h: var(--bulma-primary-h);
   --bulma-focus-s: var(--bulma-primary-s);
   --bulma-focus-l: calc(var(--bulma-primary-l) - 15%);
-  --bulma-arrow-color: hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l));
+  --bulma-arrow-color: var(--color-slate); /* hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l)); */
 
   /* Misc variables */
   --search-padding-left: 0.25rem; /* provides padding to avoid clipping focus shadows in scroll area */
+
 }
 	
 html, body {
@@ -96,13 +99,25 @@ text-transform: uppercase;
 
 /* Checkbox */
 input[type="checkbox"] {
-  accent-color: var(--bulma-primary-50)
+  accent-color: var(--bulma-primary)
 }
 
 /* Tabs */
 
 .tabs li.is-active a {
-  color: var(--bulma-primary-40);
+  color: var(--bulma-primary);
+}
+
+/* Buttons */
+/* style will be overwritten for icon buttons */
+.button.is-primary {
+    color: var(--bulma-background-color);
+    background-color: color-mix(in oklab, var(--color-slate) 75%, white);
+}
+
+.button.is-primary:hover {
+    color: var(--bulma-background-color);
+    background-color: color-mix(in oklab, var(--color-slate) 95%, white);
 }
 
 /* Icons */
@@ -125,8 +140,8 @@ input[type="checkbox"] {
 /* Buttons with icons */
 
 .button.icon-button {
-  color: var(--bulma-primary-40); 
-  background-color: var(--bulma-primary-95);
+  color: var(--bulma-primary); 
+  background-color: var(--bulma-background-color);
   padding: 0.5rem 0.5rem;
 }
 
@@ -135,8 +150,8 @@ input[type="checkbox"] {
 }
 
 .button.icon-button:hover {
-    background-color: var(--bulma-primary-90);
-    color: var(--bulma-primary-30); 
+    background-color: var(--bulma-primary-95);
+    color: var(--bulma-primary-35); 
 
 }
 
@@ -145,4 +160,6 @@ input[type="checkbox"] {
   padding: 0rem 1rem;
   list-style-type: disc;
 }
+
+
 

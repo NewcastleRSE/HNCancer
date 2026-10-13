@@ -11,11 +11,16 @@ const navItems = [
 ---
 
 <div class="header-container">
-  <div>
+  <a class="header-title" href="/HNCancer">
     <header>
-      <p class="header-text-large">Head and Neck Cancer Data Dashboard</p>
+      <p class="header-text-small">UNEQUAL-HNC</p>
+      <p class="header-text-large">
+        Head and Neck Cancer <span class="header-text-emphasis"
+          >Data Dashboard</span
+        >
+      </p>
     </header>
-  </div>
+  </a>
 
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <a
@@ -84,15 +89,12 @@ const navItems = [
     display: flex;
     background-color: var(--color-header);
     justify-content: space-between;
-    align-items: flex-start;
-    color: var(--color-accent);
+    align-items: flex-bottom;
+    color: var(--color-slate);
     padding: 1rem 1.5rem;
     flex-wrap: nowrap;
-    border-bottom: 2px solid color-mix(in srgb, var(--bulma-border), black 10%);
-    /* box-shadow:
-      inset 0 -3px 0 var(--color-header),
-      inset 0 -5px 0 color-mix(in srgb, var(--bulma-border), black 10%); */
   }
+
   /* Change flex alignemnt when burger menu is open */
   .header-container:has(.navbar-burger.is-active) {
     align-items: flex-start;
@@ -114,7 +116,7 @@ const navItems = [
   }
 
   .navbar-item {
-    color: color-mix(in srgb, var(--bulma-primary-30) 80%, transparent);
+    color: var(--color-slate);
     border-radius: 0.35rem;
     font-weight: 600;
     transition:
@@ -124,13 +126,13 @@ const navItems = [
 
   /* Navbar hover */
   .navbar-item:hover {
-    color: var(--bulma-primary-25);
-    background-color: color-mix(in srgb, var(--bulma-primary) 20%, transparent);
+    color: var(--bulma-primary-35);
+    background-color: var(--bulma-primary-95);
   }
 
   /* Navbar styling for current page */
   .navbar-item[aria-current="page"] {
-    color: var(--bulma-primary-25);
+    color: var(--color-burgundy);
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 0.5em;
@@ -145,13 +147,13 @@ const navItems = [
 
   /* Burger */
   .navbar-burger {
-    color: var(--bulma-primary-30);
+    color: var(--bulma-primary);
     border-radius: 0.35rem;
   }
 
   .navbar-burger:hover {
-    color: var(--bulma-primary-25);
-    background-color: color-mix(in srgb, var(--bulma-primary) 20%, transparent);
+    color: var(--bulma-primary-35);
+    background-color: var(--bulma-primary-95);
   }
 
   .navbar-start.is-active {
@@ -223,8 +225,26 @@ const navItems = [
 
   /* Header text */
 
+  .header-title {
+    color: var(--color-slate);
+    font-weight: 400;
+  }
+
+  .header-title:hover {
+    color: var(--bulma-primary);
+  }
+
+  .header-text-small {
+    font-size: 1rem;
+  }
+
   .header-text-large {
     font-size: 1.75rem;
+    font-weight: 400;
+  }
+
+  .header-text-emphasis {
+    color: var(--bulma-primary);
     font-weight: 800;
   }
 </style>
