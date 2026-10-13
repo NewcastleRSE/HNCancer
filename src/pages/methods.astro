@@ -10,7 +10,7 @@ import Header from "./header.astro";
     <div class="methods-content">
       <header class="page-intro">
         <h1>Methods</h1>
-        <p>[Overview]</p>
+        <p>[Overview - recommend HNC definition here]</p>
       </header>
 
       <section class="method-section" aria-labelledby="method-1">
@@ -26,14 +26,18 @@ import Header from "./header.astro";
                 >National Cancer Registration Dataset (NCRD)</span
               ><sup><a href="#ref-1" aria-label="1">1</a></sup> and from 1 January
               2022 - 31 December 2023 from the Rapid Cancer Registration Database
-              (RCRD).
+              (RCRD)<sup><a href="#ref-2" aria-label="2">2</a></sup>.
             </p>
             <h3>Access</h3>
             <p>
-              The NHS England Secure Data Environment (SDE) was used to access
-              the cancer data. In line with the SDE disclosure policy, counts
-              are rounded to the nearest five and those below 10 are suppressed.
-              Analyses were carried out in STATA version 18.
+              The NHS England Secure Data Environment (SDE)<sup
+                ><a href="#ref-3" aria-label="3">3</a></sup
+              > was used to access the cancer data. In line with the SDE disclosure
+              policy<sup><a href="#ref-4" aria-label="4">4</a></sup>, counts are
+              rounded to the nearest five and those below 10 are suppressed.
+              Analyses were carried out in STATA version 18<sup
+                ><a href="#ref-5" aria-label="5">5</a></sup
+              >.
             </p>
           </div>
 
@@ -52,15 +56,17 @@ import Header from "./header.astro";
             <h3>Incidence</h3>
             <p>
               Incidence rates per 100,000 person-years were derived using Office
-              for National Statistics (ONS) mid-year population estimates for
-              the years 2016-2022 by age, sex and Lower-level Super Output Area
-              (LSOA). Incidence for 2023 was derived using 2022 population
-              denominators.
+              for National Statistics (ONS) mid-year population estimates<sup
+                ><a href="#ref-6" aria-label="6">6</a></sup
+              > for the years 2016-2022 by age, sex and Lower-level Super Output Area
+              (LSOA). Incidence for 2023 was derived using 2022 population denominators.
             </p>
             <h3>Survival</h3>
             <p>
               Estimates of one- and five-year net survival estimates were
-              derived using the most up-to-date methodology.
+              derived using the most up-to-date methodology<sup
+                ><a href="#ref-7" aria-label="7">7</a></sup
+              >.
             </p>
           </div>
 
@@ -79,24 +85,31 @@ import Header from "./header.astro";
             <h3>Deprivation</h3>
             <p>
               Patients' deprivation was classified according to quintiles of
-              Index of Multiple Deprivation 2019 at LSOA level.
+              Index of Multiple Deprivation 2019<sup
+                ><a href="#ref-8" aria-label="8">8</a></sup
+              > at LSOA level.
             </p>
             <h3>Region</h3>
             <p>Government Office Region of residence at cancer diagnosis.</p>
             <h3>Stage</h3>
             <p>
               Information on how advanced the cancer was at diagnosis was
-              recorded in the NCRD for diagnoses up to 2021. Stage was
-              unavailable for 2022-2023. Tumours were grouped into early (TNM I
-              and II), advanced (III and IV), or unknown.
+              recorded in the NCRD<sup
+                ><a href="#ref-1" aria-label="1">1</a></sup
+              > for diagnoses up to 2021. Stage was unavailable for 2022-2023. Tumours
+              were grouped into early (TNM I and II), advanced (III and IV), or unknown<sup
+                ><a href="#ref-9" aria-label="9">9</a></sup
+              >.
             </p>
             <h3>Route to diagnosis</h3>
             <p>
               The pathway taken by patients through the health service to cancer
-              diagnosis was available for NCRD data up to 2018. The Rapid Cancer
-              Registration Database (RCRD) includes unvalidated estimates for
-              2022-2023. Patient pathways were categorised into Emergency or
-              Non-Emergency routes.
+              diagnosis was available for NCRD<sup
+                ><a href="#ref-1" aria-label="1">1</a></sup
+              > data up to 2018. The RCRD<sup
+                ><a href="#ref-2" aria-label="2">2</a></sup
+              > includes unvalidated estimates for 2022-2023. Patient pathways were
+              categorised into Emergency or Non-Emergency routes.
             </p>
           </div>
 
@@ -116,12 +129,82 @@ import Header from "./header.astro";
           <li id="ref-1">
             Henson KE, Elliss-Brookes L, Coupland VH, et al. Data Resource
             Profile: National Cancer Registration Dataset in England.
-            International Journal of Epidemiology 2019;49(1):16-16h. doi:
-            <a href="https://academic.oup.com/ije/article/49/1/16/5476570"
+            <em>International Journal of Epidemiology</em>. 2019;49(1):16–16h.
+            doi: <a href="https://doi.org/10.1093/ije/dyz076"
               >10.1093/ije/dyz076</a
-            >
+            >.
           </li>
-          <li>[Author or organisation. (Year). Title of source.]</li>
+
+          <li id="ref-2">
+            National Disease Registration Service. <em
+              >Rapid registration QA report (CAS2609)</em
+            >. NHS England; 2025.
+          </li>
+
+          <li id="ref-3">
+            NHS England. <em>Secure Data Environment service</em> [Internet]. 2025.
+            Available from:
+            <a
+              href="https://digital.nhs.uk/services/secure-data-environment-service"
+              >Secure Data Environment service</a
+            >.
+          </li>
+
+          <li id="ref-4">
+            NHS England. <em>Output your results</em>. Available from:
+            <a
+              href="https://digital.nhs.uk/services/secure-data-environment-service/access-and-support-for-the-secure-data-environment/user-guides/output-your-results"
+              >Output your results: Secure Data Environment user guide</a
+            >.
+          </li>
+
+          <li id="ref-5">
+            StataCorp. <em>Stata Statistical Software: Release 18</em>. College
+            Station, TX: StataCorp LLC; 2023.
+          </li>
+
+          <li id="ref-6">
+            Office for National Statistics. <em
+              >Lower layer Super Output Area population estimates</em
+            >. Available from:
+            <a
+              href="https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareamidyearpopulationestimates"
+              >Lower layer Super Output Area mid-year population estimates</a
+            >.
+          </li>
+
+          <li id="ref-7">
+            Perme MP, Stare J, Estève J. On estimation in relative survival.
+            <em>Biometrics</em>. 2012 Mar;68(1):113-120. doi: <a
+              href="https://doi.org/10.1111/j.1541-0420.2011.01640.x"
+              >10.1111/j.1541-0420.2011.01640.x</a
+            >.
+          </li>
+
+          <li id="ref-8">
+            Ministry of Housing, Communities and Local Government.
+            <em>English Indices of Deprivation 2019</em>. 2019. Available from:
+            <a
+              href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019"
+              >English Indices of Deprivation 2019</a
+            >.
+          </li>
+
+          <li id="ref-9">
+            Edge SB, et al., editors. <em>AJCC Cancer Staging Manual</em>. 7th
+            ed. Springer; 2010. Used for tumours diagnosed in 2016-2018. TNM
+            Classification of Malignant Tumours. 8th ed. UICC; 2017. Used for
+            tumours diagnosed from 2018 onwards.
+          </li>
+
+          <li id="ref-10">
+            Elliss-Brookes L, McPhail S, Ives A, et al. Routes to diagnosis for
+            cancer - determining the patient journey using multiple routine data
+            sets. <em>British Journal of Cancer</em>. 2012;107:1220-1226. doi: <a
+              href="https://doi.org/10.1038/bjc.2012.408"
+              >10.1038/bjc.2012.408</a
+            >.
+          </li>
         </ol>
       </section>
     </div>
