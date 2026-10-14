@@ -197,8 +197,12 @@
     <div class="compare-dropdown">
       <span class="compare-bullet" aria-hidden="true">•</span>
 
-      <label>
+      <div>
         <span>by </span>
+        <label class="visually-hidden" for="select-compare-variable">
+          Compare by variable (optional)
+        </label>
+
         <div class="select select-compact">
           <select
             id="select-compare-variable"
@@ -216,7 +220,7 @@
             {/each}
           </select>
         </div>
-      </label>
+      </div>
     </div>
   </div>
 
