@@ -3,9 +3,10 @@
   interface Props {
     title: string;
     children: Snippet;
+    labelFor?: string; // If header is for one dropdown, use the header as that dropdown's label
   }
 
-  let { title, children }: Props = $props();
+  let { title, children, labelFor }: Props = $props();
   let isOpen = $state(false);
 
   // To close pop-up if click outside
@@ -36,7 +37,9 @@
 </script>
 
 <div class="query-section-header">
-  <h2 class="query-section">{title}</h2>
+  <h2 class="query-section" id={labelFor ? `${labelFor}-label` : undefined}>
+    {title}
+  </h2>
 
   <button
     id="query-section-info-button"

@@ -25,6 +25,7 @@
 <div class="select select-compact">
   <select
     id={`select-${id.toLowerCase()}`}
+    aria-labelledby={`select-${id.toLowerCase()}-label`}
     bind:value={selectedValue}
     onchange={onChange}
   >
