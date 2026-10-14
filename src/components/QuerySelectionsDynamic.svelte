@@ -230,6 +230,9 @@
       {#if statistic === "incidence"}
         <CheckboxGroup
           options={getVariableOptions(comparisonVariable)}
+          label="Options for comparison variable, {getFilterLabel(
+            comparisonVariable,
+          )}"
           bind:selectedValues={
             (filter as IncidenceFilter)[
               comparisonVariable as IncidenceFilterVariable
@@ -239,6 +242,9 @@
       {:else}
         <CheckboxGroup
           options={getVariableOptions(comparisonVariable)}
+          label="Options for comparison variable, {getFilterLabel(
+            comparisonVariable,
+          )}"
           bind:selectedValues={
             (filter as SurvivalFilter)[
               comparisonVariable as SurvivalFilterVariable
