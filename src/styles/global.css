@@ -16,7 +16,6 @@
   --color-slate: #191919;
 
   /* Semantic colours */ 
-  --color-accent: var(--color-burgundy);
   --color-surface: var(--color-grey2);
   --color-header: var(--bulma-background-color);
   --color-border-div: var(--color-grey3);
