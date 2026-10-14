@@ -6,18 +6,18 @@ import Header from "./header.astro";
 <Layout>
   <Header />
 
-  <main class="methods-page">
-    <div class="methods-content">
+  <main class="content-page">
+    <div class="content-container">
       <header class="page-intro">
         <h1>Methods</h1>
         <p>[Overview - recommend HNC definition here]</p>
       </header>
 
-      <section class="method-section" aria-labelledby="method-1">
+      <section class="content-section" aria-labelledby="method-1">
         <h2 id="method-1">Data</h2>
 
-        <div class="method-row">
-          <div class="method-main">
+        <div class="content-row">
+          <div class="content-primary">
             <h3>Population</h3>
             <p>
               Information on patients diagnosed with primary malignant HNC
@@ -41,18 +41,18 @@ import Header from "./header.astro";
             </p>
           </div>
 
-          <aside class="method-extra" aria-label="Additional information">
-            <h3>[Definition or additional detail]</h3>
+          <aside class="content-secondary" aria-label="Additional information">
+            <h3>[Optional additional detail]</h3>
             <p>[Placeholder]</p>
           </aside>
         </div>
       </section>
 
-      <section class="method-section" aria-labelledby="method-2">
+      <section class="content-section" aria-labelledby="method-2">
         <h2 id="method-2">Approach</h2>
 
-        <div class="method-row">
-          <div class="method-main">
+        <div class="content-row">
+          <div class="content-primary">
             <h3>Incidence</h3>
             <p>
               Incidence rates per 100,000 person-years were derived using Office
@@ -70,18 +70,18 @@ import Header from "./header.astro";
             </p>
           </div>
 
-          <aside class="method-extra" aria-label="Additional information">
-            <h3>[Definition or additional detail]</h3>
+          <aside class="content-secondary" aria-label="Additional information">
+            <h3>[Optional additional detail]</h3>
             <p>[Placeholder]</p>
           </aside>
         </div>
       </section>
 
-      <section class="method-section" aria-labelledby="method-3">
+      <section class="content-section" aria-labelledby="method-3">
         <h2 id="method-3">Covariables</h2>
 
-        <div class="method-row">
-          <div class="method-main">
+        <div class="content-row">
+          <div class="content-primary">
             <h3>Deprivation</h3>
             <p>
               Patients' deprivation was classified according to quintiles of
@@ -113,7 +113,7 @@ import Header from "./header.astro";
             </p>
           </div>
 
-          <aside class="img-extra" aria-label="Additional information">
+          <aside class="img-secondary" aria-label="Additional information">
             <img
               src="/HNCancer/images/English_regions.svg.png"
               style="width: 100%; max-width: 500px;"
@@ -212,103 +212,8 @@ import Header from "./header.astro";
 </Layout>
 
 <style>
-  .methods-page {
-    padding: clamp(2rem, 5vw, 4rem) 1.25rem;
-  }
-
-  .methods-content {
-    width: 100%;
-    max-width: 68rem;
-    margin-inline: auto;
-  }
-
-  .methods-content > * + * {
-    margin-block-start: 3rem;
-  }
-
-  .page-intro > * + *,
-  .method-section > * + *,
-  .method-main > * + *,
-  .method-extra > * + *,
-  .img-extra > * + * {
-    margin-block-start: 1rem;
-  }
-
-  .method-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 2rem;
-  }
-
-  .method-main {
-    flex: 2 1 30rem;
-    min-width: 0;
-  }
-
-  .method-extra,
-  .img-extra {
-    flex: 1 1 14rem;
-    min-width: 0;
-  }
-
-  .method-extra {
-    background: var(--bulma-background);
-    border-left: 3px solid var(--bulma-border);
-    padding: 1.25rem;
-  }
-
-  .references {
-    padding-block-start: 1.5rem;
-    border-top: 1px solid var(--bulma-border);
-  }
-
-  .references > * + * {
-    margin-block-start: 1rem;
-  }
-
-  .references ol {
-    padding-inline-start: 1.5rem;
-    font-size: 0.875rem;
-    line-height: 1.6;
-  }
-
-  .references li + li {
-    margin-block-start: 0.75rem;
-  }
-
-  .method-main sup {
-    font-size: 0.75em;
-    vertical-align: super;
-    line-height: 0;
-  }
-
-  .method-main sup a {
-    text-decoration: none;
-    padding-inline: 0.1em;
-  }
-
-  .method-main sup a:hover {
-    text-decoration: underline;
-  }
-
   img {
     display: block;
     margin-inline: auto;
-  }
-
-  .accent-text {
-    color: var(--bulma-primary);
-    font-weight: 600;
-  }
-
-  @media (max-width: 480px) {
-    .methods-page {
-      padding-inline: 1rem;
-    }
-
-    .method-row {
-      gap: 1.25rem;
-    }
   }
 </style>

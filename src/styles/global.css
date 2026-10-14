@@ -174,3 +174,100 @@ input[type="checkbox"] {
   border: 0;
 }
 
+/* Styling for content pages (Methods, About) */
+
+  .content-page {
+    padding: clamp(2rem, 5vw, 4rem) 1.25rem;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 68rem;
+    margin-inline: auto;
+  }
+
+  .content-container > * + * {
+    margin-block-start: 3rem;
+  }
+
+  .page-intro > * + *,
+  .content-section > * + *,
+  .content-primary > * + *,
+  .content-secondary > * + *,
+  .img-secondary > * + * {
+    margin-block-start: 1rem;
+  }
+
+  .content-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .content-primary {
+    flex: 2 1 30rem;
+    min-width: 0;
+  }
+
+  .content-secondary,
+  .img-secondary {
+    flex: 1 1 14rem;
+    min-width: 0;
+  }
+
+  .content-secondary {
+    background: var(--bulma-background);
+    border-left: 3px solid var(--bulma-border);
+    padding: 1.25rem;
+  }
+
+  .references {
+    padding-block-start: 1.5rem;
+    border-top: 1px solid var(--bulma-border);
+  }
+
+  .references > * + * {
+    margin-block-start: 1rem;
+  }
+
+  .references ol {
+    padding-inline-start: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .references li + li {
+    margin-block-start: 0.75rem;
+  }
+
+  .content-primary sup {
+    font-size: 0.75em;
+    vertical-align: super;
+    line-height: 0;
+  }
+
+  .content-primary sup a {
+    text-decoration: none;
+    padding-inline: 0.1em;
+  }
+
+  .content-primary sup a:hover {
+    text-decoration: underline;
+  }
+
+  .accent-text {
+    color: var(--bulma-primary);
+    font-weight: 600;
+  }
+
+  @media (max-width: 480px) {
+    .content-page {
+      padding-inline: 1rem;
+    }
+
+    .content-row {
+      gap: 1.25rem;
+    }
+  }
+
