@@ -17,13 +17,13 @@ const navItems = [
         class="header-logo"
         src="/public/images/UNEQUAL-HNC_logo_small.svg"
         alt="Small logo for Unequal-HNC: Unravelling Inequalities in Head and Neck Cancer that is a red magnifying containing the silhouette of a head."
-        width="80rem"
+        width="70rem"
       />
       <div>
         <p class="header-text-small">UNEQUAL-HNC</p>
         <p class="header-text-large">
-          Head and Neck Cancer <span class="header-text-emphasis"
-            >Data Dashboard</span
+          Head&nbspand&nbspNeck&nbspCancer <span class="header-text-emphasis"
+            >Data&nbspHub</span
           >
         </p>
       </div>
@@ -97,9 +97,9 @@ const navItems = [
     display: flex;
     background-color: var(--color-header);
     justify-content: space-between;
-    align-items: flex-bottom;
+    align-items: center;
     color: var(--color-slate);
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.5rem !important;
     flex-wrap: nowrap;
   }
 
@@ -222,7 +222,7 @@ const navItems = [
   }
 
   /* When narrow window, force burger to beneath header text */
-  @media (max-width: 768px) {
+  @media (max-width: 675px) {
     .header-container {
       flex-wrap: wrap;
     }
