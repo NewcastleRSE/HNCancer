@@ -12,13 +12,21 @@ const navItems = [
 
 <div class="header-container">
   <a class="header-title" href="/HNCancer">
-    <header>
-      <p class="header-text-small">UNEQUAL-HNC</p>
-      <p class="header-text-large">
-        Head and Neck Cancer <span class="header-text-emphasis"
-          >Data Dashboard</span
-        >
-      </p>
+    <header id="page-header">
+      <img
+        class="header-logo"
+        src="/public/images/UNEQUAL-HNC_logo_small.svg"
+        alt="Small logo for Unequal-HNC: Unravelling Inequalities in Head and Neck Cancer that is a red magnifying containing the silhouette of a head."
+        width="80rem"
+      />
+      <div>
+        <p class="header-text-small">UNEQUAL-HNC</p>
+        <p class="header-text-large">
+          Head and Neck Cancer <span class="header-text-emphasis"
+            >Data Dashboard</span
+          >
+        </p>
+      </div>
     </header>
   </a>
 
@@ -93,6 +101,12 @@ const navItems = [
     color: var(--color-slate);
     padding: 1rem 1.5rem;
     flex-wrap: nowrap;
+  }
+
+  #page-header {
+    display: flex;
+    gap: 0rem;
+    align-items: flex-start;
   }
 
   /* Change flex alignemnt when burger menu is open */
