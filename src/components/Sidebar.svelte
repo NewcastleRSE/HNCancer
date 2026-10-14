@@ -147,7 +147,8 @@
   @media (max-width: 768px) {
     #search-panel {
       flex: 0 0 25rem;
-      border-bottom-right-radius: 0rem;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
     }
 
     #search-panel.sidebar-collapsed {
