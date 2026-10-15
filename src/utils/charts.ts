@@ -1,5 +1,5 @@
 import * as echarts from 'echarts';
-import { getChartColorMapping } from './colors';
+import { CMAP_TABLE, getChartColorMapping } from './colors';
 import { getVariableValueLabels, CANCER_STATISTICS, STATISTICS_CONFIG } from './variables';
 import type { Statistic } from './variables';
 import type { 
@@ -270,12 +270,13 @@ function getTitle(args: ChartArgs | TableArgs) {
 		// Need to add "age-standardised" if all ages is filter
 		let ageText = ""; 
 		if (args.filter.ageBand[0] === String(STATISTICS_CONFIG[args.statistic].variableAll.ageBand.value)) {
-			ageText = "age-standardised{sup|+} "; // include trailing space in string
+			ageText = "standardised{sup|+}";
+		} else {
+			ageText = "specific"
 		}
 
 		// Title
-		titleText = `${ageText}incidence of ${args.cancer.toLowerCase()} ${cancerText}: England ${minYear}-${maxYear}`
-		titleText = titleText.charAt(0).toUpperCase() + titleText.slice(1); // capitalise first letter
+		titleText = `Age-${ageText} incidence of ${args.cancer.toLowerCase()} ${cancerText}: England ${minYear}-${maxYear}`
 	
 	} else if (args.statistic === "survival") {
 		titleText = `Net survival* of ${args.cancer.toLowerCase()} ${cancerText}: England`;
@@ -285,6 +286,12 @@ function getTitle(args: ChartArgs | TableArgs) {
 	}
 
 	return titleText;
+}
+
+// Get source text
+function getSource() {
+	let sourceText = "{bold|Source:} UNEQUAL-HNC, Head and Neck Cancer Data Dashboard ([website URL])";
+	return sourceText
 }
 
 // Get chart/table footnote
@@ -315,9 +322,9 @@ function getFootnote(args: ChartArgs | TableArgs) {
 
 
 // Fixed chart sizes
-const CHART_HEIGHT = 550;
+const CHART_HEIGHT = 600;
 const CHART_GRID_TOP = 60;
-const CHART_GRID_BOTTOM = 165; // amount of space beneath plot
+const CHART_GRID_BOTTOM = 165 + 50; // amount of space beneath plot
 const CHART_SUBTITLE_LINE = 16;
 const CHART_LEFT_MARGIN = 150;
 const CHART_LEFT_BUFFER = 0; // additional left margin buffer to align text/legends with y-axis
@@ -458,6 +465,9 @@ function setLineChartOptions(
 	// Title
 	let titleText = getTitle(chartArgs);
 
+	// Source
+	let sourceText = getSource();
+
 	// Footnote
 	let footnoteText = getFootnote(chartArgs);
 
@@ -466,6 +476,7 @@ function setLineChartOptions(
 		type: "text",
 		left: yLabLeft,
 		top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * (nSubtitleLines - 0.5)) + 2,
+	    cursor: "default",		
 		style: {
 			text: yLabText,
 			fontWeight: CHART_AXIS_LABEL_WEIGHT,
@@ -481,7 +492,8 @@ function setLineChartOptions(
 	let footnote = {
       type: 'text',
       left: CHART_LEFT_MARGIN,
-      top: CHART_HEIGHT - 75,
+      top: CHART_HEIGHT - 125,
+	  cursor: "default",
       style: {
         text: footnoteText,
         font: `italic ${CHART_AXIS_LABEL_SIZE - 2}px sans-serif`,
@@ -492,6 +504,26 @@ function setLineChartOptions(
 			sup: {
 				fontSize: CHART_AXIS_LABEL_SIZE - 6,
 				verticalAlign: "top",
+			},
+	  	}
+	  }
+	};
+
+	// Create source object
+	let source = {
+      type: 'text',
+      left: CHART_LEFT_MARGIN,
+      top: CHART_HEIGHT - 40,
+	  cursor: "default",
+      style: {
+        text: sourceText,
+        font: `${CHART_AXIS_LABEL_SIZE}px sans-serif`,
+        fill: CHART_AXIS_LABEL_COLOR,
+        width: CHART_RESPONSIVE_PX - CHART_LEFT_MARGIN - 50,
+        overflow: 'break',
+		rich: {
+			bold: {
+				fontWeight: "bold",
 			},
 	  	}
 	  }
@@ -539,7 +571,7 @@ function setLineChartOptions(
 			},
 			{
 				text: subtitle,
-				top: 15 + CHART_SUBTITLE_LINE,
+				top: 20 + CHART_SUBTITLE_LINE,
 				left: CHART_LEFT_MARGIN + CHART_LEFT_BUFFER,
 
 				textStyle: {
@@ -572,7 +604,7 @@ function setLineChartOptions(
 			}
 		},
 		xAxis: xOpt,
-		graphic: [yLab, footnote],
+		graphic: [yLab, footnote, source],
 		yAxis: {
 			type: 'value',
 			axisLabel: {
@@ -638,7 +670,7 @@ const TABLE_COL_WIDTH = {
 	"survival": 75
 }
 const TABLE_GRID_TOP = 90;
-const TABLE_GRID_BOTTOM = 100;
+const TABLE_GRID_BOTTOM = 150;
 const TABLE_SUBTITLE_LINE = 16;
 const TABLE_RIGHT_MARGIN = 50;
 
@@ -710,7 +742,7 @@ function setTableChartOptions(
 				// If count is SUPPRESSED, display n < 10; otherwise, n = count
 				String(count).includes("SUPPRESSED")
 					? "{details|n < 10}"
-					: `{details|n = ${count}}`,
+					: `{details|n = ${new Intl.NumberFormat().format(count)}}`,
 						].join("\n");
 		};
 
@@ -761,6 +793,9 @@ function setTableChartOptions(
 	// Title
 	let titleText = getTitle(tableArgs);
 
+	// Source
+	let sourceText = getSource();
+
 	// Get labels (names) for each series
 	const names = tableArgs.allSeries.map(series => series.name);
 
@@ -772,7 +807,7 @@ function setTableChartOptions(
 		tableArgs.filter, CHART_MAX_SUBTITLE_LENGTH, tableArgs.statistic
 	);
 
-		// Footnote
+	// Footnote
 	let footnoteText = getFootnote(tableArgs);
 
 	// Get height so know where to place footnote
@@ -782,7 +817,8 @@ function setTableChartOptions(
 	let footnote = {
       type: 'text',
       left: leftMargin,
-      top: height - 75,
+      top: height - 125,
+	  cursor: "default",
       style: {
         text: footnoteText,
         font: `italic ${CHART_AXIS_LABEL_SIZE - 2}px sans-serif`,
@@ -793,6 +829,26 @@ function setTableChartOptions(
 			sup: {
 				fontSize: CHART_AXIS_LABEL_SIZE - 6,
 				verticalAlign: "top",
+			},
+	  	}
+	  }
+	};
+
+	// Create source object
+	let source = {
+      type: 'text',
+      left: leftMargin,
+      top: height - 40,
+	  cursor: "default",
+      style: {
+        text: sourceText,
+        font: `${CHART_AXIS_LABEL_SIZE}px sans-serif`,
+        fill: CHART_AXIS_LABEL_COLOR,
+        width: CHART_RESPONSIVE_PX - leftMargin - TABLE_RIGHT_MARGIN,
+        overflow: 'break',
+		rich: {
+			bold: {
+				fontWeight: "bold",
 			},
 	  	}
 	  }
@@ -817,7 +873,7 @@ function setTableChartOptions(
 			},
 			{
 				text: subtitle,
-				top: 15 + CHART_SUBTITLE_LINE,
+				top: 20 + CHART_SUBTITLE_LINE,
 				left: leftMargin,
 
 				textStyle: {
@@ -899,7 +955,7 @@ function setTableChartOptions(
 		},
 
 		// Footnotes
-		graphic: [footnote],
+		graphic: [footnote, source],
 
 		// Create heatmap using rates values
 		visualMap: {
@@ -910,13 +966,7 @@ function setTableChartOptions(
 			show: false, // don't show colourbar
 
 			inRange: {
-			color: [
-				"#f5f9fc",
-				"#e2eef6",
-				"#c9dfed",
-				"#afd0e2",
-				"#95bfd6",
-			],
+			color: CMAP_TABLE,
 			},
 		},
 

@@ -6,10 +6,11 @@
 
   interface Props {
     options: readonly Option[];
+    label: string;
     selectedValues?: string[];
   }
 
-  let { options, selectedValues = $bindable([]) }: Props = $props();
+  let { options, label, selectedValues = $bindable([]) }: Props = $props();
 
   // State for select all/none
 
@@ -33,6 +34,8 @@
 </script>
 
 <fieldset class="checkbox-group">
+  <legend class="visually-hidden">{label}</legend>
+
   <label class="checkbox-option select-all">
     <input
       type="checkbox"
