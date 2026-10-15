@@ -230,6 +230,14 @@ input[type="checkbox"] {
     min-width: 0;
 }
 
+.content-row:not(:has(.content-secondary, .img-secondary)) {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.content-row:not(:has(.content-secondary, .img-secondary)) .content-primary {
+    max-width: calc((68rem - 2rem) * 2 / 3);
+}
+
 @media (max-width: 768px) {
     .content-row {
         grid-template-columns: 1fr;
@@ -239,6 +247,10 @@ input[type="checkbox"] {
     .content-secondary,
     .img-secondary {
         grid-column: 1;
+    }
+
+    .content-row:not(:has(.content-secondary, .img-secondary)) .content-primary {
+      max-width: none;
     }
 }
 
