@@ -331,12 +331,12 @@ input[type="checkbox"] {
 }
 
 .content-page a:visited {
-    color: color-mix(in oklab, var(--bulma-link-text) 50%, var(--color-burgundy));;
+    color: color-mix(in oklab, var(--bulma-link-text) 65%, var(--color-burgundy));;
 }
 
 .content-page a:hover {
   text-decoration-thickness: 1.5px;
   text-underline-offset: 0.15em;
-  color: color-mix(in oklab, var(--bulma-link-text) 80%, var(--color-burgundy));
+  color: color-mix(in oklab, var(--bulma-link-text) 85%, var(--color-burgundy));
 }
 
