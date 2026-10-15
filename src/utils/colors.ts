@@ -27,13 +27,13 @@ function getChartVariablesWithMultipleValues<T extends string>(
 //const CMAP_CONT = chroma.scale('Viridis')
 
 const CMAP_CONT = chroma.scale([
-    "#291f5b",
-    "#4b206b",
-    "#701f6f",
-    "#a2256d",
-    "#d33159",
-    "#f87a08",
-    "#f7c922"
+"#07213a",
+"#393361",
+"#783f79",
+"#b7497a",
+"#e96167",
+"#ff9047",
+"#f7c922",
 ])
 // echarts default
 const CMAP_CAT = [
@@ -51,10 +51,18 @@ const CMAP_CAT = [
 // Male/Female categorical
 const CMAP_MF = [
     '#4c96c4',
-    '#9b2643'
+    '#a72162'
 ]
 
-const CLR_SERIES_DEFAULT = '#384585';
+const CLR_SERIES_DEFAULT = '#B5110E';
+
+export const CMAP_TABLE = [
+    "#f7fcfd",
+    "#e0ecf4",
+    "#bfd3e6",
+    "#9ebcda",
+    "#8c96c6",
+]
 
 // Use survival variables to build colour maps since the survival options contain
 //  all variables used for filters for both incidence and survival.

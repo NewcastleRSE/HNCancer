@@ -1,5 +1,5 @@
 import * as echarts from 'echarts';
-import { getChartColorMapping } from './colors';
+import { CMAP_TABLE, getChartColorMapping } from './colors';
 import { getVariableValueLabels, CANCER_STATISTICS, STATISTICS_CONFIG } from './variables';
 import type { Statistic } from './variables';
 import type { 
@@ -966,13 +966,7 @@ function setTableChartOptions(
 			show: false, // don't show colourbar
 
 			inRange: {
-			color: [
-				"#f5f9fc",
-				"#e2eef6",
-				"#c9dfed",
-				"#afd0e2",
-				"#95bfd6",
-			],
+			color: CMAP_TABLE,
 			},
 		},
 
