@@ -26,87 +26,103 @@ import Header from "./header.astro";
 
   <main class="content-page">
     <div class="content-container">
-      <div class="page-intro">
-        <h1>About</h1>
-        <p>
-          The UNEQUAL-HNC [LINK] study investigated patterns, trends and inequalities
-          in Head and Neck Cancer (HNC) incidence and survival in England during
-          the period 2016-2023.
-        </p>
-        <p>
-          The <a href="/HNCancer/explore/">EXPLORE</a> page allows you to examine and download data tables and
-          graphics for all HNC or for different subsites (Larynx, Oral Cavity,
-          Oropharynx, or Other) according to combinations of patient
-          demographics and diagnostic variables.
-        </p>
-      </div>
-    </div>
-
-    <section class="content-section" aria-labelledby="about-1">
-      <h2 id="about-1">Acknowledgement</h2>
-
-      <p>
-        The following acknowledgement should be used in any material including
-        these data:
-      </p>
-
-      <div class="acknowledgement-box">
-          <button
-              type="button"
-              class="button icon-button copy-button is-primary"
-              aria-label="Copy acknowledgement text"
-              data-copy-acknowledgement
-          >
-              <span class="material-symbols-outlined" aria-hidden="true">
-                  content_copy
-              </span>
-          </button>
-
-          <div id="acknowledgement-text">
+        <div class="page-intro">
+          <h1>About</h1>
+          <div class="content-row">
+            <div class="content-primary">
               <p>
-                These analyses were downloaded from [website]: an interactive web
-                resource reporting outputs of the UNEQUAL-HNC study, conducted by the
-                REACH team at Newcastle University with funding from North West Cancer
-                Research and Oracle Head and Neck Cancer. The analyses are based on data
-                collected by NHS England.              
+                The UNEQUAL-HNC [LINK] study investigated patterns, trends and inequalities
+                in Head and Neck Cancer (HNC) incidence and survival in England during
+                the period 2016-2023.
               </p>
+              <p>
+                The <a href="/HNCancer/explore/">EXPLORE</a> page allows you to examine and download data tables and
+                graphics for all HNC or for different subsites (Larynx, Oral Cavity,
+                Oropharynx, or Other) according to combinations of patient
+                demographics and diagnostic variables.
+              </p>
+            </div>
           </div>
+        </div>
 
-          <span class="copy-status" role="status" aria-live="polite"></span>
-      </div>
-    </section>
-    <section class="content-section" aria-labelledby="about-2">
-      <h2 id="about-2">Patient and Public Involvement and Engagement (PPIE)</h2>
+      <section class="content-section" aria-labelledby="about-1">
+        <div class="content-row">
+          <div class="content-primary">
+            <h2 id="about-1">Acknowledgement</h2>
 
-      <p>
-        People affected by head and neck cancer were integral to the design,
-        conduct and outputs of UNEQUAL-HNC [LINK]. The study team included a patient
-        representative and head and neck cancer survivor who advised on the
-        research questions and approach for the funding application. Throughout
-        the project CHANGE HNC provided input and advice to the study team on
-        interpretations, new directions and public-facing outputs.
-      </p>
-      <p>
-        We thank all PPIE contributors for their time and energy in maximising
-        the impact and reach of this project.
-      </p>
-    </section>
+            <p>
+              The following acknowledgement should be used in any material including
+              these data:
+            </p>
 
-    <section class="content-section" aria-labelledby="about-3">
-      <h2 id="about-3">Funding</h2>
-      <p>
-        This work was supported by <a href="https://nwcr.org/"
-          >North West Cancer Research</a
-        > and <a href="https://oraclehnc.org.uk/">Oracle Head and Neck Cancer</a
-        >.
-      </p>
-      <p>
-        Supplementary support came from the National Institute for Health and
-        Care Research (NIHR) Newcastle Patient Safety Research Collaboration
-        (PSRC). The views expressed are those of the authors and not necessarily
-        those of the NIHR or the Department of Health and Social Care.
-      </p>
-    </section>
+            <div class="acknowledgement-box">
+                <button
+                    type="button"
+                    class="button icon-button copy-button is-primary"
+                    aria-label="Copy acknowledgement text"
+                    data-copy-acknowledgement
+                >
+                    <span class="material-symbols-outlined" aria-hidden="true">
+                        content_copy
+                    </span>
+                </button>
+
+                <div id="acknowledgement-text">
+                    <p>
+                      These analyses were downloaded from [website]: an interactive web
+                      resource reporting outputs of the UNEQUAL-HNC study, conducted by the
+                      REACH team at Newcastle University with funding from North West Cancer
+                      Research and Oracle Head and Neck Cancer. The analyses are based on data
+                      collected by NHS England.              
+                    </p>
+                </div>
+
+                <span class="copy-status" role="status" aria-live="polite"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="content-section" aria-labelledby="about-2">
+        <div class="content-row">
+          <div class="content-primary">
+            <h2 id="about-2">Patient and Public Involvement and Engagement (PPIE)</h2>
+
+            <p>
+              People affected by head and neck cancer were integral to the design,
+              conduct and outputs of UNEQUAL-HNC [LINK]. The study team included a patient
+              representative and head and neck cancer survivor who advised on the
+              research questions and approach for the funding application. Throughout
+              the project CHANGE HNC provided input and advice to the study team on
+              interpretations, new directions and public-facing outputs.
+            </p>
+            <p>
+              We thank all PPIE contributors for their time and energy in maximising
+              the impact and reach of this project.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="about-3">
+        <div class="content-row">
+          <div class="content-primary">
+            <h2 id="about-3">Funding</h2>
+            <p>
+              This work was supported by <a href="https://nwcr.org/"
+                >North West Cancer Research</a
+              > and <a href="https://oraclehnc.org.uk/">Oracle Head and Neck Cancer</a
+              >.
+            </p>
+            <p>
+              Supplementary support came from the National Institute for Health and
+              Care Research (NIHR) Newcastle Patient Safety Research Collaboration
+              (PSRC). The views expressed are those of the authors and not necessarily
+              those of the NIHR or the Department of Health and Social Care.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 </Layout>
 

@@ -192,33 +192,54 @@ input[type="checkbox"] {
 }
 
 .content-container > * + * {
-  margin-block-start: 3rem;
+  margin-block-start: 2.5rem;
 }
 
 .page-intro > * + *,
-.content-section > * + *,
-.content-primary > * + *,
-.content-secondary > * + *,
 .img-secondary > * + * {
+  margin-block-start: 1.5rem;
+}
+
+.content-section > * + * {
+    margin-block-start: 1rem;
+}
+
+.content-primary > * + *,
+.content-secondary > * + * {
   margin-block-start: 1rem;
 }
 
+.content-h3-section > * + * {
+  margin-block-start: 0.5rem;
+}
+
 .content-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 2rem;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 2rem;
 }
 
 .content-primary {
-  flex: 2 1 30rem;
-  min-width: 0;
+    grid-column: 1;
+    min-width: 0;
 }
 
 .content-secondary,
 .img-secondary {
-  flex: 1 1 14rem;
-  min-width: 0;
+    grid-column: 2;
+    min-width: 0;
+}
+
+@media (max-width: 768px) {
+    .content-row {
+        grid-template-columns: 1fr;
+    }
+
+    .content-primary,
+    .content-secondary,
+    .img-secondary {
+        grid-column: 1;
+    }
 }
 
 .content-secondary, .acknowledgement-box {
