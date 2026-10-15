@@ -476,6 +476,7 @@ function setLineChartOptions(
 		type: "text",
 		left: yLabLeft,
 		top: CHART_GRID_TOP + (CHART_SUBTITLE_LINE * (nSubtitleLines - 0.5)) + 2,
+	    cursor: "default",		
 		style: {
 			text: yLabText,
 			fontWeight: CHART_AXIS_LABEL_WEIGHT,
@@ -492,6 +493,7 @@ function setLineChartOptions(
       type: 'text',
       left: CHART_LEFT_MARGIN,
       top: CHART_HEIGHT - 125,
+	  cursor: "default",
       style: {
         text: footnoteText,
         font: `italic ${CHART_AXIS_LABEL_SIZE - 2}px sans-serif`,
@@ -512,6 +514,7 @@ function setLineChartOptions(
       type: 'text',
       left: CHART_LEFT_MARGIN,
       top: CHART_HEIGHT - 40,
+	  cursor: "default",
       style: {
         text: sourceText,
         font: `${CHART_AXIS_LABEL_SIZE}px sans-serif`,
@@ -815,6 +818,7 @@ function setTableChartOptions(
       type: 'text',
       left: leftMargin,
       top: height - 125,
+	  cursor: "default",
       style: {
         text: footnoteText,
         font: `italic ${CHART_AXIS_LABEL_SIZE - 2}px sans-serif`,
@@ -835,6 +839,7 @@ function setTableChartOptions(
       type: 'text',
       left: leftMargin,
       top: height - 40,
+	  cursor: "default",
       style: {
         text: sourceText,
         font: `${CHART_AXIS_LABEL_SIZE}px sans-serif`,
