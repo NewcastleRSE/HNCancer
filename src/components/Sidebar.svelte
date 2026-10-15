@@ -76,7 +76,9 @@
 
     border-right: 1.5px solid var(--color-border-div);
     border-bottom: 1.5px solid var(--color-border-div);
-    border-bottom-right-radius: 0.75rem;
+    border-top: 1.5px solid var(--color-border-div);
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
 
     transition: flex-basis 0.4s ease;
   }
@@ -145,7 +147,8 @@
   @media (max-width: 768px) {
     #search-panel {
       flex: 0 0 25rem;
-      border-bottom-right-radius: 0rem;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
     }
 
     #search-panel.sidebar-collapsed {

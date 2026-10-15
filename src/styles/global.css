@@ -4,18 +4,20 @@
 
   /* Font sizes */
   --font-size-h1: 1.75rem;
-  --font-size-h2: 1.125rem;
+  --font-size-h2: 1.5rem;
   --font-size-h3: 1rem;
 
   /* Palette */
-  --color-burgundy: #78081E; /*#6A1B2F; logo colour: #810B09 */
+  --color-logo: #810B09;
+  --color-burgundy: #B5110E; 
   --color-grey1: #fcfcfc;
   --color-grey2: #F7F7F7;
   --color-grey3: #E4E4E4;
+  --color-slate: #191919;
 
   /* Semantic colours */ 
   --color-surface: var(--color-grey2);
-  --color-header: var(--color-burgundy);
+  --color-header: var(--bulma-background-color);
   --color-border-div: var(--color-grey3);
   --color-text-light: var(--color-grey2);
 
@@ -27,19 +29,28 @@
   --bulma-hr-margin: 0; /* control margins with layout instead */
   --bulma-border: var(--color-border-div);
 
- /* Primary colour (#619CBF) specified as H,S,L - other colour variables derived from these */
-  --bulma-primary-h: 202deg;
-  --bulma-primary-s: 55%;
-  --bulma-primary-l: 75%;
+ /* Primary colour (#B5110E) specified as H,S,L - other colour variables derived from these */
+  --bulma-primary-h: 0deg;
+  --bulma-primary-s: 86%;
+  --bulma-primary-l: 38%;
 
   /* Focus colours and UI arrows (e.g., for dropdowns */
   --bulma-focus-h: var(--bulma-primary-h);
   --bulma-focus-s: var(--bulma-primary-s);
-  --bulma-focus-l: calc(var(--bulma-primary-l) - 15%);
-  --bulma-arrow-color: hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l));
+  --bulma-focus-l: calc(var(--bulma-primary-l) + 45%);
+  --bulma-arrow-color: var(--color-slate); /* hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l)); */
+
+  /* Links */
+  --bulma-link-text: #625bde; 
+
+  /* Danger text */
+  --bulma-danger-h: 25deg;
+  --bulma-danger-s: 100%;
+  --bulma-danger-l: 35%;
 
   /* Misc variables */
   --search-padding-left: 0.25rem; /* provides padding to avoid clipping focus shadows in scroll area */
+
 }
 	
 html, body {
@@ -47,7 +58,7 @@ html, body {
     padding: 0;
     height: 100vh;
     width: 100vw;
-    background-color: #f7fafc;
+    background-color: var(--bulma-background-color);
     overflow-y: scroll;
 }
 
@@ -57,7 +68,7 @@ body {
 }
 
 /* Headers/text*/
-header, h1 {
+header, h1, h2, h3 {
     font-family: var(--bulma-family-secondary);
 }
 
@@ -74,10 +85,16 @@ h2 {
 h3 {
   font-size: var(--font-size-h3);
   font-weight: var(--bulma-weight-bold);
+  text-transform: uppercase;
+  color: var(--color-burgundy);
 }
 
 .query-section {
-text-transform: uppercase;
+  text-transform: uppercase;
+}
+
+.has-text-danger {
+  font-weight: 600;
 }
 
 /* Compact select component */
@@ -95,13 +112,25 @@ text-transform: uppercase;
 
 /* Checkbox */
 input[type="checkbox"] {
-  accent-color: var(--bulma-primary-50)
+  accent-color: var(--bulma-primary)
 }
 
 /* Tabs */
 
 .tabs li.is-active a {
-  color: var(--bulma-primary-40);
+  color: var(--bulma-primary);
+}
+
+/* Buttons */
+/* style will be overwritten for icon buttons */
+.button.is-primary {
+    color: var(--bulma-background-color);
+    background-color: color-mix(in oklab, var(--color-slate) 75%, white);
+}
+
+.button.is-primary:hover {
+    color: var(--bulma-background-color);
+    background-color: color-mix(in oklab, var(--color-slate) 95%, white);
 }
 
 /* Icons */
@@ -124,8 +153,8 @@ input[type="checkbox"] {
 /* Buttons with icons */
 
 .button.icon-button {
-  color: var(--bulma-primary-40); 
-  background-color: var(--bulma-primary-95);
+  color: var(--bulma-primary); 
+  background-color: var(--bulma-background-color);
   padding: 0.5rem 0.5rem;
 }
 
@@ -134,8 +163,8 @@ input[type="checkbox"] {
 }
 
 .button.icon-button:hover {
-    background-color: var(--bulma-primary-90);
-    color: var(--bulma-primary-30); 
+    background-color: var(--bulma-primary-95);
+    color: var(--bulma-primary-35); 
 
 }
 
@@ -143,5 +172,171 @@ input[type="checkbox"] {
 .tooltip-list{
   padding: 0rem 1rem;
   list-style-type: disc;
+}
+
+/* Visually hidden labels - for aria accessibility */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Styling for content pages (Methods, About) */
+
+.content-page {
+  padding: clamp(2rem, 5vw, 4rem) 1.25rem;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+}
+
+.content-container > * + * {
+  margin-block-start: 2.5rem;
+}
+
+.page-intro > * + *,
+.img-secondary > * + * {
+  margin-block-start: 1.5rem;
+}
+
+.content-section > * + * {
+    margin-block-start: 1rem;
+}
+
+.content-primary > * + *,
+.content-secondary > * + * {
+  margin-block-start: 1rem;
+}
+
+.content-h3-section > * + * {
+  margin-block-start: 0.5rem;
+}
+
+.content-row {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 2rem;
+}
+
+.content-primary {
+    grid-column: 1;
+    min-width: 0;
+}
+
+.content-secondary,
+.img-secondary {
+    grid-column: 2;
+    min-width: 0;
+}
+
+.content-row:not(:has(.content-secondary, .img-secondary)) {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.content-row:not(:has(.content-secondary, .img-secondary)) .content-primary {
+    max-width: calc((68rem - 2rem) * 2 / 3);
+}
+
+@media (max-width: 768px) {
+    .content-row {
+        grid-template-columns: 1fr;
+    }
+
+    .content-primary,
+    .content-secondary,
+    .img-secondary {
+        grid-column: 1;
+    }
+
+    .content-row:not(:has(.content-secondary, .img-secondary)) .content-primary {
+      max-width: none;
+    }
+}
+
+.content-secondary, .acknowledgement-box {
+  background: var(--bulma-background);
+  border-left: 3px solid var(--bulma-border);
+  padding: 1.25rem;
+}
+
+.references {
+  padding-block-start: 1.5rem;
+  border-top: 1px solid var(--bulma-border);
+}
+
+.references > * + * {
+  margin-block-start: 1rem;
+}
+
+.references ol {
+  padding-inline-start: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.references li + li {
+  margin-block-start: 0.75rem;
+}
+
+.content-primary sup {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.content-primary sup a {
+  text-decoration: none;
+  padding-inline: 0.1em;
+}
+
+.content-primary sup a:hover {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.content-primary sup a:visited {
+  color: var(--bulma-link-text);
+}
+
+.accent-text {
+  color: var(--bulma-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .content-page {
+    padding-inline: 1rem;
+  }
+
+  .content-row {
+    gap: 1.25rem;
+  }
+}
+
+/* Links */
+.content-page a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.content-page a:visited {
+    color: color-mix(in oklab, var(--bulma-link-text) 65%, var(--color-burgundy));;
+}
+
+.content-page a:hover {
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.15em;
+  color: color-mix(in oklab, var(--bulma-link-text) 85%, var(--color-burgundy));
 }
 

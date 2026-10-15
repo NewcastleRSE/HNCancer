@@ -105,7 +105,7 @@
   <div class="search-scroll">
     <div class="search-section">
       <div>
-        <QuerySectionHeader title="HNC Subsite">
+        <QuerySectionHeader title="HNC Subsite" labelFor="select-hnc-subsite">
           <p>
             Select the <b>head and neck cancer subsite</b> to search.
           </p>
@@ -113,7 +113,7 @@
       </div>
       <div>
         <SingleSelectDropdownNoDefault
-          id="cancertype"
+          id="hnc-subsite"
           defaultDisabledText="Select a subsite..."
           options={cancerOptions}
           bind:selectedValue={cancerSelection}
@@ -122,7 +122,7 @@
     </div>
     <div class="search-section">
       <div>
-        <QuerySectionHeader title="Statistic">
+        <QuerySectionHeader title="Statistic" labelFor="select-statistic">
           <p>Select the <b>statistic</b> to display:</p>
           <ul class="tooltip-list">
             <li><b>Incidence:</b> _definition TBA_</li>

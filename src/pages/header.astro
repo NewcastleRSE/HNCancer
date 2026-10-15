@@ -4,18 +4,31 @@ const currentPath = Astro.url.pathname;
 // Paths to each page
 // IMPORTANT - include trailing slash to ensure, active link styling works when deployed
 const navItems = [
-  { label: "Explore", href: "/HNCancer/" }, // Home page is search page
+  { label: "Explore", href: "/HNCancer/explore/" },
+  { label: "Methods", href: "/HNCancer/methods/" },
   { label: "About", href: "/HNCancer/about/" },
 ];
 ---
 
 <div class="header-container">
-  <div>
-    <header>
-      <p class="header-text-small">Atlas of Health Variation</p>
-      <p class="header-text-large">Head and Neck Cancer in England</p>
+  <a class="header-title" href="/HNCancer">
+    <header id="page-header">
+      <img
+        class="header-logo"
+        src="/public/images/UNEQUAL-HNC_logo_small.svg"
+        alt="Small logo for Unequal-HNC: a red magnifying containing the silhouette of a head."
+        width="62rem"
+      />
+      <div>
+        <p class="header-text-small">UNEQUAL-HNC</p>
+        <p class="header-text-large">
+          Head&nbspand&nbspNeck&nbspCancer <span class="header-text-emphasis"
+            >Data&nbspHub</span
+          >
+        </p>
+      </div>
     </header>
-  </div>
+  </a>
 
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <a
@@ -84,10 +97,16 @@ const navItems = [
     display: flex;
     background-color: var(--color-header);
     justify-content: space-between;
-    align-items: flex-end;
-    color: var(--color-text-light);
-    padding: 1rem 1.5rem;
+    align-items: center;
+    color: var(--color-slate);
+    padding: 1rem 1.5rem !important;
     flex-wrap: nowrap;
+  }
+
+  #page-header {
+    display: flex;
+    gap: 0.2rem;
+    align-items: flex-start;
   }
 
   /* Change flex alignemnt when burger menu is open */
@@ -111,8 +130,9 @@ const navItems = [
   }
 
   .navbar-item {
-    color: color-mix(in srgb, var(--color-text-light) 80%, transparent);
+    color: var(--color-slate);
     border-radius: 0.35rem;
+    font-weight: 600;
     transition:
       background-color 0.15s ease,
       color 0.15s ease;
@@ -120,42 +140,34 @@ const navItems = [
 
   /* Navbar hover */
   .navbar-item:hover {
-    color: var(--color-text-light);
-    background-color: color-mix(
-      in srgb,
-      var(--color-text-light) 15%,
-      transparent
-    );
+    color: var(--bulma-primary-35);
+    background-color: var(--bulma-primary-95);
   }
 
   /* Navbar styling for current page */
   .navbar-item[aria-current="page"] {
-    color: var(--color-text-light);
+    color: var(--bulma-primary);
     text-decoration: underline;
-    text-decoration-thickness: 1px;
+    text-decoration-thickness: 2px;
     text-underline-offset: 0.5em;
   }
 
   /* Navbar - Keyboard focus */
   .navbar-item:focus-visible,
   .navbar-burger:focus-visible {
-    outline: 2px solid var(--color-text-light);
+    outline: 2px solid var(--bulma-primary-25);
     outline-offset: 2px;
   }
 
   /* Burger */
   .navbar-burger {
-    color: var(--color-text-light);
+    color: var(--bulma-primary);
     border-radius: 0.35rem;
   }
 
   .navbar-burger:hover {
-    color: var(--color-text-light);
-    background-color: color-mix(
-      in srgb,
-      var(--color-text-light) 15%,
-      transparent
-    );
+    color: var(--bulma-primary-35);
+    background-color: var(--bulma-primary-95);
   }
 
   .navbar-start.is-active {
@@ -193,7 +205,7 @@ const navItems = [
 
     .navbar-start {
       background-color: var(--color-header);
-      color: var(--color-text-light);
+      color: var(--bulma-primary-30);
       display: none;
       max-height: 0;
       opacity: 0;
@@ -210,7 +222,7 @@ const navItems = [
   }
 
   /* When narrow window, force burger to beneath header text */
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     .header-container {
       flex-wrap: wrap;
     }
@@ -227,15 +239,26 @@ const navItems = [
 
   /* Header text */
 
-  .header-text-small {
-    font-size: 1.25rem;
-    text-transform: uppercase;
+  .header-title {
+    color: var(--color-slate);
     font-weight: 400;
-    font-family: var(--bulma-family-secondary);
+  }
+
+  .header-title:hover {
+    color: var(--bulma-primary);
+  }
+
+  .header-text-small {
+    font-size: 0.9rem;
   }
 
   .header-text-large {
-    font-size: 2rem;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .header-text-emphasis {
+    color: var(--bulma-primary);
+    font-weight: 800;
   }
 </style>
