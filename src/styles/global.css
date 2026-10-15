@@ -37,7 +37,7 @@
   /* Focus colours and UI arrows (e.g., for dropdowns */
   --bulma-focus-h: var(--bulma-primary-h);
   --bulma-focus-s: var(--bulma-primary-s);
-  --bulma-focus-l: calc(var(--bulma-primary-l) - 15%);
+  --bulma-focus-l: calc(var(--bulma-primary-l) + 45%);
   --bulma-arrow-color: var(--color-slate); /* hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l)); */
 
   /* Links */
