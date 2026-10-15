@@ -63,7 +63,7 @@ body {
 }
 
 /* Headers/text*/
-header, h1 {
+header, h1, h2, h3 {
     font-family: var(--bulma-family-secondary);
 }
 
@@ -80,6 +80,8 @@ h2 {
 h3 {
   font-size: var(--font-size-h3);
   font-weight: var(--bulma-weight-bold);
+  text-transform: uppercase;
+  color: var(--color-burgundy);
 }
 
 .query-section {
@@ -219,7 +221,7 @@ input[type="checkbox"] {
   min-width: 0;
 }
 
-.content-secondary {
+.content-secondary, .acknowledgement-box {
   background: var(--bulma-background);
   border-left: 3px solid var(--bulma-border);
   padding: 1.25rem;
