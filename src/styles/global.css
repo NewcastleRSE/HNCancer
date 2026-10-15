@@ -41,7 +41,12 @@
   --bulma-arrow-color: var(--color-slate); /* hsl(var(--bulma-focus-h), var(--bulma-focus-s), var(--bulma-focus-l)); */
 
   /* Links */
-  --bulma-link-text: #625bde; /* #0885AB;5B6ADE /*
+  --bulma-link-text: #625bde; 
+
+  /* Danger text */
+  --bulma-danger-h: 25deg;
+  --bulma-danger-s: 100%;
+  --bulma-danger-l: 35%;
 
   /* Misc variables */
   --search-padding-left: 0.25rem; /* provides padding to avoid clipping focus shadows in scroll area */
@@ -85,7 +90,11 @@ h3 {
 }
 
 .query-section {
-text-transform: uppercase;
+  text-transform: uppercase;
+}
+
+.has-text-danger {
+  font-weight: 600;
 }
 
 /* Compact select component */
